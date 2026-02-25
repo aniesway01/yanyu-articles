@@ -217,8 +217,19 @@ def build():
         # Convert to HTML
         content_html = markdown.markdown(md_text, extensions=["tables", "fenced_code"])
 
-        # Fix image paths: assets/xxx -> ../articles/slug/assets/xxx
-        content_html = content_html.replace('src="assets/', f'src="../wechat_articles/articles/{slug}/assets/')
+        # Fix image paths: page is at site/slug/index.html, images at wechat_articles/articles/slug/assets/
+        # Need ../../ to go from site/slug/ up to repo root
+        content_html = content_html.replace('src="assets/', f'src="../../wechat_articles/articles/{slug}/assets/')
+
+        # Strip the markdown-generated header (title + metadata block) to avoid duplication
+        # The template already renders title/author/tags, so remove them from content
+        content_html = re.sub(
+            r'<h1>.*?</h1>\s*<blockquote>.*?</blockquote>\s*<hr\s*/?>',
+            '',
+            content_html,
+            count=1,
+            flags=re.DOTALL
+        )
 
         title = art.get("real_title", art.get("title", "untitled"))
         author = art.get("author", "未知")
