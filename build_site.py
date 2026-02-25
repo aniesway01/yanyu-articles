@@ -262,8 +262,8 @@ def build():
   <div class="meta">{chat_time} | {author}</div>
   <div class="tags">{tag_html}</div>
   <div class="downloads">
-    <a href="wechat_articles/articles/{slug}/index.md" download>MD</a>
-    <a href="wechat_articles/articles/{slug}/article.txt" download>TXT</a>
+    <a href="../wechat_articles/articles/{slug}/index.md" download>MD</a>
+    <a href="../wechat_articles/articles/{slug}/article.txt" download>TXT</a>
     <a href="{url}" target="_blank">原文</a>
   </div>
 </div>"""
