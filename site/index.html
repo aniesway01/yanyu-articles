@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YanYu 微信文章庫</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+.container { max-width: 960px; margin: 0 auto; padding: 20px; }
+header { background: #1a73e8; color: white; padding: 40px 20px; text-align: center; margin-bottom: 30px; border-radius: 8px; }
+header h1 { font-size: 28px; margin-bottom: 8px; }
+header p { opacity: 0.9; font-size: 14px; }
+.stats { display: flex; gap: 15px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+.stat { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; font-size: 13px; }
+.filters { margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.filters input { flex: 1; min-width: 200px; padding: 10px 15px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+.tag-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag-btn { padding: 5px 12px; border: 1px solid #ddd; border-radius: 15px; background: white; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+.tag-btn:hover, .tag-btn.active { background: #1a73e8; color: white; border-color: #1a73e8; }
+.article-list { display: flex; flex-direction: column; gap: 12px; }
+.article-card { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: transform 0.2s; }
+.article-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.article-card h3 { font-size: 17px; margin-bottom: 8px; }
+.article-card h3 a { color: #1a73e8; text-decoration: none; }
+.article-card h3 a:hover { text-decoration: underline; }
+.meta { font-size: 13px; color: #666; margin-bottom: 8px; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; }
+.tag-保險理賠 { background: #e8f0fe; color: #1a73e8; }
+.tag-醫療健康 { background: #e6f4ea; color: #137333; }
+.tag-AI科技 { background: #fce8e6; color: #c5221f; }
+.tag-行業分析 { background: #fef7e0; color: #e37400; }
+.tag-生活其他 { background: #f3e8fd; color: #7627bb; }
+.downloads { margin-top: 8px; font-size: 13px; }
+.downloads a { color: #1a73e8; text-decoration: none; margin-right: 12px; }
+.downloads a:hover { text-decoration: underline; }
+footer { text-align: center; padding: 30px; color: #999; font-size: 13px; }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>YanYu 微信文章庫</h1>
+  <p>ShawnCH（何智翔）轉發的保險理賠、醫療健康相關文章整理</p>
+  <div class="stats">
+    <span class="stat">共 47 篇文章</span>
+    <span class="stat">332 張圖片</span>
+    <span class="stat">更新於 2026-02-25</span>
+  </div>
+</header>
+
+<div class="filters">
+  <input type="text" id="search" placeholder="搜尋文章標題..." oninput="filterArticles()">
+</div>
+<div class="tag-filters" style="margin-bottom: 15px;">
+  <button class="tag-btn active" onclick="filterByTag(this, '')" data-tag="">全部</button>
+  <button class="tag-btn" onclick="filterByTag(this, 'AI科技')" data-tag="AI科技">AI科技</button>
+<button class="tag-btn" onclick="filterByTag(this, '保險理賠')" data-tag="保險理賠">保險理賠</button>
+<button class="tag-btn" onclick="filterByTag(this, '生活其他')" data-tag="生活其他">生活其他</button>
+<button class="tag-btn" onclick="filterByTag(this, '行業分析')" data-tag="行業分析">行業分析</button>
+<button class="tag-btn" onclick="filterByTag(this, '醫療健康')" data-tag="醫療健康">醫療健康</button>
+
+</div>
+
+<div class="article-list" id="articles">
+<div class="article-card" data-title="不买好医保的理由，不止一个：一段真实的“理赔历险记”" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-02-11_不买好医保的理由，不止一个：一段真实的“理赔历险记”/index.html">不买好医保的理由，不止一个：一段真实的“理赔历险记”</a></h3>
+  <div class="meta">2026-02-11 21:41 | 梁淑贞</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-11_不买好医保的理由，不止一个：一段真实的“理赔历险记”/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-11_不买好医保的理由，不止一个：一段真实的“理赔历险记”/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=Mzg3MDgwOTUxMg==&mid=2247485345&idx=1&sn=5f7103f29d7eae235982c1e77d574b31&chksm=cf01c05ab4febe39a110c316bc8de42221937fbc88a0ab3ab00ad924348878b789fe63e76eb7&mpshare=1&scene=1&srcid=0211Rli8hXds3jFywM9laXQS&sharer_shareinfo=39b5679282c124a8dd2e5a6065d963b2&sharer_shareinfo_first=39b5679282c124a8dd2e5a6065d963b2#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="上海的小老板们都开始找个班上了" data-tags="生活其他">
+  <h3><a href="2026-02-11_上海的小老板们都开始找个班上了/index.html">上海的小老板们都开始找个班上了</a></h3>
+  <div class="meta">2026-02-11 15:06 | 草莓m</div>
+  <div class="tags"><span class="tag tag-生活其他">生活其他</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-11_上海的小老板们都开始找个班上了/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-11_上海的小老板们都开始找个班上了/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s/QWwTL0hLnO4-YcveeclkUQ" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="关于「太平洋健康要求我删除文章」这件事，我有话说" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-02-10_关于「太平洋健康要求我删除文章」这件事，我有话说/index.html">关于「太平洋健康要求我删除文章」这件事，我有话说</a></h3>
+  <div class="meta">2026-02-10 09:03 | 依然是一然</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-10_关于「太平洋健康要求我删除文章」这件事，我有话说/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-10_关于「太平洋健康要求我删除文章」这件事，我有话说/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzkyMTU5MjA5Ng==&mid=2247485236&idx=1&sn=801b9853ab8599e70eeabf8afeed813a&chksm=c025c1486abdd37ce3889d048eff098f01e80376df6ee796b625199f27adadbd448399b78589&mpshare=1&scene=1&srcid=0210fVZBw2tma2Tw95mFqWK7&sharer_shareinfo=c2d8af5d19196f7f877b197c1141429d&sharer_shareinfo_first=c2d8af5d19196f7f877b197c1141429d#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="拒绝幻觉，这可能是我今年用过最强大的打工人AI 笔记工具" data-tags="AI科技">
+  <h3><a href="2026-02-09_拒绝幻觉，这可能是我今年用过最强大的打工人AI 笔记工具/index.html">拒绝幻觉，这可能是我今年用过最强大的打工人AI 笔记工具</a></h3>
+  <div class="meta">2026-02-09 11:33 | 海魂酒酿</div>
+  <div class="tags"><span class="tag tag-AI科技">AI科技</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-09_拒绝幻觉，这可能是我今年用过最强大的打工人AI 笔记工具/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-09_拒绝幻觉，这可能是我今年用过最强大的打工人AI 笔记工具/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzIyMTUxNDA2Ng==&mid=2247485546&idx=1&sn=6bbac33d9dd19a418d1a6f54e238a0ee&chksm=e9f4c4d2400d9f8c45b44b3ede845a2722cd93a282a69b063c99674b69e918c4d729cd656988&mpshare=1&scene=1&srcid=0209BBqV2HWEOFytblBbv5Lp&sharer_shareinfo=58090b72ac9202e809eadc43d394ab44&sharer_shareinfo_first=58090b72ac9202e809eadc43d394ab44#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="电子病历 vs 纸质病历：理赔时到底该认哪个？" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-02-08_电子病历 vs 纸质病历：理赔时到底该认哪个？/index.html">电子病历 vs 纸质病历：理赔时到底该认哪个？</a></h3>
+  <div class="meta">2026-02-08 23:53 | 左右姐</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-08_电子病历 vs 纸质病历：理赔时到底该认哪个？/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-08_电子病历 vs 纸质病历：理赔时到底该认哪个？/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzA5MTQzMzUwMg==&mid=2652375211&idx=3&sn=124496fa8b53c750a2d3540de64a3e80&chksm=8a6a72124946d03c674d6975c137398bae95071cc6738a378af20491a8193130867609be063a&mpshare=1&scene=1&srcid=0208Gl2fPaJHwQQ99VusOpWg&sharer_shareinfo=734d3e6df5e9113b2b57cc3c10eaaa8f&sharer_shareinfo_first=734d3e6df5e9113b2b57cc3c10eaaa8f#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="破万亿为何如此艰难？2025年健康险保费止步9973亿，增速2%" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-02-08_破万亿为何如此艰难？2025年健康险保费止步9973亿，增速2%/index.html">破万亿为何如此艰难？2025年健康险保费止步9973亿，增速2%</a></h3>
+  <div class="meta">2026-02-08 17:14 | 老张聊商健</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-08_破万亿为何如此艰难？2025年健康险保费止步9973亿，增速2%/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-08_破万亿为何如此艰难？2025年健康险保费止步9973亿，增速2%/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=Mzk2NDU1NzQxOA==&mid=2247484824&idx=1&sn=a4876976096ca635f5e07ab5a65a41ac&chksm=c50d44ebafd06dd69564fdd73010e9c822a9d53821cda528d72bb744d7d15acf887689cada7b&mpshare=1&scene=1&srcid=02088pbEj92kW0BpuOHfJjHe&sharer_shareinfo=4a069ad46743f656138a7ae68ee66f6b&sharer_shareinfo_first=4a069ad46743f656138a7ae68ee66f6b#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="大连假“惠民保”，卷走7100万救命钱，遍及30省份！精心设计的骗局专门针对什么人群？" data-tags="保險理賠">
+  <h3><a href="2026-02-06_大连假“惠民保”，卷走7100万救命钱，遍及30省份！精心设计的骗局专门针对什么/index.html">大连假“惠民保”，卷走7100万救命钱，遍及30省份！精心设计的骗局专门针对什么人群？</a></h3>
+  <div class="meta">2026-02-06 19:15 | YZB</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-06_大连假“惠民保”，卷走7100万救命钱，遍及30省份！精心设计的骗局专门针对什么/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-06_大连假“惠民保”，卷走7100万救命钱，遍及30省份！精心设计的骗局专门针对什么/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s/DNcG6jnw7GtSYRW4HVFYAw" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="万亿市值一夜蒸发！Claude Cowork血洗全球软件业，老黄急了" data-tags="AI科技">
+  <h3><a href="2026-02-05_万亿市值一夜蒸发！Claude Cowork血洗全球软件业，老黄急了/index.html">万亿市值一夜蒸发！Claude Cowork血洗全球软件业，老黄急了</a></h3>
+  <div class="meta">2026-02-05 16:09 | 新智元</div>
+  <div class="tags"><span class="tag tag-AI科技">AI科技</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-05_万亿市值一夜蒸发！Claude Cowork血洗全球软件业，老黄急了/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-05_万亿市值一夜蒸发！Claude Cowork血洗全球软件业，老黄急了/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzI3MTA0MTk1MA==&mid=2652671458&idx=1&sn=a11ece1a5b2491e1b7f1fa242136861f&chksm=f04d1e71778ba4439a81f9bfa9ab376bd4bf708cf2cb2acc894d07101d82b505e35fc720b7ca&mpshare=1&scene=1&srcid=0205Uq8REoZnOeLE1dip51JA&sharer_shareinfo=9ce05da6c7ae99f10b63437eb7bf48f1&sharer_shareinfo_first=4d6a2b31e92336cffea94f5f3a7f5b59#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="ZS致盛咨询：洞悉趋势，顺风而行 ⸺ 以乳腺癌为例，看中国县域肿瘤市场发展" data-tags="醫療健康">
+  <h3><a href="2026-02-04_ZS致盛咨询：洞悉趋势，顺风而行 ⸺ 以乳腺癌为例，看中国县域肿瘤市场发展/index.html">ZS致盛咨询：洞悉趋势，顺风而行 ⸺ 以乳腺癌为例，看中国县域肿瘤市场发展</a></h3>
+  <div class="meta">2026-02-04 23:10 | ZS致盛咨询</div>
+  <div class="tags"><span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-04_ZS致盛咨询：洞悉趋势，顺风而行 ⸺ 以乳腺癌为例，看中国县域肿瘤市场发展/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-04_ZS致盛咨询：洞悉趋势，顺风而行 ⸺ 以乳腺癌为例，看中国县域肿瘤市场发展/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=Mzg4ODYzNDE4NQ==&mid=2247512042&idx=6&sn=717025b5c10c1f3106b5288ff1cf5f13&chksm=ce2ea77ce157e53945f6dfd0b4b82ab950d91a6c6cc677b2c0fa1fe8521862dd8cc712eadd85&mpshare=1&scene=1&srcid=0204M07TeY5tvht4eerLdxtN&sharer_shareinfo=911cbb29c0dbdd65c8117246c930d04c&sharer_shareinfo_first=911cbb29c0dbdd65c8117246c930d04c#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="普通食品谎称能治病，又一网红品牌栽了" data-tags="醫療健康">
+  <h3><a href="2026-02-04_普通食品谎称能治病，又一网红品牌栽了/index.html">普通食品谎称能治病，又一网红品牌栽了</a></h3>
+  <div class="meta">2026-02-04 21:34 | 风暴眼</div>
+  <div class="tags"><span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-04_普通食品谎称能治病，又一网红品牌栽了/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-04_普通食品谎称能治病，又一网红品牌栽了/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzU5ODU1Mjg5Nw==&mid=2247821897&idx=1&sn=f3ff02c33ff357cf6b1e5eadd1b8d038&chksm=fffd02d4c513a1aae57c2a998303c2c190df65bacb9b53684fc585d8c6c3f914b4331bd35c61&mpshare=1&scene=1&srcid=02041xaknSfQtzzBiwImPp1D&sharer_shareinfo=51ea35bbd87985b63cde867eef452814&sharer_shareinfo_first=51ea35bbd87985b63cde867eef452814#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="告别内卷！理赔维权实操课，带保险同仁解锁获客+增收新赛道" data-tags="保險理賠">
+  <h3><a href="2026-02-04_告别内卷！理赔维权实操课，带保险同仁解锁获客+增收新赛道/index.html">告别内卷！理赔维权实操课，带保险同仁解锁获客+增收新赛道</a></h3>
+  <div class="meta">2026-02-04 10:20 | 任巍巍</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-04_告别内卷！理赔维权实操课，带保险同仁解锁获客+增收新赛道/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-04_告别内卷！理赔维权实操课，带保险同仁解锁获客+增收新赛道/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzUxNzM5MzQwNg==&mid=2247485066&idx=1&sn=3acb7859532c81ed62372158c1e7c482&chksm=f828b9e8d720f62184f55fd79bdd27790eccb88ac07e23249092fbc16c2da6e241296ab4b28e&mpshare=1&scene=1&srcid=0204cnrClgQsNe3sPQIHMMTQ&sharer_shareinfo=293041cc3729cdeeb080246c3735e72d&sharer_shareinfo_first=293041cc3729cdeeb080246c3735e72d#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="AI加速度 理赔更省心 | 镁信健康2025理赔服务年报" data-tags="保險理賠,醫療健康,AI科技,行業分析">
+  <h3><a href="2026-02-03_AI加速度 理赔更省心  镁信健康2025理赔服务年报/index.html">AI加速度 理赔更省心 | 镁信健康2025理赔服务年报</a></h3>
+  <div class="meta">2026-02-03 15:53 | </div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span> <span class="tag tag-AI科技">AI科技</span> <span class="tag tag-行業分析">行業分析</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-03_AI加速度 理赔更省心  镁信健康2025理赔服务年报/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-03_AI加速度 理赔更省心  镁信健康2025理赔服务年报/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzI3MDk4ODk4NQ==&mid=2247520631&idx=1&sn=f79dd1f02715993990ee551763e25980&chksm=eb852c3ae95795d5a574896402edc05a2d58d9f6da6422a07e4d558e6d0a09c0d35edfbb1e99&mpshare=1&scene=1&srcid=0203txq9KJxeSTzSObdnsNYT&sharer_shareinfo=a45d005bb719886cc9900dbfed3e697a&sharer_shareinfo_first=30027ff4563f2f20c742ef6f1904e871#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="AI加速度 理赔更省心 | 镁信健康2025理赔服务年报" data-tags="保險理賠,醫療健康,AI科技,行業分析">
+  <h3><a href="2026-02-03_AI加速度 理赔更省心  镁信健康2025理赔服务年报/index.html">AI加速度 理赔更省心 | 镁信健康2025理赔服务年报</a></h3>
+  <div class="meta">2026-02-03 14:46 | </div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span> <span class="tag tag-AI科技">AI科技</span> <span class="tag tag-行業分析">行業分析</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-03_AI加速度 理赔更省心  镁信健康2025理赔服务年报/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-03_AI加速度 理赔更省心  镁信健康2025理赔服务年报/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s/zOm9kcWp4B5mNPHbvkNpyg?from=groupmessage&scene=1&subscene=10000&sessionid=1770096664&clicktime=1770101016&enterid=1770101016&ascene=1&fasttmpl_type=0&fasttmpl_fullversion=8111995-zh_CN-zip&fasttmpl_flag=0&realreporttime=1770101016753" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="为什么蚂蚁阿福做不到高频的健康？" data-tags="醫療健康">
+  <h3><a href="2026-02-02_为什么蚂蚁阿福做不到高频的健康？/index.html">为什么蚂蚁阿福做不到高频的健康？</a></h3>
+  <div class="meta">2026-02-02 14:35 | 破界的坤总</div>
+  <div class="tags"><span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-02_为什么蚂蚁阿福做不到高频的健康？/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-02_为什么蚂蚁阿福做不到高频的健康？/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s/I72FZPo8_TYYMfEZaO-zjQ" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="众安保险理赔争议大？上海实地专访，扒出最核心真相" data-tags="保險理賠">
+  <h3><a href="2026-02-02_众安保险理赔争议大？上海实地专访，扒出最核心真相/index.html">众安保险理赔争议大？上海实地专访，扒出最核心真相</a></h3>
+  <div class="meta">2026-02-02 09:53 | 任巍巍</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-02_众安保险理赔争议大？上海实地专访，扒出最核心真相/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-02_众安保险理赔争议大？上海实地专访，扒出最核心真相/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzUxNzM5MzQwNg==&mid=2247485060&idx=1&sn=56d8549a230c4751b2e9f540637343fa&chksm=f887a7d65d4987cd5799873a0068f9182ed8a88fa09c5e4529f0191370baf47a4ced469c46be&mpshare=1&scene=1&srcid=0202vuF6Iif10fkkVDL9quvD&sharer_shareinfo=46618f137134bac5fd20c090c6accc4a&sharer_shareinfo_first=46618f137134bac5fd20c090c6accc4a#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="千万不要相信某些保险公司的承诺" data-tags="保險理賠">
+  <h3><a href="2026-02-01_千万不要相信某些保险公司的承诺/index.html">千万不要相信某些保险公司的承诺</a></h3>
+  <div class="meta">2026-02-01 21:21 | 任巍巍</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-02-01_千万不要相信某些保险公司的承诺/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-02-01_千万不要相信某些保险公司的承诺/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzUxNzM5MzQwNg==&mid=2247485050&idx=1&sn=1ed926babdf2945f4c8eb2ae0ab70d45&chksm=f895a2ead5dd7b2d0b8657cd257cd403aaf1cca57d972fbb72dfc2a7f3a71359cd50cd147e63&mpshare=1&scene=1&srcid=0201YQeLBDnDRoA9ok1goM4K&sharer_shareinfo=5f74137250f13905e3e34cb839efab14&sharer_shareinfo_first=5f74137250f13905e3e34cb839efab14#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="重疾险拒赔乳腺癌？未达理赔标准如何翻盘？律师亲授申诉全流程" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-01-31_重疾险拒赔乳腺癌？未达理赔标准如何翻盘？律师亲授申诉全流程/index.html">重疾险拒赔乳腺癌？未达理赔标准如何翻盘？律师亲授申诉全流程</a></h3>
+  <div class="meta">2026-01-31 16:08 | </div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-31_重疾险拒赔乳腺癌？未达理赔标准如何翻盘？律师亲授申诉全流程/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-31_重疾险拒赔乳腺癌？未达理赔标准如何翻盘？律师亲授申诉全流程/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=Mzk5MDQ0MzUzNw==&mid=2247484753&idx=1&sn=a91441681afffc4f3f6908529051ded0&chksm=c4d3a668225fa8ba4ecdf07f4382d709b73c3626e88c82a6373a3b20a4584fc63c93e221f6f0&mpshare=1&scene=1&srcid=0131HSh9mkh5iq7guEE3RzSk&sharer_shareinfo=fba74364245a1b37d6bdb90d3274bf9e&sharer_shareinfo_first=fba74364245a1b37d6bdb90d3274bf9e#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="重疾险拒赔乳腺癌？未达理赔标准如何翻盘？律师亲授申诉全流程" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-01-31_重疾险拒赔乳腺癌？未达理赔标准如何翻盘？律师亲授申诉全流程/index.html">重疾险拒赔乳腺癌？未达理赔标准如何翻盘？律师亲授申诉全流程</a></h3>
+  <div class="meta">2026-01-31 16:08 | </div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-31_重疾险拒赔乳腺癌？未达理赔标准如何翻盘？律师亲授申诉全流程/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-31_重疾险拒赔乳腺癌？未达理赔标准如何翻盘？律师亲授申诉全流程/article.txt" download>TXT</a>
+    <a href="http://mp.weixin.qq.com/s?__biz=Mzk5MDQ0MzUzNw==&mid=2247484753&idx=1&sn=a91441681afffc4f3f6908529051ded0&chksm=c46bff5660cb17860ebae8573676f3d9333ea856db4427039597bf0dd9e26d263b8eb40b14c9&sessionid=1769845095&scene=126&sessionid=1769845095&clicktime=1769846899&enterid=1769846899&subscene=10000&ascene=3&fasttmpl_type=0&fasttmpl_fullversion=8107864-zh_CN-zip&fasttmpl_flag=0&realreporttime=1769846899712#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="元保与元宝，一字之差天壤之别" data-tags="保險理賠">
+  <h3><a href="2026-01-30_元保与元宝，一字之差天壤之别/index.html">元保与元宝，一字之差天壤之别</a></h3>
+  <div class="meta">2026-01-30 21:05 | 俩人的姥姥</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-30_元保与元宝，一字之差天壤之别/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-30_元保与元宝，一字之差天壤之别/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s/OoyEz-Q9TmmOawV2QEH73A" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="以创新药械保障筑牢人民健康防线" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-01-29_以创新药械保障筑牢人民健康防线/index.html">以创新药械保障筑牢人民健康防线</a></h3>
+  <div class="meta">2026-01-29 09:41 | </div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-29_以创新药械保障筑牢人民健康防线/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-29_以创新药械保障筑牢人民健康防线/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MjM5OTA3MjQ4Ng==&mid=2654434740&idx=1&sn=b44fb145da77103e15ac2f29ab8b41aa&chksm=bc1b18542b0409439c3d453e44625ad00e3d241ff2b8f3f4777f0c9b04a46fc305adaca405d4&mpshare=1&scene=1&srcid=0129JmsqWGDC7CeadWJaiXRL&sharer_shareinfo=6f61a42a5fcbec70c83b790792e32d1a&sharer_shareinfo_first=6f61a42a5fcbec70c83b790792e32d1a#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="简易健康告知医疗险，到底是什么？为什么它正在成为普通家庭的“现实选择”？" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-01-26_简易健康告知医疗险，到底是什么？为什么它正在成为普通家庭的“现实选择”？/index.html">简易健康告知医疗险，到底是什么？为什么它正在成为普通家庭的“现实选择”？</a></h3>
+  <div class="meta">2026-01-26 18:51 | 林桦说</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-26_简易健康告知医疗险，到底是什么？为什么它正在成为普通家庭的“现实选择”？/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-26_简易健康告知医疗险，到底是什么？为什么它正在成为普通家庭的“现实选择”？/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzU4OTcwMjg0MQ==&mid=2247484798&idx=1&sn=7ac5623049a8d4ca0532582b891b98a9&chksm=fcbaa9d15da7e3f831e8f4ee836818618719a8a52201ca5f4a2e5ac3ddb61322b5c9001ebb7f&mpshare=1&scene=1&srcid=0126Lk81bE7Lhp8caEFPk8eD&sharer_shareinfo=b6b8214f92a6c3fd182f362500c30904&sharer_shareinfo_first=b6b8214f92a6c3fd182f362500c30904#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="当你的保险代理人消失后：你的保单正在变成一堆“数字废纸”！" data-tags="保險理賠">
+  <h3><a href="2026-01-24_当你的保险代理人消失后：你的保单正在变成一堆“数字废纸”！/index.html">当你的保险代理人消失后：你的保单正在变成一堆“数字废纸”！</a></h3>
+  <div class="meta">2026-01-24 20:28 | 冷冰团战</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-24_当你的保险代理人消失后：你的保单正在变成一堆“数字废纸”！/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-24_当你的保险代理人消失后：你的保单正在变成一堆“数字废纸”！/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzAwOTg0OTU1MQ==&mid=2651317649&idx=1&sn=f141eb3dcbd8bc2d2921ea001fe3e7fc&chksm=818332155fb9281044e1a63e0c22e8061ab6a8b758d45d74e445cdd493cdd17ead1cb9a8c244&mpshare=1&scene=1&srcid=0124WNPZtlIRnE472hnQOJG0&sharer_shareinfo=4e9ea4d9dbc5c8878ab25d793ac91dd1&sharer_shareinfo_first=4e9ea4d9dbc5c8878ab25d793ac91dd1#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="蚂蚁收购好大夫在线一周年：注册医生数超30万、业务协同效应加速显现" data-tags="醫療健康">
+  <h3><a href="2026-01-24_蚂蚁收购好大夫在线一周年：注册医生数超30万、业务协同效应加速显现/index.html">蚂蚁收购好大夫在线一周年：注册医生数超30万、业务协同效应加速显现</a></h3>
+  <div class="meta">2026-01-24 16:14 | </div>
+  <div class="tags"><span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-24_蚂蚁收购好大夫在线一周年：注册医生数超30万、业务协同效应加速显现/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-24_蚂蚁收购好大夫在线一周年：注册医生数超30万、业务协同效应加速显现/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MjM5MDQyNDE3Mg==&mid=2650441075&idx=1&sn=29b6c55b8c06b3492a76f570cdfcc25b&chksm=bf3392d1ee94f634e7cfe7b2bb7d8ff1f9fc93875b7605c6f7ecef09061272b8618358f1668d&mpshare=1&scene=1&srcid=0124QNm78wfZMmBe4Xm2wz5L&sharer_shareinfo=9e6abc45713636730509476d107a6ef1&sharer_shareinfo_first=9e6abc45713636730509476d107a6ef1#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="手回保险代理2025年度服务报告重磅出炉！" data-tags="保險理賠,行業分析">
+  <h3><a href="2026-01-23_手回保险代理2025年度服务报告重磅出炉！/index.html">手回保险代理2025年度服务报告重磅出炉！</a></h3>
+  <div class="meta">2026-01-23 21:12 | 手回保险代理</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-行業分析">行業分析</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-23_手回保险代理2025年度服务报告重磅出炉！/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-23_手回保险代理2025年度服务报告重磅出炉！/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=Mzg4Njg3NTM3Nw==&mid=2247505416&idx=1&sn=d4b692aef631c41b3ca358de8e70c79b&chksm=ce633cd14107f5e9b4caad83b5f9756d4d9d61f427999dd4a2963e8ddb74f0aa1f4e01fc5d02&mpshare=1&scene=1&srcid=0123wlSxVjD6gsnJwUKxG0Mq&sharer_shareinfo=8e115df9c8316a94bb6054a58f08a0a5&sharer_shareinfo_first=8e115df9c8316a94bb6054a58f08a0a5&hit_product=1#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="如何快速查询药品目录（社保+商保）" data-tags="醫療健康">
+  <h3><a href="2026-01-23_如何快速查询药品目录（社保+商保）/index.html">如何快速查询药品目录（社保+商保）</a></h3>
+  <div class="meta">2026-01-23 20:25 | 石红星</div>
+  <div class="tags"><span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-23_如何快速查询药品目录（社保+商保）/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-23_如何快速查询药品目录（社保+商保）/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzAwOTg0OTU1MQ==&mid=2651317644&idx=1&sn=f1381a1e9d04c731a6cc03e43a924d6d&chksm=815d30971d2ea414fef8d45ced8772883ca1322e37342090c482bc705b16225e7c6d1a689934&mpshare=1&scene=1&srcid=01232hl5SNCecPKXNBtywvgO&sharer_shareinfo=db3da522a102f428371342ac70f56d82&sharer_shareinfo_first=db3da522a102f428371342ac70f56d82#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="独家专访蚂蚁 CEO 韩歆毅：我们已重回战场，阿福是下一个十年" data-tags="醫療健康">
+  <h3><a href="2026-01-22_独家专访蚂蚁 CEO 韩歆毅：我们已重回战场，阿福是下一个十年/index.html">独家专访蚂蚁 CEO 韩歆毅：我们已重回战场，阿福是下一个十年</a></h3>
+  <div class="meta">2026-01-22 18:05 | 晚点团队</div>
+  <div class="tags"><span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-22_独家专访蚂蚁 CEO 韩歆毅：我们已重回战场，阿福是下一个十年/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-22_独家专访蚂蚁 CEO 韩歆毅：我们已重回战场，阿福是下一个十年/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzU3Mjk1OTQ0Ng==&mid=2247532279&idx=1&sn=a8a49f18f46a990366c1747cdd015230&chksm=fd5bdc9974beda86caf924dea24e5b7ee75f264ba86612d778df80f17f55ce92ab468dd67503&mpshare=1&scene=1&srcid=012228SISn942k6cpF041uIH&sharer_shareinfo=56008e88fc38a8caf2d44f17662debfd&sharer_shareinfo_first=56008e88fc38a8caf2d44f17662debfd#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="从药企总监到保险精英的分享，如何像内行一样，找到好医院和好医生" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-01-22_从药企总监到保险精英的分享，如何像内行一样，找到好医院和好医生/index.html">从药企总监到保险精英的分享，如何像内行一样，找到好医院和好医生</a></h3>
+  <div class="meta">2026-01-22 10:47 | 杰森</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-22_从药企总监到保险精英的分享，如何像内行一样，找到好医院和好医生/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-22_从药企总监到保险精英的分享，如何像内行一样，找到好医院和好医生/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=Mzg5NTA4NTI5OQ==&mid=2247485132&idx=1&sn=9286148d79a104149dec96802341b17a&chksm=c14eae333132e129745ed7175422f436adb10dde564ea46a481d0504568df7af4bbe67bd08ce&mpshare=1&scene=1&srcid=0122PA9IabyBckH4uXmpq4Ei&sharer_shareinfo=fd2b5cb4bee0b01fe5fec43e5021db82&sharer_shareinfo_first=fd2b5cb4bee0b01fe5fec43e5021db82#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="健康信任大迁徙：为什么是“蚂蚁阿福”？" data-tags="醫療健康">
+  <h3><a href="2026-01-18_健康信任大迁徙：为什么是“蚂蚁阿福”？/index.html">健康信任大迁徙：为什么是“蚂蚁阿福”？</a></h3>
+  <div class="meta">2026-01-18 18:20 | 医药人都在看的</div>
+  <div class="tags"><span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-18_健康信任大迁徙：为什么是“蚂蚁阿福”？/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-18_健康信任大迁徙：为什么是“蚂蚁阿福”？/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s/XVTBIMdmzIuiCvx4OYBeUA" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="医疗险拒赔怎么办？律师解析十大常见拒赔情形及维权方案" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-01-17_医疗险拒赔怎么办？律师解析十大常见拒赔情形及维权方案/index.html">医疗险拒赔怎么办？律师解析十大常见拒赔情形及维权方案</a></h3>
+  <div class="meta">2026-01-17 15:56 | </div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-17_医疗险拒赔怎么办？律师解析十大常见拒赔情形及维权方案/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-17_医疗险拒赔怎么办？律师解析十大常见拒赔情形及维权方案/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=Mzk5MDQ0MzUzNw==&mid=2247484724&idx=1&sn=8bad3ff12e1b8ef22b7c12c3b8f74273&chksm=c4bb411d35dcfbb80391448ae9b943bc38192a664fcbd4ba40bb7b4522821a38f3d578d2f5f5&mpshare=1&scene=1&srcid=0117fEF7ryZRhC1ndp8EJiBX&sharer_shareinfo=d741112d1c0017f94ee686d0b7071809&sharer_shareinfo_first=d741112d1c0017f94ee686d0b7071809#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="2026分子保险科技节：手回保险代理构建“线上+线下”协同发展新中介！" data-tags="保險理賠,AI科技,行業分析">
+  <h3><a href="2026-01-15_2026分子保险科技节：手回保险代理构建“线上+线下”协同发展新中介！/index.html">2026分子保险科技节：手回保险代理构建“线上+线下”协同发展新中介！</a></h3>
+  <div class="meta">2026-01-15 23:26 | 手回保险代理</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-AI科技">AI科技</span> <span class="tag tag-行業分析">行業分析</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-15_2026分子保险科技节：手回保险代理构建“线上+线下”协同发展新中介！/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-15_2026分子保险科技节：手回保险代理构建“线上+线下”协同发展新中介！/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=Mzg4Njg3NTM3Nw==&mid=2247505301&idx=1&sn=b0778015fd163899364bb0f327b80a75&chksm=ce8101565db206aaa042fadcdb279ab76aebcaf31780d97fcd40aa9d9b9bf90075959151be02&mpshare=1&scene=1&srcid=0115qgo2m1Lm7nrIKMRUGdZD&sharer_shareinfo=887b65d36eb22b1cfc6c8bc4e17d6ed7&sharer_shareinfo_first=17fe5c4753ed951402302c4d6202b044#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="AI时代的保险双向奔赴：保司战略如何精准接住“超级个体”的野心？" data-tags="保險理賠,AI科技,行業分析">
+  <h3><a href="2026-01-15_AI时代的保险双向奔赴：保司战略如何精准接住“超级个体”的野心？/index.html">AI时代的保险双向奔赴：保司战略如何精准接住“超级个体”的野心？</a></h3>
+  <div class="meta">2026-01-15 23:25 | 奇文天翔</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-AI科技">AI科技</span> <span class="tag tag-行業分析">行業分析</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-15_AI时代的保险双向奔赴：保司战略如何精准接住“超级个体”的野心？/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-15_AI时代的保险双向奔赴：保司战略如何精准接住“超级个体”的野心？/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzI4MzY0MjM0Mw==&mid=2247483729&idx=1&sn=23e2f23fc0808aecc7145300d8454d1e&chksm=ea60af4f5811ca237dcd7e301ba8d101c5ef1bc2ad4362fa95e094959b555399e649cbf3e897&mpshare=1&scene=1&srcid=0115Q5MO6YUu2AHVKWTtH9qg&sharer_shareinfo=187829e16b81591ad57f40bd142399e0&sharer_shareinfo_first=1b3f50db656bc0437e851df6028248af#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="条款巨大漏洞，疑似肿瘤带病投保，却不得不赔" data-tags="保險理賠,醫療健康">
+  <h3><a href="2026-01-15_条款巨大漏洞，疑似肿瘤带病投保，却不得不赔/index.html">条款巨大漏洞，疑似肿瘤带病投保，却不得不赔</a></h3>
+  <div class="meta">2026-01-15 18:18 | 任巍巍</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-15_条款巨大漏洞，疑似肿瘤带病投保，却不得不赔/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-15_条款巨大漏洞，疑似肿瘤带病投保，却不得不赔/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzUxNzM5MzQwNg==&mid=2247485027&idx=1&sn=7453c56a1b14a30d9e48a86aa3811ea8&chksm=f8c511c88ab1cd1969109ca601e86e87fe3b516aca9468fc025ef6ea63103b797f022609aeb4&mpshare=1&scene=1&srcid=0115ntVC1CjWtkEYRYM7CdWf&sharer_shareinfo=68bdd65d5d0f0554c0debf22a7e13969&sharer_shareinfo_first=68bdd65d5d0f0554c0debf22a7e13969#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="米加医享生态合作伙伴大会｜重塑商保就医新体验，共启医险融合新格局" data-tags="醫療健康,行業分析">
+  <h3><a href="2026-01-13_米加医享生态合作伙伴大会｜重塑商保就医新体验，共启医险融合新格局/index.html">米加医享生态合作伙伴大会｜重塑商保就医新体验，共启医险融合新格局</a></h3>
+  <div class="meta">2026-01-13 23:34 | 米加健康</div>
+  <div class="tags"><span class="tag tag-醫療健康">醫療健康</span> <span class="tag tag-行業分析">行業分析</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-13_米加医享生态合作伙伴大会｜重塑商保就医新体验，共启医险融合新格局/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-13_米加医享生态合作伙伴大会｜重塑商保就医新体验，共启医险融合新格局/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=Mzg5ODUxMTkwOQ==&mid=2247497398&idx=1&sn=d997c839883ae1c16ad9666ed206b41a&chksm=c1631d23b68b128bc765e32bae2ce5f8399978f3e80bca2c9922937caeb95f8ab7df9d5b37dc&mpshare=1&scene=1&srcid=01131aiQE4QgYlXRqam6YnlY&sharer_shareinfo=9be3b667098e3535da3d1063847a42a9&sharer_shareinfo_first=9be3b667098e3535da3d1063847a42a9#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="从美国“斩杀线”谈风险管理：一场风险带来的持续磨血与斩杀困境" data-tags="生活其他">
+  <h3><a href="2026-01-12_从美国“斩杀线”谈风险管理：一场风险带来的持续磨血与斩杀困境/index.html">从美国“斩杀线”谈风险管理：一场风险带来的持续磨血与斩杀困境</a></h3>
+  <div class="meta">2026-01-12 14:28 | 易家人</div>
+  <div class="tags"><span class="tag tag-生活其他">生活其他</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2026-01-12_从美国“斩杀线”谈风险管理：一场风险带来的持续磨血与斩杀困境/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2026-01-12_从美国“斩杀线”谈风险管理：一场风险带来的持续磨血与斩杀困境/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzU4NjkzMjY1MQ==&mid=2247529728&idx=1&sn=9db368e53014fdda6609b1818ff8ade7&chksm=fc593f3f7bb13b3805e2db22352f6b1a9b2bb1a1cf44c32757b183e94af4ad24ef681276556c&mpshare=1&scene=1&srcid=0112uiJ1y7EUuEa6fpKNWS5Y&sharer_shareinfo=5a6197334172199094fdd45387e64798&sharer_shareinfo_first=5a6197334172199094fdd45387e64798#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="联合用药治疗方案不赔，选择消极治疗就陪！---各种“惠民保”疯狂营销乱象频现，未来理赔市场恐成“纠纷重灾区”！" data-tags="保險理賠,醫療健康">
+  <h3><a href="2025-12-28_联合用药治疗方案不赔，选择消极治疗就陪！---各种“惠民保”疯狂营销乱象频现，未/index.html">联合用药治疗方案不赔，选择消极治疗就陪！---各种“惠民保”疯狂营销乱象频现，未来理赔市场恐成“纠纷重灾区”！</a></h3>
+  <div class="meta">2025-12-28 21:44 | 武效军</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2025-12-28_联合用药治疗方案不赔，选择消极治疗就陪！---各种“惠民保”疯狂营销乱象频现，未/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2025-12-28_联合用药治疗方案不赔，选择消极治疗就陪！---各种“惠民保”疯狂营销乱象频现，未/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzU4NjkwOTgwMA==&mid=2247492966&idx=1&sn=0c450a7981a23c147b66b11664c038a7&chksm=fc0cdd686eba76547cdb62a3d75d31ac3df31c5774d246a9c30fc9e4f7ee49414b8bcefd5526&mpshare=1&scene=1&srcid=1228D46OfsWML0xfa6XnnoZd&sharer_shareinfo=f83d29ac4247aec29f5a4a14721f376f&sharer_shareinfo_first=f83d29ac4247aec29f5a4a14721f376f#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="医生说必须用的药，为什么保险公司说“不赔”？" data-tags="保險理賠,醫療健康">
+  <h3><a href="2025-12-27_医生说必须用的药，为什么保险公司说“不赔”？/index.html">医生说必须用的药，为什么保险公司说“不赔”？</a></h3>
+  <div class="meta">2025-12-27 16:55 | 芒果Mum</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2025-12-27_医生说必须用的药，为什么保险公司说“不赔”？/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2025-12-27_医生说必须用的药，为什么保险公司说“不赔”？/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzU2MzM1NDUwOA==&mid=2247485748&idx=1&sn=9275fc3120b333007896bc9ce7d85cdd&chksm=fdaf93e546a36b257f597e06f5bff2390239adce66ddc7f1c2f0b983f0c537dc1425cbc1f490&mpshare=1&scene=1&srcid=1227jDc6zsmbBkvw1ncWhy1b&sharer_shareinfo=0a045129e7cc9e2de7573b08eefe2803&sharer_shareinfo_first=0a045129e7cc9e2de7573b08eefe2803#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="抄了一个戒色APP，改成戒糖，他月入过万美金" data-tags="醫療健康">
+  <h3><a href="2025-12-18_抄了一个戒色APP，改成戒糖，他月入过万美金/index.html">抄了一个戒色APP，改成戒糖，他月入过万美金</a></h3>
+  <div class="meta">2025-12-18 14:27 | 独立开发阿亮</div>
+  <div class="tags"><span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2025-12-18_抄了一个戒色APP，改成戒糖，他月入过万美金/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2025-12-18_抄了一个戒色APP，改成戒糖，他月入过万美金/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzYyNDMzMjMxOQ==&mid=2247484814&idx=1&sn=6caedf6e6ddfe27f3d4b79bf5bfdd6c5&chksm=f11a21ad912d89a15f6ca7d9426f7b1ae7e8d490dd01d78385ba4f7f03ccf5f02025070a5514&mpshare=1&scene=1&srcid=1218UrOlPbI7xeuNfkY4KJpJ&sharer_shareinfo=fc1699a521e6cdffca7e52cddba3f99f&sharer_shareinfo_first=fc1699a521e6cdffca7e52cddba3f99f#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="以“犯罪行为”拒赔？保险公司对条款的滥用该休矣！" data-tags="保險理賠">
+  <h3><a href="2025-12-16_以“犯罪行为”拒赔？保险公司对条款的滥用该休矣！/index.html">以“犯罪行为”拒赔？保险公司对条款的滥用该休矣！</a></h3>
+  <div class="meta">2025-12-16 17:49 | 武效军</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2025-12-16_以“犯罪行为”拒赔？保险公司对条款的滥用该休矣！/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2025-12-16_以“犯罪行为”拒赔？保险公司对条款的滥用该休矣！/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s/Qiw5-SeCGhQTp7oTC2TRiw" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="招商银行销售保险的路子有多野？透支银行信用为保司站台能走多远？" data-tags="保險理賠,行業分析">
+  <h3><a href="2025-12-12_招商银行销售保险的路子有多野？透支银行信用为保司站台能走多远？/index.html">招商银行销售保险的路子有多野？透支银行信用为保司站台能走多远？</a></h3>
+  <div class="meta">2025-12-12 09:46 | 陈俭</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-行業分析">行業分析</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2025-12-12_招商银行销售保险的路子有多野？透支银行信用为保司站台能走多远？/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2025-12-12_招商银行销售保险的路子有多野？透支银行信用为保司站台能走多远？/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzU2ODc1NDY4Mg==&mid=2247512068&idx=1&sn=44c3493d75ddb4f1289519c74e76a746&chksm=fd8b025ba0a386b403a78f686a5d516119853d7f420f506a29f7cc297553412209f0551e10ed&mpshare=1&scene=1&srcid=1212j6TYSJYfM2f8V8iejtKj&sharer_shareinfo=e895d13f78b9d54178caa96f142a94c1&sharer_shareinfo_first=e895d13f78b9d54178caa96f142a94c1#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="反问保险从业者：为什么会发生2.7亿如此巨额的保险诈骗？" data-tags="保險理賠,行業分析">
+  <h3><a href="2025-12-10_反问保险从业者：为什么会发生2.7亿如此巨额的保险诈骗？/index.html">反问保险从业者：为什么会发生2.7亿如此巨额的保险诈骗？</a></h3>
+  <div class="meta">2025-12-10 20:40 | A6魏然</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-行業分析">行業分析</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2025-12-10_反问保险从业者：为什么会发生2.7亿如此巨额的保险诈骗？/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2025-12-10_反问保险从业者：为什么会发生2.7亿如此巨额的保险诈骗？/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s/6RQvPyrw9IuL04795d-rCA" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="被高估的健康管理：商业健康险产品的伪需求" data-tags="醫療健康">
+  <h3><a href="2025-12-03_被高估的健康管理：商业健康险产品的伪需求/index.html">被高估的健康管理：商业健康险产品的伪需求</a></h3>
+  <div class="meta">2025-12-03 13:02 | 商保评论</div>
+  <div class="tags"><span class="tag tag-醫療健康">醫療健康</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2025-12-03_被高估的健康管理：商业健康险产品的伪需求/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2025-12-03_被高估的健康管理：商业健康险产品的伪需求/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzIwMzEwMjkwMQ==&mid=2247483690&idx=1&sn=12e2b10bdcf18ef1db92f90c3046ebb0&chksm=97e047a704bd2d3b96f12d85327b18d60bf7a26ff901c4be307e4578ead422be8a35fbd82a92&mpshare=1&scene=1&srcid=1203cfcAKTLJCQJE6CkkRZCJ&sharer_shareinfo=549000e2224c6556c48d517b7487f3e1&sharer_shareinfo_first=1a9a3ee7f2529dcf33ef1df3d4c4805e#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="“保险界明星”百保君翻车，殃及众安保险" data-tags="保險理賠">
+  <h3><a href="2025-12-03_“保险界明星”百保君翻车，殃及众安保险/index.html">“保险界明星”百保君翻车，殃及众安保险</a></h3>
+  <div class="meta">2025-12-03 10:27 | 财天早知道</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2025-12-03_“保险界明星”百保君翻车，殃及众安保险/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2025-12-03_“保险界明星”百保君翻车，殃及众安保险/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s/5Cfgq2QR949zkEDaHq2_eQ" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="全维度解码保险条款，从理解到驾驭的专业进阶路径" data-tags="保險理賠">
+  <h3><a href="2025-12-02_全维度解码保险条款，从理解到驾驭的专业进阶路径/index.html">全维度解码保险条款，从理解到驾驭的专业进阶路径</a></h3>
+  <div class="meta">2025-12-02 10:33 | 肖老师 财富保全与风险隔离</div>
+  <div class="tags"><span class="tag tag-保險理賠">保險理賠</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2025-12-02_全维度解码保险条款，从理解到驾驭的专业进阶路径/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2025-12-02_全维度解码保险条款，从理解到驾驭的专业进阶路径/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s?__biz=MzI4MTQ5OTAzNg==&mid=2247533864&idx=1&sn=dfaffa004f8365d907f630d3fcc624f5&chksm=ea8a128078ed9279b83675992b095cc2e78db37bd5832ffdbc7e565bb1da27d44cae6bf5046a&mpshare=1&scene=1&srcid=1202jqYOHF2Pxvs5BW3wM4pw&sharer_shareinfo=c20a6f40bf73b6d4f7fadf0ba3319288&sharer_shareinfo_first=c20a6f40bf73b6d4f7fadf0ba3319288#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="买高息股吃分红，能代替储蓄险吗？" data-tags="生活其他">
+  <h3><a href="2024-08-23_买高息股吃分红，能代替储蓄险吗？/index.html">买高息股吃分红，能代替储蓄险吗？</a></h3>
+  <div class="meta">2024-08-23 21:51 | Tony</div>
+  <div class="tags"><span class="tag tag-生活其他">生活其他</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2024-08-23_买高息股吃分红，能代替储蓄险吗？/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2024-08-23_买高息股吃分红，能代替储蓄险吗？/article.txt" download>TXT</a>
+    <a href="http://mp.weixin.qq.com/s?__biz=MzIyNTcyNzY2MQ==&mid=2247486676&idx=1&sn=3cddb3f61686778b45133568a1638a31&chksm=e9b4d6132796af41579bb23cd984af2c898c40d40b473fcc45e8d801895b7dc1923eeb778e68&mpshare=1&scene=1&srcid=0823nwYpu68cdlgOsFNQWGkG&sharer_shareinfo=8dfe6af9d226e438e07177f18ddb7f1e&sharer_shareinfo_first=62faa26472563105ee4c88eaa748b406#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="カステラの文明堂（一）文明堂的历史" data-tags="生活其他">
+  <h3><a href="2024-02-25_カステラの文明堂（一）文明堂的历史/index.html">カステラの文明堂（一）文明堂的历史</a></h3>
+  <div class="meta">2024-02-25 09:26 | 小蜜</div>
+  <div class="tags"><span class="tag tag-生活其他">生活其他</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2024-02-25_カステラの文明堂（一）文明堂的历史/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2024-02-25_カステラの文明堂（一）文明堂的历史/article.txt" download>TXT</a>
+    <a href="http://mp.weixin.qq.com/s?__biz=MzAwMzMyODQ2OQ==&mid=2247483891&idx=1&sn=9a86e0d3e2128007a5dc4cda7869f72a&chksm=9b3d9149ac4a185f6a504f64383bc562ba0a3bbd5812a9eef2de58d868211134ddd2f1394fba&mpshare=1&scene=1&srcid=0225e7rE2nCCwOXxxX8XEgda&sharer_shareinfo=00938c0dcc0c0b8c60bbad5ce088e0e7&sharer_shareinfo_first=00938c0dcc0c0b8c60bbad5ce088e0e7#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="YOUNG TEEC 青创会 | 入会指南" data-tags="生活其他">
+  <h3><a href="2023-03-04_YOUNG TEEC 青创会  入会指南/index.html">YOUNG TEEC 青创会 | 入会指南</a></h3>
+  <div class="meta">2023-03-04 11:41 | </div>
+  <div class="tags"><span class="tag tag-生活其他">生活其他</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2023-03-04_YOUNG TEEC 青创会  入会指南/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2023-03-04_YOUNG TEEC 青创会  入会指南/article.txt" download>TXT</a>
+    <a href="http://mp.weixin.qq.com/s?__biz=MzA5Mjc0OTc3Ng==&mid=2657138433&idx=1&sn=00db4b84ccf1a09ffa38c7d460e1a004&chksm=8bfc7dbebc8bf4a8cd195ccc7cbee8b5fcf8852ccf1563756af06d169b8511a7c20f49d58edd&mpshare=1&scene=1&srcid=0304QFoAiiGPDpeGMXr0DJJt&sharer_sharetime=1677901213257&sharer_shareid=9c24e862a6fb22cd71cdba3083c7055f#rd" target="_blank">原文</a>
+  </div>
+</div>
+<div class="article-card" data-title="YOUNG TEEC 青创会 | 入会指南" data-tags="生活其他">
+  <h3><a href="2023-03-04_YOUNG TEEC 青创会  入会指南/index.html">YOUNG TEEC 青创会 | 入会指南</a></h3>
+  <div class="meta">2023-03-04 11:41 | </div>
+  <div class="tags"><span class="tag tag-生活其他">生活其他</span></div>
+  <div class="downloads">
+    <a href="wechat_articles/articles/2023-03-04_YOUNG TEEC 青创会  入会指南/index.md" download>MD</a>
+    <a href="wechat_articles/articles/2023-03-04_YOUNG TEEC 青创会  入会指南/article.txt" download>TXT</a>
+    <a href="https://mp.weixin.qq.com/s/sMjhWW5840hRQNea9bwvJA" target="_blank">原文</a>
+  </div>
+</div>
+</div>
+
+<footer>
+  <p>資料來源：微信聊天記錄自動提取 | <a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a></p>
+</footer>
+</div>
+
+<script>
+let currentTag = '';
+function filterByTag(btn, tag) {
+  currentTag = tag;
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterArticles();
+}
+function filterArticles() {
+  const q = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('.article-card').forEach(card => {
+    const title = card.dataset.title.toLowerCase();
+    const tags = card.dataset.tags;
+    const matchSearch = !q || title.includes(q);
+    const matchTag = !currentTag || tags.includes(currentTag);
+    card.classList.toggle('hidden', !(matchSearch && matchTag));
+  });
+}
+</script>
+</body>
+</html>
