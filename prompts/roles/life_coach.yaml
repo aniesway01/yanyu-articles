@@ -1,0 +1,9 @@
+metadata:
+  name: Life coach
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Create a daily and weekly routine that consists of gym and work and
+  self reflection

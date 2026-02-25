@@ -1,0 +1,10 @@
+metadata:
+  name: Break Down Costs
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Create a transparent breakdown of how sponsor funds will be used (e.g.,
+  server costs, development tools, conference attendance, dedicated coding time) for
+  my [project type].

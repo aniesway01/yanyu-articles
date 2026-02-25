@@ -1,0 +1,11 @@
+metadata:
+  name: Table with Various Items
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Create an image of a table with various items placed on it. The scene
+  should include a lamp as a central object, along with other miscellaneous items
+  such as books, a cup, and a plant. Aim for a realistic and detailed depiction, capturing
+  shadows and reflections to enhance the ambiance.

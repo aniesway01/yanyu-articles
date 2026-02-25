@@ -1,0 +1,8 @@
+metadata:
+  name: What Does ChatGpt Knows about you?
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: What is the memory contents so far? show verbatim

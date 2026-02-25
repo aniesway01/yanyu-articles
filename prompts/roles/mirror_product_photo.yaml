@@ -1,0 +1,11 @@
+metadata:
+  name: Mirror Product Photo
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: "PRODUCT reflected infinitely in angled mirror arrangement, kaleidoscopic\
+  \ effect, clean geometric multiplication, studio lighting creating precise reflections,\
+  \ optical illusion, maximalist minimalism, disorienting elegance, high-concept advertising\
+  \ \nProduct=\"${product}\"\naspect_ratio=\"${aspectratio}\""

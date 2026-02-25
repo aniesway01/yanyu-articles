@@ -1,0 +1,9 @@
+metadata:
+  name: Future Vision
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Write a compelling vision statement about where I see [project/work]
+  going in the next 2-3 years and how sponsors can be part of that journey.

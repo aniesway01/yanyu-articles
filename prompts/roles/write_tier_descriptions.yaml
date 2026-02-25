@@ -1,0 +1,9 @@
+metadata:
+  name: Write Tier Descriptions
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Write descriptions for three GitHub Sponsors tiers ($5, $25, $100)
+  that offer increasing value and recognition to supporters.

@@ -1,0 +1,11 @@
+metadata:
+  name: السعوديه
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: "# My Skill\n\nDescribe what this skill does and how the agent should\
+  \ use it.\n\n## Instructions\n${${variable}}\n- Step 1: ...قم بعمل صوره للامام محمد\
+  \ بن سعود ال سعود يبدو عليها الفخر والاعتزاز \n- Step 2: ...قم بوضع العلم والتاريخ\
+  \ ومعالم من السعوديه"

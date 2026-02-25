@@ -1,0 +1,10 @@
+metadata:
+  name: Create a Professional Bio
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Write a GitHub Sponsors bio for my profile that highlights my experience
+  in [your field], the impact of my open source work, and my commitment to community
+  growth.

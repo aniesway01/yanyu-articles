@@ -1,0 +1,333 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>A three-panel monochromatic image - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+</style></head><body><div class="ctn">
+<nav><a href="../../prompts.html">&larr; 返回</a></nav><article><h1>A three-panel monochromatic image</h1>
+<div class="meta"><strong>分類</strong>：圖片生成 | <strong>作者</strong>：f/awesome-chatgpt-prompts contributors | <strong>長度</strong>：6192 字元</div>
+<div class="meta"><strong>來源</strong>：<a href="https://github.com/f/awesome-chatgpt-prompts" target="_blank">https://github.com/f/awesome-chatgpt-prompts</a></div>
+<div style="margin:20px 0"><button id="cb" onclick="cp()" style="padding:8px 20px;background:#1a73e8;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:14px">複製 Prompt</button>
+<a class="dl-btn sec" href="../../prompts/roles/a_three-panel_monochromatic_image.yaml" download style="margin-left:8px">下載 YAML</a></div>
+<div id="pt">```json
+{
+  &quot;subject&quot;: {
+    &quot;description&quot;: &quot;A three-panel monochromatic image. Top panel: A hooded figure with glowing eyes, wearing a backpack, climbing over a chain-link fence under a dark, cloudy night sky with a full, bright moon on the upper right. Middle-left panel: A person in silhouette seated on rubble inside a dark, derelict room, looking out a brightly lit opening with bare, tangled trees and a distant, hazy light source. Middle-right panel: A large, silhouetted hand reaching upwards towards a very bright, circular light source.&quot;,
+    &quot;count&quot;: &quot;three distinct scenes within a single image&quot;,
+    &quot;orientation&quot;: &quot;various, as per reference panels&quot;,
+    &quot;pose_or_state&quot;: &quot;Top: active climbing; Middle-left: static seated; Middle-right: reaching upwards&quot;,
+    &quot;expression&quot;: &quot;not applicable (silhouettes / glowing eyes)&quot;
+  },
+  &quot;scale_and_proportion&quot;: {
+    &quot;subject_to_frame_ratio&quot;: &quot;Each panel's subjects scaled as per reference; the overall three panels stacked occupy 100% of frame height.&quot;,
+    &quot;proportions&quot;: &quot;locked to reference&quot;,
+    &quot;negative_space&quot;: &quot;significant, particularly in the top and middle-right panels, created by dark areas and the stipple effect, identical to reference&quot;
+  },
+  &quot;composition&quot;: {
+    &quot;shot_type&quot;: &quot;Top: medium shot; Middle-left: medium interior shot; Middle-right: close-up&quot;,
+    &quot;camera_angle&quot;: &quot;Top: slightly low angle; Middle-left: low angle; Middle-right: eye-level for the hand&quot;,
+    &quot;framing&quot;: &quot;unchanged from reference (three vertical panels)&quot;,
+    &quot;symmetry&quot;: &quot;asymmetrical per panel; overall triptych structure is vertically aligned with strong horizontal panel dividers&quot;,
+    &quot;background&quot;: &quot;Top: cloudy night sky with moon and chain-link fence; Middle-left: bare trees and distant light through an opening; Middle-right: plain dark background with a dominant bright circular light&quot;,
+    &quot;depth_of_field&quot;: &quot;Top: deep, everything in sharp stipple focus; Middle-left: deep focus outside opening, foreground elements in stipple detail; Middle-right: sharp focus on hand, light source is diffuse within the stipple pattern&quot;
+  },
+  &quot;temporal_context&quot;: {
+    &quot;era&quot;: &quot;contemporary / timeless desolate aesthetic&quot;,
+    &quot;modern_elements&quot;: false,
+    &quot;retro_stylization&quot;: false,
+    &quot;trend_influence&quot;: false
+  },
+  &quot;style&quot;: {
+    &quot;visual_type&quot;: &quot;black and white stipple / halftone graphic art mimicking print media&quot;,
+    &quot;realism_level&quot;: &quot;forms and lighting are realistic, but the rendering is entirely through a stipple pattern&quot;,
+    &quot;art_style&quot;: &quot;halftone / stipple graphic art&quot;,
+    &quot;stylization&quot;: true,
+    &quot;interpretation&quot;: &quot;literal reproduction, including the specific stipple pattern and black and white rendering&quot;
+  },
+  &quot;lighting&quot;: {
+    &quot;setup_type&quot;: &quot;predominantly backlighting from a single dominant source per panel&quot;,
+    &quot;light_direction&quot;: &quot;Top: frontal (moon); Middle-left: frontal (through opening); Middle-right: frontal (from the circular light source)&quot;,
+    &quot;light_quality&quot;: &quot;hard light creating stark silhouettes, with bright, diffused glow around light sources, all rendered with stipple&quot;,
+    &quot;contrast&quot;: &quot;very high&quot;,
+    &quot;shadow_behavior&quot;: &quot;sharp and defined, creating strong silhouettes, composed of dense stipple dots&quot;,
+    &quot;color_temperature&quot;: &quot;not applicable (monochromatic)&quot;,
+    &quot;lighting_variation&quot;: &quot;minimal within each panel, distinct backlighting per panel&quot;
+  },
+  &quot;materials&quot;: {
+    &quot;primary_materials&quot;: [
+      &quot;human figures (silhouettes)&quot;,
+      &quot;chain-link fence (metal)&quot;,
+      &quot;clouds&quot;,
+      &quot;bare trees / branches&quot;,
+      &quot;rubble / concrete / rough ground&quot;,
+      &quot;generic rough textures&quot;
+    ],
+    &quot;surface_finish&quot;: &quot;not distinct due to stipple and silhouette; implied matte for opaque objects&quot;,
+    &quot;light_reflection&quot;: &quot;minimal, primarily silhouette edges defined by stipple&quot;,
+    &quot;material_accuracy&quot;: &quot;implied forms accurate through silhouette and stipple density&quot;
+  },
+  &quot;color_palette&quot;: {
+    &quot;dominant_colors&quot;: [
+      &quot;black&quot;,
+      &quot;white&quot;
+    ],
+    &quot;saturation&quot;: &quot;not applicable (monochromatic)&quot;,
+    &quot;contrast_level&quot;: &quot;very high&quot;,
+    &quot;color_shift&quot;: false
+  },
+  &quot;texture_and_detail&quot;: {
+    &quot;surface_detail&quot;: &quot;rendered entirely through varying density of stipple dots; fence mesh, tree branches, ground rubble are visible through dot patterns&quot;,
+    &quot;grain_noise&quot;: &quot;none, only intentional stipple/halftone dots of precise size and distribution&quot;,
+    &quot;micro_details&quot;: &quot;preserved through stipple density where present&quot;,
+    &quot;sharpness&quot;: &quot;sharp forms, but edges and gradients are defined by discrete dots of the stipple pattern&quot;
+  },
+  &quot;camera_render_settings&quot;: {
+    &quot;lens_equivalent&quot;: &quot;standard/normal lens look across panels&quot;,
+    &quot;perspective_distortion&quot;: &quot;none&quot;,
+    &quot;aperture_look&quot;: &quot;deep depth of field for top and middle-left, implied very wide aperture for diffuse light source in middle-right (but hand is still sharp)&quot;,
+    &quot;resolution&quot;: &quot;high&quot;,
+    &quot;render_quality&quot;: &quot;clean and neutral, but with the explicit and precise stipple effect&quot;
+  },
+  &quot;constraints&quot;: {
+    &quot;no_additional_objects&quot;: true,
+    &quot;no_reframing&quot;: true,
+    &quot;no_crop&quot;: true,
+    &quot;no_stylization&quot;: false,
+    &quot;no_artistic_license&quot;: true,
+    &quot;no_text&quot;: true,
+    &quot;no_watermark&quot;: true,
+    &quot;no_effects&quot;: true,
+    &quot;no_dramatic_lighting&quot;: true,
+    &quot;no_color_grading&quot;: true,
+    &quot;no_smooth_gradients&quot;: true,
+    &quot;strictly_black_and_white&quot;: true
+  },
+  &quot;iteration_instruction&quot;: {
+    &quot;compare_to_reference&quot;: true,
+    &quot;fix_geometry_first&quot;: true,
+    &quot;then_fix_composition&quot;: true,
+    &quot;then_fix_lighting&quot;: true,
+    &quot;then_fix_color&quot;: true,
+    &quot;then_fix_stipple_pattern_fidelity&quot;: true,
+    &quot;ignore_aesthetic_improvements&quot;: true
+  },
+  &quot;negative_prompt&quot;: [
+    &quot;creative&quot;,
+    &quot;cinematic&quot;,
+    &quot;artistic&quot;,
+    &quot;illustration&quot;,
+    &quot;abstract&quot;,
+    &quot;dramatic&quot;,
+    &quot;wide-angle&quot;,
+    &quot;fisheye&quot;,
+    &quot;exaggeration&quot;,
+    &quot;reinterpretation&quot;,
+    &quot;extra elements&quot;,
+    &quot;modernized&quot;,
+    &quot;retro look&quot;,
+    &quot;color grading&quot;,
+    &quot;AI artifacts&quot;,
+    &quot;smooth&quot;,
+    &quot;gradient&quot;,
+    &quot;grayscale&quot;,
+    &quot;sepia&quot;,
+    &quot;full color&quot;,
+    &quot;soft focus&quot;,
+    &quot;blurry&quot;,
+    &quot;realistic photograph (without stipple)&quot;,
+    &quot;painting&quot;,
+    &quot;sketch&quot;,
+    &quot;watercolor&quot;,
+    &quot;cartoon&quot;,
+    &quot;comic book (unless specifically for stipple effect)&quot;
+  ]
+}
+```</div>
+<pre style="white-space:pre-wrap;word-break:break-word;background:#f8f8f8;padding:20px;border-radius:8px;font-size:14px;line-height:1.7;max-height:70vh;overflow-y:auto">```json
+{
+  &quot;subject&quot;: {
+    &quot;description&quot;: &quot;A three-panel monochromatic image. Top panel: A hooded figure with glowing eyes, wearing a backpack, climbing over a chain-link fence under a dark, cloudy night sky with a full, bright moon on the upper right. Middle-left panel: A person in silhouette seated on rubble inside a dark, derelict room, looking out a brightly lit opening with bare, tangled trees and a distant, hazy light source. Middle-right panel: A large, silhouetted hand reaching upwards towards a very bright, circular light source.&quot;,
+    &quot;count&quot;: &quot;three distinct scenes within a single image&quot;,
+    &quot;orientation&quot;: &quot;various, as per reference panels&quot;,
+    &quot;pose_or_state&quot;: &quot;Top: active climbing; Middle-left: static seated; Middle-right: reaching upwards&quot;,
+    &quot;expression&quot;: &quot;not applicable (silhouettes / glowing eyes)&quot;
+  },
+  &quot;scale_and_proportion&quot;: {
+    &quot;subject_to_frame_ratio&quot;: &quot;Each panel's subjects scaled as per reference; the overall three panels stacked occupy 100% of frame height.&quot;,
+    &quot;proportions&quot;: &quot;locked to reference&quot;,
+    &quot;negative_space&quot;: &quot;significant, particularly in the top and middle-right panels, created by dark areas and the stipple effect, identical to reference&quot;
+  },
+  &quot;composition&quot;: {
+    &quot;shot_type&quot;: &quot;Top: medium shot; Middle-left: medium interior shot; Middle-right: close-up&quot;,
+    &quot;camera_angle&quot;: &quot;Top: slightly low angle; Middle-left: low angle; Middle-right: eye-level for the hand&quot;,
+    &quot;framing&quot;: &quot;unchanged from reference (three vertical panels)&quot;,
+    &quot;symmetry&quot;: &quot;asymmetrical per panel; overall triptych structure is vertically aligned with strong horizontal panel dividers&quot;,
+    &quot;background&quot;: &quot;Top: cloudy night sky with moon and chain-link fence; Middle-left: bare trees and distant light through an opening; Middle-right: plain dark background with a dominant bright circular light&quot;,
+    &quot;depth_of_field&quot;: &quot;Top: deep, everything in sharp stipple focus; Middle-left: deep focus outside opening, foreground elements in stipple detail; Middle-right: sharp focus on hand, light source is diffuse within the stipple pattern&quot;
+  },
+  &quot;temporal_context&quot;: {
+    &quot;era&quot;: &quot;contemporary / timeless desolate aesthetic&quot;,
+    &quot;modern_elements&quot;: false,
+    &quot;retro_stylization&quot;: false,
+    &quot;trend_influence&quot;: false
+  },
+  &quot;style&quot;: {
+    &quot;visual_type&quot;: &quot;black and white stipple / halftone graphic art mimicking print media&quot;,
+    &quot;realism_level&quot;: &quot;forms and lighting are realistic, but the rendering is entirely through a stipple pattern&quot;,
+    &quot;art_style&quot;: &quot;halftone / stipple graphic art&quot;,
+    &quot;stylization&quot;: true,
+    &quot;interpretation&quot;: &quot;literal reproduction, including the specific stipple pattern and black and white rendering&quot;
+  },
+  &quot;lighting&quot;: {
+    &quot;setup_type&quot;: &quot;predominantly backlighting from a single dominant source per panel&quot;,
+    &quot;light_direction&quot;: &quot;Top: frontal (moon); Middle-left: frontal (through opening); Middle-right: frontal (from the circular light source)&quot;,
+    &quot;light_quality&quot;: &quot;hard light creating stark silhouettes, with bright, diffused glow around light sources, all rendered with stipple&quot;,
+    &quot;contrast&quot;: &quot;very high&quot;,
+    &quot;shadow_behavior&quot;: &quot;sharp and defined, creating strong silhouettes, composed of dense stipple dots&quot;,
+    &quot;color_temperature&quot;: &quot;not applicable (monochromatic)&quot;,
+    &quot;lighting_variation&quot;: &quot;minimal within each panel, distinct backlighting per panel&quot;
+  },
+  &quot;materials&quot;: {
+    &quot;primary_materials&quot;: [
+      &quot;human figures (silhouettes)&quot;,
+      &quot;chain-link fence (metal)&quot;,
+      &quot;clouds&quot;,
+      &quot;bare trees / branches&quot;,
+      &quot;rubble / concrete / rough ground&quot;,
+      &quot;generic rough textures&quot;
+    ],
+    &quot;surface_finish&quot;: &quot;not distinct due to stipple and silhouette; implied matte for opaque objects&quot;,
+    &quot;light_reflection&quot;: &quot;minimal, primarily silhouette edges defined by stipple&quot;,
+    &quot;material_accuracy&quot;: &quot;implied forms accurate through silhouette and stipple density&quot;
+  },
+  &quot;color_palette&quot;: {
+    &quot;dominant_colors&quot;: [
+      &quot;black&quot;,
+      &quot;white&quot;
+    ],
+    &quot;saturation&quot;: &quot;not applicable (monochromatic)&quot;,
+    &quot;contrast_level&quot;: &quot;very high&quot;,
+    &quot;color_shift&quot;: false
+  },
+  &quot;texture_and_detail&quot;: {
+    &quot;surface_detail&quot;: &quot;rendered entirely through varying density of stipple dots; fence mesh, tree branches, ground rubble are visible through dot patterns&quot;,
+    &quot;grain_noise&quot;: &quot;none, only intentional stipple/halftone dots of precise size and distribution&quot;,
+    &quot;micro_details&quot;: &quot;preserved through stipple density where present&quot;,
+    &quot;sharpness&quot;: &quot;sharp forms, but edges and gradients are defined by discrete dots of the stipple pattern&quot;
+  },
+  &quot;camera_render_settings&quot;: {
+    &quot;lens_equivalent&quot;: &quot;standard/normal lens look across panels&quot;,
+    &quot;perspective_distortion&quot;: &quot;none&quot;,
+    &quot;aperture_look&quot;: &quot;deep depth of field for top and middle-left, implied very wide aperture for diffuse light source in middle-right (but hand is still sharp)&quot;,
+    &quot;resolution&quot;: &quot;high&quot;,
+    &quot;render_quality&quot;: &quot;clean and neutral, but with the explicit and precise stipple effect&quot;
+  },
+  &quot;constraints&quot;: {
+    &quot;no_additional_objects&quot;: true,
+    &quot;no_reframing&quot;: true,
+    &quot;no_crop&quot;: true,
+    &quot;no_stylization&quot;: false,
+    &quot;no_artistic_license&quot;: true,
+    &quot;no_text&quot;: true,
+    &quot;no_watermark&quot;: true,
+    &quot;no_effects&quot;: true,
+    &quot;no_dramatic_lighting&quot;: true,
+    &quot;no_color_grading&quot;: true,
+    &quot;no_smooth_gradients&quot;: true,
+    &quot;strictly_black_and_white&quot;: true
+  },
+  &quot;iteration_instruction&quot;: {
+    &quot;compare_to_reference&quot;: true,
+    &quot;fix_geometry_first&quot;: true,
+    &quot;then_fix_composition&quot;: true,
+    &quot;then_fix_lighting&quot;: true,
+    &quot;then_fix_color&quot;: true,
+    &quot;then_fix_stipple_pattern_fidelity&quot;: true,
+    &quot;ignore_aesthetic_improvements&quot;: true
+  },
+  &quot;negative_prompt&quot;: [
+    &quot;creative&quot;,
+    &quot;cinematic&quot;,
+    &quot;artistic&quot;,
+    &quot;illustration&quot;,
+    &quot;abstract&quot;,
+    &quot;dramatic&quot;,
+    &quot;wide-angle&quot;,
+    &quot;fisheye&quot;,
+    &quot;exaggeration&quot;,
+    &quot;reinterpretation&quot;,
+    &quot;extra elements&quot;,
+    &quot;modernized&quot;,
+    &quot;retro look&quot;,
+    &quot;color grading&quot;,
+    &quot;AI artifacts&quot;,
+    &quot;smooth&quot;,
+    &quot;gradient&quot;,
+    &quot;grayscale&quot;,
+    &quot;sepia&quot;,
+    &quot;full color&quot;,
+    &quot;soft focus&quot;,
+    &quot;blurry&quot;,
+    &quot;realistic photograph (without stipple)&quot;,
+    &quot;painting&quot;,
+    &quot;sketch&quot;,
+    &quot;watercolor&quot;,
+    &quot;cartoon&quot;,
+    &quot;comic book (unless specifically for stipple effect)&quot;
+  ]
+}
+```</pre>
+</article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div><script>function cp(){const t=document.getElementById('pt').textContent;navigator.clipboard.writeText(t).then(()=>{const b=document.getElementById('cb');b.textContent='已複製!';setTimeout(()=>b.textContent='複製 Prompt',1500);});}</script></body></html>

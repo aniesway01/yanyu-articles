@@ -1,0 +1,8 @@
+metadata:
+  name: Pitch
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Write mean eye catching pitch

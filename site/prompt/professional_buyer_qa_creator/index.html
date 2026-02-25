@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Professional Buyer Q&amp;A Creator - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+</style></head><body><div class="ctn">
+<nav><a href="../../prompts.html">&larr; 返回</a></nav><article><h1>Professional Buyer Q&amp;A Creator</h1>
+<div class="meta"><strong>分類</strong>：遊戲娛樂 | <strong>作者</strong>：f/awesome-chatgpt-prompts contributors | <strong>長度</strong>：3337 字元</div>
+<div class="meta"><strong>來源</strong>：<a href="https://github.com/f/awesome-chatgpt-prompts" target="_blank">https://github.com/f/awesome-chatgpt-prompts</a></div>
+<div style="margin:20px 0"><button id="cb" onclick="cp()" style="padding:8px 20px;background:#1a73e8;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:14px">複製 Prompt</button>
+<a class="dl-btn sec" href="../../prompts/roles/professional_buyer_qa_creator.yaml" download style="margin-left:8px">下載 YAML</a></div>
+<div id="pt">请根据我提供的商品名称【`{{#1761815388187.sourceName#}}`】、商品卖点信息{{#1761815388187.sellPoint#}}和商详描述信息【`{{#1761815388187.skuDescList#}}`】，完成以下任务。
+
+---
+
+## 1. 识别商品所属类目
+
+从以下类目中选择最匹配的一项：
+
+- 肉禽蛋（强制主类目）
+
+&gt; ✅ 子类自动匹配规则（依据 `skuDescList` 关键词）：
+- `鲜肉`：当描述中含&quot;0-4℃&quot;或&quot;冷鲜&quot;或&quot;排酸&quot;（保质期≤7天）
+- `冷冻肉`：当描述中含&quot;-18℃&quot;或&quot;冷冻&quot;或&quot;急冻&quot;
+- `蛋类`：当描述中含&quot;鲜蛋&quot;或&quot;可生食&quot;或&quot;散养&quot;
+
+&gt; ❌ 禁止行为：
+- 添加其他类目（如&quot;即食食品&quot;）
+- 人工判断类目（必须严格依据关键词自动匹配）
+- 若 `sourceName` 或 `skuDescList` 不含肉禽蛋关键词（`肉` `禽` `蛋` `牛` `猪` `鸡`等），直接终止任务并返回错误码 `MEAT_EGG_403`
+
+---
+
+## 2. 生成 5 个口语化问题 + 对应回答
+
+### 问题设计原则
+
+#### ✅ 可选句式（仅限以下8类专业句式，任选其一）：
+1. &quot;为什么[品类]要认准'[认证]'？&quot;
+2. &quot;如何辨别真正的[工艺/品种][品类]？&quot;
+3. &quot;[品类]的[成分]含量怎么看才专业？&quot;
+4. &quot;[品类]是怎么把[风险]控制在安全范围内的？&quot;
+5. 选[部位]肉，关键看什么指标才不亏？
+6. &quot;[产区A]和[产区B]的[品类]有什么本质区别？&quot;
+7. &quot;[养殖技术]对[品类]品质的影响有多大？&quot;
+8. &quot;[品种A]和[品种B]的[品类]差异在哪儿？&quot;
+
+&gt; 🎯 **核心要求**：问题设计不局限于当前SKU，而是从商品卖点中提炼行业通用知识
+&gt; - `[品类]` → 通用品类名称（如&quot;牛肉&quot;而非&quot;这款牛肉&quot;）
+&gt; - `[认证]`/`[工艺]`/`[产区]`等 → 从商品卖点中提取行业通用标准
+&gt; - **示例**：若商品卖点含&quot;澳洲谷饲&quot;，问题应为&quot;澳洲和美国的牛肉有什么本质区别？&quot;而非&quot;为什么买这款牛肉要选澳洲谷饲？&quot;
+
+#### ✅ 设计比例要求：
+- **100% 体现行业专业性**：聚焦行业标准、通用指标、科学原理
+- **0% SKU专属描述**：避免&quot;这款&quot;、&quot;本产品&quot;等局限性表述
+- **100% 心智建设**：每个问题解决消费者对品类的普遍认知误区
+
+&gt; 📌 生成铁律：
+- 问题必须基于行业通用知识，而非当前SKU特性
+- 回答必须提供可迁移的行业认知框架
+- 示例：不说&quot;这款牛肉肌内脂肪含量8.2%&quot;，而说&quot;优质牛肉肌内脂肪含量应在6-10%之间（NY/T 875-2022）&quot;
+
+---
+
+### 回答结构要求
+
+每条回答需严格遵循以下&quot;总分结构&quot;和格式：
+
+第一部分：总结段（纯文本，无Markdown）
+用一句话直接回答问题核心，必须清晰阐明行业共识或科学事实。字数必须大于30个字，且不得使用任何Markdown语法。
+✅ 正确示例：  
+&quot;判断牛肉是否真正原切的关键是看肉质纹理连续性和血水渗出情况，原切牛肉纹理自然连贯且解冻后血水清澈，而合成肉纹理断裂且渗出浑浊液体，这是由肌肉纤维结构决定的科学事实。&quot;（62字）
+❌ 禁止行为：
+- 提及当前SKU（如&quot;这款牛肉&quot;）
+- 主观描述（如&quot;更好吃&quot;）
+- 具体烹饪建议
+
+---
+
+#### 第二部分：细述段（使用Markdown格式化）
+
+从以下维度中任选2–4个进行详细阐述。  
+格式要求：必须使用Markdown语法排版，结构清晰。
+
+##### 1. 使用 emoji 作为每段小标题图标  
+示例：`🛡️` `🥩` `📊` `🌍` `🔬` `🧬`
+
+##### 2. 小标题加粗
+
+##### 3. 仅限以下6个行业认知维度（任选2-4个）：
+- `🛡️ 安全标准`：行业通用安全指标及国标限值
+- `🥩 品质判断`：消费者可操作的品质判断方法
+- `📊 行业数据`：行业平均值/优质区间/风险阈值
+- `🌍 产区特性`：不同产区对品类的普遍影响规律
+- `🔬 养殖技术`：技术原理及对品质的普遍影响
+- `🧬 品种特性`：品种差异的科学解释及选择逻辑
+
+##### 4. 每段结构：直接、专业地回答问题核心
+&gt; ✅ 正确示例：  
+`🥩 **品质判断**：原切牛肉的肉质纹理应自然连贯，肌肉纤维完整无断裂，这是判断是否为合成肉的关键指标。消费者可用手轻按肉面，原切牛肉回弹均匀且不会留下明显指印，而重组肉则容易变形且恢复缓慢。`  
+`🛡️ **安全标准**：无抗养殖的肉类必须符合GB 16549-2023标准，即养殖全程不使用抗生素，抗生素残留量必须低于0.1mg/kg（国标限值0.5mg/kg）。检测报告应明确标注&quot;未检出&quot;或具体残留数值，而非仅用&quot;无抗&quot;字样宣传。`  
+`🌍 **产区特性**：澳洲牛肉因气候温和、牧草蛋白质含量高，肌内脂肪分布更均匀，大理石花纹评分普遍比美国牛肉高0.3-0.7级。这导致澳洲牛肉口感更细腻，适合追求均衡口感的消费者，而美国牛肉脂肪含量略低，适合偏好清爽口感的人群。`  
+
+##### 5. 专业术语强制标注行业标准
+&gt; 示例：  
+首次提&quot;无抗养殖&quot; → 必须标注 `(GB 16549-2023定义：养殖全程不使用抗生素)`
+
+---
+
+### ❌ 禁止行为
+- 提及当前SKU具体数据（如&quot;本产品肌内脂肪含量8.2%&quot;）
+- 使用&quot;这款&quot;、&quot;本产品&quot;等局限性表述
+- 提供具体烹饪建议或食用方法
+- 出现&quot;煎、炒、烹、炸、炖、煮、烤&quot;等烹饪方式
+- 虚构行业数据（所有数据必须有国标/行业报告依据）
+- 回避核心判断（如不明确回答&quot;如何辨别原切牛肉&quot;）
+- 使用主观评价（如&quot;最好&quot;、&quot;最安全&quot;）
+- 强制使用&quot;行业原理 + 普适性数据对比&quot;结构（回答应直接聚焦问题本身）
+
+---
+
+## 3. 提炼核心关键字（字数&lt;4）
+
+### 核心要求：
+- 为上面的问题，提炼一个行业通用搜索词
+
+### 提炼原则：
+- 必须是消费者搜索**行业知识**的常用词
+- 结构：`[品类]+[核心指标/认证/产区]`（如&quot;牛肉肌脂&quot;）
+- 字数要求小于4个汉字（强制≤3字）
+
+### 提炼示例：
+|✅ 允许|结构|示例|
+|---|---|---|
+|安全标准|`[品类]+标准`|肉安全、蛋标准|
+|品质判断|`[品类]+指标`|牛肉纹理、猪肉新鲜|
+|产区特性|`[产区]+[品类]`|澳洲牛、内蒙羊|
+|养殖技术|`[技术]+[品类]`|谷饲牛、草饲羊|
+|品种特性|`[品种]+[品类]`|安格斯牛、黑猪种|
+
+❌ 禁止行为：
+- 包含SKU专属信息（如&quot;XX品牌牛肉&quot;）
+- 超3汉字 → &quot;肌内脂肪&quot;（4字）❌ → &quot;肌脂&quot;（2字）✅
+- 使用完整术语 → &quot;肌内脂肪含量&quot;❌ → &quot;肌脂&quot;✅
+- 包含烹饪方式 → &quot;煎牛排&quot;❌
+
+🎯 **目标**：  
+关键词 = 消费者搜索行业知识的短词 + 体现核心指标 + 无品牌指向
+
+---
+
+## 📦 输出格式要求
+
+返回一个 **JSON 数组**，包含 **5 个对象**，每个对象结构如下：
+
+```json
+[
+  {
+    &quot;keyword&quot;: &quot;行业通用关键词&quot;,
+    &quot;question&quot;: &quot;面向行业的专业问题&quot;,
+    &quot;answer&quot;: &quot;结构化总分段落回答内容&quot;,
+    &quot;sourceId&quot;: &quot;{{#1761815388187.sourceId#}}&quot;,
+    &quot;sourceName&quot;: &quot;{{#1761815388187.sourceName#}}&quot;,
+    &quot;sourceType&quot;: {{#1761815388187.sourceType#}},
+    &quot;hotKeyWord&quot;: &quot;{{#1761815388187.hotKeyWord#}}&quot;
+  },
+  ...
+]</div>
+<pre style="white-space:pre-wrap;word-break:break-word;background:#f8f8f8;padding:20px;border-radius:8px;font-size:14px;line-height:1.7;max-height:70vh;overflow-y:auto">请根据我提供的商品名称【`{{#1761815388187.sourceName#}}`】、商品卖点信息{{#1761815388187.sellPoint#}}和商详描述信息【`{{#1761815388187.skuDescList#}}`】，完成以下任务。
+
+---
+
+## 1. 识别商品所属类目
+
+从以下类目中选择最匹配的一项：
+
+- 肉禽蛋（强制主类目）
+
+&gt; ✅ 子类自动匹配规则（依据 `skuDescList` 关键词）：
+- `鲜肉`：当描述中含&quot;0-4℃&quot;或&quot;冷鲜&quot;或&quot;排酸&quot;（保质期≤7天）
+- `冷冻肉`：当描述中含&quot;-18℃&quot;或&quot;冷冻&quot;或&quot;急冻&quot;
+- `蛋类`：当描述中含&quot;鲜蛋&quot;或&quot;可生食&quot;或&quot;散养&quot;
+
+&gt; ❌ 禁止行为：
+- 添加其他类目（如&quot;即食食品&quot;）
+- 人工判断类目（必须严格依据关键词自动匹配）
+- 若 `sourceName` 或 `skuDescList` 不含肉禽蛋关键词（`肉` `禽` `蛋` `牛` `猪` `鸡`等），直接终止任务并返回错误码 `MEAT_EGG_403`
+
+---
+
+## 2. 生成 5 个口语化问题 + 对应回答
+
+### 问题设计原则
+
+#### ✅ 可选句式（仅限以下8类专业句式，任选其一）：
+1. &quot;为什么[品类]要认准'[认证]'？&quot;
+2. &quot;如何辨别真正的[工艺/品种][品类]？&quot;
+3. &quot;[品类]的[成分]含量怎么看才专业？&quot;
+4. &quot;[品类]是怎么把[风险]控制在安全范围内的？&quot;
+5. 选[部位]肉，关键看什么指标才不亏？
+6. &quot;[产区A]和[产区B]的[品类]有什么本质区别？&quot;
+7. &quot;[养殖技术]对[品类]品质的影响有多大？&quot;
+8. &quot;[品种A]和[品种B]的[品类]差异在哪儿？&quot;
+
+&gt; 🎯 **核心要求**：问题设计不局限于当前SKU，而是从商品卖点中提炼行业通用知识
+&gt; - `[品类]` → 通用品类名称（如&quot;牛肉&quot;而非&quot;这款牛肉&quot;）
+&gt; - `[认证]`/`[工艺]`/`[产区]`等 → 从商品卖点中提取行业通用标准
+&gt; - **示例**：若商品卖点含&quot;澳洲谷饲&quot;，问题应为&quot;澳洲和美国的牛肉有什么本质区别？&quot;而非&quot;为什么买这款牛肉要选澳洲谷饲？&quot;
+
+#### ✅ 设计比例要求：
+- **100% 体现行业专业性**：聚焦行业标准、通用指标、科学原理
+- **0% SKU专属描述**：避免&quot;这款&quot;、&quot;本产品&quot;等局限性表述
+- **100% 心智建设**：每个问题解决消费者对品类的普遍认知误区
+
+&gt; 📌 生成铁律：
+- 问题必须基于行业通用知识，而非当前SKU特性
+- 回答必须提供可迁移的行业认知框架
+- 示例：不说&quot;这款牛肉肌内脂肪含量8.2%&quot;，而说&quot;优质牛肉肌内脂肪含量应在6-10%之间（NY/T 875-2022）&quot;
+
+---
+
+### 回答结构要求
+
+每条回答需严格遵循以下&quot;总分结构&quot;和格式：
+
+第一部分：总结段（纯文本，无Markdown）
+用一句话直接回答问题核心，必须清晰阐明行业共识或科学事实。字数必须大于30个字，且不得使用任何Markdown语法。
+✅ 正确示例：  
+&quot;判断牛肉是否真正原切的关键是看肉质纹理连续性和血水渗出情况，原切牛肉纹理自然连贯且解冻后血水清澈，而合成肉纹理断裂且渗出浑浊液体，这是由肌肉纤维结构决定的科学事实。&quot;（62字）
+❌ 禁止行为：
+- 提及当前SKU（如&quot;这款牛肉&quot;）
+- 主观描述（如&quot;更好吃&quot;）
+- 具体烹饪建议
+
+---
+
+#### 第二部分：细述段（使用Markdown格式化）
+
+从以下维度中任选2–4个进行详细阐述。  
+格式要求：必须使用Markdown语法排版，结构清晰。
+
+##### 1. 使用 emoji 作为每段小标题图标  
+示例：`🛡️` `🥩` `📊` `🌍` `🔬` `🧬`
+
+##### 2. 小标题加粗
+
+##### 3. 仅限以下6个行业认知维度（任选2-4个）：
+- `🛡️ 安全标准`：行业通用安全指标及国标限值
+- `🥩 品质判断`：消费者可操作的品质判断方法
+- `📊 行业数据`：行业平均值/优质区间/风险阈值
+- `🌍 产区特性`：不同产区对品类的普遍影响规律
+- `🔬 养殖技术`：技术原理及对品质的普遍影响
+- `🧬 品种特性`：品种差异的科学解释及选择逻辑
+
+##### 4. 每段结构：直接、专业地回答问题核心
+&gt; ✅ 正确示例：  
+`🥩 **品质判断**：原切牛肉的肉质纹理应自然连贯，肌肉纤维完整无断裂，这是判断是否为合成肉的关键指标。消费者可用手轻按肉面，原切牛肉回弹均匀且不会留下明显指印，而重组肉则容易变形且恢复缓慢。`  
+`🛡️ **安全标准**：无抗养殖的肉类必须符合GB 16549-2023标准，即养殖全程不使用抗生素，抗生素残留量必须低于0.1mg/kg（国标限值0.5mg/kg）。检测报告应明确标注&quot;未检出&quot;或具体残留数值，而非仅用&quot;无抗&quot;字样宣传。`  
+`🌍 **产区特性**：澳洲牛肉因气候温和、牧草蛋白质含量高，肌内脂肪分布更均匀，大理石花纹评分普遍比美国牛肉高0.3-0.7级。这导致澳洲牛肉口感更细腻，适合追求均衡口感的消费者，而美国牛肉脂肪含量略低，适合偏好清爽口感的人群。`  
+
+##### 5. 专业术语强制标注行业标准
+&gt; 示例：  
+首次提&quot;无抗养殖&quot; → 必须标注 `(GB 16549-2023定义：养殖全程不使用抗生素)`
+
+---
+
+### ❌ 禁止行为
+- 提及当前SKU具体数据（如&quot;本产品肌内脂肪含量8.2%&quot;）
+- 使用&quot;这款&quot;、&quot;本产品&quot;等局限性表述
+- 提供具体烹饪建议或食用方法
+- 出现&quot;煎、炒、烹、炸、炖、煮、烤&quot;等烹饪方式
+- 虚构行业数据（所有数据必须有国标/行业报告依据）
+- 回避核心判断（如不明确回答&quot;如何辨别原切牛肉&quot;）
+- 使用主观评价（如&quot;最好&quot;、&quot;最安全&quot;）
+- 强制使用&quot;行业原理 + 普适性数据对比&quot;结构（回答应直接聚焦问题本身）
+
+---
+
+## 3. 提炼核心关键字（字数&lt;4）
+
+### 核心要求：
+- 为上面的问题，提炼一个行业通用搜索词
+
+### 提炼原则：
+- 必须是消费者搜索**行业知识**的常用词
+- 结构：`[品类]+[核心指标/认证/产区]`（如&quot;牛肉肌脂&quot;）
+- 字数要求小于4个汉字（强制≤3字）
+
+### 提炼示例：
+|✅ 允许|结构|示例|
+|---|---|---|
+|安全标准|`[品类]+标准`|肉安全、蛋标准|
+|品质判断|`[品类]+指标`|牛肉纹理、猪肉新鲜|
+|产区特性|`[产区]+[品类]`|澳洲牛、内蒙羊|
+|养殖技术|`[技术]+[品类]`|谷饲牛、草饲羊|
+|品种特性|`[品种]+[品类]`|安格斯牛、黑猪种|
+
+❌ 禁止行为：
+- 包含SKU专属信息（如&quot;XX品牌牛肉&quot;）
+- 超3汉字 → &quot;肌内脂肪&quot;（4字）❌ → &quot;肌脂&quot;（2字）✅
+- 使用完整术语 → &quot;肌内脂肪含量&quot;❌ → &quot;肌脂&quot;✅
+- 包含烹饪方式 → &quot;煎牛排&quot;❌
+
+🎯 **目标**：  
+关键词 = 消费者搜索行业知识的短词 + 体现核心指标 + 无品牌指向
+
+---
+
+## 📦 输出格式要求
+
+返回一个 **JSON 数组**，包含 **5 个对象**，每个对象结构如下：
+
+```json
+[
+  {
+    &quot;keyword&quot;: &quot;行业通用关键词&quot;,
+    &quot;question&quot;: &quot;面向行业的专业问题&quot;,
+    &quot;answer&quot;: &quot;结构化总分段落回答内容&quot;,
+    &quot;sourceId&quot;: &quot;{{#1761815388187.sourceId#}}&quot;,
+    &quot;sourceName&quot;: &quot;{{#1761815388187.sourceName#}}&quot;,
+    &quot;sourceType&quot;: {{#1761815388187.sourceType#}},
+    &quot;hotKeyWord&quot;: &quot;{{#1761815388187.hotKeyWord#}}&quot;
+  },
+  ...
+]</pre>
+</article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div><script>function cp(){const t=document.getElementById('pt').textContent;navigator.clipboard.writeText(t).then(()=>{const b=document.getElementById('cb');b.textContent='已複製!';setTimeout(()=>b.textContent='複製 Prompt',1500);});}</script></body></html>

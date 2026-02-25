@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+</style></head><body><div class="ctn">
+<nav><a href="../../ai-tips.html">&larr; 返回</a></nav><article><h1>MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具</h1>
+<div class="meta"><strong>作者</strong>：電腦王阿達 | <strong>發布時間</strong>：2024-11-13<br>
+<a href="https://www.kocpc.com.tw/archives/574254" target="_blank">查看原文（電腦王阿達）</a></div>
+<div class="content">
+<p><a href="https://www.koc.com.tw/archives/571945">Google NotebookLM</a> 能將內容生成 Podcast 對話，這可說讓人相當興奮，只不過目前還不支援中文，對於台灣用戶來說，就暫時比較沒用，雖然還有另一款 <a href="https://www.koc.com.tw/archives/566969">PDF to Audio</a> 可以做到生成中文 Podcast，但需要額外付費。最近就發現到持續在 AI 市場耕耘的 MixerBox，也推出一個全新「MixerBox AI GenPod 」，主打就是能將中文內容生成中文 Podcast，而且完全免費用。</p>
+<p><img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_001.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /><img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_002.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /></p>
+<h2>MixerBox AI GenPod 將內容生成中文 Podcast 對話的免費工具</h2>
+<ul>
+<li><a href="https://mixerbox.ai/genpod?hl=zh">MixerBox AI GenPod</a></li>
+</ul>
+<p>MixerBox AI GenPod 有網頁版，點擊上方連結就能開始使用。</p>
+<p>另外要注意是，目前還處於 Beta 測試版，所以才完全免費，等到之後正式版沒意外應該會變成需要付費，或免費版有一些限制。</p>
+<p>預設生成的語音聲音，是比較常見的 AI 聲音，所以聽起來就很電腦感，雖然也有提供更自然的高級語音，也是免費使用，不過我測試很多次都顯示高用量請再次嘗試。</p>
+<p>打開 MixerBox AI GenPod 網站後，就將你想要生成 Podcast 的內容貼在輸入框，支援丟網址、丟主題、或丟你的內容，內容部份不能太長，我試過如果太長，會一直出現錯誤，接著按免費產生就會開始生成。另外如果你丟的網站網址有檔 AI，那也可能會生成失敗，會胡亂生成其他內容：<br />
+<img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_003.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /><img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_004.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /></p>
+<p>接著就等待 AI 生成完成，大約 1~2 分鐘，速度還蠻快的，有些甚至幾十秒就完成：<br />
+<img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_005.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /><img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_006.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /></p>
+<p>生成好後，就能線上收聽 Podcast 內容，也會自動建立網址，讓你能分享給其他人試聽。比較可惜是不能下載下來：<br />
+<img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_007.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /><img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_008.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /></p>
+<p>往下滑可以查看文稿，也能進行編輯。生成的對話我次覺得還不錯：<br />
+<img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_009.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /><img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_010.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /></p>
+<p>生成時有一點要注意是，生成好的 Podcast 似乎是公開狀態，在首頁下方可以看到其他人生成的 Podcast，所以記得別用於一些私人內容：<br />
+<img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_011.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /><img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_012.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /></p>
+<p>丟內容讓它生成時，它不會只根據你的內容，來生成所有 Podcast 對話，AI 還會自己補其他內容，目前看起來沒辦法限制：<br />
+<img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_013.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /><img alt="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" src="../../ai_tips/MixerBox_AI_GenPod_一鍵將你感興趣的內容，生成中文_Podcast_的免費工具/assets/img_014.jpg" title="MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具 - 電腦王阿達" /></p>
+<h2>MixerBox AI GenPod 什麼時候測試版會結束</h2>
+<p>目前還不知道，官網也沒有透露相關消息，不過<a href="https://blog-tw.mixerbox.com/mixerbox-ai-genpod-%E9%A6%96%E5%89%B5%E5%8F%B0%E7%81%A3%E8%85%94-ai-%E4%B8%AD%E6%96%87-podcast-%E7%94%A2%E7%94%9F%E5%99%A8/">官方</a>有提到「目前我們開放免費試用中，完全不用付費就能體驗所有功能喔」，因此很明顯正式版一定會收費，或免費版會受到一些限制。</p>
+<h2>MixerBox AI GenPod 生成的 Podcast 可以下載下來嗎</h2>
+<p>官方並沒有提供下載功能，但有一些第三方工具可以做到，像是我們之前介紹過的 <a href="https://www.koc.com.tw/archives/566560">Neat Download Manager</a>，就能將 Podcast 語音下載下來。</p>
+<p>Tags: <a href="https://www.koc.com.tw/archives/tag/ai">ai</a><a href="https://www.koc.com.tw/archives/tag/mixerbox">MixerBox</a><a href="https://www.koc.com.tw/archives/tag/podcast">Podcast</a><a href="https://www.koc.com.tw/archives/tag/%e4%ba%ba%e5%b7%a5%e6%99%ba%e6%85%a7">人工智慧</a></p>
+<hr />
+<p><em>原文連結：https://www.kocpc.com.tw/archives/574254</em>
+<em>本文轉載自電腦王阿達（kocpc.com.tw），版權歸原作者所有。</em></p></div>
+<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
+<a class="dl-btn" href="../../ai_tips/MixerBox_AI_GenPod_%E4%B8%80%E9%8D%B5%E5%B0%87%E4%BD%A0%E6%84%9F%E8%88%88%E8%B6%A3%E7%9A%84%E5%85%A7%E5%AE%B9%EF%BC%8C%E7%94%9F%E6%88%90%E4%B8%AD%E6%96%87_Podcast_%E7%9A%84%E5%85%8D%E8%B2%BB%E5%B7%A5%E5%85%B7/index.md" download>下載 Markdown</a>
+<a class="dl-btn sec" href="https://www.kocpc.com.tw/archives/574254" target="_blank">原文連結</a></div></article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div></body></html>

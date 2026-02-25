@@ -1,0 +1,11 @@
+metadata:
+  name: Expert-Level Insights and Advanced Resources
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: '"Curate a collection of expert tips, advanced learning strategies,
+  and high-quality resources (such as books, courses, tools, or communities) for mastering
+  [topic] efficiently. Emphasize credible sources and actionable advice to accelerate
+  expertise."'

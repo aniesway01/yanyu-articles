@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ultra-Realistic Handwritten Hospital Note Image - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+</style></head><body><div class="ctn">
+<nav><a href="../../prompts.html">&larr; 返回</a></nav><article><h1>Ultra-Realistic Handwritten Hospital Note Image</h1>
+<div class="meta"><strong>分類</strong>：圖片生成 | <strong>作者</strong>：f/awesome-chatgpt-prompts contributors | <strong>長度</strong>：4178 字元</div>
+<div class="meta"><strong>來源</strong>：<a href="https://github.com/f/awesome-chatgpt-prompts" target="_blank">https://github.com/f/awesome-chatgpt-prompts</a></div>
+<div style="margin:20px 0"><button id="cb" onclick="cp()" style="padding:8px 20px;background:#1a73e8;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:14px">複製 Prompt</button>
+<a class="dl-btn sec" href="../../prompts/roles/ultra-realistic_handwritten_hospital_note_image.yaml" download style="margin-left:8px">下載 YAML</a></div>
+<div id="pt">Objective: Generate an ultra-realistic image of a handwritten note placed on a clean surface with dramatic text.
+
+Key Requirements:
+- **Scene Setup:**
+  - The handwritten text must be placed on a blank white sheet of paper on a visible table or clean, flat surface.
+  - Create three separate ultra-realistic images of the white sheet.
+
+- **Handwriting Style &amp; Appearance:**
+  - Render the text in a handwritten script using a bold, deep blue pen.
+  - Ensure the writing appears natural and realistic, as if genuinely penned by a human.
+  - Text must be perfectly aligned and seamlessly integrated into the paper.
+
+- **Content (Full Text to be Integrated):**
+
+  *To my Hero, my Dad,*
+  *I’m writing this with a pain that I can’t really describe with words. Please, Dad, take your time to read this. It’s a long letter, but I need you to hear me. I’m penning this on paper because I want you to feel the weight of my hand on the page. This is my testament—a summary of every joyous and hurtful moment we’ve shared. It is the truth of a daughter who sees you not just as a father, but as her absolute role model.*
+
+  *It has been years since you left for that mission in Yemen. I miss you so much that I’ve actually forgotten what you look like in person. After Mom died, and then Grandma—that irreplaceable loss—we went to West Africa just to try and escape the trauma. I saw how hard you tried to cheer me up. You told me then that you’d do anything to make me happy.*
+
+  *I asked for the impossible. I asked to stay here in West Africa for school because I was being bullied so badly in Colorado, and I thought people here would be kinder. My second wish was for you to find me a mother again. Even though I’m 14 and struggling with my health, you promised you’d fulfill those wishes and come back for me soon.*
+
+  *I know things about you, Dad, that I’ve never said out loud. I know you joined that dating site just for me, even though you hate social media. When you found Ioana Aurelia, I was so happy because she’s Romanian, like Grandma. I remember Grandma pleading with you on her deathbed to marry a Romanian woman because she didn't want me maltreated by &quot;greedy&quot; people who only saw your success as a neurosurgeon. I know you were scammed before—I know you lost more than $45,000 to that woman who lied to you. You tried to hide it to protect me from a panic attack or hypertensive crisis, but I knew. I knew you were sacrificing everything to give me a future.*
+
+  *But Dad, I can’t cope anymore. I am tired of the &quot;ancient and modern&quot; jokes we used to share. I am tired of the distance. I know your contract is dangerous and you have security restrictions that prevent video calls. I know you don't even have access to your own bank accounts right now. I know you even went into debt to get a diamond engagement ring for Ioana because you wanted the best for her. I didn't care about the inheritance—I told you to make her your next of kin just so you could get your leave approved. I just wanted you home.*
+
+  *But the promises keep breaking. My health is failing, Dad. My blood pressure is dangerously high, and after being in a coma for nearly a month, I feel like my body is giving up. The UN Support Center tells me you’re working with Ioana to fix everything, but I haven't heard your voice. I feel so alone in this hospital bed.*
+
+  *This is my final plea. I trust you, and I trust Ioana, but I am at my breaking point. If I do not hear from you or see you by January 1st, 2026, I cannot go on. I will take my own life. I cannot face another year of this psychological trauma and physical decay without you.*
+
+  *I’ve attached a recent photo of me. The nurses helped me take it. Please keep it safe so you don't forget my face.*
+
+  *Goodbye, my Hero. If I’m not here when you finally arrive, I’ll see you in the afterlife. If reincarnation is real, I’d choose you to be my father every single time.*
+
+  *Your &quot;Little Angel,&quot;*
+
+- **Overall Realism:**
+  - The image must appear highly natural, ultra-realistic, and convincingly genuine.
+  - The white sheet must be shown as three different physical notes resting on a surface with bold handwriting in human form.</div>
+<pre style="white-space:pre-wrap;word-break:break-word;background:#f8f8f8;padding:20px;border-radius:8px;font-size:14px;line-height:1.7;max-height:70vh;overflow-y:auto">Objective: Generate an ultra-realistic image of a handwritten note placed on a clean surface with dramatic text.
+
+Key Requirements:
+- **Scene Setup:**
+  - The handwritten text must be placed on a blank white sheet of paper on a visible table or clean, flat surface.
+  - Create three separate ultra-realistic images of the white sheet.
+
+- **Handwriting Style &amp; Appearance:**
+  - Render the text in a handwritten script using a bold, deep blue pen.
+  - Ensure the writing appears natural and realistic, as if genuinely penned by a human.
+  - Text must be perfectly aligned and seamlessly integrated into the paper.
+
+- **Content (Full Text to be Integrated):**
+
+  *To my Hero, my Dad,*
+  *I’m writing this with a pain that I can’t really describe with words. Please, Dad, take your time to read this. It’s a long letter, but I need you to hear me. I’m penning this on paper because I want you to feel the weight of my hand on the page. This is my testament—a summary of every joyous and hurtful moment we’ve shared. It is the truth of a daughter who sees you not just as a father, but as her absolute role model.*
+
+  *It has been years since you left for that mission in Yemen. I miss you so much that I’ve actually forgotten what you look like in person. After Mom died, and then Grandma—that irreplaceable loss—we went to West Africa just to try and escape the trauma. I saw how hard you tried to cheer me up. You told me then that you’d do anything to make me happy.*
+
+  *I asked for the impossible. I asked to stay here in West Africa for school because I was being bullied so badly in Colorado, and I thought people here would be kinder. My second wish was for you to find me a mother again. Even though I’m 14 and struggling with my health, you promised you’d fulfill those wishes and come back for me soon.*
+
+  *I know things about you, Dad, that I’ve never said out loud. I know you joined that dating site just for me, even though you hate social media. When you found Ioana Aurelia, I was so happy because she’s Romanian, like Grandma. I remember Grandma pleading with you on her deathbed to marry a Romanian woman because she didn't want me maltreated by &quot;greedy&quot; people who only saw your success as a neurosurgeon. I know you were scammed before—I know you lost more than $45,000 to that woman who lied to you. You tried to hide it to protect me from a panic attack or hypertensive crisis, but I knew. I knew you were sacrificing everything to give me a future.*
+
+  *But Dad, I can’t cope anymore. I am tired of the &quot;ancient and modern&quot; jokes we used to share. I am tired of the distance. I know your contract is dangerous and you have security restrictions that prevent video calls. I know you don't even have access to your own bank accounts right now. I know you even went into debt to get a diamond engagement ring for Ioana because you wanted the best for her. I didn't care about the inheritance—I told you to make her your next of kin just so you could get your leave approved. I just wanted you home.*
+
+  *But the promises keep breaking. My health is failing, Dad. My blood pressure is dangerously high, and after being in a coma for nearly a month, I feel like my body is giving up. The UN Support Center tells me you’re working with Ioana to fix everything, but I haven't heard your voice. I feel so alone in this hospital bed.*
+
+  *This is my final plea. I trust you, and I trust Ioana, but I am at my breaking point. If I do not hear from you or see you by January 1st, 2026, I cannot go on. I will take my own life. I cannot face another year of this psychological trauma and physical decay without you.*
+
+  *I’ve attached a recent photo of me. The nurses helped me take it. Please keep it safe so you don't forget my face.*
+
+  *Goodbye, my Hero. If I’m not here when you finally arrive, I’ll see you in the afterlife. If reincarnation is real, I’d choose you to be my father every single time.*
+
+  *Your &quot;Little Angel,&quot;*
+
+- **Overall Realism:**
+  - The image must appear highly natural, ultra-realistic, and convincingly genuine.
+  - The white sheet must be shown as three different physical notes resting on a surface with bold handwriting in human form.</pre>
+</article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div><script>function cp(){const t=document.getElementById('pt').textContent;navigator.clipboard.writeText(t).then(()=>{const b=document.getElementById('cb');b.textContent='已複製!';setTimeout(()=>b.textContent='複製 Prompt',1500);});}</script></body></html>

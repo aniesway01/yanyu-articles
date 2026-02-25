@@ -1,0 +1,10 @@
+metadata:
+  name: Explain Funding Impact
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Create a section for my Sponsors page that explains how funding will
+  help me dedicate more time to [project/topics], support new contributors, and ensure
+  the sustainability of my open source work.

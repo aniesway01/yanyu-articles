@@ -1,0 +1,9 @@
+metadata:
+  name: Impact Metrics
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: 'Create a compelling data-driven section showing the impact of [project
+  name]: downloads, users helped, issues resolved, and community growth statistics.'

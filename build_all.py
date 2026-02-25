@@ -27,8 +27,12 @@ WC_ARTS    = BASE / "wechat_articles" / "articles"
 JDG_DIR    = BASE / "judgments"
 JDG_EB_DIR = JDG_DIR / "ebookhub"
 PROMPT_DIR = BASE / "prompts"
+PROMPT_IDX = PROMPT_DIR / "_index.json"
+PROMPT_YAML_DIR = PROMPT_DIR / "roles"
 PROMPT_SRC = Path(r"C:\AntiGravityFile\Project\facebookPrompt\_legacy_prompt_collection")
 EBOOK_SRC  = Path(r"C:\AntiGravityFile\Project\ebookhub\library")
+TIPS_DIR   = BASE / "ai_tips"
+TIPS_STATE = TIPS_DIR / "_state.json"
 
 
 # ─── Logging ───
@@ -121,24 +125,43 @@ def md2html(text):
 # ════════ Phase 1: Prepare Content ════════
 
 def prepare_judgments():
-    """Scan converted ebookhub markdown files (from convert_judgments.py)"""
+    """Scan converted ebookhub markdown files (from convert_judgments.py + ocr_judgments.py)"""
     JDG_EB_DIR.mkdir(parents=True, exist_ok=True)
     eb_files = []
-    # Scan existing converted markdown files
+    # Scan existing converted markdown files (both text-extract and OCR)
     for mf in sorted(JDG_EB_DIR.glob("*.md")):
         sz = mf.stat().st_size
         yr_m = re.search(r'^(\d{4})_', mf.name)
         yr = yr_m.group(1) if yr_m else "unknown"
         eb_files.append({"year": yr, "slug": mf.stem, "name": mf.name, "size_kb": round(sz/1024, 1)})
         log.info(f"\u5224\u6c7a MD: {mf.name} ({sz/1024:.0f}KB)")
-    # Note image-only PDFs that couldn't be extracted
-    scan_only = [
+    # Check which scan-only PDFs now have OCR output
+    converted_years = {ef["year"] for ef in eb_files}
+    all_scan = [
         {"year": "2014", "name": "\u4e2d\u56fd\u6cd5\u96622014\u5e74\u5ea6\u6848\u4f8b_\u4fdd\u9669\u7ea0\u7eb7.pdf", "note": "\u6383\u63cf\u5716\u7247\uff0c\u7121\u6cd5\u63d0\u53d6\u6587\u5b57"},
         {"year": "2015", "name": "\u4e2d\u56fd\u6cd5\u96622015\u5e74\u5ea6\u6848\u4f8b\u4fdd\u9669\u7ea0\u7eb7\uff08291\u9801\uff09.pdf", "note": "\u6383\u63cf\u5716\u7247\uff0c\u7121\u6cd5\u63d0\u53d6\u6587\u5b57"},
         {"year": "2017", "name": "\u4e2d\u56fd\u6cd5\u96622017\u5e74\u5ea6\u6848\u4f8b \u4fdd\u9669.pdf", "note": "\u6383\u63cf\u5716\u7247\uff0c\u7121\u6cd5\u63d0\u53d6\u6587\u5b57"},
         {"year": "2021", "name": "\u4e2d\u56fd\u6cd5\u96622021\u5e74\u5ea6\u6848\u4f8b\uff1a\u4fdd\u9669\u7ea0\u7eb7.pdf", "note": "\u6383\u63cf\u5716\u7247\uff0c\u7121\u6cd5\u63d0\u53d6\u6587\u5b57"},
         {"year": "2024", "name": "15.\u4fdd\u9669\u7ea0\u7eb7.pdf", "note": "\u6383\u63cf\u5716\u7247\uff0c\u7121\u6cd5\u63d0\u53d6\u6587\u5b57"},
     ]
+    # Only keep PDFs that don't yet have an OCR markdown output
+    scan_only = []
+    for s in all_scan:
+        # Check if any eb_file starts with this year and relates to this PDF
+        has_ocr = any(ef["name"].startswith(s["year"] + "_") and ef["size_kb"] > 5
+                      for ef in eb_files
+                      if ef["year"] == s["year"] and "ocr" not in ef["name"].lower()
+                      # Also check by matching the PDF stem
+                      ) or any(ef["name"].startswith(s["year"] + "_") for ef in eb_files if ef["year"] == s["year"])
+        # More precise: check if the OCR output file exists
+        pdf_stem = s["name"].replace(".pdf", "")
+        ocr_out = JDG_EB_DIR / f"{s['year']}_{pdf_stem}.md"
+        if not ocr_out.exists():
+            # Also check by glob for any file starting with year that wasn't there before
+            year_files = [ef for ef in eb_files if ef["year"] == s["year"]]
+            if not year_files:
+                scan_only.append(s)
+            # else: already have a converted file for this year, skip
     log.info(f"\u5224\u6c7a: {len(eb_files)} \u500b\u5df2\u8f49\u63db, {len(scan_only)} \u500b\u7121\u6cd5\u63d0\u53d6")
     return eb_files, scan_only
 
@@ -342,68 +365,169 @@ def build_judgments(eb_files, scan_only):
     return total
 
 def build_prompts(prompt_files):
-    INFO = {
-        "knowledge_base.md": ("\u77e5\u8b58\u7cbe\u83ef\u5eab", "13 \u7bc7\u6559\u5b78\u6587\u7ae0 + 42 \u652f\u5f71\u7247\u9023\u7d50", "T\u5ba2\u90a6\u3001\u96fb\u8166\u73a9\u7269\u3001Skye Prompts Club \u7b49", True),
-        "url_report.md": ("AI \u8cc7\u6e90\u9023\u7d50\u5f59\u6574", "227 YouTube + 148 \u7db2\u7ad9\u9023\u7d50", "Facebook AI \u793e\u5718\u722c\u87f2", True),
-        "compact_digest.md": ("\u793e\u7fa4\u8cbc\u6587\u6458\u8981\uff08\u7cbe\u7c21\u7248\uff09", "475 \u689d Facebook AI \u793e\u5718\u8cbc\u6587\u6458\u8981", "75 \u500b Facebook AI/\u79d1\u6280\u793e\u5718", True),
-        "rich_digest.md": ("\u793e\u7fa4\u8cbc\u6587\u6458\u8981\uff08\u5b8c\u6574\u7248\uff09", "475 \u689d\u8cbc\u6587\u5b8c\u6574\u7248\u6458\u8981", "75 \u500b Facebook AI/\u79d1\u6280\u793e\u5718", True),
-        "related_data.md": ("Facebook AI \u6578\u64da\u96c6", "583 \u7b46 Facebook AI \u76f8\u95dc\u8cc7\u6599", "\u500b\u4eba Facebook \u8cc7\u6599\u532f\u51fa", False),
-        "group_list.md": ("Facebook \u793e\u5718\u6307\u5357", "75 \u500b AI/\u79d1\u6280\u76f8\u95dc Facebook \u793e\u5718\u5217\u8868", "\u7528\u6236\u8a02\u95b1\u793e\u5718", True),
-        "ebooks/prompt_bible.md": ("The AI Prompt Bible", "\u5b8c\u6574\u96fb\u5b50\u66f8 \u2014 AI \u63d0\u793a\u8a5e\u8056\u7d93", "Anton Volney \u8457", True),
-        "ebooks/prompt_handbook.md": ("AI Prompt Engineering Handbook", "\u63d0\u793a\u5de5\u7a0b\u624b\u518a\uff08\u82f1\u6587\u7248\uff09", "Roman Lahinouski \u8457", True),
-        "ebooks/prompt_guide.md": ("The Ultimate AI Prompt Engineering Guide", "\u7d42\u6975\u63d0\u793a\u5de5\u7a0b\u6307\u5357", "Ink \u8457", True),
-        "ebooks/prompt_handbook_zh.md": ("AI \u63d0\u793a\u5de5\u7a0b\u624b\u518a\uff08\u4e2d\u6587\u7248\uff09", "\u63d0\u793a\u5de5\u7a0b\u624b\u518a\u4e2d\u6587\u7ffb\u8b6f\u7248", "Roman Lahinouski \u8457, \u4e2d\u8b6f", True),
+    # ─── Part A: 662 YAML Prompt 卡片 ───
+    yaml_count = 0
+    yaml_cards = ""
+    cat_set = set()
+    try:
+        import yaml as _yaml
+    except ImportError:
+        _yaml = None
+    if PROMPT_IDX.exists():
+        with open(PROMPT_IDX, "r", encoding="utf-8") as f:
+            idx = json.load(f)
+        prompts = idx.get("prompts", [])
+        yaml_count = len(prompts)
+        for cat_id, info in idx.get("categories", {}).items():
+            cat_set.add((cat_id, info["name"]))
+        # Build detail pages + cards
+        for p in prompts:
+            slug = p["slug"]
+            name = p["name"]
+            cat_id = p["category_id"]
+            cat_name = p["category"]
+            author = p["author"]
+            source = p["source"]
+            preview = p["preview"]
+            plen = p["prompt_length"]
+            # Read full prompt from YAML
+            yaml_path = PROMPT_YAML_DIR / p["filename"]
+            full_prompt = ""
+            if yaml_path.exists() and _yaml:
+                try:
+                    with open(yaml_path, "r", encoding="utf-8") as f:
+                        data = _yaml.safe_load(f)
+                    if data:
+                        if "metadata" in data:
+                            full_prompt = data.get("system_prompt", "")
+                        elif "versions" in data and data["versions"]:
+                            full_prompt = data["versions"][-1].get("template", "")
+                        elif "system_prompt" in data:
+                            full_prompt = data["system_prompt"]
+                except Exception:
+                    full_prompt = preview
+            if not full_prompt:
+                full_prompt = preview
+            # Detail page
+            prompt_esc = esc(full_prompt)
+            prompt_html = f'<pre style="white-space:pre-wrap;word-break:break-word;background:#f8f8f8;padding:20px;border-radius:8px;font-size:14px;line-height:1.7;max-height:70vh;overflow-y:auto">{prompt_esc}</pre>'
+            copy_js = "function cp(){const t=document.getElementById('pt').textContent;navigator.clipboard.writeText(t).then(()=>{const b=document.getElementById('cb');b.textContent='已複製!';setTimeout(()=>b.textContent='複製 Prompt',1500);});}"
+            ab = f'''<article><h1>{esc(name)}</h1>
+<div class="meta"><strong>分類</strong>：{esc(cat_name)} | <strong>作者</strong>：{esc(author) if author else "社群貢獻"} | <strong>長度</strong>：{plen} 字元</div>
+{f'<div class="meta"><strong>來源</strong>：<a href="{esc(source)}" target="_blank">{esc(source)[:60]}</a></div>' if source else ''}
+<div style="margin:20px 0"><button id="cb" onclick="cp()" style="padding:8px 20px;background:#1a73e8;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:14px">複製 Prompt</button>
+<a class="dl-btn sec" href="../../prompts/roles/{quote(p["filename"])}" download style="margin-left:8px">下載 YAML</a></div>
+<div id="pt">{prompt_esc}</div>
+{prompt_html}
+</article>'''
+            wf(SITE / "prompt" / slug / "index.html", page(name, ab, back="../../prompts.html", extra_js=copy_js))
+            # Card for listing page
+            yaml_cards += f'<div class="card" data-cat="{cat_id}" data-title="{esc(name)}"><h3><a href="prompt/{slug}/index.html">{esc(name)}</a></h3><div class="meta">{esc(cat_name)} · {plen} 字元{(" · " + esc(author)) if author else ""}</div><div class="meta" style="color:#999">{esc(preview[:100])}...</div></div>\n'
+    # ─── Part B: 學習資源 (電子書 + 社群資料) ───
+    RESOURCE_INFO = {
+        "knowledge_base.md": ("知識精萃庫", "13 篇教學文章 + 42 支影片連結", "T客邦、電腦玩物等", True),
+        "url_report.md": ("AI 資源連結彙整", "227 YouTube + 148 網站連結", "Facebook AI 社團", True),
+        "compact_digest.md": ("社群貼文摘要（精簡版）", "475 條 Facebook AI 社團貼文摘要", "75 個 FB 社團", True),
+        "rich_digest.md": ("社群貼文摘要（完整版）", "475 條貼文完整版", "75 個 FB 社團", True),
+        "related_data.md": ("Facebook AI 數據集", "583 筆 Facebook AI 相關資料", "個人 FB 資料匯出", False),
+        "group_list.md": ("Facebook 社團指南", "75 個 AI/科技相關社團", "用戶訂閱社團", True),
+        "ebooks/prompt_bible.md": ("The AI Prompt Bible", "完整電子書 — AI 提示詞聖經", "Anton Volney 著", True),
+        "ebooks/prompt_handbook.md": ("AI Prompt Engineering Handbook", "提示工程手冊（英文版）", "Roman Lahinouski 著", True),
+        "ebooks/prompt_guide.md": ("The Ultimate AI Prompt Engineering Guide", "終極提示工程指南", "Ink 著", True),
+        "ebooks/prompt_handbook_zh.md": ("AI 提示工程手冊（中文版）", "中文翻譯版", "Roman Lahinouski 著, 中譯", True),
     }
-    cards_edu, cards_community, cards_ebook = "", "", ""
-    rendered = 0
-    for slug, (title, desc, source, render) in INFO.items():
-        src_file = PROMPT_DIR / slug
+    resource_cards = ""
+    resource_rendered = 0
+    for rslug, (rtitle, rdesc, rsource, render) in RESOURCE_INFO.items():
+        src_file = PROMPT_DIR / rslug
         if not src_file.exists():
-            log.warning(f"Prompt \u4e0d\u5b58\u5728: {src_file}")
             continue
         sz = src_file.stat().st_size
         sz_s = f"{sz/1024:.0f}KB" if sz < 1048576 else f"{sz/1048576:.1f}MB"
-        ps = slug.replace("/", "_").replace(".md", "")
+        ps = rslug.replace("/", "_").replace(".md", "")
         if render:
             with open(src_file, "r", encoding="utf-8") as f:
                 text = f.read()
             ch = md2html(text)
-            ab = f'<article><h1>{esc(title)}</h1><div class="meta"><strong>\u4f86\u6e90</strong>\uff1a{esc(source)} | <strong>\u5927\u5c0f</strong>\uff1a{sz_s}</div><div class="content">{ch}</div><div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><a class="dl-btn" href="../../../prompts/{quote(slug)}" download>\u4e0b\u8f09\u539f\u59cb\u6a94</a></div></article>'
-            wf(SITE / "prompt" / ps / "index.html", page(title, ab, back="../../prompts.html"))
-            rendered += 1
-            card = f'<div class="card"><h3><a href="prompt/{ps}/index.html">{esc(title)}</a></h3><div class="meta">{esc(desc)} \u00b7 {sz_s}</div><div class="meta">\u4f86\u6e90\uff1a{esc(source)}</div><div class="dl"><a href="prompt/{ps}/index.html">\u95b1\u8b80</a> <a href="../prompts/{quote(slug)}" download>\u4e0b\u8f09</a></div></div>\n'
+            ab = f'<article><h1>{esc(rtitle)}</h1><div class="meta"><strong>來源</strong>：{esc(rsource)} | <strong>大小</strong>：{sz_s}</div><div class="content">{ch}</div><div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><a class="dl-btn" href="../../../prompts/{quote(rslug)}" download>下載原始檔</a></div></article>'
+            wf(SITE / "prompt" / ps / "index.html", page(rtitle, ab, back="../../prompts.html"))
+            resource_rendered += 1
+            resource_cards += f'<div class="card"><h3><a href="prompt/{ps}/index.html">{esc(rtitle)}</a></h3><div class="meta">{esc(rdesc)} · {sz_s}</div><div class="meta">來源：{esc(rsource)}</div><div class="dl"><a href="prompt/{ps}/index.html">閱讀</a> <a href="../prompts/{quote(rslug)}" download>下載</a></div></div>\n'
         else:
-            card = f'<div class="card"><h3>{esc(title)}</h3><div class="meta">{esc(desc)} \u00b7 {sz_s}</div><div class="meta">\u4f86\u6e90\uff1a{esc(source)}</div><div class="dl"><a href="../prompts/{quote(slug)}" download>\u4e0b\u8f09\u539f\u59cb\u6a94\uff08{sz_s}\uff09</a></div></div>\n'
-        # Categorize
-        if "ebook" in slug:
-            cards_ebook += card
-        elif slug in ("compact_digest.md", "rich_digest.md", "group_list.md", "related_data.md"):
-            cards_community += card
-        else:
-            cards_edu += card
+            resource_cards += f'<div class="card"><h3>{esc(rtitle)}</h3><div class="meta">{esc(rdesc)} · {sz_s}</div><div class="dl"><a href="../prompts/{quote(rslug)}" download>下載（{sz_s}）</a></div></div>\n'
+    # ─── Build listing page ───
+    cat_btns = '<button class="tg-btn active" onclick="fp(this,\'\')">全部</button>\n'
+    for cid, cname in sorted(cat_set, key=lambda x: x[1]):
+        cat_btns += f'<button class="tg-btn" onclick="fp(this,\'{cid}\')">{cname}</button>\n'
+    filter_js = "let cc='';function fp(b,c){cc=c;document.querySelectorAll('.tg-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');ff();}function ff(){const q=document.getElementById('pq').value.toLowerCase();document.querySelectorAll('#pcards .card').forEach(c=>{const m=(!q||c.dataset.title.toLowerCase().includes(q))&&(!cc||c.dataset.cat===cc);c.classList.toggle('hidden',!m);});}"
     body = f"""<header><h1>\U0001f916 Prompt \u5eab</h1>
-<p>AI \u63d0\u793a\u8a5e\u6848\u4f8b\u3001\u6559\u5b78\u8cc7\u6e90\u3001\u793e\u7fa4\u7cbe\u83ef\u8207\u96fb\u5b50\u66f8</p>
-<div class="stats"><span class="stat">{len(INFO)} \u4efd\u8cc7\u6599</span><span class="stat">\u542b 4 \u672c Prompt \u5de5\u7a0b\u96fb\u5b50\u66f8</span></div></header>
-<h2 class="sec-title">\u6559\u5b78\u8207\u6848\u4f8b</h2>{cards_edu}
-<h2 class="sec-title">\u793e\u7fa4\u8cc7\u6e90</h2>{cards_community}
-<h2 class="sec-title">Prompt \u5de5\u7a0b\u96fb\u5b50\u66f8</h2>{cards_ebook}"""
-    wf(SITE / "prompts.html", page("Prompt \u5eab", body, back="index.html"))
-    log.info(f"\u5efa\u7f6e: Prompt \u5eab ({rendered} \u9801\u9762)")
-    return len(INFO)
+<p>662 \u500b AI \u63d0\u793a\u8a5e\u89d2\u8272 + \u5b78\u7fd2\u8cc7\u6e90\u8207\u96fb\u5b50\u66f8</p>
+<div class="stats"><span class="stat">{yaml_count} \u500b Prompt \u89d2\u8272</span><span class="stat">{len(cat_set)} \u500b\u5206\u985e</span><span class="stat">\u542b 4 \u672c\u96fb\u5b50\u66f8</span></div></header>
+<h2 class="sec-title">Prompt \u89d2\u8272\u5eab</h2>
+<input class="search" type="text" id="pq" placeholder="\u641c\u5c0b Prompt \u540d\u7a31..." oninput="ff()">
+<div class="tg-btns">{cat_btns}</div>
+<div id="pcards">{yaml_cards}</div>
+<h2 class="sec-title">\u5b78\u7fd2\u8cc7\u6e90</h2>
+{resource_cards}"""
+    wf(SITE / "prompts.html", page("Prompt \u5eab", body, back="index.html", extra_js=filter_js))
+    log.info(f"\u5efa\u7f6e: Prompt \u5eab ({yaml_count} YAML + {resource_rendered} \u8cc7\u6e90\u9801)")
+    return yaml_count + len(RESOURCE_INFO)
 
 def build_tips():
-    body = """<header><h1>\U0001f4a1 AI \u4f7f\u7528\u6280\u5de7</h1>
-<p>AI \u5de5\u5177\u6559\u5b78\u6587\u7ae0\uff08\u96fb\u8166\u738b\u963f\u9054\u7b49\uff09</p>
-<div class="stats"><span class="stat">\u5efa\u7f6e\u4e2d...</span></div></header>
-<div class="card"><h3>\U0001f6a7 \u5167\u5bb9\u6536\u96c6\u4e2d</h3>
-<p style="margin-top:10px;color:#666">
-\u8a08\u756b\u6536\u9304\u4f86\u6e90\uff1a<br>
-\u00b7 <strong>\u96fb\u8166\u738b\u963f\u9054</strong>\uff08kocpc.com.tw\uff09\u2014 NotebookLM\u3001AI \u5de5\u5177\u6559\u5b78<br>
-\u00b7 \u5176\u4ed6 AI \u5de5\u5177\u5be6\u7528\u6559\u5b78\u6587\u7ae0<br><br>
-\u6240\u6709\u6587\u7ae0\u5c07\u9644\u4e0a\u539f\u59cb\u4f86\u6e90\u9023\u7d50\u3002</p></div>"""
-    wf(SITE / "ai-tips.html", page("AI \u4f7f\u7528\u6280\u5de7", body, back="index.html"))
-    log.info("\u5efa\u7f6e: AI \u4f7f\u7528\u6280\u5de7\uff08placeholder\uff09")
-    return 0
+    if not TIPS_STATE.exists():
+        log.warning("AI Tips: 狀態檔不存在，請先執行 fetch_ai_tips.py")
+        wf(SITE / "ai-tips.html", page("AI 使用技巧",
+            '<header><h1>\U0001f4a1 AI 使用技巧</h1><p>請先執行 fetch_ai_tips.py</p></header>',
+            back="index.html"))
+        return 0
+    with open(TIPS_STATE, "r", encoding="utf-8") as f:
+        state = json.load(f)
+    articles = [a for a in state["articles"] if a["status"] == "fetched"]
+    articles.sort(key=lambda x: x.get("pub_time", ""), reverse=True)
+    cards = []
+    total_imgs = 0
+    for art in articles:
+        slug = art.get("slug", "")
+        if not slug:
+            continue
+        md_file = TIPS_DIR / slug / "index.md"
+        if not md_file.exists():
+            continue
+        with open(md_file, "r", encoding="utf-8") as f:
+            md_text = f.read()
+        ch = md2html(md_text)
+        # Fix image paths
+        ch = ch.replace('src="assets/', f'src="../../ai_tips/{slug}/assets/')
+        # Remove the H1 + metadata blockquote + hr from converted content
+        ch = re.sub(r'<h1>.*?</h1>\s*<blockquote>.*?</blockquote>\s*<hr\s*/?>', '', ch, count=1, flags=re.DOTALL)
+        title = art.get("real_title", art.get("title", "untitled"))
+        author = art.get("author", "電腦王阿達")
+        pub_time = art.get("pub_time", "")
+        url = art.get("url", "")
+        img_count = art.get("img_count", 0)
+        total_imgs += img_count
+        # Detail page
+        ab = f'''<article><h1>{esc(title)}</h1>
+<div class="meta"><strong>作者</strong>：{esc(author)} | <strong>發布時間</strong>：{pub_time}<br>
+<a href="{url}" target="_blank">查看原文（電腦王阿達）</a></div>
+<div class="content">{ch}</div>
+<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
+<a class="dl-btn" href="../../ai_tips/{quote(slug)}/index.md" download>下載 Markdown</a>
+<a class="dl-btn sec" href="{url}" target="_blank">原文連結</a></div></article>'''
+        wf(SITE / "tip" / slug / "index.html", page(title, ab, back="../../ai-tips.html"))
+        cards.append(f'<div class="card"><h3><a href="tip/{slug}/index.html">{esc(title)}</a></h3>'
+            f'<div class="meta">{pub_time} | {esc(author)} | {img_count} 張圖片</div>'
+            f'<div class="dl"><a href="tip/{slug}/index.html">閱讀</a>'
+            f' <a href="{url}" target="_blank">原文</a>'
+            f' <a href="../ai_tips/{quote(slug)}/index.md" download>MD</a></div></div>')
+    body = f"""<header><h1>\U0001f4a1 AI 使用技巧</h1>
+<p>AI 工具教學文章（電腦王阿達 kocpc.com.tw）</p>
+<div class="stats"><span class="stat">{len(articles)} 篇文章</span><span class="stat">{total_imgs} 張圖片</span></div></header>
+<p style="margin-bottom:15px;color:#666;font-size:14px">來源：電腦王阿達（kocpc.com.tw），涵蓋 NotebookLM、ChatGPT、Gemini 等 AI 工具教學</p>
+{"".join(cards)}"""
+    wf(SITE / "ai-tips.html", page("AI 使用技巧", body, back="index.html"))
+    log.info(f"建置: AI 使用技巧 ({len(articles)} 篇, {total_imgs} 圖)")
+    return len(articles)
 
 # ════════ Main ════════
 

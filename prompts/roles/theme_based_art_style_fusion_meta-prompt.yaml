@@ -1,0 +1,9 @@
+metadata:
+  name: Theme based Art Style Fusion Meta-Prompt
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: "Theme=\"${theme}\" \nStyle=\"the most interesting fusion of 3 or more\
+  \ art styles to best capture the theme\""

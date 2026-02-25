@@ -1,0 +1,9 @@
+metadata:
+  name: Announce Milestone
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Write an announcement for my Sponsors page about a new milestone or
+  feature in [project], encouraging new and existing sponsors to get involved.

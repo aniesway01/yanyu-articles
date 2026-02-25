@@ -1,0 +1,9 @@
+metadata:
+  name: Childs Coloring Style
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: A cartoon ${setting} scene with crayon colored ${detail1} and ${detail2}
+  and ${detail3}, like that of a learning child.

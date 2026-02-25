@@ -1,0 +1,768 @@
+[2026-02-26 00:16:28] INFO: ==================================================
+[2026-02-26 00:16:28] INFO: OCR 掃描判決 PDF 開始
+[2026-02-26 00:16:28] INFO: ==================================================
+[2026-02-26 00:16:28] INFO: PaddleOCR: 可用
+[2026-02-26 00:16:28] INFO: 百度 OCR: 可用
+[2026-02-26 00:16:28] INFO: [2021] 開始 OCR: 中国法院2021年度案例：保险纠纷.pdf
+[2026-02-26 00:16:28] INFO:   總頁數: 224, 從第 1 頁開始, 目標到第 224 頁
+[2026-02-26 00:18:01] INFO: ==================================================
+[2026-02-26 00:18:01] INFO: OCR 掃描判決 PDF 開始
+[2026-02-26 00:18:01] INFO: ==================================================
+[2026-02-26 00:18:01] INFO: PaddleOCR: 可用
+[2026-02-26 00:18:01] INFO: 百度 OCR: 可用
+[2026-02-26 00:18:01] INFO: [2021] 開始 OCR: 中国法院2021年度案例：保险纠纷.pdf
+[2026-02-26 00:18:01] INFO:   總頁數: 224, 從第 1 頁開始, 目標到第 224 頁
+[2026-02-26 00:18:29] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Read timed out. (read timeout=120)
+[2026-02-26 00:18:29] INFO:   第 1/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:20:02] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Read timed out. (read timeout=120)
+[2026-02-26 00:20:02] INFO:   第 1/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:21:01] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Read timed out. (read timeout=120)
+[2026-02-26 00:21:01] INFO:   第 2/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:22:21] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Read timed out. (read timeout=120)
+[2026-02-26 00:22:21] INFO:   第 2/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:23:22] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 00:23:49] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Read timed out. (read timeout=120)
+[2026-02-26 00:23:49] INFO:   第 3/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:24:51] ERROR:   PaddleOCR 錯誤: ('Connection aborted.', ConnectionResetError(10054, '遠端主機已強制關閉一個現存的連線。', None, 10054, None))
+[2026-02-26 00:24:51] ERROR:   PaddleOCR 錯誤: ('Connection aborted.', ConnectionResetError(10054, '遠端主機已強制關閉一個現存的連線。', None, 10054, None))
+[2026-02-26 00:24:51] INFO:   第 3/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:24:51] INFO:   第 4/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:25:01] INFO:   第 4/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:06] ERROR:   PaddleOCR 錯誤: ('Connection aborted.', ConnectionResetError(10054, '遠端主機已強制關閉一個現存的連線。', None, 10054, None))
+[2026-02-26 00:26:06] INFO:   第 5/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:06] ERROR:   PaddleOCR 錯誤: ('Connection aborted.', ConnectionResetError(10054, '遠端主機已強制關閉一個現存的連線。', None, 10054, None))
+[2026-02-26 00:26:06] INFO:   第 5/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:20] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:26:20] INFO:   第 6/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:25] INFO: ==================================================
+[2026-02-26 00:26:25] INFO: OCR 掃描判決 PDF 開始
+[2026-02-26 00:26:25] INFO: ==================================================
+[2026-02-26 00:26:25] INFO: PaddleOCR: 已跳過 (--no-paddle)
+[2026-02-26 00:26:25] INFO: 百度 OCR: 可用
+[2026-02-26 00:26:25] INFO: [2021] 開始 OCR: 中国法院2021年度案例：保险纠纷.pdf
+[2026-02-26 00:26:25] INFO:   總頁數: 224, 從第 1 頁開始, 目標到第 224 頁
+[2026-02-26 00:26:26] INFO:   第 1/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:28] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:26:28] INFO:   第 6/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:35] INFO:   第 2/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:36] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:26:36] INFO:   第 7/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:41] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:26:41] INFO:   第 7/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:50] INFO:   第 3/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:53] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:26:53] INFO:   第 8/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:56] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:26:56] INFO:   第 8/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:26:58] INFO:   第 4/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:08] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:08] INFO:   第 9/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:09] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:09] INFO:   第 9/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:19] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:19] INFO:   第 10/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:19] INFO:   第 5/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:22] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:22] INFO:   第 10/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:32] INFO:   進度: 10/224 頁 (PaddleOCR: 0, 百度: 12)
+[2026-02-26 00:27:33] INFO:   進度: 10/224 頁 (PaddleOCR: 0, 百度: 13)
+[2026-02-26 00:27:35] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:35] INFO:   第 11/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:35] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:35] INFO:   第 11/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:43] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:43] INFO:   第 12/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:47] INFO:   第 6/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:48] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:48] INFO:   第 12/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:49] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:49] INFO:   第 13/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:53] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:53] INFO:   第 13/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:58] INFO:   第 7/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:27:59] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:27:59] INFO:   第 14/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:28:06] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:28:06] INFO:   第 14/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:28:10] INFO:   第 8/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:28:14] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:28:14] INFO:   第 15/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:28:19] INFO:   第 9/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:28:20] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:28:20] INFO:   第 15/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:28:30] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:28:30] INFO:   第 16/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:28:30] INFO:   第 10/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:28:35] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:28:35] INFO:   第 16/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:28:43] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:28:43] INFO:   第 17/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:28:51] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:28:51] INFO:   第 17/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:01] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:29:01] INFO:   第 18/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:05] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 00:29:05] INFO:   進度: 10/224 頁 (PaddleOCR: 0, 百度: 9)
+[2026-02-26 00:29:05] INFO:   第 11/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:06] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:29:06] INFO:   第 18/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:13] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:29:13] INFO:   第 19/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:15] INFO:   第 12/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:22] INFO:   第 13/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:28] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:29:28] INFO:   第 20/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:29] INFO:   第 14/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:31] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:29:31] INFO:   第 19/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:50] INFO:   第 15/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:58] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:29:58] INFO:   第 20/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:29:58] INFO:   第 16/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:07] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 00:30:07] INFO:   進度: 20/224 頁 (PaddleOCR: 0, 百度: 22)
+[2026-02-26 00:30:07] INFO:   進度: 20/224 頁 (PaddleOCR: 0, 百度: 22)
+[2026-02-26 00:30:09] INFO:   第 17/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:09] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:30:09] INFO:   第 21/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:09] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:30:09] INFO:   第 21/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:18] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:30:18] INFO:   第 22/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:22] INFO:   第 18/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:23] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:30:23] INFO:   第 22/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:28] ERROR:   百度 OCR 錯誤: 18 Open api qps request limit reached
+[2026-02-26 00:30:29] INFO:   第 19/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:31] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:30:31] INFO:   第 23/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:31] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:30:31] INFO:   第 23/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:43] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:30:43] INFO:   第 24/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:43] INFO:   第 20/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:45] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:30:45] INFO:   第 24/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:30:58] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:30:58] INFO:   第 25/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:31:03] ERROR:   PaddleOCR 錯誤: HTTPConnectionPool(host='127.0.0.1', port=8080): Max retries exceeded with url: /ocr (Caused by NewConnectionError("HTTPConnection(host='127.0.0.1', port=8080): Failed to establish a new connection: [WinError 10061] 無法連線，因為目標電腦拒絕連線。"))
+[2026-02-26 00:31:03] INFO:   第 25/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:31:30] INFO: ==================================================
+[2026-02-26 00:31:30] INFO: OCR 掃描判決 PDF 開始
+[2026-02-26 00:31:30] INFO: ==================================================
+[2026-02-26 00:31:30] INFO: PaddleOCR: 已跳過 (--no-paddle)
+[2026-02-26 00:31:30] INFO: 百度 OCR: 可用
+[2026-02-26 00:31:30] INFO: [2021] 開始 OCR: 中国法院2021年度案例：保险纠纷.pdf
+[2026-02-26 00:31:30] INFO:   總頁數: 224, 從第 21 頁開始, 目標到第 224 頁
+[2026-02-26 00:31:30] INFO:   第 21/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:31:42] INFO:   第 22/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:31:51] INFO:   第 23/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:32:03] INFO:   第 24/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:32:15] INFO:   第 25/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:32:38] INFO:   第 26/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:32:50] INFO:   第 27/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:33:30] INFO:   第 28/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:33:43] INFO:   第 29/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:34:00] INFO:   第 30/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:34:40] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 00:34:40] INFO:   進度: 30/224 頁 (PaddleOCR: 0, 百度: 31)
+[2026-02-26 00:34:40] INFO:   第 31/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:34:54] INFO:   第 32/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:35:10] INFO:   第 33/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:35:28] INFO:   第 34/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:35:38] INFO:   第 35/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:36:14] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 00:36:15] INFO:   第 36/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:36:53] INFO:   第 37/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:37:10] INFO:   第 38/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:37:49] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 00:37:50] INFO:   第 39/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:38:09] INFO:   第 40/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:38:46] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 00:38:46] INFO:   進度: 40/224 頁 (PaddleOCR: 0, 百度: 38)
+[2026-02-26 00:38:47] INFO:   第 41/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:39:01] INFO:   第 42/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:39:18] INFO:   第 43/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:39:43] INFO:   第 44/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:39:55] INFO:   第 45/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:40:39] INFO:   第 46/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:40:56] INFO:   第 47/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:41:32] INFO:   第 48/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:41:42] INFO:   第 49/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:41:55] INFO:   第 50/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:42:30] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 00:42:30] INFO:   進度: 50/224 頁 (PaddleOCR: 0, 百度: 47)
+[2026-02-26 00:42:30] INFO:   第 51/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:42:41] INFO:   第 52/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:42:58] INFO:   第 53/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:43:12] INFO:   第 54/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:43:29] INFO:   第 55/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:44:05] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 00:44:07] INFO:   第 56/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:44:21] INFO:   第 57/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:44:38] INFO:   第 58/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:45:01] INFO:   第 59/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:45:22] INFO:   第 60/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:45:41] INFO:   進度: 60/224 頁 (PaddleOCR: 0, 百度: 56)
+[2026-02-26 00:45:41] INFO:   第 61/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:45:52] INFO:   第 62/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:46:25] INFO:   第 63/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:46:51] INFO:   第 64/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:47:06] INFO:   第 65/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:47:35] INFO:   第 66/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:48:09] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 00:48:10] INFO:   第 67/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:48:48] INFO:   第 68/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:49:04] INFO:   第 69/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:49:19] INFO:   第 70/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:49:30] INFO:   進度: 70/224 頁 (PaddleOCR: 0, 百度: 65)
+[2026-02-26 00:49:31] INFO:   第 71/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:49:44] INFO:   第 72/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:50:03] INFO:   第 73/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:50:16] INFO:   第 74/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:50:34] INFO:   第 75/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:50:47] INFO:   第 76/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:50:59] INFO:   第 77/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:51:22] INFO:   第 78/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:51:36] INFO:   第 79/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:51:47] INFO:   第 80/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:51:59] INFO:   進度: 80/224 頁 (PaddleOCR: 0, 百度: 75)
+[2026-02-26 00:51:59] INFO:   第 81/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:52:14] INFO:   第 82/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:52:33] INFO:   第 83/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:52:45] INFO:   第 84/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:53:04] INFO:   第 85/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:53:27] INFO:   第 86/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:53:48] INFO:   第 87/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:53:58] INFO:   第 88/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:54:14] INFO:   第 89/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:54:47] INFO:   第 90/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:55:01] INFO:   進度: 90/224 頁 (PaddleOCR: 0, 百度: 85)
+[2026-02-26 00:55:03] INFO:   第 91/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:55:20] INFO:   第 92/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:55:37] INFO:   第 93/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:56:04] INFO:   第 94/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:56:19] INFO:   第 95/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:56:25] INFO:   第 96/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:56:52] INFO:   第 97/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:57:11] INFO:   第 98/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:57:28] INFO:   第 99/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:57:43] INFO:   第 100/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:57:56] INFO:   進度: 100/224 頁 (PaddleOCR: 0, 百度: 95)
+[2026-02-26 00:57:57] INFO:   第 101/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:58:07] INFO:   第 102/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:58:35] INFO:   第 103/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:59:00] INFO:   第 104/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:59:32] INFO:   第 105/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 00:59:43] INFO:   第 106/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:00:13] INFO:   第 107/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:00:51] INFO:   第 108/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:01:19] INFO:   第 109/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:01:57] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 01:01:58] INFO:   第 110/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:02:40] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 01:02:40] INFO:   進度: 110/224 頁 (PaddleOCR: 0, 百度: 103)
+[2026-02-26 01:02:41] INFO:   第 111/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:02:46] INFO:   第 112/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:02:56] INFO:   第 113/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:03:26] INFO:   第 114/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:03:58] INFO:   第 115/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:04:12] INFO:   第 116/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:04:46] INFO:   第 117/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:04:57] INFO:   第 118/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:05:43] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 01:05:44] INFO:   第 119/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:06:01] INFO:   第 120/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:06:16] INFO:   進度: 120/224 頁 (PaddleOCR: 0, 百度: 112)
+[2026-02-26 01:06:17] INFO:   第 121/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:06:31] INFO:   第 122/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:06:48] INFO:   第 123/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:07:03] INFO:   第 124/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:07:27] INFO:   第 125/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:07:43] INFO:   第 126/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:08:08] INFO:   第 127/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:08:33] INFO:   第 128/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:08:42] INFO:   第 129/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:08:54] INFO:   第 130/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:09:07] INFO:   進度: 130/224 頁 (PaddleOCR: 0, 百度: 122)
+[2026-02-26 01:09:08] INFO:   第 131/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:09:33] INFO:   第 132/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:10:12] INFO:   第 133/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:10:23] INFO:   第 134/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:10:43] INFO:   第 135/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:11:00] INFO:   第 136/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:11:14] INFO:   第 137/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:11:35] INFO:   第 138/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:11:55] INFO:   第 139/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:12:08] INFO:   第 140/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:12:19] INFO:   進度: 140/224 頁 (PaddleOCR: 0, 百度: 132)
+[2026-02-26 01:12:19] INFO:   第 141/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:12:31] INFO:   第 142/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:12:45] INFO:   第 143/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:13:00] INFO:   第 144/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:13:14] INFO:   第 145/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:13:27] INFO:   第 146/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:13:42] INFO:   第 147/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:14:08] INFO:   第 148/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:14:27] INFO:   第 149/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:14:52] INFO:   第 150/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:15:21] INFO:   進度: 150/224 頁 (PaddleOCR: 0, 百度: 142)
+[2026-02-26 01:15:22] INFO:   第 151/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:15:45] INFO:   第 152/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:15:54] INFO:   第 153/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:16:36] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 01:16:37] INFO:   第 154/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:16:54] INFO:   第 155/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:17:04] INFO:   第 156/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:17:17] INFO:   第 157/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:17:27] INFO:   第 158/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:17:39] INFO:   第 159/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:17:50] INFO:   第 160/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:18:26] INFO:   進度: 160/224 頁 (PaddleOCR: 0, 百度: 151)
+[2026-02-26 01:18:26] INFO:   第 161/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:18:41] INFO:   第 162/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:18:57] INFO:   第 163/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:19:45] ERROR:   百度 OCR 異常: ('Connection aborted.', TimeoutError('The write operation timed out'))
+[2026-02-26 01:19:45] INFO:   第 164/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:19:57] INFO:   第 165/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:20:18] INFO:   第 166/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:20:26] INFO:   第 167/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:20:36] INFO:   第 168/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:20:51] INFO:   第 169/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:21:13] INFO:   第 170/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:21:23] INFO:   進度: 170/224 頁 (PaddleOCR: 0, 百度: 160)
+[2026-02-26 01:21:23] INFO:   第 171/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:21:34] INFO:   第 172/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:22:05] INFO:   第 173/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:22:16] INFO:   第 174/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:22:40] INFO:   第 175/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:22:55] INFO:   第 176/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:23:04] INFO:   第 177/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:23:21] INFO:   第 178/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:23:32] INFO:   第 179/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:23:43] INFO:   第 180/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:23:50] INFO:   進度: 180/224 頁 (PaddleOCR: 0, 百度: 170)
+[2026-02-26 01:23:51] INFO:   第 181/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:24:11] INFO:   第 182/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:24:26] INFO:   第 183/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:24:41] INFO:   第 184/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:24:59] INFO:   第 185/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:25:24] INFO:   第 186/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:25:51] INFO:   第 187/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:26:00] INFO:   第 188/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:26:10] INFO:   第 189/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:26:31] INFO:   第 190/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:26:41] INFO:   進度: 190/224 頁 (PaddleOCR: 0, 百度: 180)
+[2026-02-26 01:26:41] INFO:   第 191/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:26:53] INFO:   第 192/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:27:02] INFO:   第 193/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:27:14] INFO:   第 194/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:27:42] INFO:   第 195/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:27:50] INFO:   第 196/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:28:07] INFO:   第 197/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:28:18] INFO:   第 198/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:28:31] INFO:   第 199/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:28:38] INFO:   第 200/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:29:00] INFO:   進度: 200/224 頁 (PaddleOCR: 0, 百度: 190)
+[2026-02-26 01:29:00] INFO:   第 201/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:29:11] INFO:   第 202/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:29:29] INFO:   第 203/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:29:58] INFO:   第 204/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:30:09] INFO:   第 205/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:30:18] INFO:   第 206/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:30:53] INFO:   第 207/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:31:12] INFO:   第 208/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:31:26] INFO:   第 209/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:31:51] INFO:   第 210/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:32:05] INFO:   進度: 210/224 頁 (PaddleOCR: 0, 百度: 200)
+[2026-02-26 01:32:05] INFO:   第 211/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:32:33] INFO:   第 212/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:32:44] INFO:   第 213/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:32:54] INFO:   第 214/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:33:07] INFO:   第 215/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:33:27] INFO:   第 216/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:33:41] INFO:   第 217/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:34:05] INFO:   第 218/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:34:30] INFO:   第 219/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:34:39] INFO:   第 220/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:34:50] INFO:   進度: 220/224 頁 (PaddleOCR: 0, 百度: 210)
+[2026-02-26 01:34:51] INFO:   第 221/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:35:13] INFO:   第 222/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:35:24] INFO:   第 223/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:35:30] INFO:   第 224/224 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:35:35] INFO:   進度: 224/224 頁 (PaddleOCR: 0, 百度: 214)
+[2026-02-26 01:35:35] OK: [2021] 完成 OCR: 2021_中国法院2021年度案例：保险纠纷.md (224/224 頁)
+[2026-02-26 01:35:35] INFO: 
+[2026-02-26 01:35:35] INFO: ==================================================
+[2026-02-26 01:35:35] INFO: OCR 全部完成
+[2026-02-26 01:35:35] INFO: 百度 OCR 本次使用: 192 次
+[2026-02-26 01:36:03] INFO: ==================================================
+[2026-02-26 01:36:03] INFO: OCR 掃描判決 PDF 開始
+[2026-02-26 01:36:03] INFO: ==================================================
+[2026-02-26 01:36:03] INFO: PaddleOCR: 已跳過 (--no-paddle)
+[2026-02-26 01:36:03] INFO: 百度 OCR: 可用
+[2026-02-26 01:36:03] INFO: [2024] 開始 OCR: 15.保险纠纷.pdf
+[2026-02-26 01:36:03] INFO:   總頁數: 324, 從第 1 頁開始, 目標到第 324 頁
+[2026-02-26 01:36:03] INFO:   第 1/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:36:07] INFO:   第 2/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:36:15] INFO:   第 3/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:36:24] INFO:   第 4/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:36:33] INFO:   第 5/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:36:43] INFO:   第 6/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:36:57] INFO:   第 7/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:37:03] INFO:   第 8/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:37:07] INFO:   第 9/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:37:18] INFO:   第 10/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:37:27] INFO:   進度: 10/324 頁 (PaddleOCR: 0, 百度: 10)
+[2026-02-26 01:37:28] INFO:   第 11/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:37:36] INFO:   第 12/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:37:45] INFO:   第 13/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:38:03] INFO:   第 14/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:38:11] INFO:   第 15/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:38:19] INFO:   第 16/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:38:23] INFO:   第 17/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:38:30] INFO:   第 18/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:38:40] INFO:   第 19/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:39:06] INFO:   第 20/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:39:18] INFO:   進度: 20/324 頁 (PaddleOCR: 0, 百度: 20)
+[2026-02-26 01:39:19] INFO:   第 21/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:39:33] INFO:   第 22/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:39:47] INFO:   第 23/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:40:08] INFO:   第 24/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:40:39] INFO:   第 25/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:40:51] INFO:   第 26/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:41:17] INFO:   第 27/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:41:52] INFO:   第 28/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:42:04] INFO:   第 29/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:42:14] INFO:   第 30/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:42:27] INFO:   進度: 30/324 頁 (PaddleOCR: 0, 百度: 30)
+[2026-02-26 01:42:27] INFO:   第 31/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:42:33] INFO:   第 32/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:43:02] INFO:   第 33/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:43:27] INFO:   第 34/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:43:40] INFO:   第 35/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:43:47] INFO:   第 36/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:43:56] INFO:   第 37/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:44:09] INFO:   第 38/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:44:28] INFO:   第 39/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:44:43] INFO:   第 40/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:44:54] INFO:   進度: 40/324 頁 (PaddleOCR: 0, 百度: 40)
+[2026-02-26 01:44:55] INFO:   第 41/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:45:05] INFO:   第 42/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:45:14] INFO:   第 43/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:45:36] INFO:   第 44/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:45:51] INFO:   第 45/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:46:02] INFO:   第 46/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:46:11] INFO:   第 47/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:46:30] INFO:   第 48/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:46:43] INFO:   第 49/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:46:58] INFO:   第 50/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:47:10] INFO:   進度: 50/324 頁 (PaddleOCR: 0, 百度: 50)
+[2026-02-26 01:47:11] INFO:   第 51/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:47:25] INFO:   第 52/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:47:41] INFO:   第 53/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:48:04] INFO:   第 54/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:48:31] INFO:   第 55/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:48:49] INFO:   第 56/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:48:58] INFO:   第 57/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:49:09] INFO:   第 58/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:49:19] INFO:   第 59/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:49:33] INFO:   第 60/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:49:44] INFO:   進度: 60/324 頁 (PaddleOCR: 0, 百度: 60)
+[2026-02-26 01:49:45] INFO:   第 61/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:49:52] INFO:   第 62/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:50:07] INFO:   第 63/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:50:18] INFO:   第 64/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:50:28] INFO:   第 65/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:50:37] INFO:   第 66/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:50:50] INFO:   第 67/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:51:16] INFO:   第 68/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:51:32] INFO:   第 69/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:51:57] INFO:   第 70/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:52:08] INFO:   進度: 70/324 頁 (PaddleOCR: 0, 百度: 70)
+[2026-02-26 01:52:08] INFO:   第 71/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:52:30] INFO:   第 72/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:52:44] INFO:   第 73/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:52:56] INFO:   第 74/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:53:08] INFO:   第 75/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:53:17] INFO:   第 76/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:53:28] INFO:   第 77/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:53:39] INFO:   第 78/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:53:49] INFO:   第 79/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:54:01] INFO:   第 80/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:54:16] INFO:   進度: 80/324 頁 (PaddleOCR: 0, 百度: 80)
+[2026-02-26 01:54:16] INFO:   第 81/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:54:28] INFO:   第 82/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:54:38] INFO:   第 83/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:54:47] INFO:   第 84/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:54:56] INFO:   第 85/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:55:05] INFO:   第 86/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:55:23] INFO:   第 87/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:55:49] INFO:   第 88/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:55:58] INFO:   第 89/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:56:05] INFO:   第 90/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:56:25] INFO:   進度: 90/324 頁 (PaddleOCR: 0, 百度: 90)
+[2026-02-26 01:56:25] INFO:   第 91/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:56:38] INFO:   第 92/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:56:50] INFO:   第 93/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:57:02] INFO:   第 94/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:57:14] INFO:   第 95/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:57:25] INFO:   第 96/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:57:34] INFO:   第 97/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:57:45] INFO:   第 98/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:58:21] INFO:   第 99/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:58:34] INFO:   第 100/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:58:45] INFO:   進度: 100/324 頁 (PaddleOCR: 0, 百度: 100)
+[2026-02-26 01:58:46] INFO:   第 101/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:58:58] INFO:   第 102/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:59:09] INFO:   第 103/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:59:18] INFO:   第 104/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:59:30] INFO:   第 105/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 01:59:49] INFO:   第 106/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:00:02] INFO:   第 107/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:00:10] INFO:   第 108/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:00:20] INFO:   第 109/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:00:38] INFO:   第 110/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:00:50] INFO:   進度: 110/324 頁 (PaddleOCR: 0, 百度: 110)
+[2026-02-26 02:00:51] INFO:   第 111/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:01:02] INFO:   第 112/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:01:10] INFO:   第 113/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:01:30] INFO:   第 114/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:01:41] INFO:   第 115/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:02:01] INFO:   第 116/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:02:13] INFO:   第 117/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:02:25] INFO:   第 118/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:02:38] INFO:   第 119/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:02:50] INFO:   第 120/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:03:00] INFO:   進度: 120/324 頁 (PaddleOCR: 0, 百度: 120)
+[2026-02-26 02:03:02] INFO:   第 121/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:03:22] INFO:   第 122/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:03:30] INFO:   第 123/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:03:43] INFO:   第 124/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:04:02] INFO:   第 125/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:04:15] INFO:   第 126/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:04:19] INFO:   第 127/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:04:28] INFO:   第 128/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:04:43] INFO:   第 129/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:04:54] INFO:   第 130/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:05:04] INFO:   進度: 130/324 頁 (PaddleOCR: 0, 百度: 130)
+[2026-02-26 02:05:04] INFO:   第 131/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:05:14] INFO:   第 132/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:05:25] INFO:   第 133/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:05:31] INFO:   第 134/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:05:41] INFO:   第 135/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:05:52] INFO:   第 136/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:06:03] INFO:   第 137/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:06:16] INFO:   第 138/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:06:40] INFO:   第 139/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:06:55] INFO:   第 140/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:07:00] INFO:   進度: 140/324 頁 (PaddleOCR: 0, 百度: 140)
+[2026-02-26 02:07:01] INFO:   第 141/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:07:14] INFO:   第 142/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:07:25] INFO:   第 143/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:07:36] INFO:   第 144/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:07:48] INFO:   第 145/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:07:54] INFO:   第 146/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:08:07] INFO:   第 147/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:08:32] INFO:   第 148/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:08:42] INFO:   第 149/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:08:57] INFO:   第 150/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:09:04] INFO:   進度: 150/324 頁 (PaddleOCR: 0, 百度: 150)
+[2026-02-26 02:09:05] INFO:   第 151/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:09:17] INFO:   第 152/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:09:29] INFO:   第 153/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:09:53] INFO:   第 154/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:10:14] INFO:   第 155/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:10:21] INFO:   第 156/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:10:37] INFO:   第 157/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:10:48] INFO:   第 158/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:10:58] INFO:   第 159/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:11:10] INFO:   第 160/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:11:18] INFO:   進度: 160/324 頁 (PaddleOCR: 0, 百度: 160)
+[2026-02-26 02:11:19] INFO:   第 161/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:11:40] INFO:   第 162/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:11:57] INFO:   第 163/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:12:18] INFO:   第 164/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:12:26] INFO:   第 165/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:12:37] INFO:   第 166/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:12:44] INFO:   第 167/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:12:54] INFO:   第 168/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:13:14] INFO:   第 169/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:13:24] INFO:   第 170/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:13:33] INFO:   進度: 170/324 頁 (PaddleOCR: 0, 百度: 170)
+[2026-02-26 02:13:33] INFO:   第 171/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:13:41] INFO:   第 172/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:14:04] INFO:   第 173/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:14:25] INFO:   第 174/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:14:35] INFO:   第 175/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:14:42] INFO:   第 176/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:14:49] INFO:   第 177/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:14:57] INFO:   第 178/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:15:07] INFO:   第 179/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:15:37] INFO:   第 180/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:15:44] INFO:   進度: 180/324 頁 (PaddleOCR: 0, 百度: 180)
+[2026-02-26 02:15:45] INFO:   第 181/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:15:55] INFO:   第 182/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:16:06] INFO:   第 183/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:16:16] INFO:   第 184/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:16:22] INFO:   第 185/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:16:39] INFO:   第 186/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:16:50] INFO:   第 187/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:17:00] INFO:   第 188/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:17:06] INFO:   第 189/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:17:11] INFO:   第 190/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:17:22] INFO:   進度: 190/324 頁 (PaddleOCR: 0, 百度: 190)
+[2026-02-26 02:17:22] INFO:   第 191/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:17:31] INFO:   第 192/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:17:39] INFO:   第 193/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:17:49] INFO:   第 194/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:18:10] INFO:   第 195/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:18:17] INFO:   第 196/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:18:27] INFO:   第 197/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:18:36] INFO:   第 198/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:18:46] INFO:   第 199/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:19:27] ERROR:   百度 OCR 異常: HTTPSConnectionPool(host='aip.baidubce.com', port=443): Read timed out. (read timeout=30)
+[2026-02-26 02:19:28] INFO:   第 200/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:19:38] INFO:   進度: 200/324 頁 (PaddleOCR: 0, 百度: 199)
+[2026-02-26 02:19:39] INFO:   第 201/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:19:43] INFO:   第 202/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:19:51] INFO:   第 203/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:20:01] INFO:   第 204/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:20:13] INFO:   第 205/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:20:22] INFO:   第 206/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:20:28] INFO:   第 207/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:20:44] INFO:   第 208/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:21:02] INFO:   第 209/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:21:14] INFO:   第 210/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:21:24] INFO:   進度: 210/324 頁 (PaddleOCR: 0, 百度: 209)
+[2026-02-26 02:21:24] INFO:   第 211/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:21:41] INFO:   第 212/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:21:51] INFO:   第 213/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:22:02] INFO:   第 214/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:22:13] INFO:   第 215/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:22:23] INFO:   第 216/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:22:34] INFO:   第 217/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:22:42] INFO:   第 218/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:22:53] INFO:   第 219/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:23:04] INFO:   第 220/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:23:12] INFO:   進度: 220/324 頁 (PaddleOCR: 0, 百度: 219)
+[2026-02-26 02:23:13] INFO:   第 221/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:23:25] INFO:   第 222/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:23:41] INFO:   第 223/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:23:46] INFO:   第 224/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:23:53] INFO:   第 225/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:24:02] INFO:   第 226/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:24:13] INFO:   第 227/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:24:25] INFO:   第 228/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:24:35] INFO:   第 229/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:24:45] INFO:   第 230/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:25:04] INFO:   進度: 230/324 頁 (PaddleOCR: 0, 百度: 229)
+[2026-02-26 02:25:05] INFO:   第 231/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:25:11] INFO:   第 232/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:25:21] INFO:   第 233/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:25:32] INFO:   第 234/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:25:38] INFO:   第 235/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:25:45] INFO:   第 236/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:25:54] INFO:   第 237/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:26:04] INFO:   第 238/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:26:14] INFO:   第 239/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:26:23] INFO:   第 240/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:26:29] INFO:   進度: 240/324 頁 (PaddleOCR: 0, 百度: 239)
+[2026-02-26 02:26:30] INFO:   第 241/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:26:46] INFO:   第 242/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:26:57] INFO:   第 243/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:27:10] INFO:   第 244/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:27:32] INFO:   第 245/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:27:42] INFO:   第 246/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:27:53] INFO:   第 247/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:28:07] INFO:   第 248/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:28:28] INFO:   第 249/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:28:35] INFO:   第 250/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:28:47] INFO:   進度: 250/324 頁 (PaddleOCR: 0, 百度: 249)
+[2026-02-26 02:28:51] INFO:   第 251/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:29:12] INFO:   第 252/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:29:31] INFO:   第 253/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:29:50] INFO:   第 254/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:30:10] INFO:   第 255/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:30:34] INFO:   第 256/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:30:54] INFO:   第 257/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:31:19] INFO:   第 258/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:31:46] INFO:   第 259/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:32:04] INFO:   第 260/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:32:14] INFO:   進度: 260/324 頁 (PaddleOCR: 0, 百度: 259)
+[2026-02-26 02:32:18] INFO:   第 261/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:32:37] INFO:   第 262/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:32:57] INFO:   第 263/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:33:08] INFO:   第 264/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:33:21] INFO:   第 265/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:33:33] INFO:   第 266/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:33:42] INFO:   第 267/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:34:02] INFO:   第 268/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:34:24] INFO:   第 269/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:34:33] INFO:   第 270/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:34:43] INFO:   進度: 270/324 頁 (PaddleOCR: 0, 百度: 269)
+[2026-02-26 02:34:44] INFO:   第 271/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:34:56] INFO:   第 272/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:35:20] INFO:   第 273/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:35:58] INFO:   第 274/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:36:21] INFO:   第 275/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:36:35] INFO:   第 276/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:37:01] INFO:   第 277/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:37:13] INFO:   第 278/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:37:23] INFO:   第 279/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:37:32] INFO:   第 280/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:37:43] INFO:   進度: 280/324 頁 (PaddleOCR: 0, 百度: 279)
+[2026-02-26 02:37:48] INFO:   第 281/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:38:05] INFO:   第 282/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:38:19] INFO:   第 283/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:38:37] INFO:   第 284/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:38:50] INFO:   第 285/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:39:07] INFO:   第 286/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:39:26] INFO:   第 287/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:39:39] INFO:   第 288/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:39:58] INFO:   第 289/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:40:15] INFO:   第 290/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:40:27] INFO:   進度: 290/324 頁 (PaddleOCR: 0, 百度: 289)
+[2026-02-26 02:40:29] INFO:   第 291/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:40:43] INFO:   第 292/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:40:56] INFO:   第 293/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:41:11] INFO:   第 294/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:41:25] INFO:   第 295/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:41:38] INFO:   第 296/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:41:44] INFO:   第 297/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:41:54] INFO:   第 298/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:42:03] INFO:   第 299/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:42:16] INFO:   第 300/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:42:28] INFO:   進度: 300/324 頁 (PaddleOCR: 0, 百度: 299)
+[2026-02-26 02:42:29] INFO:   第 301/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:42:35] INFO:   第 302/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:42:48] INFO:   第 303/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:42:57] INFO:   第 304/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:43:12] INFO:   第 305/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:43:22] INFO:   第 306/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:43:35] INFO:   第 307/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:43:48] INFO:   第 308/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:44:02] INFO:   第 309/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:44:14] INFO:   第 310/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:44:25] INFO:   進度: 310/324 頁 (PaddleOCR: 0, 百度: 309)
+[2026-02-26 02:44:28] INFO:   第 311/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:44:39] INFO:   第 312/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:44:54] INFO:   第 313/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:45:04] INFO:   第 314/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:45:18] INFO:   第 315/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:45:34] INFO:   第 316/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:45:46] INFO:   第 317/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:45:59] INFO:   第 318/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:46:11] INFO:   第 319/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:46:24] INFO:   第 320/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:46:36] INFO:   進度: 320/324 頁 (PaddleOCR: 0, 百度: 319)
+[2026-02-26 02:46:37] INFO:   第 321/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:46:45] INFO:   第 322/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:46:59] INFO:   第 323/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:47:11] INFO:   第 324/324 頁: PaddleOCR 信心度 0.00, 切換百度 OCR
+[2026-02-26 02:47:16] INFO:   進度: 324/324 頁 (PaddleOCR: 0, 百度: 323)
+[2026-02-26 02:47:16] OK: [2024] 完成 OCR: 2024_15.保险纠纷.md (324/324 頁)
+[2026-02-26 02:47:16] INFO: 
+[2026-02-26 02:47:16] INFO: ==================================================
+[2026-02-26 02:47:16] INFO: OCR 全部完成
+[2026-02-26 02:47:16] INFO: 百度 OCR 本次使用: 323 次

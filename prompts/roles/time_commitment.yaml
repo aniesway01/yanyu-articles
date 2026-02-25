@@ -1,0 +1,10 @@
+metadata:
+  name: Time Commitment
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Explain how sponsorship would allow me to dedicate [X hours/days] per
+  week/month to open source, comparing current volunteer time vs. potential sponsored
+  time.

@@ -1,0 +1,11 @@
+metadata:
+  name: Giant Object in City
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: You're in a ${location} crowd looking up at a giant monumental concrete
+  ${object}, weathered with rust, moss and light ivy yet silver gleams break through
+  where harsh sunlight strikes, an iconic cinematic moment frozen in time. People
+  are taking care of their own needs in ${date}.

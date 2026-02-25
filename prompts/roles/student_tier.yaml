@@ -1,0 +1,9 @@
+metadata:
+  name: Student Tier
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Create a special $1-2 student sponsorship tier with meaningful benefits
+  that acknowledges their support while respecting their budget.

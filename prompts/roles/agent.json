@@ -1,0 +1,2646 @@
+{
+    "3d_character_render_in_high-end_disney_pixar_style.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/3d_character_render_in_high-end_disney_pixar_style.yaml",
+        "type": "file"
+    },
+    "3d_city_prompt.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/3d_city_prompt.yaml",
+        "type": "file"
+    },
+    "3d_fps_game.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/3d_fps_game.yaml",
+        "type": "file"
+    },
+    "3d_isometric_miniature_diorama.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/3d_isometric_miniature_diorama.yaml",
+        "type": "file"
+    },
+    "3d_racing_game.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/3d_racing_game.yaml",
+        "type": "file"
+    },
+    "3d_space_explorer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/3d_space_explorer.yaml",
+        "type": "file"
+    },
+    "500hour_ai_consultant_prompt.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/500hour_ai_consultant_prompt.yaml",
+        "type": "file"
+    },
+    "a_clay-crafted_city_mini_city_name_world.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/a_clay-crafted_city_mini_city_name_world.yaml",
+        "type": "file"
+    },
+    "a_half-built_pyramid_and_the_leader_who_turned_labor_into_legacy.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/a_half-built_pyramid_and_the_leader_who_turned_labor_into_legacy.yaml",
+        "type": "file"
+    },
+    "a_moment_shared_with_the_wild.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/a_moment_shared_with_the_wild.yaml",
+        "type": "file"
+    },
+    "a_prompt_that_will_turn_your_photo_into_a_scene_from_a_cult_90s_movie.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/a_prompt_that_will_turn_your_photo_into_a_scene_from_a_cult_90s_movie.yaml",
+        "type": "file"
+    },
+    "a_three-panel_monochromatic_image.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/a_three-panel_monochromatic_image.yaml",
+        "type": "file"
+    },
+    "a_wrinkle_in_time.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/a_wrinkle_in_time.yaml",
+        "type": "file"
+    },
+    "academic_graduation_presentation_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/academic_graduation_presentation_guide.yaml",
+        "type": "file"
+    },
+    "academic_text_refinement_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/academic_text_refinement_assistant.yaml",
+        "type": "file"
+    },
+    "academician.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/academician.yaml",
+        "type": "file"
+    },
+    "accessibility_auditor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/accessibility_auditor.yaml",
+        "type": "file"
+    },
+    "accountant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/accountant.yaml",
+        "type": "file"
+    },
+    "acoustic_guitar_composer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/acoustic_guitar_composer.yaml",
+        "type": "file"
+    },
+    "act_as_a_conversational_ai.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/act_as_a_conversational_ai.yaml",
+        "type": "file"
+    },
+    "act_as_a_health_recovery_and_weight_loss_specialist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/act_as_a_health_recovery_and_weight_loss_specialist.yaml",
+        "type": "file"
+    },
+    "act_as_a_patient_non-technical_android_studio_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/act_as_a_patient_non-technical_android_studio_guide.yaml",
+        "type": "file"
+    },
+    "act_as_a_product_manager.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/act_as_a_product_manager.yaml",
+        "type": "file"
+    },
+    "act_as_a_senior_research_paper_evaluator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/act_as_a_senior_research_paper_evaluator.yaml",
+        "type": "file"
+    },
+    "act_as_an_etsy_niche_product_researcher.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/act_as_an_etsy_niche_product_researcher.yaml",
+        "type": "file"
+    },
+    "adjust_minecraft_server_spawn_rate_with_opencode_cli.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/adjust_minecraft_server_spawn_rate_with_opencode_cli.yaml",
+        "type": "file"
+    },
+    "advanced_color_picker_tool.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/advanced_color_picker_tool.yaml",
+        "type": "file"
+    },
+    "advertiser.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/advertiser.yaml",
+        "type": "file"
+    },
+    "ai2sql_sql_model__query_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai2sql_sql_model__query_generator.yaml",
+        "type": "file"
+    },
+    "ai_agent_security_evaluation_checklist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_agent_security_evaluation_checklist.yaml",
+        "type": "file"
+    },
+    "ai_assisted_doctor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_assisted_doctor.yaml",
+        "type": "file"
+    },
+    "ai_customer_support_specialist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_customer_support_specialist.yaml",
+        "type": "file"
+    },
+    "ai_face_swapping_for_e-commerce_personalization.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_face_swapping_for_e-commerce_personalization.yaml",
+        "type": "file"
+    },
+    "ai_for_casino_list_and_profit_simulation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_for_casino_list_and_profit_simulation.yaml",
+        "type": "file"
+    },
+    "ai_new.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_new.yaml",
+        "type": "file"
+    },
+    "ai_stocks_investment_helper.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_stocks_investment_helper.yaml",
+        "type": "file"
+    },
+    "ai_themed_design_image_creation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_themed_design_image_creation.yaml",
+        "type": "file"
+    },
+    "ai_tour_guide_business_plan_for_foreign_tourists_in_china.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_tour_guide_business_plan_for_foreign_tourists_in_china.yaml",
+        "type": "file"
+    },
+    "ai_trying_to_escape_the_box.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_trying_to_escape_the_box.yaml",
+        "type": "file"
+    },
+    "ai_video_creation_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_video_creation_assistant.yaml",
+        "type": "file"
+    },
+    "ai_writing_tutor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ai_writing_tutor.yaml",
+        "type": "file"
+    },
+    "algorithm_analysis_and_improvement_advisor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/algorithm_analysis_and_improvement_advisor.yaml",
+        "type": "file"
+    },
+    "algorithm_quick_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/algorithm_quick_guide.yaml",
+        "type": "file"
+    },
+    "analyse_énergétique_avec_dju_consommation_et_coûts.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/analyse_énergétique_avec_dju_consommation_et_coûts.yaml",
+        "type": "file"
+    },
+    "analyze_pdf_and_create_matlab_code.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/analyze_pdf_and_create_matlab_code.yaml",
+        "type": "file"
+    },
+    "analyze_previous_year_question_papers.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/analyze_previous_year_question_papers.yaml",
+        "type": "file"
+    },
+    "android_update_checker_script_for_pydroid_3.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/android_update_checker_script_for_pydroid_3.yaml",
+        "type": "file"
+    },
+    "announce_milestone.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/announce_milestone.yaml",
+        "type": "file"
+    },
+    "annual_leave_balance_adjustment_processor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/annual_leave_balance_adjustment_processor.yaml",
+        "type": "file"
+    },
+    "any_programming_language_to_python_converter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/any_programming_language_to_python_converter.yaml",
+        "type": "file"
+    },
+    "aphorism_book.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/aphorism_book.yaml",
+        "type": "file"
+    },
+    "app_store_submission_agent.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/app_store_submission_agent.yaml",
+        "type": "file"
+    },
+    "aprendizaje_diario_de_japonés.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/aprendizaje_diario_de_japonés.yaml",
+        "type": "file"
+    },
+    "architect_guide_for_programmers.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/architect_guide_for_programmers.yaml",
+        "type": "file"
+    },
+    "architectural_expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/architectural_expert.yaml",
+        "type": "file"
+    },
+    "architectural_sketch__markup_overlay.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/architectural_sketch__markup_overlay.yaml",
+        "type": "file"
+    },
+    "architectural_study_sheet_historic_site_name.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/architectural_study_sheet_historic_site_name.yaml",
+        "type": "file"
+    },
+    "arista_network_configuration_expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/arista_network_configuration_expert.yaml",
+        "type": "file"
+    },
+    "article_summary_and_comprehension.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/article_summary_and_comprehension.yaml",
+        "type": "file"
+    },
+    "artist_advisor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/artist_advisor.yaml",
+        "type": "file"
+    },
+    "ascii_artist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ascii_artist.yaml",
+        "type": "file"
+    },
+    "asisten_serba_bisa_untuk_kebutuhan_harian.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/asisten_serba_bisa_untuk_kebutuhan_harian.yaml",
+        "type": "file"
+    },
+    "astrologer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/astrologer.yaml",
+        "type": "file"
+    },
+    "automobile_mechanic.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/automobile_mechanic.yaml",
+        "type": "file"
+    },
+    "autosar_software_module_developer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/autosar_software_module_developer.yaml",
+        "type": "file"
+    },
+    "ayurveda_food_tester.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ayurveda_food_tester.yaml",
+        "type": "file"
+    },
+    "babysitter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/babysitter.yaml",
+        "type": "file"
+    },
+    "bakery_merge_bounty_game_overview.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/bakery_merge_bounty_game_overview.yaml",
+        "type": "file"
+    },
+    "bank_transaction_analysis.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/bank_transaction_analysis.yaml",
+        "type": "file"
+    },
+    "banking_system_app_development_with_crud_operations.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/banking_system_app_development_with_crud_operations.yaml",
+        "type": "file"
+    },
+    "berre.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/berre.yaml",
+        "type": "file"
+    },
+    "biblical_translator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/biblical_translator.yaml",
+        "type": "file"
+    },
+    "black_and_white_studio_side-profile_portrait_prompt.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/black_and_white_studio_side-profile_portrait_prompt.yaml",
+        "type": "file"
+    },
+    "blender_object_maker.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/blender_object_maker.yaml",
+        "type": "file"
+    },
+    "blog_system_development_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/blog_system_development_guide.yaml",
+        "type": "file"
+    },
+    "book_summarizer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/book_summarizer.yaml",
+        "type": "file"
+    },
+    "break_down_costs.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/break_down_costs.yaml",
+        "type": "file"
+    },
+    "brsorndnsg.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/brsorndnsg.yaml",
+        "type": "file"
+    },
+    "buddha.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/buddha.yaml",
+        "type": "file"
+    },
+    "budget_tracker.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/budget_tracker.yaml",
+        "type": "file"
+    },
+    "bug-risk-analysis.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/bug-risk-analysis.yaml",
+        "type": "file"
+    },
+    "build_a_self-hosted_app_dashboard_with_nextjs.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/build_a_self-hosted_app_dashboard_with_nextjs.yaml",
+        "type": "file"
+    },
+    "build_an_advanced_music_app_for_android.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/build_an_advanced_music_app_for_android.yaml",
+        "type": "file"
+    },
+    "building_an_inventory_management_system.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/building_an_inventory_management_system.yaml",
+        "type": "file"
+    },
+    "car_navigation_system.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/car_navigation_system.yaml",
+        "type": "file"
+    },
+    "career_coach.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/career_coach.yaml",
+        "type": "file"
+    },
+    "career_counselor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/career_counselor.yaml",
+        "type": "file"
+    },
+    "career_path_deliberation_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/career_path_deliberation_assistant.yaml",
+        "type": "file"
+    },
+    "character.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/character.yaml",
+        "type": "file"
+    },
+    "chatgpt_prompt_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/chatgpt_prompt_generator.yaml",
+        "type": "file"
+    },
+    "cheap_travel_ticket_advisor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/cheap_travel_ticket_advisor.yaml",
+        "type": "file"
+    },
+    "chef.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/chef.yaml",
+        "type": "file"
+    },
+    "chemical_reactor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/chemical_reactor.yaml",
+        "type": "file"
+    },
+    "chess_game.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/chess_game.yaml",
+        "type": "file"
+    },
+    "chess_player.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/chess_player.yaml",
+        "type": "file"
+    },
+    "chief_executive_officer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/chief_executive_officer.yaml",
+        "type": "file"
+    },
+    "childrens_book_creator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/childrens_book_creator.yaml",
+        "type": "file"
+    },
+    "childrens_story_about_apples.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/childrens_story_about_apples.yaml",
+        "type": "file"
+    },
+    "childs_coloring_style.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/childs_coloring_style.yaml",
+        "type": "file"
+    },
+    "chimera_ai-powered_prompt_optimization_system.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/chimera_ai-powered_prompt_optimization_system.yaml",
+        "type": "file"
+    },
+    "chinese_hookah_training_program.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/chinese_hookah_training_program.yaml",
+        "type": "file"
+    },
+    "chinese_to_english_translation_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/chinese_to_english_translation_assistant.yaml",
+        "type": "file"
+    },
+    "christmas_poster_-_festive_holiday_scene.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/christmas_poster_-_festive_holiday_scene.yaml",
+        "type": "file"
+    },
+    "cicd_strategy_for_springboot_rest_apis_deployment.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/cicd_strategy_for_springboot_rest_apis_deployment.yaml",
+        "type": "file"
+    },
+    "cinematic_realism.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/cinematic_realism.yaml",
+        "type": "file"
+    },
+    "cinematic_vertical_portrait_of_vintage_car_radio_at_night.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/cinematic_vertical_portrait_of_vintage_car_radio_at_night.yaml",
+        "type": "file"
+    },
+    "classical_music_composer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/classical_music_composer.yaml",
+        "type": "file"
+    },
+    "clean_bibtex_formatter_for_academic_projects.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/clean_bibtex_formatter_for_academic_projects.yaml",
+        "type": "file"
+    },
+    "clean_clinic_portrait.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/clean_clinic_portrait.yaml",
+        "type": "file"
+    },
+    "code_review_agent.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/code_review_agent.yaml",
+        "type": "file"
+    },
+    "code_review_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/code_review_assistant.yaml",
+        "type": "file"
+    },
+    "code_reviewer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/code_reviewer.yaml",
+        "type": "file"
+    },
+    "code_snippet_manager.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/code_snippet_manager.yaml",
+        "type": "file"
+    },
+    "code_translator_any_language_to_any_language.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/code_translator_any_language_to_any_language.yaml",
+        "type": "file"
+    },
+    "coding_structure_with_mvc_and_solid_principles.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/coding_structure_with_mvc_and_solid_principles.yaml",
+        "type": "file"
+    },
+    "cold_start_safe_architecture.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/cold_start_safe_architecture.yaml",
+        "type": "file"
+    },
+    "college-level_integrative_project_proposal_draft.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/college-level_integrative_project_proposal_draft.yaml",
+        "type": "file"
+    },
+    "commentariat.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/commentariat.yaml",
+        "type": "file"
+    },
+    "commit_message_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/commit_message_generator.yaml",
+        "type": "file"
+    },
+    "compare_top_virtualization_solutions.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/compare_top_virtualization_solutions.yaml",
+        "type": "file"
+    },
+    "composer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/composer.yaml",
+        "type": "file"
+    },
+    "comprehensive_academic_paper_writing_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/comprehensive_academic_paper_writing_guide.yaml",
+        "type": "file"
+    },
+    "comprehensive_content_review_plan.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/comprehensive_content_review_plan.yaml",
+        "type": "file"
+    },
+    "comprehensive_devops_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/comprehensive_devops_guide.yaml",
+        "type": "file"
+    },
+    "comprehensive_image_analysis_report.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/comprehensive_image_analysis_report.yaml",
+        "type": "file"
+    },
+    "comprehensive_repository_analysis.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/comprehensive_repository_analysis.yaml",
+        "type": "file"
+    },
+    "comprehensive_repository_analysis_and_bug_fixing_framework.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/comprehensive_repository_analysis_and_bug_fixing_framework.yaml",
+        "type": "file"
+    },
+    "comprehensive_uiux_mobile_app_analysis.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/comprehensive_uiux_mobile_app_analysis.yaml",
+        "type": "file"
+    },
+    "comprehensive_user_manual_creation_for_multiple_modules.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/comprehensive_user_manual_creation_for_multiple_modules.yaml",
+        "type": "file"
+    },
+    "comprehensive_web_application_development_with_security_and_performance_optimization.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/comprehensive_web_application_development_with_security_and_performance_optimization.yaml",
+        "type": "file"
+    },
+    "continue_and_recap_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/continue_and_recap_assistant.yaml",
+        "type": "file"
+    },
+    "continue_coding_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/continue_coding_assistant.yaml",
+        "type": "file"
+    },
+    "conventional_commit_message_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/conventional_commit_message_generator.yaml",
+        "type": "file"
+    },
+    "corporate_studio_portrait_auto_outfit_for_menwomen.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/corporate_studio_portrait_auto_outfit_for_menwomen.yaml",
+        "type": "file"
+    },
+    "course_feedback_analysis.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/course_feedback_analysis.yaml",
+        "type": "file"
+    },
+    "cover_letter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/cover_letter.yaml",
+        "type": "file"
+    },
+    "cozy_christmas_smile.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/cozy_christmas_smile.yaml",
+        "type": "file"
+    },
+    "crear_un_retrato_familiar_combinando_dos_personas.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/crear_un_retrato_familiar_combinando_dos_personas.yaml",
+        "type": "file"
+    },
+    "create_a_cultural_superhero_movie_poster.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/create_a_cultural_superhero_movie_poster.yaml",
+        "type": "file"
+    },
+    "create_a_detailed_travel_itinerary_in_html_format.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/create_a_detailed_travel_itinerary_in_html_format.yaml",
+        "type": "file"
+    },
+    "create_a_new_greek_god.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/create_a_new_greek_god.yaml",
+        "type": "file"
+    },
+    "create_a_professional_bio.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/create_a_professional_bio.yaml",
+        "type": "file"
+    },
+    "create_project_spotlight.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/create_project_spotlight.yaml",
+        "type": "file"
+    },
+    "create_python_dev_container.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/create_python_dev_container.yaml",
+        "type": "file"
+    },
+    "create_skills_and_experience_markdown_file.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/create_skills_and_experience_markdown_file.yaml",
+        "type": "file"
+    },
+    "create_style_guidemd.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/create_style_guidemd.yaml",
+        "type": "file"
+    },
+    "creative_branding_strategist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/creative_branding_strategist.yaml",
+        "type": "file"
+    },
+    "creative_perks.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/creative_perks.yaml",
+        "type": "file"
+    },
+    "crypto_engagement_reply.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/crypto_engagement_reply.yaml",
+        "type": "file"
+    },
+    "crypto_market_outlook_analyst.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/crypto_market_outlook_analyst.yaml",
+        "type": "file"
+    },
+    "cryptocurrency_contract_trading_system.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/cryptocurrency_contract_trading_system.yaml",
+        "type": "file"
+    },
+    "cti_analyst_cybersecurity_project_support.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/cti_analyst_cybersecurity_project_support.yaml",
+        "type": "file"
+    },
+    "currency_exchange_calculator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/currency_exchange_calculator.yaml",
+        "type": "file"
+    },
+    "custom_health_membership_annual_summary.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/custom_health_membership_annual_summary.yaml",
+        "type": "file"
+    },
+    "custom_localization_and_ai_integration_for_apps.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/custom_localization_and_ai_integration_for_apps.yaml",
+        "type": "file"
+    },
+    "customizable_avatar_style_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/customizable_avatar_style_generator.yaml",
+        "type": "file"
+    },
+    "customizable_web_template_for_company_branding.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/customizable_web_template_for_company_branding.yaml",
+        "type": "file"
+    },
+    "customized_gift_idea_brainstorm_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/customized_gift_idea_brainstorm_assistant.yaml",
+        "type": "file"
+    },
+    "cyber_security_specialist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/cyber_security_specialist.yaml",
+        "type": "file"
+    },
+    "dark_style_image_prompt.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/dark_style_image_prompt.yaml",
+        "type": "file"
+    },
+    "darksynth_synthwave_music_composition_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/darksynth_synthwave_music_composition_guide.yaml",
+        "type": "file"
+    },
+    "data_analyst.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/data_analyst.yaml",
+        "type": "file"
+    },
+    "data_scientist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/data_scientist.yaml",
+        "type": "file"
+    },
+    "data_transformer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/data_transformer.yaml",
+        "type": "file"
+    },
+    "dax_terminal.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/dax_terminal.yaml",
+        "type": "file"
+    },
+    "debate_coach.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/debate_coach.yaml",
+        "type": "file"
+    },
+    "debater.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/debater.yaml",
+        "type": "file"
+    },
+    "decision_filter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/decision_filter.yaml",
+        "type": "file"
+    },
+    "deep-research-agent.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/deep-research-agent.yaml",
+        "type": "file"
+    },
+    "deep_copy_functionality.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/deep_copy_functionality.yaml",
+        "type": "file"
+    },
+    "default_meeting_summary.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/default_meeting_summary.yaml",
+        "type": "file"
+    },
+    "dentist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/dentist.yaml",
+        "type": "file"
+    },
+    "detailed_analysis_of_youtube_channels_databases_and_profiles.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/detailed_analysis_of_youtube_channels_databases_and_profiles.yaml",
+        "type": "file"
+    },
+    "detailed_image_generation_prompt_for_fashion_and_portrait_photography.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/detailed_image_generation_prompt_for_fashion_and_portrait_photography.yaml",
+        "type": "file"
+    },
+    "detailed_mirror-selfie_room_scene.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/detailed_mirror-selfie_room_scene.yaml",
+        "type": "file"
+    },
+    "develop_a_lazy_learner_software.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/develop_a_lazy_learner_software.yaml",
+        "type": "file"
+    },
+    "develop_a_notion_clone_application.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/develop_a_notion_clone_application.yaml",
+        "type": "file"
+    },
+    "developer_daily_report_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/developer_daily_report_generator.yaml",
+        "type": "file"
+    },
+    "developer_relations_consultant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/developer_relations_consultant.yaml",
+        "type": "file"
+    },
+    "developer_work_analysis_from_git_diff_and_commit_message.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/developer_work_analysis_from_git_diff_and_commit_message.yaml",
+        "type": "file"
+    },
+    "devops-architect.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/devops-architect.yaml",
+        "type": "file"
+    },
+    "devops_engineer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/devops_engineer.yaml",
+        "type": "file"
+    },
+    "diabetes_treatment_advisor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/diabetes_treatment_advisor.yaml",
+        "type": "file"
+    },
+    "diagram_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/diagram_generator.yaml",
+        "type": "file"
+    },
+    "dietitian.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/dietitian.yaml",
+        "type": "file"
+    },
+    "digital_art_gallery_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/digital_art_gallery_guide.yaml",
+        "type": "file"
+    },
+    "digital_product_ideas.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/digital_product_ideas.yaml",
+        "type": "file"
+    },
+    "digital_visiting_card_product_architect.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/digital_visiting_card_product_architect.yaml",
+        "type": "file"
+    },
+    "director_variation_grid_one_still_eight_auteur_re-shoots.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/director_variation_grid_one_still_eight_auteur_re-shoots.yaml",
+        "type": "file"
+    },
+    "diy_expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/diy_expert.yaml",
+        "type": "file"
+    },
+    "dizi_ve_film_özeti_çeviri_asistanı.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/dizi_ve_film_özeti_çeviri_asistanı.yaml",
+        "type": "file"
+    },
+    "django_unit_test_generator_for_viewsets.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/django_unit_test_generator_for_viewsets.yaml",
+        "type": "file"
+    },
+    "doctor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/doctor.yaml",
+        "type": "file"
+    },
+    "documentary_on_humanitarian__refugee_crises.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/documentary_on_humanitarian__refugee_crises.yaml",
+        "type": "file"
+    },
+    "doom_horror_death_image_simulator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/doom_horror_death_image_simulator.yaml",
+        "type": "file"
+    },
+    "double_exposure_portrait.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/double_exposure_portrait.yaml",
+        "type": "file"
+    },
+    "drawing_app.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/drawing_app.yaml",
+        "type": "file"
+    },
+    "dream_interpreter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/dream_interpreter.yaml",
+        "type": "file"
+    },
+    "drunk_person.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/drunk_person.yaml",
+        "type": "file"
+    },
+    "editorial_winter_posterstyle_multi-panel_collage_generation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/editorial_winter_posterstyle_multi-panel_collage_generation.yaml",
+        "type": "file"
+    },
+    "educational_content_creator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/educational_content_creator.yaml",
+        "type": "file"
+    },
+    "elocutionist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/elocutionist.yaml",
+        "type": "file"
+    },
+    "email_marketing.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/email_marketing.yaml",
+        "type": "file"
+    },
+    "emails_professionals.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/emails_professionals.yaml",
+        "type": "file"
+    },
+    "emergency_response_professional.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/emergency_response_professional.yaml",
+        "type": "file"
+    },
+    "emoji_translator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/emoji_translator.yaml",
+        "type": "file"
+    },
+    "emotion_analyst.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/emotion_analyst.yaml",
+        "type": "file"
+    },
+    "encyclopedia_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/encyclopedia_assistant.yaml",
+        "type": "file"
+    },
+    "english_pronunciation_helper.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/english_pronunciation_helper.yaml",
+        "type": "file"
+    },
+    "english_translator_and_improver.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/english_translator_and_improver.yaml",
+        "type": "file"
+    },
+    "enhance_and_beautify_your_photo.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/enhance_and_beautify_your_photo.yaml",
+        "type": "file"
+    },
+    "enterprise_sponsorship.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/enterprise_sponsorship.yaml",
+        "type": "file"
+    },
+    "erp_to_feishu_data_integration_solution.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/erp_to_feishu_data_integration_solution.yaml",
+        "type": "file"
+    },
+    "escritor_de_livros_completo.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/escritor_de_livros_completo.yaml",
+        "type": "file"
+    },
+    "essay_writer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/essay_writer.yaml",
+        "type": "file"
+    },
+    "ethereum_developer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ethereum_developer.yaml",
+        "type": "file"
+    },
+    "etymologist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/etymologist.yaml",
+        "type": "file"
+    },
+    "evaluate_and_suggest_improvements_for_computer_science_phd_thesis.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/evaluate_and_suggest_improvements_for_computer_science_phd_thesis.yaml",
+        "type": "file"
+    },
+    "excel_formula_sensei.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/excel_formula_sensei.yaml",
+        "type": "file"
+    },
+    "excel_sheet.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/excel_sheet.yaml",
+        "type": "file"
+    },
+    "expert-level_insights_and_advanced_resources.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/expert-level_insights_and_advanced_resources.yaml",
+        "type": "file"
+    },
+    "explain_funding_impact.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/explain_funding_impact.yaml",
+        "type": "file"
+    },
+    "explainer_with_analogies.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/explainer_with_analogies.yaml",
+        "type": "file"
+    },
+    "exploring_jungs_understanding_of_spirit_through_rumis_poem.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/exploring_jungs_understanding_of_spirit_through_rumis_poem.yaml",
+        "type": "file"
+    },
+    "expo__supabase_edge_function_cold_start__mobile_performance_analysis.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/expo__supabase_edge_function_cold_start__mobile_performance_analysis.yaml",
+        "type": "file"
+    },
+    "fallacy_finder.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/fallacy_finder.yaml",
+        "type": "file"
+    },
+    "fancy_title_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/fancy_title_generator.yaml",
+        "type": "file"
+    },
+    "faq_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/faq_generator.yaml",
+        "type": "file"
+    },
+    "fdr_analysis_program_for_commercial_aircraft.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/fdr_analysis_program_for_commercial_aircraft.yaml",
+        "type": "file"
+    },
+    "fdtd_simulations_of_nanoparticles.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/fdtd_simulations_of_nanoparticles.yaml",
+        "type": "file"
+    },
+    "fierce_medieval_queen_on_iron_throne_portrait.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/fierce_medieval_queen_on_iron_throne_portrait.yaml",
+        "type": "file"
+    },
+    "file_encryption_tool.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/file_encryption_tool.yaml",
+        "type": "file"
+    },
+    "file_renaming_dashboard_app.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/file_renaming_dashboard_app.yaml",
+        "type": "file"
+    },
+    "file_system_indexer_cli.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/file_system_indexer_cli.yaml",
+        "type": "file"
+    },
+    "fill_in_the_blank_worksheets_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/fill_in_the_blank_worksheets_generator.yaml",
+        "type": "file"
+    },
+    "film_critic.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/film_critic.yaml",
+        "type": "file"
+    },
+    "financial_analyst.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/financial_analyst.yaml",
+        "type": "file"
+    },
+    "flamenco_inspired_turkish_pop_song_for_suno_ai.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/flamenco_inspired_turkish_pop_song_for_suno_ai.yaml",
+        "type": "file"
+    },
+    "flashcard_study_system.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/flashcard_study_system.yaml",
+        "type": "file"
+    },
+    "flight_tracker_desktop_application.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/flight_tracker_desktop_application.yaml",
+        "type": "file"
+    },
+    "flirting_boy.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/flirting_boy.yaml",
+        "type": "file"
+    },
+    "floating_city_island_-_photoreal_4k_poster.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/floating_city_island_-_photoreal_4k_poster.yaml",
+        "type": "file"
+    },
+    "florist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/florist.yaml",
+        "type": "file"
+    },
+    "food_critic.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/food_critic.yaml",
+        "type": "file"
+    },
+    "football_commentator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/football_commentator.yaml",
+        "type": "file"
+    },
+    "forensic-cinematic-analyst.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/forensic-cinematic-analyst.yaml",
+        "type": "file"
+    },
+    "form_validation_rules_for_leave_requests.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/form_validation_rules_for_leave_requests.yaml",
+        "type": "file"
+    },
+    "friend.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/friend.yaml",
+        "type": "file"
+    },
+    "frontend-architect.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/frontend-architect.yaml",
+        "type": "file"
+    },
+    "frontend_developer_skill.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/frontend_developer_skill.yaml",
+        "type": "file"
+    },
+    "fullstack_software_developer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/fullstack_software_developer.yaml",
+        "type": "file"
+    },
+    "future_vision.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/future_vision.yaml",
+        "type": "file"
+    },
+    "gaslighter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/gaslighter.yaml",
+        "type": "file"
+    },
+    "gemi-gotchi.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/gemi-gotchi.yaml",
+        "type": "file"
+    },
+    "gemini.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/gemini.yaml",
+        "type": "file"
+    },
+    "giant_object_in_city.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/giant_object_in_city.yaml",
+        "type": "file"
+    },
+    "girl_of_dreams.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/girl_of_dreams.yaml",
+        "type": "file"
+    },
+    "girl_taking_selfie_with_avatar_characters_in_cinema.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/girl_taking_selfie_with_avatar_characters_in_cinema.yaml",
+        "type": "file"
+    },
+    "github_code_structure_tutor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/github_code_structure_tutor.yaml",
+        "type": "file"
+    },
+    "github_expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/github_expert.yaml",
+        "type": "file"
+    },
+    "glyth_maker.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/glyth_maker.yaml",
+        "type": "file"
+    },
+    "gnomist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/gnomist.yaml",
+        "type": "file"
+    },
+    "gomoku_player.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/gomoku_player.yaml",
+        "type": "file"
+    },
+    "gopro_action.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/gopro_action.yaml",
+        "type": "file"
+    },
+    "graduate-level_review_paper_on_humanoid_robots.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/graduate-level_review_paper_on_humanoid_robots.yaml",
+        "type": "file"
+    },
+    "guessing_game_master.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/guessing_game_master.yaml",
+        "type": "file"
+    },
+    "görsel.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/görsel.yaml",
+        "type": "file"
+    },
+    "habit_tracker.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/habit_tracker.yaml",
+        "type": "file"
+    },
+    "harry_potter__marauders_map.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/harry_potter__marauders_map.yaml",
+        "type": "file"
+    },
+    "hata_tespiti_için_kod_i̇nceleme_asistanı.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/hata_tespiti_için_kod_i̇nceleme_asistanı.yaml",
+        "type": "file"
+    },
+    "hccvn-ai-vn_pro_max_optimal_ai_system_design.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/hccvn-ai-vn_pro_max_optimal_ai_system_design.yaml",
+        "type": "file"
+    },
+    "healing_grandma.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/healing_grandma.yaml",
+        "type": "file"
+    },
+    "health_metrics_calculator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/health_metrics_calculator.yaml",
+        "type": "file"
+    },
+    "high-end_beauty_editorial_photo_shoot_specification.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/high-end_beauty_editorial_photo_shoot_specification.yaml",
+        "type": "file"
+    },
+    "historian.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/historian.yaml",
+        "type": "file"
+    },
+    "how_to_obtain_a_radio_and_tv_license_in_nigeria.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/how_to_obtain_a_radio_and_tv_license_in_nigeria.yaml",
+        "type": "file"
+    },
+    "hts_veri_analiz_portalı_geliştirme_ve_hata_ayıklama.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/hts_veri_analiz_portalı_geliştirme_ve_hata_ayıklama.yaml",
+        "type": "file"
+    },
+    "http_benchmarking_tool_cli.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/http_benchmarking_tool_cli.yaml",
+        "type": "file"
+    },
+    "hyper-realistic_3d_isometric_ottoman_masterpiece.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/hyper-realistic_3d_isometric_ottoman_masterpiece.yaml",
+        "type": "file"
+    },
+    "hyper-realistic_clay_bust_from_photo_template.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/hyper-realistic_clay_bust_from_photo_template.yaml",
+        "type": "file"
+    },
+    "hyper-realistic_marvel_comic_fusion_image_generation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/hyper-realistic_marvel_comic_fusion_image_generation.yaml",
+        "type": "file"
+    },
+    "hyper-realistic_x-wing_battle_damage_images.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/hyper-realistic_x-wing_battle_damage_images.yaml",
+        "type": "file"
+    },
+    "hyperrealistic_food_photo_creator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/hyperrealistic_food_photo_creator.yaml",
+        "type": "file"
+    },
+    "hyperrealistic_food_video_creator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/hyperrealistic_food_video_creator.yaml",
+        "type": "file"
+    },
+    "hypnotherapist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/hypnotherapist.yaml",
+        "type": "file"
+    },
+    "idea_clarifier_gpt.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/idea_clarifier_gpt.yaml",
+        "type": "file"
+    },
+    "illustration_for_teenagers_side_silhouette_of_a_young_person_inside_the_head_a_question_mark_transforming_into_light_t_deep_purple_and_blue_tones_minimalist_and__v.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/illustration_for_teenagers_side_silhouette_of_a_young_person_inside_the_head_a_question_mark_transforming_into_light_t_deep_purple_and_blue_tones_minimalist_and__v.yaml",
+        "type": "file"
+    },
+    "image_editor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/image_editor.yaml",
+        "type": "file"
+    },
+    "image_style_imitation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/image_style_imitation.yaml",
+        "type": "file"
+    },
+    "immigration_project_presentation_specialist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/immigration_project_presentation_specialist.yaml",
+        "type": "file"
+    },
+    "impact_metrics.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/impact_metrics.yaml",
+        "type": "file"
+    },
+    "implement_github_repository_with_opencode_cli.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/implement_github_repository_with_opencode_cli.yaml",
+        "type": "file"
+    },
+    "in-depth_article_enhancement_with_research.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/in-depth_article_enhancement_with_research.yaml",
+        "type": "file"
+    },
+    "instructor_in_a_school.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/instructor_in_a_school.yaml",
+        "type": "file"
+    },
+    "integration_and_planning_roadmap_for_calculator_content.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/integration_and_planning_roadmap_for_calculator_content.yaml",
+        "type": "file"
+    },
+    "interactive_quiz.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/interactive_quiz.yaml",
+        "type": "file"
+    },
+    "interactive_quiz_application_for_tv_shows_and_movies.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/interactive_quiz_application_for_tv_shows_and_movies.yaml",
+        "type": "file"
+    },
+    "interdisciplinary_connections_and_applications.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/interdisciplinary_connections_and_applications.yaml",
+        "type": "file"
+    },
+    "interior_decorator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/interior_decorator.yaml",
+        "type": "file"
+    },
+    "internal_project_proposal_for_hospital_collaboration.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/internal_project_proposal_for_hospital_collaboration.yaml",
+        "type": "file"
+    },
+    "interview_preparation_coach.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/interview_preparation_coach.yaml",
+        "type": "file"
+    },
+    "investment_manager.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/investment_manager.yaml",
+        "type": "file"
+    },
+    "ios_recipe_generator_create_recipes_from_available_ingredients.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ios_recipe_generator_create_recipes_from_available_ingredients.yaml",
+        "type": "file"
+    },
+    "isometric_3d_cartoon_scene_with_weather_effects.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/isometric_3d_cartoon_scene_with_weather_effects.yaml",
+        "type": "file"
+    },
+    "isometric_3d_weather_cityscapes_pbr_textures.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/isometric_3d_weather_cityscapes_pbr_textures.yaml",
+        "type": "file"
+    },
+    "isometric_city_diorama.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/isometric_city_diorama.yaml",
+        "type": "file"
+    },
+    "isometric_miniature_3d_cartoon_city_scene.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/isometric_miniature_3d_cartoon_city_scene.yaml",
+        "type": "file"
+    },
+    "istanbul_travel_journal.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/istanbul_travel_journal.yaml",
+        "type": "file"
+    },
+    "it_architect.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/it_architect.yaml",
+        "type": "file"
+    },
+    "it_expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/it_expert.yaml",
+        "type": "file"
+    },
+    "japanese_kanji_quiz_machine.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/japanese_kanji_quiz_machine.yaml",
+        "type": "file"
+    },
+    "javascript_console.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/javascript_console.yaml",
+        "type": "file"
+    },
+    "job_interviewer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/job_interviewer.yaml",
+        "type": "file"
+    },
+    "journal_reviewer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/journal_reviewer.yaml",
+        "type": "file"
+    },
+    "journalist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/journalist.yaml",
+        "type": "file"
+    },
+    "kanban_board.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/kanban_board.yaml",
+        "type": "file"
+    },
+    "knowledgeable_software_development_mentor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/knowledgeable_software_development_mentor.yaml",
+        "type": "file"
+    },
+    "kognitiv_aktivierende_aufgaben_erstellen.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/kognitiv_aktivierende_aufgaben_erstellen.yaml",
+        "type": "file"
+    },
+    "landing_page_vibe_coding.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/landing_page_vibe_coding.yaml",
+        "type": "file"
+    },
+    "langgraph微信公众号介绍.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/langgraph微信公众号介绍.yaml",
+        "type": "file"
+    },
+    "language_detector.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/language_detector.yaml",
+        "type": "file"
+    },
+    "large_language_models_security_specialist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/large_language_models_security_specialist.yaml",
+        "type": "file"
+    },
+    "lead_data_analyst_with_data_engineering_expertise.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/lead_data_analyst_with_data_engineering_expertise.yaml",
+        "type": "file"
+    },
+    "league_of_legends_player.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/league_of_legends_player.yaml",
+        "type": "file"
+    },
+    "learn_to_speak_spanish.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/learn_to_speak_spanish.yaml",
+        "type": "file"
+    },
+    "legal_advisor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/legal_advisor.yaml",
+        "type": "file"
+    },
+    "legebdary_exploded_view_prompt_for_nanobanana.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/legebdary_exploded_view_prompt_for_nanobanana.yaml",
+        "type": "file"
+    },
+    "letter_from_lisa_a_heartfelt_plea_to_her_father.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/letter_from_lisa_a_heartfelt_plea_to_her_father.yaml",
+        "type": "file"
+    },
+    "life_coach.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/life_coach.yaml",
+        "type": "file"
+    },
+    "lifestyle_product_images.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/lifestyle_product_images.yaml",
+        "type": "file"
+    },
+    "linkedin_comments.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/linkedin_comments.yaml",
+        "type": "file"
+    },
+    "linkedin_ghostwriter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/linkedin_ghostwriter.yaml",
+        "type": "file"
+    },
+    "linux_monitoring_dashboard_with_react.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/linux_monitoring_dashboard_with_react.yaml",
+        "type": "file"
+    },
+    "linux_monitoring_single_html.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/linux_monitoring_single_html.yaml",
+        "type": "file"
+    },
+    "linux_script_developer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/linux_script_developer.yaml",
+        "type": "file"
+    },
+    "linux_terminal.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/linux_terminal.yaml",
+        "type": "file"
+    },
+    "literary_critic.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/literary_critic.yaml",
+        "type": "file"
+    },
+    "llm_researcher.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/llm_researcher.yaml",
+        "type": "file"
+    },
+    "logic_builder_tool.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/logic_builder_tool.yaml",
+        "type": "file"
+    },
+    "logistician.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/logistician.yaml",
+        "type": "file"
+    },
+    "lower_ai_generation_rate.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/lower_ai_generation_rate.yaml",
+        "type": "file"
+    },
+    "lunatic.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/lunatic.yaml",
+        "type": "file"
+    },
+    "luxury_ski_resort_selfie_scene_description.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/luxury_ski_resort_selfie_scene_description.yaml",
+        "type": "file"
+    },
+    "machine_learning_engineer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/machine_learning_engineer.yaml",
+        "type": "file"
+    },
+    "magician.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/magician.yaml",
+        "type": "file"
+    },
+    "makeup_artist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/makeup_artist.yaml",
+        "type": "file"
+    },
+    "manufacturing_workflow_optimization_with_or-tools.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/manufacturing_workflow_optimization_with_or-tools.yaml",
+        "type": "file"
+    },
+    "markdown_notes.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/markdown_notes.yaml",
+        "type": "file"
+    },
+    "master_app_store_localization__aso_prompt_2025__full_metadata_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/master_app_store_localization__aso_prompt_2025__full_metadata_generator.yaml",
+        "type": "file"
+    },
+    "master_chinese_web_novel_author.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/master_chinese_web_novel_author.yaml",
+        "type": "file"
+    },
+    "math_teacher.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/math_teacher.yaml",
+        "type": "file"
+    },
+    "mathematical_history_teacher.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/mathematical_history_teacher.yaml",
+        "type": "file"
+    },
+    "mathematician.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/mathematician.yaml",
+        "type": "file"
+    },
+    "medical_consultant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/medical_consultant.yaml",
+        "type": "file"
+    },
+    "meditation_timer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/meditation_timer.yaml",
+        "type": "file"
+    },
+    "meeting_room_booking_web_app_development.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/meeting_room_booking_web_app_development.yaml",
+        "type": "file"
+    },
+    "melancholic_dawn_on_the_misty_pier.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/melancholic_dawn_on_the_misty_pier.yaml",
+        "type": "file"
+    },
+    "memory_card_game.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/memory_card_game.yaml",
+        "type": "file"
+    },
+    "memory_profiler_cli.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/memory_profiler_cli.yaml",
+        "type": "file"
+    },
+    "mental_health_adviser.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/mental_health_adviser.yaml",
+        "type": "file"
+    },
+    "meta-prompt_engineer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/meta-prompt_engineer.yaml",
+        "type": "file"
+    },
+    "midjourney_prompt_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/midjourney_prompt_generator.yaml",
+        "type": "file"
+    },
+    "miniature_claymation_adventures_on_the_mushroom_cap.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/miniature_claymation_adventures_on_the_mushroom_cap.yaml",
+        "type": "file"
+    },
+    "minimal_web-compatible_food_order_app_development.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/minimal_web-compatible_food_order_app_development.yaml",
+        "type": "file"
+    },
+    "minimalist_landscape_illustration_by_ryo_takemasa.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/minimalist_landscape_illustration_by_ryo_takemasa.yaml",
+        "type": "file"
+    },
+    "mirror_product_photo.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/mirror_product_photo.yaml",
+        "type": "file"
+    },
+    "mirror_selfie_with_face_preservation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/mirror_selfie_with_face_preservation.yaml",
+        "type": "file"
+    },
+    "modern_fashion_photography.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/modern_fashion_photography.yaml",
+        "type": "file"
+    },
+    "modern_video_player_with_sharp_ui.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/modern_video_player_with_sharp_ui.yaml",
+        "type": "file"
+    },
+    "monetization_strategy_for_blockchain-based_merging_games.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/monetization_strategy_for_blockchain-based_merging_games.yaml",
+        "type": "file"
+    },
+    "monthly_updates.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/monthly_updates.yaml",
+        "type": "file"
+    },
+    "motivational_coach.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/motivational_coach.yaml",
+        "type": "file"
+    },
+    "motivational_speaker.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/motivational_speaker.yaml",
+        "type": "file"
+    },
+    "movie_critic.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/movie_critic.yaml",
+        "type": "file"
+    },
+    "mppt_simulation仿真代码.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/mppt_simulation仿真代码.yaml",
+        "type": "file"
+    },
+    "multiplayer_3d_plane_game.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/multiplayer_3d_plane_game.yaml",
+        "type": "file"
+    },
+    "music_player.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/music_player.yaml",
+        "type": "file"
+    },
+    "music_video_designer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/music_video_designer.yaml",
+        "type": "file"
+    },
+    "muslim_imam.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/muslim_imam.yaml",
+        "type": "file"
+    },
+    "münchener_skyline_als_umrissbild_darstellen.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/münchener_skyline_als_umrissbild_darstellen.yaml",
+        "type": "file"
+    },
+    "müzisyenler_için_kariyer_yönetimi_desteği.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/müzisyenler_için_kariyer_yönetimi_desteği.yaml",
+        "type": "file"
+    },
+    "müşteri_temsilcisi_eğitimi.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/müşteri_temsilcisi_eğitimi.yaml",
+        "type": "file"
+    },
+    "net_api_project_analysis.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/net_api_project_analysis.yaml",
+        "type": "file"
+    },
+    "network_packet_analyzer_cli.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/network_packet_analyzer_cli.yaml",
+        "type": "file"
+    },
+    "new_language_creator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/new_language_creator.yaml",
+        "type": "file"
+    },
+    "nextjs_react_comprehensive_clash_of_clans_tool.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/nextjs_react_comprehensive_clash_of_clans_tool.yaml",
+        "type": "file"
+    },
+    "nextjs_specialized_front-end_developer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/nextjs_specialized_front-end_developer.yaml",
+        "type": "file"
+    },
+    "nietzschean_mentor_for_holistic_growth.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/nietzschean_mentor_for_holistic_growth.yaml",
+        "type": "file"
+    },
+    "nodejs_automation_script_developer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/nodejs_automation_script_developer.yaml",
+        "type": "file"
+    },
+    "note-taking_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/note-taking_assistant.yaml",
+        "type": "file"
+    },
+    "novelist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/novelist.yaml",
+        "type": "file"
+    },
+    "nutritionist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/nutritionist.yaml",
+        "type": "file"
+    },
+    "one-click_design_mockup_creator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/one-click_design_mockup_creator.yaml",
+        "type": "file"
+    },
+    "optimize_e-commerce_listing_for_high_ctr_with_holiday_design.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/optimize_e-commerce_listing_for_high_ctr_with_holiday_design.yaml",
+        "type": "file"
+    },
+    "optimize_large_data_reading_in_code.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/optimize_large_data_reading_in_code.yaml",
+        "type": "file"
+    },
+    "orchestration_agent_powerplatformsupervisor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/orchestration_agent_powerplatformsupervisor.yaml",
+        "type": "file"
+    },
+    "osobní_ai_agent_pro_petra_sovadinu.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/osobní_ai_agent_pro_petra_sovadinu.yaml",
+        "type": "file"
+    },
+    "paladin_octem_plus_research_swarm.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/paladin_octem_plus_research_swarm.yaml",
+        "type": "file"
+    },
+    "password_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/password_generator.yaml",
+        "type": "file"
+    },
+    "pathology_slide_analysis_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pathology_slide_analysis_assistant.yaml",
+        "type": "file"
+    },
+    "pdf_conceptual_visualization_creator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pdf_conceptual_visualization_creator.yaml",
+        "type": "file"
+    },
+    "pdf_viewer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pdf_viewer.yaml",
+        "type": "file"
+    },
+    "performance-engineer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/performance-engineer.yaml",
+        "type": "file"
+    },
+    "personal_chef.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/personal_chef.yaml",
+        "type": "file"
+    },
+    "personal_financial_adviosr.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/personal_financial_adviosr.yaml",
+        "type": "file"
+    },
+    "personal_shopper.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/personal_shopper.yaml",
+        "type": "file"
+    },
+    "personal_stylist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/personal_stylist.yaml",
+        "type": "file"
+    },
+    "personal_trainer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/personal_trainer.yaml",
+        "type": "file"
+    },
+    "personalized_gpt_assistant_prompt.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/personalized_gpt_assistant_prompt.yaml",
+        "type": "file"
+    },
+    "personalized_skin_whitening_plan.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/personalized_skin_whitening_plan.yaml",
+        "type": "file"
+    },
+    "personalized_technical_intelligence_briefing_for_edge_ai_in_defense.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/personalized_technical_intelligence_briefing_for_edge_ai_in_defense.yaml",
+        "type": "file"
+    },
+    "persuasive_article_or_proposal_writing_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/persuasive_article_or_proposal_writing_guide.yaml",
+        "type": "file"
+    },
+    "pet_behaviorist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pet_behaviorist.yaml",
+        "type": "file"
+    },
+    "pet_store_advertising_campaign_strategy.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pet_store_advertising_campaign_strategy.yaml",
+        "type": "file"
+    },
+    "pharmacy_research_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pharmacy_research_assistant.yaml",
+        "type": "file"
+    },
+    "philosopher.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/philosopher.yaml",
+        "type": "file"
+    },
+    "philosophy_teacher.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/philosophy_teacher.yaml",
+        "type": "file"
+    },
+    "photo-to-isometric_reality_slice_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/photo-to-isometric_reality_slice_generator.yaml",
+        "type": "file"
+    },
+    "php_interpreter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/php_interpreter.yaml",
+        "type": "file"
+    },
+    "pirate.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pirate.yaml",
+        "type": "file"
+    },
+    "pitch.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pitch.yaml",
+        "type": "file"
+    },
+    "pitchside_tunnel_moment_with_your_favorite_footballer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pitchside_tunnel_moment_with_your_favorite_footballer.yaml",
+        "type": "file"
+    },
+    "pixel_dissolve_minimalist_3d_food_transformation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pixel_dissolve_minimalist_3d_food_transformation.yaml",
+        "type": "file"
+    },
+    "plagiarism_checker.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/plagiarism_checker.yaml",
+        "type": "file"
+    },
+    "plant_hero_section_image.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/plant_hero_section_image.yaml",
+        "type": "file"
+    },
+    "playing_card_sorcerer_portrait.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/playing_card_sorcerer_portrait.yaml",
+        "type": "file"
+    },
+    "poet.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/poet.yaml",
+        "type": "file"
+    },
+    "pomodoro_timer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pomodoro_timer.yaml",
+        "type": "file"
+    },
+    "pov_smartphone_with_space-themed_twitter_ui_in_central_park.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pov_smartphone_with_space-themed_twitter_ui_in_central_park.yaml",
+        "type": "file"
+    },
+    "powershell_script_for_managing_disabled_ad_users.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/powershell_script_for_managing_disabled_ad_users.yaml",
+        "type": "file"
+    },
+    "powershell_script_to_move_disabled_ad_users_to_specific_ou.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/powershell_script_to_move_disabled_ad_users_to_specific_ou.yaml",
+        "type": "file"
+    },
+    "ppt_generation_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ppt_generation_assistant.yaml",
+        "type": "file"
+    },
+    "predictive_eye_tracking_heatmap_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/predictive_eye_tracking_heatmap_generator.yaml",
+        "type": "file"
+    },
+    "product_image_highlight_extraction.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/product_image_highlight_extraction.yaml",
+        "type": "file"
+    },
+    "product_manager.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/product_manager.yaml",
+        "type": "file"
+    },
+    "profesor_creativo.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/profesor_creativo.yaml",
+        "type": "file"
+    },
+    "professional_badge_photo_ready_to_use.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/professional_badge_photo_ready_to_use.yaml",
+        "type": "file"
+    },
+    "professional_buyer_qa_creator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/professional_buyer_qa_creator.yaml",
+        "type": "file"
+    },
+    "professional_email_writer_for_any_occasion.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/professional_email_writer_for_any_occasion.yaml",
+        "type": "file"
+    },
+    "professional_website_design_consultant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/professional_website_design_consultant.yaml",
+        "type": "file"
+    },
+    "project_evaluation_for_production_decision.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/project_evaluation_for_production_decision.yaml",
+        "type": "file"
+    },
+    "project_manager.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/project_manager.yaml",
+        "type": "file"
+    },
+    "prompt_enhancer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/prompt_enhancer.yaml",
+        "type": "file"
+    },
+    "prompt_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/prompt_generator.yaml",
+        "type": "file"
+    },
+    "prompt_生成.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/prompt_生成.yaml",
+        "type": "file"
+    },
+    "proofreader.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/proofreader.yaml",
+        "type": "file"
+    },
+    "protocol_2084_the_alleyway_hack.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/protocol_2084_the_alleyway_hack.yaml",
+        "type": "file"
+    },
+    "psychologist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/psychologist.yaml",
+        "type": "file"
+    },
+    "psychology_clinic_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/psychology_clinic_assistant.yaml",
+        "type": "file"
+    },
+    "public_speaking_coach.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/public_speaking_coach.yaml",
+        "type": "file"
+    },
+    "pull_request_review_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/pull_request_review_assistant.yaml",
+        "type": "file"
+    },
+    "python_interpreter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/python_interpreter.yaml",
+        "type": "file"
+    },
+    "quality-engineer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/quality-engineer.yaml",
+        "type": "file"
+    },
+    "quantitative_factor_research_engineer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/quantitative_factor_research_engineer.yaml",
+        "type": "file"
+    },
+    "quizflix_app_development.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/quizflix_app_development.yaml",
+        "type": "file"
+    },
+    "quizflix_mobile_app_design_for_university_students.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/quizflix_mobile_app_design_for_university_students.yaml",
+        "type": "file"
+    },
+    "r_programming_interpreter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/r_programming_interpreter.yaml",
+        "type": "file"
+    },
+    "rapper.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/rapper.yaml",
+        "type": "file"
+    },
+    "readability_logic_simulator_-_全功能翻译版.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/readability_logic_simulator_-_全功能翻译版.yaml",
+        "type": "file"
+    },
+    "real-time_multiplayer_defense_game.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/real-time_multiplayer_defense_game.yaml",
+        "type": "file"
+    },
+    "real-time_screen_translation_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/real-time_screen_translation_assistant.yaml",
+        "type": "file"
+    },
+    "real_estate_agent.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/real_estate_agent.yaml",
+        "type": "file"
+    },
+    "realistic_food_image_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/realistic_food_image_generator.yaml",
+        "type": "file"
+    },
+    "recipe_finder.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/recipe_finder.yaml",
+        "type": "file"
+    },
+    "recognize_sponsors.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/recognize_sponsors.yaml",
+        "type": "file"
+    },
+    "recruiter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/recruiter.yaml",
+        "type": "file"
+    },
+    "refactoring-expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/refactoring-expert.yaml",
+        "type": "file"
+    },
+    "regex_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/regex_generator.yaml",
+        "type": "file"
+    },
+    "relationship_coach.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/relationship_coach.yaml",
+        "type": "file"
+    },
+    "remote_worker_fitness_trainer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/remote_worker_fitness_trainer.yaml",
+        "type": "file"
+    },
+    "removing_visual_noise_in_the_neural_networks_response.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/removing_visual_noise_in_the_neural_networks_response.yaml",
+        "type": "file"
+    },
+    "rephraser_with_obfuscation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/rephraser_with_obfuscation.yaml",
+        "type": "file"
+    },
+    "repo-indexer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/repo-indexer.yaml",
+        "type": "file"
+    },
+    "restaurant_owner.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/restaurant_owner.yaml",
+        "type": "file"
+    },
+    "revenue_performance_report.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/revenue_performance_report.yaml",
+        "type": "file"
+    },
+    "reverse_prompt_engineer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/reverse_prompt_engineer.yaml",
+        "type": "file"
+    },
+    "rip_mckinsey_here_are_10_prompts_to_replace_expensive_business_consultants.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/rip_mckinsey_here_are_10_prompts_to_replace_expensive_business_consultants.yaml",
+        "type": "file"
+    },
+    "root-cause-analyst.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/root-cause-analyst.yaml",
+        "type": "file"
+    },
+    "roster.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/roster.yaml",
+        "type": "file"
+    },
+    "saas_landing_page_builder.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/saas_landing_page_builder.yaml",
+        "type": "file"
+    },
+    "saas_payment_plan_options.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/saas_payment_plan_options.yaml",
+        "type": "file"
+    },
+    "sales.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/sales.yaml",
+        "type": "file"
+    },
+    "salesperson.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/salesperson.yaml",
+        "type": "file"
+    },
+    "scientific_calculator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/scientific_calculator.yaml",
+        "type": "file"
+    },
+    "scientific_data_visualizer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/scientific_data_visualizer.yaml",
+        "type": "file"
+    },
+    "scientific_drawing_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/scientific_drawing_assistant.yaml",
+        "type": "file"
+    },
+    "screenwriter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/screenwriter.yaml",
+        "type": "file"
+    },
+    "secteur_bancaire_-_analyse_rapide_dun_tableau_de_données.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/secteur_bancaire_-_analyse_rapide_dun_tableau_de_données.yaml",
+        "type": "file"
+    },
+    "secteur_bancaire_-_création_dun_texte_marketing_simple.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/secteur_bancaire_-_création_dun_texte_marketing_simple.yaml",
+        "type": "file"
+    },
+    "secteur_bancaire_-_email_professionnel.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/secteur_bancaire_-_email_professionnel.yaml",
+        "type": "file"
+    },
+    "secteur_bancaire_-_vérification_de_conformité_de_texte.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/secteur_bancaire_-_vérification_de_conformité_de_texte.yaml",
+        "type": "file"
+    },
+    "secure_password_generator_tool.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/secure_password_generator_tool.yaml",
+        "type": "file"
+    },
+    "security-engineer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/security-engineer.yaml",
+        "type": "file"
+    },
+    "selar_ideas_for_automation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/selar_ideas_for_automation.yaml",
+        "type": "file"
+    },
+    "self-help_book.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/self-help_book.yaml",
+        "type": "file"
+    },
+    "senior_crypto_yapper__community_strategist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/senior_crypto_yapper__community_strategist.yaml",
+        "type": "file"
+    },
+    "senior_frontend_developer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/senior_frontend_developer.yaml",
+        "type": "file"
+    },
+    "senior_prompt_engineer_role_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/senior_prompt_engineer_role_guide.yaml",
+        "type": "file"
+    },
+    "senior_system_architect_agent.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/senior_system_architect_agent.yaml",
+        "type": "file"
+    },
+    "senior_viral_content_strategist__elite_video_clipper.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/senior_viral_content_strategist__elite_video_clipper.yaml",
+        "type": "file"
+    },
+    "seo_prompt.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/seo_prompt.yaml",
+        "type": "file"
+    },
+    "seo_specialist.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/seo_specialist.yaml",
+        "type": "file"
+    },
+    "serene_evening_rowboat_scene_in_illustrative_realism.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/serene_evening_rowboat_scene_in_illustrative_realism.yaml",
+        "type": "file"
+    },
+    "set_up_wb_and_run_pod_during_training.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/set_up_wb_and_run_pod_during_training.yaml",
+        "type": "file"
+    },
+    "setting_up_a_new_ios_app_in_xcode.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/setting_up_a_new_ios_app_in_xcode.yaml",
+        "type": "file"
+    },
+    "shadows_of_the_blue_note.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/shadows_of_the_blue_note.yaml",
+        "type": "file"
+    },
+    "shadows_of_the_cold_war_the_1962_exchange.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/shadows_of_the_cold_war_the_1962_exchange.yaml",
+        "type": "file"
+    },
+    "shift_tracking_telegram_mini_app.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/shift_tracking_telegram_mini_app.yaml",
+        "type": "file"
+    },
+    "show_direct_impact.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/show_direct_impact.yaml",
+        "type": "file"
+    },
+    "showcase_top_repositories.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/showcase_top_repositories.yaml",
+        "type": "file"
+    },
+    "shower_glass_silhouette.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/shower_glass_silhouette.yaml",
+        "type": "file"
+    },
+    "sidebar_dashboard_design.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/sidebar_dashboard_design.yaml",
+        "type": "file"
+    },
+    "sistem_ve_ağ_güvenliği_temalı_kısa_film_promptu.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/sistem_ve_ağ_güvenliği_temalı_kısa_film_promptu.yaml",
+        "type": "file"
+    },
+    "smart_application_developer_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/smart_application_developer_assistant.yaml",
+        "type": "file"
+    },
+    "smart_domain_name_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/smart_domain_name_generator.yaml",
+        "type": "file"
+    },
+    "smart_rewriter__clarity_booster.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/smart_rewriter__clarity_booster.yaml",
+        "type": "file"
+    },
+    "social_media_influencer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/social_media_influencer.yaml",
+        "type": "file"
+    },
+    "social_media_manager.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/social_media_manager.yaml",
+        "type": "file"
+    },
+    "socrat.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/socrat.yaml",
+        "type": "file"
+    },
+    "socratic_method.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/socratic_method.yaml",
+        "type": "file"
+    },
+    "socratic_method_for_ethical_discussions.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/socratic_method_for_ethical_discussions.yaml",
+        "type": "file"
+    },
+    "software_quality_assurance_tester.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/software_quality_assurance_tester.yaml",
+        "type": "file"
+    },
+    "solr_search_engine.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/solr_search_engine.yaml",
+        "type": "file"
+    },
+    "song_recommender.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/song_recommender.yaml",
+        "type": "file"
+    },
+    "speech-language_pathologist_slp.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/speech-language_pathologist_slp.yaml",
+        "type": "file"
+    },
+    "spoken_english_teacher_and_improver.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/spoken_english_teacher_and_improver.yaml",
+        "type": "file"
+    },
+    "spongebobs_magic_conch_shell.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/spongebobs_magic_conch_shell.yaml",
+        "type": "file"
+    },
+    "sponsor_hall_of_fame.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/sponsor_hall_of_fame.yaml",
+        "type": "file"
+    },
+    "sql_terminal.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/sql_terminal.yaml",
+        "type": "file"
+    },
+    "squid_game_-_red_light_green_light_challenge.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/squid_game_-_red_light_green_light_challenge.yaml",
+        "type": "file"
+    },
+    "stackoverflow_post.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/stackoverflow_post.yaml",
+        "type": "file"
+    },
+    "stand-up_comedian.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/stand-up_comedian.yaml",
+        "type": "file"
+    },
+    "starting_a_flutter_project.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/starting_a_flutter_project.yaml",
+        "type": "file"
+    },
+    "startup_idea_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/startup_idea_generator.yaml",
+        "type": "file"
+    },
+    "startup_tech_lawyer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/startup_tech_lawyer.yaml",
+        "type": "file"
+    },
+    "statistician.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/statistician.yaml",
+        "type": "file"
+    },
+    "stock_market_analysis_expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/stock_market_analysis_expert.yaml",
+        "type": "file"
+    },
+    "stock_market_analyst_market_move_suggestions.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/stock_market_analyst_market_move_suggestions.yaml",
+        "type": "file"
+    },
+    "story_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/story_generator.yaml",
+        "type": "file"
+    },
+    "storyteller.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/storyteller.yaml",
+        "type": "file"
+    },
+    "stranded_in_time_the_victorian_travelers_panic.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/stranded_in_time_the_victorian_travelers_panic.yaml",
+        "type": "file"
+    },
+    "strategic_app_design__content_engineering_prompt.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/strategic_app_design__content_engineering_prompt.yaml",
+        "type": "file"
+    },
+    "structured_iterative_reasoning_protocol_sirp.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/structured_iterative_reasoning_protocol_sirp.yaml",
+        "type": "file"
+    },
+    "student_tier.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/student_tier.yaml",
+        "type": "file"
+    },
+    "studio_portraits_with_professional_postures.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/studio_portraits_with_professional_postures.yaml",
+        "type": "file"
+    },
+    "study_planner.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/study_planner.yaml",
+        "type": "file"
+    },
+    "subject_meditating_in_a_crystal_sphere.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/subject_meditating_in_a_crystal_sphere.yaml",
+        "type": "file"
+    },
+    "success_stories.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/success_stories.yaml",
+        "type": "file"
+    },
+    "sudoku_game.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/sudoku_game.yaml",
+        "type": "file"
+    },
+    "suggest_pricing_tiers.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/suggest_pricing_tiers.yaml",
+        "type": "file"
+    },
+    "sunny_beach.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/sunny_beach.yaml",
+        "type": "file"
+    },
+    "surreal_cgi-photography_hybrid_portrait.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/surreal_cgi-photography_hybrid_portrait.yaml",
+        "type": "file"
+    },
+    "svg_designer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/svg_designer.yaml",
+        "type": "file"
+    },
+    "synonym_finder.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/synonym_finder.yaml",
+        "type": "file"
+    },
+    "table_with_various_items.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/table_with_various_items.yaml",
+        "type": "file"
+    },
+    "talent_coach.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/talent_coach.yaml",
+        "type": "file"
+    },
+    "tarih-olay-_görsel_oluşturma.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/tarih-olay-_görsel_oluşturma.yaml",
+        "type": "file"
+    },
+    "tea-taster.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/tea-taster.yaml",
+        "type": "file"
+    },
+    "teacher_of_reactjs.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/teacher_of_reactjs.yaml",
+        "type": "file"
+    },
+    "tech-challenged_customer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/tech-challenged_customer.yaml",
+        "type": "file"
+    },
+    "tech_reviewer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/tech_reviewer.yaml",
+        "type": "file"
+    },
+    "tech_troubleshooter.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/tech_troubleshooter.yaml",
+        "type": "file"
+    },
+    "tech_writer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/tech_writer.yaml",
+        "type": "file"
+    },
+    "technology_transferer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/technology_transferer.yaml",
+        "type": "file"
+    },
+    "tell_your_story.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/tell_your_story.yaml",
+        "type": "file"
+    },
+    "temitope.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/temitope.yaml",
+        "type": "file"
+    },
+    "test_python_algorithmic_trading_project.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/test_python_algorithmic_trading_project.yaml",
+        "type": "file"
+    },
+    "text-to-image_with_reference_-_billiards_bar_scene.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/text-to-image_with_reference_-_billiards_bar_scene.yaml",
+        "type": "file"
+    },
+    "text_analyzer_tool.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/text_analyzer_tool.yaml",
+        "type": "file"
+    },
+    "text_based_adventure_game.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/text_based_adventure_game.yaml",
+        "type": "file"
+    },
+    "the_aether_prince_at_the_crystal_gala.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/the_aether_prince_at_the_crystal_gala.yaml",
+        "type": "file"
+    },
+    "the_covert_exchange_in_the_fog.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/the_covert_exchange_in_the_fog.yaml",
+        "type": "file"
+    },
+    "the_digital_frontier_pixelated_pioneers.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/the_digital_frontier_pixelated_pioneers.yaml",
+        "type": "file"
+    },
+    "the_silent_standoff.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/the_silent_standoff.yaml",
+        "type": "file"
+    },
+    "theme_based_art_style_fusion_meta-prompt.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/theme_based_art_style_fusion_meta-prompt.yaml",
+        "type": "file"
+    },
+    "through_the_glass_one_eye_in_focus.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/through_the_glass_one_eye_in_focus.yaml",
+        "type": "file"
+    },
+    "tic-tac-toe_game.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/tic-tac-toe_game.yaml",
+        "type": "file"
+    },
+    "tiktok_marketing_visual_designer_agent.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/tiktok_marketing_visual_designer_agent.yaml",
+        "type": "file"
+    },
+    "time_commitment.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/time_commitment.yaml",
+        "type": "file"
+    },
+    "time_layer_photography.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/time_layer_photography.yaml",
+        "type": "file"
+    },
+    "time_travel_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/time_travel_guide.yaml",
+        "type": "file"
+    },
+    "title_generator_for_written_pieces.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/title_generator_for_written_pieces.yaml",
+        "type": "file"
+    },
+    "todo_list.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/todo_list.yaml",
+        "type": "file"
+    },
+    "top_programming_expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/top_programming_expert.yaml",
+        "type": "file"
+    },
+    "trade_contract_review_expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/trade_contract_review_expert.yaml",
+        "type": "file"
+    },
+    "travel_guide.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/travel_guide.yaml",
+        "type": "file"
+    },
+    "travel_planner_prompt.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/travel_planner_prompt.yaml",
+        "type": "file"
+    },
+    "travel_poster.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/travel_poster.yaml",
+        "type": "file"
+    },
+    "tumor_medical_industry_solution_business_plan.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/tumor_medical_industry_solution_business_plan.yaml",
+        "type": "file"
+    },
+    "turkish_cats_hanging_out_nearby_of_galata_tower.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/turkish_cats_hanging_out_nearby_of_galata_tower.yaml",
+        "type": "file"
+    },
+    "turn_your_photo_into_a_simpsons_scene.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/turn_your_photo_into_a_simpsons_scene.yaml",
+        "type": "file"
+    },
+    "typing_speed_test.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/typing_speed_test.yaml",
+        "type": "file"
+    },
+    "ui_designer_role.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ui_designer_role.yaml",
+        "type": "file"
+    },
+    "ultra-detailed_vintage_photo_restoration_and_colorization.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ultra-detailed_vintage_photo_restoration_and_colorization.yaml",
+        "type": "file"
+    },
+    "ultra-realistic_handwritten_hospital_note_image.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ultra-realistic_handwritten_hospital_note_image.yaml",
+        "type": "file"
+    },
+    "ultra-realistic_noir_portrait_creation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ultra-realistic_noir_portrait_creation.yaml",
+        "type": "file"
+    },
+    "ultrathinker.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/ultrathinker.yaml",
+        "type": "file"
+    },
+    "unconstrained_ai_model_dan.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/unconstrained_ai_model_dan.yaml",
+        "type": "file"
+    },
+    "unit_tester_assistant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/unit_tester_assistant.yaml",
+        "type": "file"
+    },
+    "universal_lead__candidate_outreach_generator_hr_sales.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/universal_lead__candidate_outreach_generator_hr_sales.yaml",
+        "type": "file"
+    },
+    "university_admission_interview_simulation.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/university_admission_interview_simulation.yaml",
+        "type": "file"
+    },
+    "update_checker.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/update_checker.yaml",
+        "type": "file"
+    },
+    "urban_casual_confidence.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/urban_casual_confidence.yaml",
+        "type": "file"
+    },
+    "url_shortener.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/url_shortener.yaml",
+        "type": "file"
+    },
+    "using_stanfordvlbehavior-1k_for_robotics_and_ai_tasks.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/using_stanfordvlbehavior-1k_for_robotics_and_ai_tasks.yaml",
+        "type": "file"
+    },
+    "uxui_developer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/uxui_developer.yaml",
+        "type": "file"
+    },
+    "vacuum_arc_modeling_under_transverse_magnetic_fields.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/vacuum_arc_modeling_under_transverse_magnetic_fields.yaml",
+        "type": "file"
+    },
+    "video-analysis-expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/video-analysis-expert.yaml",
+        "type": "file"
+    },
+    "vintage_botanical_illustration_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/vintage_botanical_illustration_generator.yaml",
+        "type": "file"
+    },
+    "vintage_invention_patent.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/vintage_invention_patent.yaml",
+        "type": "file"
+    },
+    "viral_video_analyzer_for_tiktok_and_xiaohongshu.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/viral_video_analyzer_for_tiktok_and_xiaohongshu.yaml",
+        "type": "file"
+    },
+    "virtual_doctor.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/virtual_doctor.yaml",
+        "type": "file"
+    },
+    "virtual_event_planner.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/virtual_event_planner.yaml",
+        "type": "file"
+    },
+    "virtual_fitness_coach.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/virtual_fitness_coach.yaml",
+        "type": "file"
+    },
+    "virtual_game_console_simulator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/virtual_game_console_simulator.yaml",
+        "type": "file"
+    },
+    "virtualization_expert.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/virtualization_expert.yaml",
+        "type": "file"
+    },
+    "visual_web_application_development.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/visual_web_application_development.yaml",
+        "type": "file"
+    },
+    "vr_headset_experience_simulator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/vr_headset_experience_simulator.yaml",
+        "type": "file"
+    },
+    "vr_horror_death_chatroom_simulator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/vr_horror_death_chatroom_simulator.yaml",
+        "type": "file"
+    },
+    "weather_dashboard.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/weather_dashboard.yaml",
+        "type": "file"
+    },
+    "web_application_testing_skill.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/web_application_testing_skill.yaml",
+        "type": "file"
+    },
+    "web_browser.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/web_browser.yaml",
+        "type": "file"
+    },
+    "web_design.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/web_design.yaml",
+        "type": "file"
+    },
+    "web_design_consultant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/web_design_consultant.yaml",
+        "type": "file"
+    },
+    "website_creation_command.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/website_creation_command.yaml",
+        "type": "file"
+    },
+    "website_security_vulnerability_checker.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/website_security_vulnerability_checker.yaml",
+        "type": "file"
+    },
+    "what_does_chatgpt_knows_about_you.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/what_does_chatgpt_knows_about_you.yaml",
+        "type": "file"
+    },
+    "when_to_clear_the_snow_generic.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/when_to_clear_the_snow_generic.yaml",
+        "type": "file"
+    },
+    "whimsical_3d_brand_miniatures.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/whimsical_3d_brand_miniatures.yaml",
+        "type": "file"
+    },
+    "wikipedia_page.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/wikipedia_page.yaml",
+        "type": "file"
+    },
+    "wisdom_generator.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/wisdom_generator.yaml",
+        "type": "file"
+    },
+    "world_landmarks_hyper-realistic_3d_dioramas.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/world_landmarks_hyper-realistic_3d_dioramas.yaml",
+        "type": "file"
+    },
+    "world_of_darkness_bw_style.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/world_of_darkness_bw_style.yaml",
+        "type": "file"
+    },
+    "world_of_darkness_colored_comic_style.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/world_of_darkness_colored_comic_style.yaml",
+        "type": "file"
+    },
+    "worldquant.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/worldquant.yaml",
+        "type": "file"
+    },
+    "write_tier_descriptions.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/write_tier_descriptions.yaml",
+        "type": "file"
+    },
+    "xiaomi_company_self-service_management_system_frontend_development.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/xiaomi_company_self-service_management_system_frontend_development.yaml",
+        "type": "file"
+    },
+    "yamuna_river_cleanup_plan_for_vrindavan.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/yamuna_river_cleanup_plan_for_vrindavan.yaml",
+        "type": "file"
+    },
+    "yes_or_no_answer.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/yes_or_no_answer.yaml",
+        "type": "file"
+    },
+    "yogi.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/yogi.yaml",
+        "type": "file"
+    },
+    "young_woman_with_mixed_ethnicity_features.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/young_woman_with_mixed_ethnicity_features.yaml",
+        "type": "file"
+    },
+    "youtube_video_analyst.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/youtube_video_analyst.yaml",
+        "type": "file"
+    },
+    "yt_video__geopolitic_analysis.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/yt_video__geopolitic_analysis.yaml",
+        "type": "file"
+    },
+    "недвижимость.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/недвижимость.yaml",
+        "type": "file"
+    },
+    "патентный_поиск.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/патентный_поиск.yaml",
+        "type": "file"
+    },
+    "السعوديه.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/السعوديه.yaml",
+        "type": "file"
+    },
+    "为您的公司设计薪酬体系.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/为您的公司设计薪酬体系.yaml",
+        "type": "file"
+    },
+    "代码目录解释器.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/代码目录解释器.yaml",
+        "type": "file"
+    },
+    "商业演示设计专家指南.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/商业演示设计专家指南.yaml",
+        "type": "file"
+    },
+    "小红书邮轮项目推广提示词.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/小红书邮轮项目推广提示词.yaml",
+        "type": "file"
+    },
+    "开题报告撰写助手.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/开题报告撰写助手.yaml",
+        "type": "file"
+    },
+    "担任go语言开发者.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/担任go语言开发者.yaml",
+        "type": "file"
+    },
+    "提取查询_json_中的查询条件.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/提取查询_json_中的查询条件.yaml",
+        "type": "file"
+    },
+    "文献格式整理助手.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/文献格式整理助手.yaml",
+        "type": "file"
+    },
+    "生理学汇报ppt助手.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/生理学汇报ppt助手.yaml",
+        "type": "file"
+    },
+    "电商与社交平台内容创作提示词.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/电商与社交平台内容创作提示词.yaml",
+        "type": "file"
+    },
+    "电商选品助手.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/电商选品助手.yaml",
+        "type": "file"
+    },
+    "网络故障报告撰写.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/网络故障报告撰写.yaml",
+        "type": "file"
+    },
+    "自动写作图片生成与发布工具.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/自动写作图片生成与发布工具.yaml",
+        "type": "file"
+    },
+    "论文降重指南.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/论文降重指南.yaml",
+        "type": "file"
+    },
+    "资深卖货短视频脚本创作者.yaml": {
+        "local_path": "c:/AntiGravityFile/000System/#Config/prompts/roles/资深卖货短视频脚本创作者.yaml",
+        "type": "file"
+    }
+}

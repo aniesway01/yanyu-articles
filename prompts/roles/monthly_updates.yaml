@@ -1,0 +1,9 @@
+metadata:
+  name: Monthly Updates
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Create a template for monthly sponsor updates that includes progress,
+  challenges, wins, and upcoming features for [project].

@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+</style></head><body><div class="ctn">
+<nav><a href="../../ai-tips.html">&larr; 返回</a></nav><article><h1>Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？</h1>
+<div class="meta"><strong>作者</strong>：電腦王阿達 | <strong>發布時間</strong>：2024-09-05<br>
+<a href="https://www.kocpc.com.tw/archives/563648" target="_blank">查看原文（電腦王阿達）</a></div>
+<div class="content">
+<p>AI 是目前主導整個科技產業的主要話題，從 Made by Google 2024 中就能知道 AI 在未來的舉足輕重，Google 在這次的活動中展示了 Google Gemini 在全新 Pixel 9 系列和其他硬體上的最新功能。Gemini 是 Google 的 AI 聊天機器人，取代了 Google Bard，而且是 OpenAI 旗下 ChatGPT 的替代品，當收到指令時，它會寫詩、寫程式、規劃旅程等。Gemini 有一個功能更強大的變體，稱作「Gemini Advanced」，它可以處理更複雜的任務，並提供與 Google 產品更深入的整合，這次我們就來聊聊兩者之間的主要差異。</p>
+<p><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_001.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_002.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /></p>
+<h2>Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？</h2>
+<h3>1. Gemini Advanced 可以處理更多數據</h3>
+<p>與其他大型語言模型 AI 系統一樣，Google Gemini 處理的資訊量有限。 Gemini 為 32,000 個詞元，Gemini Advanced 為 1,000,000 個詞元。詞元（Token）是 AI 操控的資料塊，文字、圖像、影片均屬之。聊天對話的長度（包括你的輸入和機器人的回應）以詞元來計量，上下文視窗是同時處理的詞元數量，超過的話可能會使最早的詞元被忽略，因此 Gemini 的答案可能不會考量你提供的部分資訊。</p>
+<p><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_003.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_004.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /></p>
+<p>1,000,000 個詞元聽起來很多，足以容納一個小時影片的對話量，使得 Gemini Advanced 更適合專業用途，例如資料分析和程式碼產生。而 32,000 個詞元足以幫助完成日常任務和較輕的工作負載，仍然可以要求 Gemini 為你簡短的程式碼，並解釋每個部分的作用。</p>
+<h3>2. Gemini Advanced 使用能力更強的 LLM</h3>
+<p>AI 聊天機器人的大腦就是它的 LLM（大型語言模型），Gemini 基礎版可以存取 Gemini 1.5 Flash，Gemini Advanced 則使用 Gemini 1.5 Pro。這兩種語言模型的性能相似，而且都是多模態，表示它們均可以處理文字、影像和影片。然而，Gemini 1.5 Flash 專為速度和效率而打造，而 Gemini 1.5 Pro 針對涉及較大資料庫的複雜任務進行了最佳化。</p>
+<p><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_005.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_006.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /></p>
+<p><a href="https://deepmind.google/technologies/gemini/pro/">Google 的基準測試</a>顯示 Gemini 1.5 Pro 的全面性能更強，在回答一般知識問題、產生電腦程式碼以及解決需要數學和推理技能的問題時表現更好，解說更清晰明瞭；Gemini 1.5 Flash 則比較像是快問快答。</p>
+<h3>3. Google 應用程式具備與 Gemini Advanced 的整合</h3>
+<p>你可以在 Google 應用程式和服務中使用 Gemini Advanced。它可以在 Google 文件裡撰寫和編輯文字、生成列表並將它放入 Keep 筆記中，或是書寫電子郵件草稿，你還可以自訂主題、長度和語氣。Gemini 內建於 UI 中，提供更流暢無縫的使用體驗。</p>
+<p><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_007.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_008.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /></p>
+<p>你可以要求 Gemini 的免費版本編寫文章中的每一小段和電子郵件，然後將文字貼到你需要的位置，但這不是最優雅的過程。如果你需要檢索或分析儲存在其中的資訊，基本的 Gemini 聊天機器人可以讀取你的 Gmail 或 Google Drive。</p>
+<h3>4. Gemini Live</h3>
+<p>正如 Made By Google 活動中所展示，Gemini Live 可讓你使用自然語言的語音指令與 Google 的 AI 互動。然後，Gemini 會用多種聽起來像人類的聲音之一進行回應，但與人類不同的是，如果你想添加一些補充內容，Gemini 不介意被打斷。Gemini Live 現已在許多 Android 裝置上運行，但只有在擁有 Gemini Advanced 的情況下才能使用。</p>
+<h3>5. 搶先體驗新功能</h3>
+<p>Google 承諾讓 Gemini Advanced 用戶優先體驗新功能，造訪 Gemini Live 和 Gemini 1.5 Pro 就是兩個例子。不過，清單中還有更多內容：上傳文件進行分析、摘要或視覺化，以及在 Gemini Advanced UI 中編輯和執行 Python 程式碼。</p>
+<p><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_009.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_010.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /></p>
+<p>有關未來功能的詳細資訊很少，但高級訂閱者或許可以比別人都早訪問 Gemini 背後的 LLM 即將推出的版本。我們還期望首先在 Gemini Advanced 上看到新的應用程式整合和擴充。目前，擴展程式清單包括 Google Workspace、航班、飯店、地圖、YouTube 和 YouTube Music 等。</p>
+<h3>6. 2TB 雲端儲存</h3>
+<p>Gemini Advanced 可透過 Google One AI Premium 訂閱取得。因此，訂閱後你將獲得 2TB 的 Google 雲端儲存空間，可用於 Gmail、雲端硬碟、文件和所有其他 Google 服務。雖然這對於除了精通技術的人之外的所有人來說可能有點太多，但你可以與家庭成員中最多五個人共享該空間。</p>
+<h3>7. Gemini Advanced 訂閱價格並不便宜</h3>
+<p>只要你擁有 Google 帳戶就可以使用免費版的 Gemini 。作為 Google One AI Premium 計劃的一部分，升級到 Gemini Advanced 的費用是每個月新台幣 650 元。這價格並不便宜，特別是你可能已經擁有的其他訂閱項目。另一方面，如果擬打算在工作中廣泛且大量使用 Gemini Advanced，考慮到 Google 的 AI 可以節省時間，這一成本可能是值得的。</p>
+<p>如果你想嘗試 Gemini Advanced，可以享受 1 個月的免費試用優惠，但 Pixel 9 購買者可以獲得更長的試用。2025 年 10 月 31 日之前購買的任何 Pixel 9 手機均附帶一年的 Gemini Advanced 會籍。</p>
+<p><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_011.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /><img alt="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" src="../../ai_tips/Google_Gemini_與_Gemini_Advanced_的關鍵差異在哪裡/assets/img_012.jpg" title="Google Gemini 與 Gemini Advanced 的關鍵差異在哪裡？ - 電腦王阿達" /></p>
+<h3>你應該付費訂閱 Gemini Advanced 嗎？</h3>
+<p>這個問題取決於你的工作方式。需要幫助編寫程式碼、處理數據或編輯大量文字和電子郵件的專業人士對於 Google 高階 AI 能力接受度會更高，讓 Gemini Advanced 每月為你節省一小時的工作量，還能擁有 Gemini Live 這項很酷的功能。對於普羅大眾來說，Gemini 免費版本應該就很夠用了，即使與 Google 服務的整合有限，它也能執行各種常見任務。如果你猶豫不決，可以<a href="https://gemini.google/advanced/?hl=zh-TW">到官網上開通免費試用一個月</a>。</p>
+<p>Tags: <a href="https://www.koc.com.tw/archives/tag/ai">ai</a><a href="https://www.koc.com.tw/archives/tag/gemini">Gemini</a><a href="https://www.koc.com.tw/archives/tag/google-2">Google</a><a href="https://www.koc.com.tw/archives/tag/llm">LLM</a><a href="https://www.koc.com.tw/archives/tag/%e5%af%a6%e7%94%a8%e6%8c%87%e5%8d%97">實用指南</a><a href="https://www.koc.com.tw/archives/tag/%e6%8c%87%e5%8d%97">指南</a></p>
+<hr />
+<p><em>原文連結：https://www.kocpc.com.tw/archives/563648</em>
+<em>本文轉載自電腦王阿達（kocpc.com.tw），版權歸原作者所有。</em></p></div>
+<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
+<a class="dl-btn" href="../../ai_tips/Google_Gemini_%E8%88%87_Gemini_Advanced_%E7%9A%84%E9%97%9C%E9%8D%B5%E5%B7%AE%E7%95%B0%E5%9C%A8%E5%93%AA%E8%A3%A1/index.md" download>下載 Markdown</a>
+<a class="dl-btn sec" href="https://www.kocpc.com.tw/archives/563648" target="_blank">原文連結</a></div></article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div></body></html>

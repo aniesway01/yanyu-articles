@@ -1,0 +1,9 @@
+metadata:
+  name: Create Project Spotlight
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Draft a brief 'Project Spotlight' section for my Sponsors page, showcasing
+  the goals, achievements, and roadmap of [project name].

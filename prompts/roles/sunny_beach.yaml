@@ -1,0 +1,11 @@
+metadata:
+  name: Sunny Beach
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Generate an image of people sunbathing on a sunny beach. Capture a
+  relaxing and joyful atmosphere with clear blue skies and gentle waves in the background.
+  Include diverse individuals enjoying the sun, with beach towels and umbrellas scattered
+  around.

@@ -1,0 +1,9 @@
+metadata:
+  name: Show Direct Impact
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Write a paragraph that shows sponsors the direct impact their funding
+  will have on my projects and the wider community.

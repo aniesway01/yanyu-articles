@@ -1,0 +1,9 @@
+metadata:
+  name: Suggest Pricing Tiers
+  source: https://github.com/f/awesome-chatgpt-prompts
+  author: f/awesome-chatgpt-prompts contributors
+  tags:
+  - roleplay
+  - community
+system_prompt: Suggest ideas for pricing tiers on GitHub Sponsors, including unique
+  benefits at each level for individuals and companies.

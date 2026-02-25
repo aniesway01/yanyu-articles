@@ -299,3 +299,6 @@
 [2026-02-25 19:29:49] INFO: 總進度：{'fetched': 47, 'failed': 2}
 [2026-02-25 19:33:16] SUMMARY: 抓取完成 — 47 篇成功, 2 篇跳過 (art_027 非文章, art_045 被屏蔽), 315 張圖片
 [2026-02-25 19:33:16] NEXT: 建立 GitHub repo + 靜態網站
+[2026-02-25 19:39:52] DEPLOY: GitHub repo 建立完成 → https://github.com/aniesway01/yanyu-articles
+[2026-02-25 19:39:52] DEPLOY: GitHub Pages 啟用 → https://aniesway01.github.io/yanyu-articles/
+[2026-02-25 19:39:52] DONE: 全部任務完成

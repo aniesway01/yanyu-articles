@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NotebookLM 使用教學：幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+</style></head><body><div class="ctn">
+<nav><a href="../../ai-tips.html">&larr; 返回</a></nav><article><h1>NotebookLM 使用教學：幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast</h1>
+<div class="meta"><strong>作者</strong>：電腦王阿達 | <strong>發布時間</strong>：2024-10-28<br>
+<a href="https://www.kocpc.com.tw/archives/571945" target="_blank">查看原文（電腦王阿達）</a></div>
+<div class="content">
+<p>為大家介紹最近很紅的服務「<a href="https://www.koc.com.tw/archives/tag/notebooklm"><strong>Google NotebookLM</strong></a>」，它是 Google 在 2023 年推出的 AI 筆記應用，傳言在 Google 內部屬於有點實驗性質的服務，原本並沒有太多人使用（起碼我沒注意到有太多人討論），但在今年引入了 Gemini 1.5 Pro 之後功能得到大幅度強化，在整理眾多資訊來源時相當方便，甚至前陣子還出了依照內容產生 Podcast 的功能，我個人是相當驚艷，在這邊也分享一下個人的使用心得，如果有什麼可以補充的也可以在粉絲頁加入討論。首先進入 NotebookLM 服務，使用你的Google 帳號登入後，建立一個筆記本：<br />
+<img alt="Google NotebookLM 使用教學 (1)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_001.jpg" title="Google NotebookLM 使用教學 (1)" /></p>
+<h2>NotebookLM 使用教學：幫你快速整理消化大量資訊論文，讓研究更有效率</h2>
+<p>接著可以選擇一個要進行分析的文件，可以是文字、PDF、txt、錄音檔、Google Doc、網站連結…都可用（支援格式：pdf, txt, md, 3g2, 3gp, aac, aif, aifc, aiff, amr, au, avi, cda, m4a, mid, midi, mp3, mp4, mpeg, ogg, opus, ra, ram, snd, wav, weba, wma），只要上傳檔案或連結即可：<br />
+<img alt="Google NotebookLM 使用教學 (2)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_002.jpg" title="Google NotebookLM 使用教學 (2)" /><img alt="Google NotebookLM 使用教學 (2)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_003.jpg" title="Google NotebookLM 使用教學 (2)" /></p>
+<h3><a href="https://notebooklm.google.com/">NotebookLM官網（請點我）</a></h3>
+<p>實測可以用任何語言的文章、錄音檔、甚至沒有字幕的 YouTube 影片（影片不能太新）直接摘要為中文內容，同時還會提供多個該話題的延伸題目：<br />
+<img alt="螢幕擷取畫面 2024-10-28 175525" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_004.jpg" title="螢幕擷取畫面 2024-10-28 175525" /><img alt="螢幕擷取畫面 2024-10-28 175525" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_005.jpg" title="螢幕擷取畫面 2024-10-28 175525" /><img alt="螢幕擷取畫面 2024-10-28 175804" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_006.jpg" title="螢幕擷取畫面 2024-10-28 175804" /><img alt="螢幕擷取畫面 2024-10-28 175804" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_007.jpg" title="螢幕擷取畫面 2024-10-28 175804" /></p>
+<p>您上課、開會的錄音檔也可以丟給 NotebookLM 整理重點，甚至可以要求它輸出逐字稿：<br />
+<img alt="NotebookLM 使用教學：幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast - 電腦王阿達" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_008.jpg" title="NotebookLM 使用教學：幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast - 電腦王阿達" /><img alt="NotebookLM 使用教學：幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast - 電腦王阿達" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_009.jpg" title="NotebookLM 使用教學：幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast - 電腦王阿達" /></p>
+<p>這邊使用旅行社的行程表當作範例（最近剛好在選旅遊行程），上傳之後系統就會相當快的給出內容分析與摘要，你可以直接詢問想知道的內容或透過建議的問題發問：<br />
+<img alt="Google NotebookLM 使用教學 (3)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_010.jpg" title="Google NotebookLM 使用教學 (3)" /><img alt="Google NotebookLM 使用教學 (3)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_011.jpg" title="Google NotebookLM 使用教學 (3)" /></p>
+<p>舉例來說，我使用建議的「這趟旅程的行程安排有什麼特色？」，系統立刻給出了行程的特色，然後下方還可以自己繼續發問或使用其他的延伸問題，如果沒有時間詳讀文件的話 NotebookLM 的確可以幫你快速整理各種資訊：<br />
+<img alt="Google NotebookLM 使用教學 (4)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_012.jpg" title="Google NotebookLM 使用教學 (4)" /><img alt="Google NotebookLM 使用教學 (4)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_013.jpg" title="Google NotebookLM 使用教學 (4)" /></p>
+<p><img alt="Google NotebookLM 使用教學 (6)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_014.jpg" title="Google NotebookLM 使用教學 (6)" /><img alt="Google NotebookLM 使用教學 (6)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_015.jpg" title="Google NotebookLM 使用教學 (6)" /></p>
+<p><img alt="Google NotebookLM 使用教學 (7)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_016.jpg" title="Google NotebookLM 使用教學 (7)" /><img alt="Google NotebookLM 使用教學 (7)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_017.jpg" title="Google NotebookLM 使用教學 (7)" /></p>
+<p>NotebookLM 所提供的筆記內容都會有文件相關的引用出處，可以讓使用者自己查證是不是 AI 幻想，我自己測試了好幾次正確度都很高：<br />
+<img alt="Google NotebookLM 使用教學 (5)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_018.jpg" title="Google NotebookLM 使用教學 (5)" /><img alt="Google NotebookLM 使用教學 (5)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_019.jpg" title="Google NotebookLM 使用教學 (5)" /></p>
+<p>此外點擊右上角的新增來源就可以加入其他文件與連結進行研究比對（最多可以增加十組文件或連結），這邊我找了另一個旅行社的類似行程：<br />
+<img alt="Google NotebookLM 使用教學 (8)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_020.jpg" title="Google NotebookLM 使用教學 (8)" /><img alt="Google NotebookLM 使用教學 (8)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_021.jpg" title="Google NotebookLM 使用教學 (8)" /></p>
+<p>然後提問兩個行程有什麼差異，系統也馬上作出詳細的的比對，如果你有需要整理歸納大量內容論文寫報告做研究需求的話，NotebookLM 這個功能相當的實用：<br />
+<img alt="Google NotebookLM 使用教學 (9)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_022.jpg" title="Google NotebookLM 使用教學 (9)" /><img alt="Google NotebookLM 使用教學 (9)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_023.jpg" title="Google NotebookLM 使用教學 (9)" /><br />
+<img alt="Google NotebookLM 使用教學 (10)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_024.jpg" title="Google NotebookLM 使用教學 (10)" /><img alt="Google NotebookLM 使用教學 (10)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_025.jpg" title="Google NotebookLM 使用教學 (10)" /></p>
+<h2>超神奇！叫 NotebookLM 將相關內容做成 Podcast（音訊總覽）</h2>
+<p>除了將不同來源的內容整理成方便閱讀的內容與資訊以外，NotebookLM 我覺得最神奇的是它甚至<a href="https://www.koc.com.tw/archives/564691">可以將整理好的資訊做成淺白的 Podcast 內容</a>！不過目前只能製作英文版的內容，方法也超簡單在筆記內容中點選「筆記本導覽」：<br />
+<img alt="Google NotebookLM 使用教學 (11)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_026.jpg" title="Google NotebookLM 使用教學 (11)" /><img alt="Google NotebookLM 使用教學 (11)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_027.jpg" title="Google NotebookLM 使用教學 (11)" /></p>
+<p>然後在筆記本導覽裡就會有「音訊總覽」，這邊就可以生成一段相當豐富的英文 Podcast：<br />
+<img alt="Google NotebookLM 使用教學 (12)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_028.jpg" title="Google NotebookLM 使用教學 (12)" /><img alt="Google NotebookLM 使用教學 (12)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_029.jpg" title="Google NotebookLM 使用教學 (12)" /></p>
+<p>稍等幾分鐘後就會製作完成，你可以線上收聽也可以下載到電腦中儲存：<br />
+<img alt="Google NotebookLM 使用教學 (13)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_030.jpg" title="Google NotebookLM 使用教學 (13)" /><img alt="Google NotebookLM 使用教學 (13)" src="../../ai_tips/NotebookLM_使用教學幫你快速整理消化大量資訊論文，還可以影片錄音轉文字摘要產生Podcast/assets/img_031.jpg" title="Google NotebookLM 使用教學 (13)" /></p>
+<p>阿達使用網路上兩間旅行社的巴爾幹旅遊的 Pdf 檔用 NotebookLM 製作了長達20分鐘的 Podcast 音檔，大家可以聽看看，成果非常的自然，完全不會覺得是AI生成的內容，對於沒時間好好閱讀大量來源內容並整理資訊的人來說相當實用，~~只可惜目前只能生成英文音檔~~，現在已經能產生中文內容了，大家可以聽看看效果（<a href="https://open.spotify.com/show/47nkKnOmGchanboOB5tLRA">歡迎訂閱</a>）：</p>
+<h2>結語</h2>
+<p>個人覺得 Google NotebookLM 對於經常需要整理並融會貫通各種複雜資訊進行研究分析的族群來說相當好用，其實用程度甚至遠遠高於 ChatGPT，也是目前為止個人認為 Gemini 1.5 Pro 最強悍的實際應用，希望 Google 能持續在 NotebookLM 這個項目持續發力，不要像<a href="https://www.koc.com.tw/search/Google+%E7%B5%82%E6%AD%A2">其他服務一樣突然之間說停就停</a>那就非常可惜了，也推薦給大家使用，如果有更多我不知道的 NotebookLM 相關應用也歡迎告訴我，我會找時間補上。</p>
+<p>另外台灣最近也有業者推本土版的連結生成 Podcast 服務，有興趣的朋友也可以試試：</p>
+<blockquote>
+<p><a href="https://www.koc.com.tw/archives/574254">MixerBox AI GenPod 一鍵將你感興趣的內容，生成中文 Podcast 的免費工具</a></p>
+</blockquote>
+<p>Tags: <a href="https://www.koc.com.tw/archives/tag/ai">ai</a><a href="https://www.koc.com.tw/archives/tag/gemini">Gemini</a><a href="https://www.koc.com.tw/archives/tag/notebooklm">NotebookLM</a></p>
+<hr />
+<p><em>原文連結：https://www.kocpc.com.tw/archives/571945</em>
+<em>本文轉載自電腦王阿達（kocpc.com.tw），版權歸原作者所有。</em></p></div>
+<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
+<a class="dl-btn" href="../../ai_tips/NotebookLM_%E4%BD%BF%E7%94%A8%E6%95%99%E5%AD%B8%E5%B9%AB%E4%BD%A0%E5%BF%AB%E9%80%9F%E6%95%B4%E7%90%86%E6%B6%88%E5%8C%96%E5%A4%A7%E9%87%8F%E8%B3%87%E8%A8%8A%E8%AB%96%E6%96%87%EF%BC%8C%E9%82%84%E5%8F%AF%E4%BB%A5%E5%BD%B1%E7%89%87%E9%8C%84%E9%9F%B3%E8%BD%89%E6%96%87%E5%AD%97%E6%91%98%E8%A6%81%E7%94%A2%E7%94%9FPodcast/index.md" download>下載 Markdown</a>
+<a class="dl-btn sec" href="https://www.kocpc.com.tw/archives/571945" target="_blank">原文連結</a></div></article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div></body></html>

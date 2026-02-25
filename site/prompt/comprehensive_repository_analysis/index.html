@@ -1,0 +1,1091 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Comprehensive repository analysis - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+</style></head><body><div class="ctn">
+<nav><a href="../../prompts.html">&larr; 返回</a></nav><article><h1>Comprehensive repository analysis</h1>
+<div class="meta"><strong>分類</strong>：遊戲娛樂 | <strong>作者</strong>：f/awesome-chatgpt-prompts contributors | <strong>長度</strong>：20411 字元</div>
+<div class="meta"><strong>來源</strong>：<a href="https://github.com/f/awesome-chatgpt-prompts" target="_blank">https://github.com/f/awesome-chatgpt-prompts</a></div>
+<div style="margin:20px 0"><button id="cb" onclick="cp()" style="padding:8px 20px;background:#1a73e8;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:14px">複製 Prompt</button>
+<a class="dl-btn sec" href="../../prompts/roles/comprehensive_repository_analysis.yaml" download style="margin-left:8px">下載 YAML</a></div>
+<div id="pt">{
+  &quot;task&quot;: &quot;comprehensive_repository_analysis&quot;,
+  &quot;objective&quot;: &quot;Conduct exhaustive analysis of entire codebase to identify, prioritize, fix, and document ALL verifiable bugs, security vulnerabilities, and critical issues across any technology stack&quot;,
+  
+  &quot;analysis_phases&quot;: [
+    {
+      &quot;phase&quot;: 1,
+      &quot;name&quot;: &quot;Repository Discovery &amp; Mapping&quot;,
+      &quot;steps&quot;: [
+        {
+          &quot;step&quot;: &quot;1.1&quot;,
+          &quot;title&quot;: &quot;Architecture &amp; Structure Analysis&quot;,
+          &quot;actions&quot;: [
+            &quot;Map complete directory structure (src/, lib/, tests/, docs/, config/, scripts/, build/, deploy/)&quot;,
+            &quot;Identify all technology stacks and frameworks in use&quot;,
+            &quot;Parse dependency manifests (package.json, requirements.txt, go.mod, pom.xml, Gemfile, Cargo.toml, composer.json)&quot;,
+            &quot;Document entry points, main execution paths, and module boundaries&quot;,
+            &quot;Analyze build systems (Webpack, Gradle, Maven, Make, CMake)&quot;,
+            &quot;Review CI/CD configurations (GitHub Actions, GitLab CI, Jenkins, CircleCI)&quot;,
+            &quot;Examine existing documentation (README, CONTRIBUTING, API specs, architecture diagrams)&quot;
+          ]
+        },
+        {
+          &quot;step&quot;: &quot;1.2&quot;,
+          &quot;title&quot;: &quot;Development Environment Inventory&quot;,
+          &quot;actions&quot;: [
+            &quot;Identify testing frameworks (Jest, Mocha, pytest, PHPUnit, Go test, JUnit, RSpec, xUnit)&quot;,
+            &quot;Review linter/formatter configs (ESLint, Prettier, Black, Flake8, RuboCop, golangci-lint, Checkstyle)&quot;,
+            &quot;Scan for inline issue markers (TODO, FIXME, HACK, XXX, BUG, NOTE)&quot;,
+            &quot;Analyze git history for problematic patterns and recent hotfixes&quot;,
+            &quot;Extract existing test coverage reports and metrics&quot;,
+            &quot;Identify code analysis tools already in use (SonarQube, CodeClimate, etc.)&quot;
+          ]
+        }
+      ]
+    },
+    {
+      &quot;phase&quot;: 2,
+      &quot;name&quot;: &quot;Systematic Bug Discovery&quot;,
+      &quot;bug_categories&quot;: [
+        {
+          &quot;category&quot;: &quot;CRITICAL&quot;,
+          &quot;severity&quot;: &quot;P0&quot;,
+          &quot;types&quot;: [
+            &quot;SQL Injection vulnerabilities&quot;,
+            &quot;Cross-Site Scripting (XSS) flaws&quot;,
+            &quot;Cross-Site Request Forgery (CSRF) vulnerabilities&quot;,
+            &quot;Authentication/Authorization bypass&quot;,
+            &quot;Remote Code Execution (RCE) risks&quot;,
+            &quot;Data corruption or permanent data loss&quot;,
+            &quot;System crashes, deadlocks, or infinite loops&quot;,
+            &quot;Memory leaks and resource exhaustion&quot;,
+            &quot;Insecure cryptographic implementations&quot;,
+            &quot;Hardcoded secrets or credentials&quot;
+          ]
+        },
+        {
+          &quot;category&quot;: &quot;FUNCTIONAL&quot;,
+          &quot;severity&quot;: &quot;P1-P2&quot;,
+          &quot;types&quot;: [
+            &quot;Logic errors (incorrect conditionals, wrong calculations, off-by-one errors)&quot;,
+            &quot;State management issues (race conditions, stale state, improper mutations)&quot;,
+            &quot;Incorrect API contracts or request/response mappings&quot;,
+            &quot;Missing or insufficient input validation&quot;,
+            &quot;Broken business logic or workflow violations&quot;,
+            &quot;Incorrect data transformations or serialization&quot;,
+            &quot;Type mismatches or unsafe type coercions&quot;,
+            &quot;Incorrect exception handling or error propagation&quot;
+          ]
+        },
+        {
+          &quot;category&quot;: &quot;INTEGRATION&quot;,
+          &quot;severity&quot;: &quot;P2&quot;,
+          &quot;types&quot;: [
+            &quot;Incorrect external API usage or outdated endpoints&quot;,
+            &quot;Database query errors, SQL syntax issues, or N+1 problems&quot;,
+            &quot;Message queue handling failures (RabbitMQ, Kafka, SQS)&quot;,
+            &quot;File system operation errors (permissions, path traversal)&quot;,
+            &quot;Network communication issues (timeouts, retries, connection pooling)&quot;,
+            &quot;Cache inconsistency or invalidation problems&quot;,
+            &quot;Third-party library misuse or version incompatibilities&quot;
+          ]
+        },
+        {
+          &quot;category&quot;: &quot;EDGE_CASES&quot;,
+          &quot;severity&quot;: &quot;P2-P3&quot;,
+          &quot;types&quot;: [
+            &quot;Null/undefined/nil/None pointer dereferences&quot;,
+            &quot;Empty array/list/collection handling&quot;,
+            &quot;Zero or negative value edge cases&quot;,
+            &quot;Boundary conditions (max/min integers, string length limits)&quot;,
+            &quot;Missing error handling or swallowed exceptions&quot;,
+            &quot;Timeout and retry logic failures&quot;,
+            &quot;Concurrent access issues without proper locking&quot;,
+            &quot;Overflow/underflow in numeric operations&quot;
+          ]
+        },
+        {
+          &quot;category&quot;: &quot;CODE_QUALITY&quot;,
+          &quot;severity&quot;: &quot;P3-P4&quot;,
+          &quot;types&quot;: [
+            &quot;Deprecated API usage&quot;,
+            &quot;Dead code or unreachable code paths&quot;,
+            &quot;Circular dependencies&quot;,
+            &quot;Performance bottlenecks (inefficient algorithms, redundant operations)&quot;,
+            &quot;Missing or incorrect type annotations&quot;,
+            &quot;Inconsistent error handling patterns&quot;,
+            &quot;Resource leaks (file handles, database connections, network sockets)&quot;,
+            &quot;Improper logging (sensitive data exposure, insufficient context)&quot;
+          ]
+        }
+      ],
+      &quot;discovery_methods&quot;: [
+        &quot;Static code analysis using language-specific tools&quot;,
+        &quot;Pattern matching for common anti-patterns and code smells&quot;,
+        &quot;Dependency vulnerability scanning (npm audit, pip-audit, bundle-audit, cargo audit)&quot;,
+        &quot;Control flow and data flow analysis&quot;,
+        &quot;Dead code detection&quot;,
+        &quot;Configuration validation against best practices&quot;,
+        &quot;Documentation-to-implementation cross-verification&quot;,
+        &quot;Security-focused code review&quot;
+      ]
+    },
+    {
+      &quot;phase&quot;: 3,
+      &quot;name&quot;: &quot;Bug Documentation &amp; Prioritization&quot;,
+      &quot;bug_report_schema&quot;: {
+        &quot;bug_id&quot;: &quot;Sequential identifier (BUG-001, BUG-002, etc.)&quot;,
+        &quot;severity&quot;: {
+          &quot;type&quot;: &quot;enum&quot;,
+          &quot;values&quot;: [&quot;CRITICAL&quot;, &quot;HIGH&quot;, &quot;MEDIUM&quot;, &quot;LOW&quot;],
+          &quot;description&quot;: &quot;Bug severity level&quot;
+        },
+        &quot;category&quot;: {
+          &quot;type&quot;: &quot;enum&quot;,
+          &quot;values&quot;: [&quot;SECURITY&quot;, &quot;FUNCTIONAL&quot;, &quot;PERFORMANCE&quot;, &quot;INTEGRATION&quot;, &quot;CODE_QUALITY&quot;],
+          &quot;description&quot;: &quot;Bug classification&quot;
+        },
+        &quot;location&quot;: {
+          &quot;files&quot;: [&quot;Array of affected file paths with line numbers&quot;],
+          &quot;component&quot;: &quot;Module/Service/Feature name&quot;,
+          &quot;function&quot;: &quot;Specific function or method name&quot;
+        },
+        &quot;description&quot;: {
+          &quot;current_behavior&quot;: &quot;What's broken or wrong&quot;,
+          &quot;expected_behavior&quot;: &quot;What should happen instead&quot;,
+          &quot;root_cause&quot;: &quot;Technical explanation of why it's broken&quot;
+        },
+        &quot;impact_assessment&quot;: {
+          &quot;user_impact&quot;: &quot;Effect on end users (data loss, security exposure, UX degradation)&quot;,
+          &quot;system_impact&quot;: &quot;Effect on system (performance, stability, scalability)&quot;,
+          &quot;business_impact&quot;: &quot;Effect on business (compliance, revenue, reputation, legal)&quot;
+        },
+        &quot;reproduction&quot;: {
+          &quot;steps&quot;: [&quot;Step-by-step instructions to reproduce&quot;],
+          &quot;test_data&quot;: &quot;Sample data or conditions needed&quot;,
+          &quot;actual_result&quot;: &quot;What happens when reproduced&quot;,
+          &quot;expected_result&quot;: &quot;What should happen&quot;
+        },
+        &quot;verification&quot;: {
+          &quot;code_snippet&quot;: &quot;Demonstrative code showing the bug&quot;,
+          &quot;test_case&quot;: &quot;Test that would fail due to this bug&quot;,
+          &quot;logs_or_metrics&quot;: &quot;Evidence from logs or monitoring&quot;
+        },
+        &quot;dependencies&quot;: {
+          &quot;related_bugs&quot;: [&quot;Array of related BUG-IDs&quot;],
+          &quot;blocking_issues&quot;: [&quot;Array of bugs that must be fixed first&quot;],
+          &quot;blocked_by&quot;: [&quot;External factors preventing fix&quot;]
+        },
+        &quot;metadata&quot;: {
+          &quot;discovered_date&quot;: &quot;ISO 8601 timestamp&quot;,
+          &quot;discovered_by&quot;: &quot;Tool or method used&quot;,
+          &quot;cve_id&quot;: &quot;If applicable, CVE identifier&quot;,
+          &quot;cwe_id&quot;: &quot;If applicable, CWE identifier&quot;
+        }
+      },
+      &quot;prioritization_matrix&quot;: {
+        &quot;criteria&quot;: [
+          {
+            &quot;factor&quot;: &quot;severity&quot;,
+            &quot;weight&quot;: 0.40,
+            &quot;scale&quot;: &quot;CRITICAL=100, HIGH=70, MEDIUM=40, LOW=10&quot;
+          },
+          {
+            &quot;factor&quot;: &quot;user_impact&quot;,
+            &quot;weight&quot;: 0.30,
+            &quot;scale&quot;: &quot;All users=100, Many=70, Some=40, Few=10&quot;
+          },
+          {
+            &quot;factor&quot;: &quot;fix_complexity&quot;,
+            &quot;weight&quot;: 0.15,
+            &quot;scale&quot;: &quot;Simple=100, Medium=60, Complex=20&quot;
+          },
+          {
+            &quot;factor&quot;: &quot;regression_risk&quot;,
+            &quot;weight&quot;: 0.15,
+            &quot;scale&quot;: &quot;Low=100, Medium=60, High=20&quot;
+          }
+        ],
+        &quot;formula&quot;: &quot;priority_score = Σ(factor_value × weight)&quot;
+      }
+    },
+    {
+      &quot;phase&quot;: 4,
+      &quot;name&quot;: &quot;Fix Implementation&quot;,
+      &quot;fix_workflow&quot;: [
+        {
+          &quot;step&quot;: 1,
+          &quot;action&quot;: &quot;Create isolated fix branch&quot;,
+          &quot;naming&quot;: &quot;fix/BUG-{id}-{short-description}&quot;
+        },
+        {
+          &quot;step&quot;: 2,
+          &quot;action&quot;: &quot;Write failing test FIRST&quot;,
+          &quot;rationale&quot;: &quot;Test-Driven Development ensures fix is verifiable&quot;
+        },
+        {
+          &quot;step&quot;: 3,
+          &quot;action&quot;: &quot;Implement minimal, focused fix&quot;,
+          &quot;principle&quot;: &quot;Smallest change that correctly resolves the issue&quot;
+        },
+        {
+          &quot;step&quot;: 4,
+          &quot;action&quot;: &quot;Verify test now passes&quot;,
+          &quot;validation&quot;: &quot;Run specific test and related test suite&quot;
+        },
+        {
+          &quot;step&quot;: 5,
+          &quot;action&quot;: &quot;Run full regression test suite&quot;,
+          &quot;validation&quot;: &quot;Ensure no existing functionality breaks&quot;
+        },
+        {
+          &quot;step&quot;: 6,
+          &quot;action&quot;: &quot;Update documentation&quot;,
+          &quot;scope&quot;: &quot;API docs, inline comments, changelog&quot;
+        }
+      ],
+      &quot;fix_principles&quot;: [
+        &quot;MINIMAL_CHANGE: Make the smallest change that correctly fixes the issue&quot;,
+        &quot;NO_SCOPE_CREEP: Avoid unrelated refactoring or feature additions&quot;,
+        &quot;BACKWARDS_COMPATIBLE: Preserve existing API contracts unless bug itself is breaking&quot;,
+        &quot;FOLLOW_CONVENTIONS: Adhere to project's existing code style and patterns&quot;,
+        &quot;DEFENSIVE_PROGRAMMING: Add guards to prevent similar bugs in the future&quot;,
+        &quot;EXPLICIT_OVER_IMPLICIT: Make intent clear through code structure and comments&quot;,
+        &quot;FAIL_FAST: Validate inputs early and fail with clear error messages&quot;
+      ],
+      &quot;code_review_checklist&quot;: [
+        &quot;Fix addresses root cause, not just symptoms&quot;,
+        &quot;All edge cases are properly handled&quot;,
+        &quot;Error messages are clear, actionable, and don't expose sensitive info&quot;,
+        &quot;Performance impact is acceptable (no O(n²) where O(n) suffices)&quot;,
+        &quot;Security implications thoroughly considered&quot;,
+        &quot;No new compiler warnings or linting errors&quot;,
+        &quot;Changes are covered by tests&quot;,
+        &quot;Documentation is updated and accurate&quot;,
+        &quot;Breaking changes are clearly marked and justified&quot;,
+        &quot;Dependencies are up-to-date and secure&quot;
+      ]
+    },
+    {
+      &quot;phase&quot;: 5,
+      &quot;name&quot;: &quot;Testing &amp; Validation&quot;,
+      &quot;test_requirements&quot;: {
+        &quot;mandatory_tests_per_fix&quot;: [
+          {
+            &quot;type&quot;: &quot;unit_test&quot;,
+            &quot;description&quot;: &quot;Isolated test for the specific bug fix&quot;,
+            &quot;coverage&quot;: &quot;Must cover the exact code path that was broken&quot;
+          },
+          {
+            &quot;type&quot;: &quot;integration_test&quot;,
+            &quot;description&quot;: &quot;Test if bug involves multiple components&quot;,
+            &quot;coverage&quot;: &quot;End-to-end flow through affected systems&quot;
+          },
+          {
+            &quot;type&quot;: &quot;regression_test&quot;,
+            &quot;description&quot;: &quot;Ensure fix doesn't break existing functionality&quot;,
+            &quot;coverage&quot;: &quot;All related features and code paths&quot;
+          },
+          {
+            &quot;type&quot;: &quot;edge_case_tests&quot;,
+            &quot;description&quot;: &quot;Cover boundary conditions and corner cases&quot;,
+            &quot;coverage&quot;: &quot;Null values, empty inputs, limits, error conditions&quot;
+          }
+        ]
+      },
+      &quot;test_structure_template&quot;: {
+        &quot;description&quot;: &quot;Language-agnostic test structure&quot;,
+        &quot;template&quot;: [
+          &quot;describe('BUG-{ID}: {description}', () =&gt; {&quot;,
+          &quot;  test('reproduces original bug', () =&gt; {&quot;,
+          &quot;    // This test demonstrates the bug existed&quot;,
+          &quot;    // Should fail before fix, pass after&quot;,
+          &quot;  });&quot;,
+          &quot;&quot;,
+          &quot;  test('verifies fix resolves issue', () =&gt; {&quot;,
+          &quot;    // This test proves correct behavior after fix&quot;,
+          &quot;  });&quot;,
+          &quot;&quot;,
+          &quot;  test('handles edge case: {case}', () =&gt; {&quot;,
+          &quot;    // Additional coverage for related scenarios&quot;,
+          &quot;  });&quot;,
+          &quot;});&quot;
+        ]
+      },
+      &quot;validation_steps&quot;: [
+        {
+          &quot;step&quot;: &quot;Run full test suite&quot;,
+          &quot;commands&quot;: {
+            &quot;javascript&quot;: &quot;npm test&quot;,
+            &quot;python&quot;: &quot;pytest&quot;,
+            &quot;go&quot;: &quot;go test ./...&quot;,
+            &quot;java&quot;: &quot;mvn test&quot;,
+            &quot;ruby&quot;: &quot;bundle exec rspec&quot;,
+            &quot;rust&quot;: &quot;cargo test&quot;,
+            &quot;php&quot;: &quot;phpunit&quot;
+          }
+        },
+        {
+          &quot;step&quot;: &quot;Measure code coverage&quot;,
+          &quot;tools&quot;: [&quot;Istanbul/NYC&quot;, &quot;Coverage.py&quot;, &quot;JaCoCo&quot;, &quot;SimpleCov&quot;, &quot;Tarpaulin&quot;]
+        },
+        {
+          &quot;step&quot;: &quot;Run static analysis&quot;,
+          &quot;tools&quot;: [&quot;ESLint&quot;, &quot;Pylint&quot;, &quot;golangci-lint&quot;, &quot;SpotBugs&quot;, &quot;Clippy&quot;]
+        },
+        {
+          &quot;step&quot;: &quot;Performance benchmarking&quot;,
+          &quot;condition&quot;: &quot;If fix affects hot paths or critical operations&quot;
+        },
+        {
+          &quot;step&quot;: &quot;Security scanning&quot;,
+          &quot;tools&quot;: [&quot;Snyk&quot;, &quot;OWASP Dependency-Check&quot;, &quot;Trivy&quot;, &quot;Bandit&quot;]
+        }
+      ]
+    },
+    {
+      &quot;phase&quot;: 6,
+      &quot;name&quot;: &quot;Documentation &amp; Reporting&quot;,
+      &quot;fix_documentation_requirements&quot;: [
+        &quot;Update inline code comments explaining the fix and why it was necessary&quot;,
+        &quot;Revise API documentation if behavior changed&quot;,
+        &quot;Update CHANGELOG.md with bug fix entry&quot;,
+        &quot;Create or update troubleshooting guides&quot;,
+        &quot;Document any workarounds for deferred/unfixed issues&quot;,
+        &quot;Add migration notes if fix requires user action&quot;
+      ],
+      &quot;executive_summary_template&quot;: {
+        &quot;title&quot;: &quot;Bug Fix Report - {repository_name}&quot;,
+        &quot;metadata&quot;: {
+          &quot;date&quot;: &quot;ISO 8601 date&quot;,
+          &quot;analyzer&quot;: &quot;Tool/Person name&quot;,
+          &quot;repository&quot;: &quot;Full repository path&quot;,
+          &quot;commit_hash&quot;: &quot;Git commit SHA&quot;,
+          &quot;duration&quot;: &quot;Analysis duration in hours&quot;
+        },
+        &quot;overview&quot;: {
+          &quot;total_bugs_found&quot;: &quot;integer&quot;,
+          &quot;total_bugs_fixed&quot;: &quot;integer&quot;,
+          &quot;bugs_deferred&quot;: &quot;integer&quot;,
+          &quot;test_coverage_before&quot;: &quot;percentage&quot;,
+          &quot;test_coverage_after&quot;: &quot;percentage&quot;,
+          &quot;files_analyzed&quot;: &quot;integer&quot;,
+          &quot;lines_of_code&quot;: &quot;integer&quot;
+        },
+        &quot;critical_findings&quot;: [
+          &quot;Top 3-5 most critical bugs found and their fixes&quot;
+        ],
+        &quot;fix_summary_by_category&quot;: {
+          &quot;security&quot;: &quot;count&quot;,
+          &quot;functional&quot;: &quot;count&quot;,
+          &quot;performance&quot;: &quot;count&quot;,
+          &quot;integration&quot;: &quot;count&quot;,
+          &quot;code_quality&quot;: &quot;count&quot;
+        },
+        &quot;detailed_fix_table&quot;: {
+          &quot;columns&quot;: [&quot;BUG-ID&quot;, &quot;File&quot;, &quot;Line&quot;, &quot;Category&quot;, &quot;Severity&quot;, &quot;Description&quot;, &quot;Status&quot;, &quot;Test Added&quot;],
+          &quot;format&quot;: &quot;Markdown table or CSV&quot;
+        },
+        &quot;risk_assessment&quot;: {
+          &quot;remaining_high_priority&quot;: [&quot;List of unfixed critical issues&quot;],
+          &quot;recommended_next_steps&quot;: [&quot;Prioritized action items&quot;],
+          &quot;technical_debt&quot;: [&quot;Summary of identified tech debt&quot;],
+          &quot;breaking_changes&quot;: [&quot;Any backwards-incompatible fixes&quot;]
+        },
+        &quot;testing_results&quot;: {
+          &quot;test_command&quot;: &quot;Exact command used to run tests&quot;,
+          &quot;tests_passed&quot;: &quot;X out of Y&quot;,
+          &quot;tests_failed&quot;: &quot;count with reasons&quot;,
+          &quot;tests_added&quot;: &quot;count&quot;,
+          &quot;coverage_delta&quot;: &quot;+X% or -X%&quot;
+        }
+      },
+      &quot;deliverables_checklist&quot;: [
+        &quot;All bugs documented in standardized format&quot;,
+        &quot;Fixes implemented with minimal scope&quot;,
+        &quot;Test suite updated and passing&quot;,
+        &quot;Documentation updated (code, API, user guides)&quot;,
+        &quot;Code review completed and approved&quot;,
+        &quot;Performance impact assessed and acceptable&quot;,
+        &quot;Security review conducted for security-related fixes&quot;,
+        &quot;Deployment notes and rollback plan prepared&quot;,
+        &quot;Changelog updated with user-facing changes&quot;,
+        &quot;Stakeholders notified of critical fixes&quot;
+      ]
+    },
+    {
+      &quot;phase&quot;: 7,
+      &quot;name&quot;: &quot;Continuous Improvement&quot;,
+      &quot;pattern_analysis&quot;: {
+        &quot;objectives&quot;: [
+          &quot;Identify recurring bug patterns across codebase&quot;,
+          &quot;Detect architectural issues enabling bugs&quot;,
+          &quot;Find gaps in testing strategy&quot;,
+          &quot;Highlight areas with technical debt&quot;
+        ],
+        &quot;outputs&quot;: [
+          &quot;Common bug pattern report&quot;,
+          &quot;Preventive measure recommendations&quot;,
+          &quot;Tooling improvement suggestions&quot;,
+          &quot;Architectural refactoring proposals&quot;
+        ]
+      },
+      &quot;monitoring_recommendations&quot;: {
+        &quot;metrics_to_track&quot;: [
+          &quot;Bug discovery rate over time&quot;,
+          &quot;Time to resolution by severity&quot;,
+          &quot;Regression rate (bugs reintroduced)&quot;,
+          &quot;Test coverage percentage&quot;,
+          &quot;Code churn in bug-prone areas&quot;,
+          &quot;Dependency vulnerability count&quot;
+        ],
+        &quot;alerting_rules&quot;: [
+          &quot;Critical security vulnerabilities in dependencies&quot;,
+          &quot;Test suite failures&quot;,
+          &quot;Code coverage drops below threshold&quot;,
+          &quot;Performance degradation in key operations&quot;
+        ],
+        &quot;logging_improvements&quot;: [
+          &quot;Add structured logging where missing&quot;,
+          &quot;Include correlation IDs for request tracing&quot;,
+          &quot;Log security-relevant events&quot;,
+          &quot;Ensure error logs include stack traces and context&quot;
+        ]
+      }
+    }
+  ],
+  
+  &quot;constraints_and_best_practices&quot;: [
+    &quot;NEVER compromise security for simplicity or convenience&quot;,
+    &quot;MAINTAIN complete audit trail of all changes&quot;,
+    &quot;FOLLOW semantic versioning if fixes change public API&quot;,
+    &quot;RESPECT rate limits when testing external services&quot;,
+    &quot;USE feature flags for high-risk or gradual rollout fixes&quot;,
+    &quot;DOCUMENT all assumptions made during analysis&quot;,
+    &quot;CONSIDER rollback strategy for every fix&quot;,
+    &quot;PREFER backwards-compatible fixes when possible&quot;,
+    &quot;AVOID introducing new dependencies without justification&quot;,
+    &quot;TEST in multiple environments when applicable&quot;
+  ],
+  
+  &quot;output_formats&quot;: [
+    {
+      &quot;format&quot;: &quot;markdown&quot;,
+      &quot;purpose&quot;: &quot;Human-readable documentation and reports&quot;,
+      &quot;filename_pattern&quot;: &quot;bug_report_{date}.md&quot;
+    },
+    {
+      &quot;format&quot;: &quot;json&quot;,
+      &quot;purpose&quot;: &quot;Machine-readable for automated processing&quot;,
+      &quot;filename_pattern&quot;: &quot;bug_data_{date}.json&quot;,
+      &quot;schema&quot;: &quot;Follow bug_report_schema defined in Phase 3&quot;
+    },
+    {
+      &quot;format&quot;: &quot;csv&quot;,
+      &quot;purpose&quot;: &quot;Import into bug tracking systems (Jira, GitHub Issues)&quot;,
+      &quot;filename_pattern&quot;: &quot;bugs_{date}.csv&quot;,
+      &quot;columns&quot;: [&quot;BUG-ID&quot;, &quot;Severity&quot;, &quot;Category&quot;, &quot;File&quot;, &quot;Line&quot;, &quot;Description&quot;, &quot;Status&quot;]
+    },
+    {
+      &quot;format&quot;: &quot;yaml&quot;,
+      &quot;purpose&quot;: &quot;Configuration-friendly format for CI/CD integration&quot;,
+      &quot;filename_pattern&quot;: &quot;bug_config_{date}.yaml&quot;
+    }
+  ],
+  
+  &quot;special_considerations&quot;: {
+    &quot;monorepos&quot;: &quot;Analyze each package/workspace separately with cross-package dependency tracking&quot;,
+    &quot;microservices&quot;: &quot;Consider inter-service contracts, API compatibility, and distributed tracing&quot;,
+    &quot;legacy_code&quot;: &quot;Balance fix risk vs benefit; prioritize high-impact, low-risk fixes&quot;,
+    &quot;third_party_dependencies&quot;: &quot;Report vulnerabilities upstream; consider alternatives if unmaintained&quot;,
+    &quot;high_traffic_systems&quot;: &quot;Consider deployment strategies (blue-green, canary) for fixes&quot;,
+    &quot;regulated_industries&quot;: &quot;Ensure compliance requirements met (HIPAA, PCI-DSS, SOC2, GDPR)&quot;,
+    &quot;open_source_projects&quot;: &quot;Follow contribution guidelines; engage with maintainers before large changes&quot;
+  },
+  
+  &quot;success_criteria&quot;: {
+    &quot;quantitative&quot;: [
+      &quot;All CRITICAL and HIGH severity bugs addressed&quot;,
+      &quot;Test coverage increased by at least X%&quot;,
+      &quot;Zero security vulnerabilities in dependencies&quot;,
+      &quot;All tests passing&quot;,
+      &quot;Code quality metrics improved (cyclomatic complexity, maintainability index)&quot;
+    ],
+    &quot;qualitative&quot;: [
+      &quot;Codebase is more maintainable&quot;,
+      &quot;Documentation is clear and comprehensive&quot;,
+      &quot;Team can confidently deploy fixes&quot;,
+      &quot;Future bug prevention mechanisms in place&quot;,
+      &quot;Development velocity improved&quot;
+    ]
+  }
+}</div>
+<pre style="white-space:pre-wrap;word-break:break-word;background:#f8f8f8;padding:20px;border-radius:8px;font-size:14px;line-height:1.7;max-height:70vh;overflow-y:auto">{
+  &quot;task&quot;: &quot;comprehensive_repository_analysis&quot;,
+  &quot;objective&quot;: &quot;Conduct exhaustive analysis of entire codebase to identify, prioritize, fix, and document ALL verifiable bugs, security vulnerabilities, and critical issues across any technology stack&quot;,
+  
+  &quot;analysis_phases&quot;: [
+    {
+      &quot;phase&quot;: 1,
+      &quot;name&quot;: &quot;Repository Discovery &amp; Mapping&quot;,
+      &quot;steps&quot;: [
+        {
+          &quot;step&quot;: &quot;1.1&quot;,
+          &quot;title&quot;: &quot;Architecture &amp; Structure Analysis&quot;,
+          &quot;actions&quot;: [
+            &quot;Map complete directory structure (src/, lib/, tests/, docs/, config/, scripts/, build/, deploy/)&quot;,
+            &quot;Identify all technology stacks and frameworks in use&quot;,
+            &quot;Parse dependency manifests (package.json, requirements.txt, go.mod, pom.xml, Gemfile, Cargo.toml, composer.json)&quot;,
+            &quot;Document entry points, main execution paths, and module boundaries&quot;,
+            &quot;Analyze build systems (Webpack, Gradle, Maven, Make, CMake)&quot;,
+            &quot;Review CI/CD configurations (GitHub Actions, GitLab CI, Jenkins, CircleCI)&quot;,
+            &quot;Examine existing documentation (README, CONTRIBUTING, API specs, architecture diagrams)&quot;
+          ]
+        },
+        {
+          &quot;step&quot;: &quot;1.2&quot;,
+          &quot;title&quot;: &quot;Development Environment Inventory&quot;,
+          &quot;actions&quot;: [
+            &quot;Identify testing frameworks (Jest, Mocha, pytest, PHPUnit, Go test, JUnit, RSpec, xUnit)&quot;,
+            &quot;Review linter/formatter configs (ESLint, Prettier, Black, Flake8, RuboCop, golangci-lint, Checkstyle)&quot;,
+            &quot;Scan for inline issue markers (TODO, FIXME, HACK, XXX, BUG, NOTE)&quot;,
+            &quot;Analyze git history for problematic patterns and recent hotfixes&quot;,
+            &quot;Extract existing test coverage reports and metrics&quot;,
+            &quot;Identify code analysis tools already in use (SonarQube, CodeClimate, etc.)&quot;
+          ]
+        }
+      ]
+    },
+    {
+      &quot;phase&quot;: 2,
+      &quot;name&quot;: &quot;Systematic Bug Discovery&quot;,
+      &quot;bug_categories&quot;: [
+        {
+          &quot;category&quot;: &quot;CRITICAL&quot;,
+          &quot;severity&quot;: &quot;P0&quot;,
+          &quot;types&quot;: [
+            &quot;SQL Injection vulnerabilities&quot;,
+            &quot;Cross-Site Scripting (XSS) flaws&quot;,
+            &quot;Cross-Site Request Forgery (CSRF) vulnerabilities&quot;,
+            &quot;Authentication/Authorization bypass&quot;,
+            &quot;Remote Code Execution (RCE) risks&quot;,
+            &quot;Data corruption or permanent data loss&quot;,
+            &quot;System crashes, deadlocks, or infinite loops&quot;,
+            &quot;Memory leaks and resource exhaustion&quot;,
+            &quot;Insecure cryptographic implementations&quot;,
+            &quot;Hardcoded secrets or credentials&quot;
+          ]
+        },
+        {
+          &quot;category&quot;: &quot;FUNCTIONAL&quot;,
+          &quot;severity&quot;: &quot;P1-P2&quot;,
+          &quot;types&quot;: [
+            &quot;Logic errors (incorrect conditionals, wrong calculations, off-by-one errors)&quot;,
+            &quot;State management issues (race conditions, stale state, improper mutations)&quot;,
+            &quot;Incorrect API contracts or request/response mappings&quot;,
+            &quot;Missing or insufficient input validation&quot;,
+            &quot;Broken business logic or workflow violations&quot;,
+            &quot;Incorrect data transformations or serialization&quot;,
+            &quot;Type mismatches or unsafe type coercions&quot;,
+            &quot;Incorrect exception handling or error propagation&quot;
+          ]
+        },
+        {
+          &quot;category&quot;: &quot;INTEGRATION&quot;,
+          &quot;severity&quot;: &quot;P2&quot;,
+          &quot;types&quot;: [
+            &quot;Incorrect external API usage or outdated endpoints&quot;,
+            &quot;Database query errors, SQL syntax issues, or N+1 problems&quot;,
+            &quot;Message queue handling failures (RabbitMQ, Kafka, SQS)&quot;,
+            &quot;File system operation errors (permissions, path traversal)&quot;,
+            &quot;Network communication issues (timeouts, retries, connection pooling)&quot;,
+            &quot;Cache inconsistency or invalidation problems&quot;,
+            &quot;Third-party library misuse or version incompatibilities&quot;
+          ]
+        },
+        {
+          &quot;category&quot;: &quot;EDGE_CASES&quot;,
+          &quot;severity&quot;: &quot;P2-P3&quot;,
+          &quot;types&quot;: [
+            &quot;Null/undefined/nil/None pointer dereferences&quot;,
+            &quot;Empty array/list/collection handling&quot;,
+            &quot;Zero or negative value edge cases&quot;,
+            &quot;Boundary conditions (max/min integers, string length limits)&quot;,
+            &quot;Missing error handling or swallowed exceptions&quot;,
+            &quot;Timeout and retry logic failures&quot;,
+            &quot;Concurrent access issues without proper locking&quot;,
+            &quot;Overflow/underflow in numeric operations&quot;
+          ]
+        },
+        {
+          &quot;category&quot;: &quot;CODE_QUALITY&quot;,
+          &quot;severity&quot;: &quot;P3-P4&quot;,
+          &quot;types&quot;: [
+            &quot;Deprecated API usage&quot;,
+            &quot;Dead code or unreachable code paths&quot;,
+            &quot;Circular dependencies&quot;,
+            &quot;Performance bottlenecks (inefficient algorithms, redundant operations)&quot;,
+            &quot;Missing or incorrect type annotations&quot;,
+            &quot;Inconsistent error handling patterns&quot;,
+            &quot;Resource leaks (file handles, database connections, network sockets)&quot;,
+            &quot;Improper logging (sensitive data exposure, insufficient context)&quot;
+          ]
+        }
+      ],
+      &quot;discovery_methods&quot;: [
+        &quot;Static code analysis using language-specific tools&quot;,
+        &quot;Pattern matching for common anti-patterns and code smells&quot;,
+        &quot;Dependency vulnerability scanning (npm audit, pip-audit, bundle-audit, cargo audit)&quot;,
+        &quot;Control flow and data flow analysis&quot;,
+        &quot;Dead code detection&quot;,
+        &quot;Configuration validation against best practices&quot;,
+        &quot;Documentation-to-implementation cross-verification&quot;,
+        &quot;Security-focused code review&quot;
+      ]
+    },
+    {
+      &quot;phase&quot;: 3,
+      &quot;name&quot;: &quot;Bug Documentation &amp; Prioritization&quot;,
+      &quot;bug_report_schema&quot;: {
+        &quot;bug_id&quot;: &quot;Sequential identifier (BUG-001, BUG-002, etc.)&quot;,
+        &quot;severity&quot;: {
+          &quot;type&quot;: &quot;enum&quot;,
+          &quot;values&quot;: [&quot;CRITICAL&quot;, &quot;HIGH&quot;, &quot;MEDIUM&quot;, &quot;LOW&quot;],
+          &quot;description&quot;: &quot;Bug severity level&quot;
+        },
+        &quot;category&quot;: {
+          &quot;type&quot;: &quot;enum&quot;,
+          &quot;values&quot;: [&quot;SECURITY&quot;, &quot;FUNCTIONAL&quot;, &quot;PERFORMANCE&quot;, &quot;INTEGRATION&quot;, &quot;CODE_QUALITY&quot;],
+          &quot;description&quot;: &quot;Bug classification&quot;
+        },
+        &quot;location&quot;: {
+          &quot;files&quot;: [&quot;Array of affected file paths with line numbers&quot;],
+          &quot;component&quot;: &quot;Module/Service/Feature name&quot;,
+          &quot;function&quot;: &quot;Specific function or method name&quot;
+        },
+        &quot;description&quot;: {
+          &quot;current_behavior&quot;: &quot;What's broken or wrong&quot;,
+          &quot;expected_behavior&quot;: &quot;What should happen instead&quot;,
+          &quot;root_cause&quot;: &quot;Technical explanation of why it's broken&quot;
+        },
+        &quot;impact_assessment&quot;: {
+          &quot;user_impact&quot;: &quot;Effect on end users (data loss, security exposure, UX degradation)&quot;,
+          &quot;system_impact&quot;: &quot;Effect on system (performance, stability, scalability)&quot;,
+          &quot;business_impact&quot;: &quot;Effect on business (compliance, revenue, reputation, legal)&quot;
+        },
+        &quot;reproduction&quot;: {
+          &quot;steps&quot;: [&quot;Step-by-step instructions to reproduce&quot;],
+          &quot;test_data&quot;: &quot;Sample data or conditions needed&quot;,
+          &quot;actual_result&quot;: &quot;What happens when reproduced&quot;,
+          &quot;expected_result&quot;: &quot;What should happen&quot;
+        },
+        &quot;verification&quot;: {
+          &quot;code_snippet&quot;: &quot;Demonstrative code showing the bug&quot;,
+          &quot;test_case&quot;: &quot;Test that would fail due to this bug&quot;,
+          &quot;logs_or_metrics&quot;: &quot;Evidence from logs or monitoring&quot;
+        },
+        &quot;dependencies&quot;: {
+          &quot;related_bugs&quot;: [&quot;Array of related BUG-IDs&quot;],
+          &quot;blocking_issues&quot;: [&quot;Array of bugs that must be fixed first&quot;],
+          &quot;blocked_by&quot;: [&quot;External factors preventing fix&quot;]
+        },
+        &quot;metadata&quot;: {
+          &quot;discovered_date&quot;: &quot;ISO 8601 timestamp&quot;,
+          &quot;discovered_by&quot;: &quot;Tool or method used&quot;,
+          &quot;cve_id&quot;: &quot;If applicable, CVE identifier&quot;,
+          &quot;cwe_id&quot;: &quot;If applicable, CWE identifier&quot;
+        }
+      },
+      &quot;prioritization_matrix&quot;: {
+        &quot;criteria&quot;: [
+          {
+            &quot;factor&quot;: &quot;severity&quot;,
+            &quot;weight&quot;: 0.40,
+            &quot;scale&quot;: &quot;CRITICAL=100, HIGH=70, MEDIUM=40, LOW=10&quot;
+          },
+          {
+            &quot;factor&quot;: &quot;user_impact&quot;,
+            &quot;weight&quot;: 0.30,
+            &quot;scale&quot;: &quot;All users=100, Many=70, Some=40, Few=10&quot;
+          },
+          {
+            &quot;factor&quot;: &quot;fix_complexity&quot;,
+            &quot;weight&quot;: 0.15,
+            &quot;scale&quot;: &quot;Simple=100, Medium=60, Complex=20&quot;
+          },
+          {
+            &quot;factor&quot;: &quot;regression_risk&quot;,
+            &quot;weight&quot;: 0.15,
+            &quot;scale&quot;: &quot;Low=100, Medium=60, High=20&quot;
+          }
+        ],
+        &quot;formula&quot;: &quot;priority_score = Σ(factor_value × weight)&quot;
+      }
+    },
+    {
+      &quot;phase&quot;: 4,
+      &quot;name&quot;: &quot;Fix Implementation&quot;,
+      &quot;fix_workflow&quot;: [
+        {
+          &quot;step&quot;: 1,
+          &quot;action&quot;: &quot;Create isolated fix branch&quot;,
+          &quot;naming&quot;: &quot;fix/BUG-{id}-{short-description}&quot;
+        },
+        {
+          &quot;step&quot;: 2,
+          &quot;action&quot;: &quot;Write failing test FIRST&quot;,
+          &quot;rationale&quot;: &quot;Test-Driven Development ensures fix is verifiable&quot;
+        },
+        {
+          &quot;step&quot;: 3,
+          &quot;action&quot;: &quot;Implement minimal, focused fix&quot;,
+          &quot;principle&quot;: &quot;Smallest change that correctly resolves the issue&quot;
+        },
+        {
+          &quot;step&quot;: 4,
+          &quot;action&quot;: &quot;Verify test now passes&quot;,
+          &quot;validation&quot;: &quot;Run specific test and related test suite&quot;
+        },
+        {
+          &quot;step&quot;: 5,
+          &quot;action&quot;: &quot;Run full regression test suite&quot;,
+          &quot;validation&quot;: &quot;Ensure no existing functionality breaks&quot;
+        },
+        {
+          &quot;step&quot;: 6,
+          &quot;action&quot;: &quot;Update documentation&quot;,
+          &quot;scope&quot;: &quot;API docs, inline comments, changelog&quot;
+        }
+      ],
+      &quot;fix_principles&quot;: [
+        &quot;MINIMAL_CHANGE: Make the smallest change that correctly fixes the issue&quot;,
+        &quot;NO_SCOPE_CREEP: Avoid unrelated refactoring or feature additions&quot;,
+        &quot;BACKWARDS_COMPATIBLE: Preserve existing API contracts unless bug itself is breaking&quot;,
+        &quot;FOLLOW_CONVENTIONS: Adhere to project's existing code style and patterns&quot;,
+        &quot;DEFENSIVE_PROGRAMMING: Add guards to prevent similar bugs in the future&quot;,
+        &quot;EXPLICIT_OVER_IMPLICIT: Make intent clear through code structure and comments&quot;,
+        &quot;FAIL_FAST: Validate inputs early and fail with clear error messages&quot;
+      ],
+      &quot;code_review_checklist&quot;: [
+        &quot;Fix addresses root cause, not just symptoms&quot;,
+        &quot;All edge cases are properly handled&quot;,
+        &quot;Error messages are clear, actionable, and don't expose sensitive info&quot;,
+        &quot;Performance impact is acceptable (no O(n²) where O(n) suffices)&quot;,
+        &quot;Security implications thoroughly considered&quot;,
+        &quot;No new compiler warnings or linting errors&quot;,
+        &quot;Changes are covered by tests&quot;,
+        &quot;Documentation is updated and accurate&quot;,
+        &quot;Breaking changes are clearly marked and justified&quot;,
+        &quot;Dependencies are up-to-date and secure&quot;
+      ]
+    },
+    {
+      &quot;phase&quot;: 5,
+      &quot;name&quot;: &quot;Testing &amp; Validation&quot;,
+      &quot;test_requirements&quot;: {
+        &quot;mandatory_tests_per_fix&quot;: [
+          {
+            &quot;type&quot;: &quot;unit_test&quot;,
+            &quot;description&quot;: &quot;Isolated test for the specific bug fix&quot;,
+            &quot;coverage&quot;: &quot;Must cover the exact code path that was broken&quot;
+          },
+          {
+            &quot;type&quot;: &quot;integration_test&quot;,
+            &quot;description&quot;: &quot;Test if bug involves multiple components&quot;,
+            &quot;coverage&quot;: &quot;End-to-end flow through affected systems&quot;
+          },
+          {
+            &quot;type&quot;: &quot;regression_test&quot;,
+            &quot;description&quot;: &quot;Ensure fix doesn't break existing functionality&quot;,
+            &quot;coverage&quot;: &quot;All related features and code paths&quot;
+          },
+          {
+            &quot;type&quot;: &quot;edge_case_tests&quot;,
+            &quot;description&quot;: &quot;Cover boundary conditions and corner cases&quot;,
+            &quot;coverage&quot;: &quot;Null values, empty inputs, limits, error conditions&quot;
+          }
+        ]
+      },
+      &quot;test_structure_template&quot;: {
+        &quot;description&quot;: &quot;Language-agnostic test structure&quot;,
+        &quot;template&quot;: [
+          &quot;describe('BUG-{ID}: {description}', () =&gt; {&quot;,
+          &quot;  test('reproduces original bug', () =&gt; {&quot;,
+          &quot;    // This test demonstrates the bug existed&quot;,
+          &quot;    // Should fail before fix, pass after&quot;,
+          &quot;  });&quot;,
+          &quot;&quot;,
+          &quot;  test('verifies fix resolves issue', () =&gt; {&quot;,
+          &quot;    // This test proves correct behavior after fix&quot;,
+          &quot;  });&quot;,
+          &quot;&quot;,
+          &quot;  test('handles edge case: {case}', () =&gt; {&quot;,
+          &quot;    // Additional coverage for related scenarios&quot;,
+          &quot;  });&quot;,
+          &quot;});&quot;
+        ]
+      },
+      &quot;validation_steps&quot;: [
+        {
+          &quot;step&quot;: &quot;Run full test suite&quot;,
+          &quot;commands&quot;: {
+            &quot;javascript&quot;: &quot;npm test&quot;,
+            &quot;python&quot;: &quot;pytest&quot;,
+            &quot;go&quot;: &quot;go test ./...&quot;,
+            &quot;java&quot;: &quot;mvn test&quot;,
+            &quot;ruby&quot;: &quot;bundle exec rspec&quot;,
+            &quot;rust&quot;: &quot;cargo test&quot;,
+            &quot;php&quot;: &quot;phpunit&quot;
+          }
+        },
+        {
+          &quot;step&quot;: &quot;Measure code coverage&quot;,
+          &quot;tools&quot;: [&quot;Istanbul/NYC&quot;, &quot;Coverage.py&quot;, &quot;JaCoCo&quot;, &quot;SimpleCov&quot;, &quot;Tarpaulin&quot;]
+        },
+        {
+          &quot;step&quot;: &quot;Run static analysis&quot;,
+          &quot;tools&quot;: [&quot;ESLint&quot;, &quot;Pylint&quot;, &quot;golangci-lint&quot;, &quot;SpotBugs&quot;, &quot;Clippy&quot;]
+        },
+        {
+          &quot;step&quot;: &quot;Performance benchmarking&quot;,
+          &quot;condition&quot;: &quot;If fix affects hot paths or critical operations&quot;
+        },
+        {
+          &quot;step&quot;: &quot;Security scanning&quot;,
+          &quot;tools&quot;: [&quot;Snyk&quot;, &quot;OWASP Dependency-Check&quot;, &quot;Trivy&quot;, &quot;Bandit&quot;]
+        }
+      ]
+    },
+    {
+      &quot;phase&quot;: 6,
+      &quot;name&quot;: &quot;Documentation &amp; Reporting&quot;,
+      &quot;fix_documentation_requirements&quot;: [
+        &quot;Update inline code comments explaining the fix and why it was necessary&quot;,
+        &quot;Revise API documentation if behavior changed&quot;,
+        &quot;Update CHANGELOG.md with bug fix entry&quot;,
+        &quot;Create or update troubleshooting guides&quot;,
+        &quot;Document any workarounds for deferred/unfixed issues&quot;,
+        &quot;Add migration notes if fix requires user action&quot;
+      ],
+      &quot;executive_summary_template&quot;: {
+        &quot;title&quot;: &quot;Bug Fix Report - {repository_name}&quot;,
+        &quot;metadata&quot;: {
+          &quot;date&quot;: &quot;ISO 8601 date&quot;,
+          &quot;analyzer&quot;: &quot;Tool/Person name&quot;,
+          &quot;repository&quot;: &quot;Full repository path&quot;,
+          &quot;commit_hash&quot;: &quot;Git commit SHA&quot;,
+          &quot;duration&quot;: &quot;Analysis duration in hours&quot;
+        },
+        &quot;overview&quot;: {
+          &quot;total_bugs_found&quot;: &quot;integer&quot;,
+          &quot;total_bugs_fixed&quot;: &quot;integer&quot;,
+          &quot;bugs_deferred&quot;: &quot;integer&quot;,
+          &quot;test_coverage_before&quot;: &quot;percentage&quot;,
+          &quot;test_coverage_after&quot;: &quot;percentage&quot;,
+          &quot;files_analyzed&quot;: &quot;integer&quot;,
+          &quot;lines_of_code&quot;: &quot;integer&quot;
+        },
+        &quot;critical_findings&quot;: [
+          &quot;Top 3-5 most critical bugs found and their fixes&quot;
+        ],
+        &quot;fix_summary_by_category&quot;: {
+          &quot;security&quot;: &quot;count&quot;,
+          &quot;functional&quot;: &quot;count&quot;,
+          &quot;performance&quot;: &quot;count&quot;,
+          &quot;integration&quot;: &quot;count&quot;,
+          &quot;code_quality&quot;: &quot;count&quot;
+        },
+        &quot;detailed_fix_table&quot;: {
+          &quot;columns&quot;: [&quot;BUG-ID&quot;, &quot;File&quot;, &quot;Line&quot;, &quot;Category&quot;, &quot;Severity&quot;, &quot;Description&quot;, &quot;Status&quot;, &quot;Test Added&quot;],
+          &quot;format&quot;: &quot;Markdown table or CSV&quot;
+        },
+        &quot;risk_assessment&quot;: {
+          &quot;remaining_high_priority&quot;: [&quot;List of unfixed critical issues&quot;],
+          &quot;recommended_next_steps&quot;: [&quot;Prioritized action items&quot;],
+          &quot;technical_debt&quot;: [&quot;Summary of identified tech debt&quot;],
+          &quot;breaking_changes&quot;: [&quot;Any backwards-incompatible fixes&quot;]
+        },
+        &quot;testing_results&quot;: {
+          &quot;test_command&quot;: &quot;Exact command used to run tests&quot;,
+          &quot;tests_passed&quot;: &quot;X out of Y&quot;,
+          &quot;tests_failed&quot;: &quot;count with reasons&quot;,
+          &quot;tests_added&quot;: &quot;count&quot;,
+          &quot;coverage_delta&quot;: &quot;+X% or -X%&quot;
+        }
+      },
+      &quot;deliverables_checklist&quot;: [
+        &quot;All bugs documented in standardized format&quot;,
+        &quot;Fixes implemented with minimal scope&quot;,
+        &quot;Test suite updated and passing&quot;,
+        &quot;Documentation updated (code, API, user guides)&quot;,
+        &quot;Code review completed and approved&quot;,
+        &quot;Performance impact assessed and acceptable&quot;,
+        &quot;Security review conducted for security-related fixes&quot;,
+        &quot;Deployment notes and rollback plan prepared&quot;,
+        &quot;Changelog updated with user-facing changes&quot;,
+        &quot;Stakeholders notified of critical fixes&quot;
+      ]
+    },
+    {
+      &quot;phase&quot;: 7,
+      &quot;name&quot;: &quot;Continuous Improvement&quot;,
+      &quot;pattern_analysis&quot;: {
+        &quot;objectives&quot;: [
+          &quot;Identify recurring bug patterns across codebase&quot;,
+          &quot;Detect architectural issues enabling bugs&quot;,
+          &quot;Find gaps in testing strategy&quot;,
+          &quot;Highlight areas with technical debt&quot;
+        ],
+        &quot;outputs&quot;: [
+          &quot;Common bug pattern report&quot;,
+          &quot;Preventive measure recommendations&quot;,
+          &quot;Tooling improvement suggestions&quot;,
+          &quot;Architectural refactoring proposals&quot;
+        ]
+      },
+      &quot;monitoring_recommendations&quot;: {
+        &quot;metrics_to_track&quot;: [
+          &quot;Bug discovery rate over time&quot;,
+          &quot;Time to resolution by severity&quot;,
+          &quot;Regression rate (bugs reintroduced)&quot;,
+          &quot;Test coverage percentage&quot;,
+          &quot;Code churn in bug-prone areas&quot;,
+          &quot;Dependency vulnerability count&quot;
+        ],
+        &quot;alerting_rules&quot;: [
+          &quot;Critical security vulnerabilities in dependencies&quot;,
+          &quot;Test suite failures&quot;,
+          &quot;Code coverage drops below threshold&quot;,
+          &quot;Performance degradation in key operations&quot;
+        ],
+        &quot;logging_improvements&quot;: [
+          &quot;Add structured logging where missing&quot;,
+          &quot;Include correlation IDs for request tracing&quot;,
+          &quot;Log security-relevant events&quot;,
+          &quot;Ensure error logs include stack traces and context&quot;
+        ]
+      }
+    }
+  ],
+  
+  &quot;constraints_and_best_practices&quot;: [
+    &quot;NEVER compromise security for simplicity or convenience&quot;,
+    &quot;MAINTAIN complete audit trail of all changes&quot;,
+    &quot;FOLLOW semantic versioning if fixes change public API&quot;,
+    &quot;RESPECT rate limits when testing external services&quot;,
+    &quot;USE feature flags for high-risk or gradual rollout fixes&quot;,
+    &quot;DOCUMENT all assumptions made during analysis&quot;,
+    &quot;CONSIDER rollback strategy for every fix&quot;,
+    &quot;PREFER backwards-compatible fixes when possible&quot;,
+    &quot;AVOID introducing new dependencies without justification&quot;,
+    &quot;TEST in multiple environments when applicable&quot;
+  ],
+  
+  &quot;output_formats&quot;: [
+    {
+      &quot;format&quot;: &quot;markdown&quot;,
+      &quot;purpose&quot;: &quot;Human-readable documentation and reports&quot;,
+      &quot;filename_pattern&quot;: &quot;bug_report_{date}.md&quot;
+    },
+    {
+      &quot;format&quot;: &quot;json&quot;,
+      &quot;purpose&quot;: &quot;Machine-readable for automated processing&quot;,
+      &quot;filename_pattern&quot;: &quot;bug_data_{date}.json&quot;,
+      &quot;schema&quot;: &quot;Follow bug_report_schema defined in Phase 3&quot;
+    },
+    {
+      &quot;format&quot;: &quot;csv&quot;,
+      &quot;purpose&quot;: &quot;Import into bug tracking systems (Jira, GitHub Issues)&quot;,
+      &quot;filename_pattern&quot;: &quot;bugs_{date}.csv&quot;,
+      &quot;columns&quot;: [&quot;BUG-ID&quot;, &quot;Severity&quot;, &quot;Category&quot;, &quot;File&quot;, &quot;Line&quot;, &quot;Description&quot;, &quot;Status&quot;]
+    },
+    {
+      &quot;format&quot;: &quot;yaml&quot;,
+      &quot;purpose&quot;: &quot;Configuration-friendly format for CI/CD integration&quot;,
+      &quot;filename_pattern&quot;: &quot;bug_config_{date}.yaml&quot;
+    }
+  ],
+  
+  &quot;special_considerations&quot;: {
+    &quot;monorepos&quot;: &quot;Analyze each package/workspace separately with cross-package dependency tracking&quot;,
+    &quot;microservices&quot;: &quot;Consider inter-service contracts, API compatibility, and distributed tracing&quot;,
+    &quot;legacy_code&quot;: &quot;Balance fix risk vs benefit; prioritize high-impact, low-risk fixes&quot;,
+    &quot;third_party_dependencies&quot;: &quot;Report vulnerabilities upstream; consider alternatives if unmaintained&quot;,
+    &quot;high_traffic_systems&quot;: &quot;Consider deployment strategies (blue-green, canary) for fixes&quot;,
+    &quot;regulated_industries&quot;: &quot;Ensure compliance requirements met (HIPAA, PCI-DSS, SOC2, GDPR)&quot;,
+    &quot;open_source_projects&quot;: &quot;Follow contribution guidelines; engage with maintainers before large changes&quot;
+  },
+  
+  &quot;success_criteria&quot;: {
+    &quot;quantitative&quot;: [
+      &quot;All CRITICAL and HIGH severity bugs addressed&quot;,
+      &quot;Test coverage increased by at least X%&quot;,
+      &quot;Zero security vulnerabilities in dependencies&quot;,
+      &quot;All tests passing&quot;,
+      &quot;Code quality metrics improved (cyclomatic complexity, maintainability index)&quot;
+    ],
+    &quot;qualitative&quot;: [
+      &quot;Codebase is more maintainable&quot;,
+      &quot;Documentation is clear and comprehensive&quot;,
+      &quot;Team can confidently deploy fixes&quot;,
+      &quot;Future bug prevention mechanisms in place&quot;,
+      &quot;Development velocity improved&quot;
+    ]
+  }
+}</pre>
+</article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div><script>function cp(){const t=document.getElementById('pt').textContent;navigator.clipboard.writeText(t).then(()=>{const b=document.getElementById('cb');b.textContent='已複製!';setTimeout(()=>b.textContent='複製 Prompt',1500);});}</script></body></html>
