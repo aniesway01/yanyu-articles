@@ -3,3 +3,9 @@ __pycache__/
 .env
 *.db
 wechat_articles/_raw/*.html
+wechat_articles/_raw_fetch.json
+check_cookies.py
+debug_wenshu.py
+open_wenshu.py
+scrape_v2.py
+scrape_wenshu.py

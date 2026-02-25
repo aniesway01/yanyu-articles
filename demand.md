@@ -12,10 +12,12 @@
 
 | 分類 | 說明 | 現狀 |
 |------|------|------|
-| **判決書整理** | 裁判文書網抓取的保險糾紛判決 | 已完成 11 份（`judgments/`） |
-| **微信文章整理** | shawnCH（何智翔）轉發的有價值微信文章 | 進行中 — 已提取 53 個 URL |
+| **微信文章庫** | ShawnCH 轉發的保險/醫療/行業文章 | ✅ 47 篇已上線 |
+| **保險判決庫** | 裁判文書網抓取的保險糾紛判決 | 11 份已有，待整合上線 |
+| **Prompt 庫** | AI 提示詞案例集（附來源） | 素材已找到，待整理 |
+| **AI 使用技巧** | AI 工具教學文章（電腦王阿達等） | 待收集 |
 
-兩者獨立分類，互不混雜。
+四者獨立分類，首頁設分類導航。
 
 ---
 
@@ -156,11 +158,65 @@ Step 5: GitHub 部署（待執行）
 
 ---
 
-## 六、變更紀錄
+## 六、Prompt 庫 — 素材盤點
+
+### 6.1 已找到的素材
+
+| 素材 | 位置 | 內容 | 來源歸因 |
+|------|------|------|----------|
+| AI_Golden_Knowledge_Base.md | `Project/facebookPrompt/_legacy_prompt_collection/Artifacts/` | 13 篇文章 + 42 影片（含URL） | T客邦、電腦玩物、電腦王阿達、Skye Prompts Club 等 |
+| AI_URL_Report.md | 同上 `_Archive/` | 227 YouTube + 148 網站連結 | Facebook AI 社團爬蟲 |
+| AI_Compact_Digest.md | 同上 `_Archive/` | 475 條 Facebook 貼文摘要 | 75 個 FB 社團（AI咒語公社、電腦王阿達社團等） |
+| grouplist.md | 同上 | 75 個 Facebook 社團列表 | 用戶訂閱 |
+| Prompt Engineering Books | `Project/ebookhub/library/` | 3 本完整電子書（8700+ 行） | Anton Volney、Roman Lahinouski、Ink |
+
+### 6.2 來源歸因追蹤
+
+主要來源為 Facebook 社團爬蟲（`prompt_spider.py`），爬取了以下社團：
+- **AI咒語公社** — `facebook.com/groups/3208727879422567/`
+- **電腦王阿達限免、好康、科技新知** — `facebook.com/groups/524551743938988/`
+- **電腦王阿達科技問答與好康** — `facebook.com/groups/3798647283781975/`
+- **ChatGPT 落地研究** — `facebook.com/groups/631614079045059/`
+- **Generative AI 技術交流中心** — `facebook.com/groups/gaitech/`
+- **AI 技術研究社** — `facebook.com/groups/366863238003058/`
+- 等 75 個社團（完整列表見 grouplist.md）
+
+### 6.3 現況問題
+
+- `Prompt_Wild_Collection.md` 幾乎是空的（僅 8 行）— Facebook 反爬蟲阻擋了自動抓取
+- `AI_Prompts_Gallery.md` 也是空的 — 等待手動提供 HTML
+- 最有價值的是 `AI_Golden_Knowledge_Base.md`（13 篇帶 URL 的教學文章）
+- 電子書內容豐富但需要提取精華 prompt 而非全書上傳
+
+---
+
+## 七、AI 使用技巧文章 — 收集計畫
+
+### 7.1 電腦王阿達（kocpc.com.tw）
+
+已找到 1 篇：
+- [Stable Diffusion + Google Colab 教學](https://www.kocpc.com.tw/archives/482754)
+
+需要收集更多，優先搜集 **NotebookLM 相關內容**，然後擴展到其他 AI 工具教學。
+
+### 7.2 收集策略
+
+1. 搜尋 kocpc.com.tw 站內 NotebookLM / AI 工具教學
+2. 搜尋「電腦王阿達 NotebookLM」的 YouTube 影片
+3. 每篇文章必須附上原始來源 URL
+4. 格式與微信文章庫一致（Markdown + 圖片 + 來源連結）
+
+---
+
+## 八、變更紀錄
 
 | 日期 | 變更 |
 |------|------|
 | 2026-02-25 | 初始需求建立 |
 | 2026-02-25 | 確認資料來源為本地已解密微信 DB，ShawnCH wxid = F1487329976 |
 | 2026-02-25 | 新增要求：log 記錄 + 斷點續傳機制 |
-| 2026-02-25 | 完成 URL 提取：53 個微信文章 URL |
+| 2026-02-25 | 完成 URL 提取：49 個微信文章 URL |
+| 2026-02-25 | 完成微信文章抓取：47 篇成功 + 332 張圖片 |
+| 2026-02-25 | GitHub repo + Pages 上線：aniesway01/yanyu-articles |
+| 2026-02-25 | 擴展為 4 類架構：微信文章庫 / 保險判決庫 / Prompt庫 / AI使用技巧 |
+| 2026-02-25 | 完成 Prompt 素材盤點 + AI使用技巧收集計畫 |
