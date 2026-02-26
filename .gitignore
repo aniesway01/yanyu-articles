@@ -15,3 +15,4 @@ judgments/_wenshu_urls_errors.json
 _nlm_login.py
 _nlm_runner.py
 logs/
+judgments/_ai_analysis/

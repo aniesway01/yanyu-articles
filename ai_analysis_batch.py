@@ -29,14 +29,21 @@ OUT_DIR = JUDGE_DIR / "_ai_analysis"
 PROGRESS_FILE = OUT_DIR / "_progress.json"
 
 # ─── API Config (DeepSeek, OpenAI-compatible) ───
-DS_KEYS = [
-    "sk-fc941aac131b44a8a4b4d156d2d9bf47",
-    "sk-d48b907dd4e44147b002c615a9958ef0",
-    "sk-108152dca18f473dad1e5a5f5ada5a41",
-    "sk-f9b72c03237e4042b3002831211ce4ae",
-    "sk-a52df6a26a1b42ef9b52575c0f9c84a2",
-    "sk-bafb533463544e0b8587062b66c39d4c",
-]
+# Keys loaded from APIkeyBase.md (never hardcode)
+def _load_ds_keys():
+    """Load DeepSeek API keys from credential file."""
+    key_file = Path(r"C:\AntiGravityFile\Docs\Standards\Credentials\APIkeyBase.md")
+    keys = []
+    if key_file.exists():
+        import re as _re
+        text = key_file.read_text(encoding='utf-8')
+        for m in _re.finditer(r'deepseek\d*\s*\|\s*`(sk-[a-f0-9]+)`', text):
+            keys.append(m.group(1))
+    if not keys:
+        print("[ERROR] 無法從 APIkeyBase.md 讀取 DeepSeek key"); sys.exit(1)
+    return keys
+
+DS_KEYS = _load_ds_keys()
 DS_MODEL = "deepseek-chat"
 DS_URL = "https://api.deepseek.com/v1/chat/completions"
 
