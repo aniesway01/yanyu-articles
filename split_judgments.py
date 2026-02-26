@@ -27,10 +27,27 @@ PAGE_MARKER_RE = re.compile(r'^##\s*第\s*\d+\s*頁\s*$')
 PAGE_FOOTER_RE = re.compile(r'^\d{1,3}中国法院\d{4}年度案例[·.].*$')
 RUNNING_HEADER_RE = re.compile(r'^[一二三四五六七八九十]+[、.]\s*\S+纠纷\s*$')
 EMPTY_COMMENT_RE = re.compile(r'^<!--\s*第\s*\d+\s*頁[：:]\s*無法識別文字\s*-->\s*$')
+# v2: additional OCR cleanup patterns (2026-02-26)
+RUNNING_PAGE_NUM_RE = re.compile(r'^\s*\d{1,3}\s*$')
+RUNNING_HEADER_V2_RE = re.compile(r'^中国法院\d{4}年度案例[·.·].*$')
+SECTION_TITLE_RE = re.compile(
+    r'^[一二三四五六七八九十]+[、.．]\s*\S{2,8}(?:纠纷|案例)?\s*$'
+)
+# Punctuation that naturally ends a Chinese sentence/clause
+_END_PUNCT = set('。，；：？！」）》】、…—')
+# Patterns for lines that should NOT be merged with the previous line
+_LIST_ITEM_RE = re.compile(r'^\s*(?:\d{1,2}[.、．)]|[（(]\d{1,2}[)）]|[（(][一二三四五六七八九十]+[)）]|[一二三四五六七八九十]+[、.．])')
+_HEADING_PREFIX_RE = re.compile(r'^\s*(?:【|##|---|\*\*\*)')
 
 
 def clean_ocr_line(line, is_ocr):
-    """Remove OCR artifacts from a single line"""
+    """Remove OCR artifacts from a single line.
+
+    v2 (2026-02-26): added rules for:
+      - standalone page numbers (1~3 digit lines)
+      - running headers like '中国法院20XX年度案例·...'
+      - stray section headings like '一、确认劳动关系'
+    """
     if not is_ocr:
         return line
     s = line.strip()
@@ -40,17 +57,65 @@ def clean_ocr_line(line, is_ocr):
         return None
     if EMPTY_COMMENT_RE.match(s):
         return None
+    # v2 rules -------------------------------------------------------
+    # Standalone page number (e.g. "54", "120")
+    if RUNNING_PAGE_NUM_RE.match(s):
+        return None
+    # Running header at top of each page
+    # e.g. "中国法院2025年度案例·保险纠纷"
+    if RUNNING_HEADER_V2_RE.match(s):
+        return None
+    # Stray section heading that leaked into case body
+    # e.g. "一、确认劳动关系", "二、保险纠纷"
+    if SECTION_TITLE_RE.match(s):
+        return None
     return line
 
 
 def clean_case_content(text, is_ocr):
-    """Clean a block of case content"""
+    """Clean a block of case content.
+
+    v2 (2026-02-26): added OCR line-break merging — if a line does not end
+    with sentence-ending punctuation and the next line is a plain continuation
+    (not a heading / list item), merge them into one line.
+    """
     lines = text.split('\n')
     cleaned = []
     for line in lines:
         result = clean_ocr_line(line, is_ocr)
         if result is not None:
             cleaned.append(result)
+
+    # --- v2: OCR line-break merging ---
+    if is_ocr:
+        merged = []
+        i = 0
+        while i < len(cleaned):
+            cur = cleaned[i]
+            cur_stripped = cur.rstrip()
+            # Try merging with next line if:
+            #   1) current line is non-empty
+            #   2) current line does NOT end with sentence-ending punctuation
+            #   3) next line exists, is non-empty, does not start with spaces (indent)
+            #   4) next line is not a heading / list item / structural marker
+            if (cur_stripped
+                    and cur_stripped[-1] not in _END_PUNCT
+                    and i + 1 < len(cleaned)):
+                nxt = cleaned[i + 1]
+                nxt_stripped = nxt.strip()
+                if (nxt_stripped
+                        and not nxt.startswith(' ')
+                        and not nxt.startswith('\t')
+                        and not _HEADING_PREFIX_RE.match(nxt_stripped)
+                        and not _LIST_ITEM_RE.match(nxt_stripped)):
+                    # Merge: append next line content to current
+                    merged.append(cur_stripped + nxt_stripped)
+                    i += 2
+                    continue
+            merged.append(cur)
+            i += 1
+        cleaned = merged
+
     # Remove excessive blank lines
     out = '\n'.join(cleaned)
     out = re.sub(r'\n{4,}', '\n\n\n', out)
@@ -58,8 +123,19 @@ def clean_case_content(text, is_ocr):
 
 
 def detect_is_ocr(text):
-    """Check if file was OCR'd (has page markers)"""
-    return bool(re.search(r'##\s*第\s*\d+\s*頁', text))
+    """Check if file was OCR'd.
+
+    v2 (2026-02-26): also detects files without '## 第X頁' markers but with
+    running page-headers like '中国法院20XX年度案例·...', which appear in
+    "超高清" PDF conversions.
+    """
+    if re.search(r'##\s*第\s*\d+\s*頁', text):
+        return True
+    # Count running page headers — if >=3, treat as OCR source
+    headers = re.findall(r'^中国法院\d{4}年度案例[·.·]', text, re.MULTILINE)
+    if len(headers) >= 3:
+        return True
+    return False
 
 
 def extract_case_meta(info_block):

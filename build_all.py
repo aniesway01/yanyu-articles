@@ -77,6 +77,9 @@ footer{text-align:center;padding:30px;color:#999;font-size:13px}
 .tag-AI\u79d1\u6280{background:#fce8e6;color:#c5221f}
 .tag-\u884c\u696d\u5206\u6790{background:#fef7e0;color:#e37400}
 .tag-\u751f\u6d3b\u5176\u4ed6{background:#f3e8fd;color:#7627bb}
+.tag-裁定書{background:#fff3e0;color:#e65100}
+.tag-判決書{background:#e3f2fd;color:#1565c0}
+.tag-文書{background:#f3e8fd;color:#7627bb}
 .hidden{display:none!important}
 .tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
 .tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
@@ -102,6 +105,17 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 .fi .sz{font-size:12px;color:#999}
 .sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
 """
+
+def extract_case_number(raw):
+    """從完整 case_no 提取括號內核心案號，如 '江苏省...（2016）苏10民终字第2629号...' -> '(2016)苏10民终字第2629号'"""
+    # 支援簡體「号」和繁體「號」
+    m = re.search(r'[（(]\d{4}[）)][^号號]*[号號]', raw)
+    if m:
+        s = m.group(0)
+        s = s.replace('（', '(').replace('）', ')').replace('號', '号')
+        return s
+    # fallback: 清除尾部垃圾 ( | 等)
+    return re.sub(r'\s*\|.*$', '', raw).strip()
 
 def esc(s):
     return str(s).replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace('"',"&quot;")
@@ -315,6 +329,31 @@ def build_wechat():
 def build_judgments(eb_files, scan_only):
     CASE_IDX = JDG_DIR / "cases" / "_index.json"
     CASE_DIR = JDG_DIR / "cases"
+    WENSHU_URLS_FILE = JDG_DIR / "_wenshu_urls.json"
+    WENSHU_SEARCH = "https://wenshu.court.gov.cn/website/wenshu/181217BMTKHNT2W0/index.html?s21="
+
+    # A. 讀取裁判文書網 URL 數據
+    wenshu_urls = {}
+    if WENSHU_URLS_FILE.exists():
+        with open(WENSHU_URLS_FILE, "r", encoding="utf-8") as f:
+            wu_data = json.load(f)
+        wenshu_urls = wu_data.get("urls", {})
+        log.info(f"裁判文書網 URL: 已載入 {len(wenshu_urls)} 筆")
+
+    def get_wenshu_url(case_no_raw):
+        """根據案號獲取裁判文書網 URL（真實 URL 或搜索連結）"""
+        cn = extract_case_number(case_no_raw)
+        if cn in wenshu_urls:
+            return wenshu_urls[cn].get("wenshu_url", WENSHU_SEARCH + quote(cn))
+        return WENSHU_SEARCH + quote(cn)
+
+    def get_doc_type(title):
+        """從標題提取文書類型"""
+        if "裁定書" in title or "裁定书" in title:
+            return "裁定書"
+        if "判決書" in title or "判决书" in title:
+            return "判決書"
+        return "文書"
 
     # 1. Original curated judgments (裁判文書網精選)
     md_jdgs = []
@@ -329,8 +368,11 @@ def build_judgments(eb_files, scan_only):
         md_jdgs.append({"slug": slug, "title": title, "case_no": case_no, "text": text})
     for j in md_jdgs:
         ch = md2html(j["text"])
-        src = '<div class="meta" style="margin-top:10px">來源：中國裁判文書網</div>'
-        ab = f'<article><div class="content">{ch}</div>{src}<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><a class="dl-btn" href="../../../judgments/{quote(j["slug"])}.md" download>下載 Markdown</a></div></article>'
+        w_url = get_wenshu_url(j["case_no"])
+        ab = f'''<article>
+<div style="margin-bottom:20px"><a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a></div>
+<div class="content">{ch}</div>
+<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><a class="dl-btn" href="../../../judgments/{quote(j["slug"])}.md" download>下載 Markdown</a></div></article>'''
         wf(SITE / "judgment" / j["slug"] / "index.html", page(j["title"], ab, back="../../judgments.html"))
 
     # 2. Individual cases from split (一案一檔)
@@ -351,7 +393,10 @@ def build_judgments(eb_files, scan_only):
                 text = f.read()
             ch = md2html(text)
             case_slug = f'{c["year"]}_{c["num"]:0>2}'
-            ab = f'''<article><div class="content">{ch}</div>
+            w_url = get_wenshu_url(c.get("case_no", ""))
+            ab = f'''<article>
+<div style="margin-bottom:20px"><a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a></div>
+<div class="content">{ch}</div>
 <div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
 <a class="dl-btn" href="../../../judgments/cases/{c["year"]}/{quote(c["filename"])}" download>下載 Markdown</a></div></article>'''
             wf(SITE / "judgment" / case_slug / "index.html",
@@ -361,10 +406,14 @@ def build_judgments(eb_files, scan_only):
     # 3a. 精選判決卡片
     md_cards = ""
     for j in md_jdgs:
+        doc_type = get_doc_type(j["title"])
+        w_url = get_wenshu_url(j["case_no"])
         md_cards += f'''<div class="card"><h3><a href="judgment/{j["slug"]}/index.html">{esc(j["title"])}</a></h3>
-<div class="meta">{esc(j["case_no"])}</div>
-<div class="meta" style="color:#999">來源：中國裁判文書網</div>
-<div class="dl"><a href="../judgments/{quote(j["slug"])}.md" download>MD</a></div></div>\n'''
+<div class="meta"><span class="tag tag-{doc_type}">{doc_type}</span> {esc(j["case_no"])}</div>
+<div class="dl">
+  <a href="{esc(w_url)}" target="_blank" class="dl-btn" style="font-size:12px;padding:3px 10px">裁判文書網原文</a>
+  <a href="../judgments/{quote(j["slug"])}.md" download style="font-size:12px;color:#666">MD</a>
+</div></div>\n'''
 
     # 3b. 年度案例（一案一檔卡片）
     case_cards = ""
@@ -377,13 +426,15 @@ def build_judgments(eb_files, scan_only):
             title_s = esc(c["title"] or f"案例{c['num']}")
             parties_s = esc(c.get("parties", ""))
             case_no_s = esc(c.get("case_no", ""))
-            src_s = esc(c.get("source_pdf", ""))
+            w_url = get_wenshu_url(c.get("case_no", ""))
             search_text = f'{c["title"]} {c.get("parties","")} {c.get("case_type","")}'.lower()
             case_cards += f'''<div class="card" data-year="{c["year"]}" data-search="{esc(search_text)}">
 <h3><a href="judgment/{case_slug}/index.html">{title_s}</a></h3>
 <div class="meta">{parties_s}</div>
 <div class="meta" style="color:#999">{case_no_s}</div>
-<div class="meta" style="color:#aaa;font-size:12px">來源：{src_s}</div></div>\n'''
+<div class="dl">
+  <a href="{esc(w_url)}" target="_blank" style="font-size:12px">裁判文書網</a>
+</div></div>\n'''
 
     case_js = """let cy='';function fy(b,y){cy=y;document.querySelectorAll('.tg-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');fj();}
 function fj(){const q=document.getElementById('jq').value.toLowerCase();document.querySelectorAll('#jcards .card').forEach(c=>{const m=(!q||c.dataset.search.includes(q))&&(!cy||c.dataset.year===cy);c.classList.toggle('hidden',!m);});}"""
@@ -392,7 +443,7 @@ function fj(){const q=document.getElementById('jq').value.toLowerCase();document
     total = len(md_jdgs) + total_cases
     body = f"""<header><h1>保險判決庫</h1>
 <p>中國法院保險糾紛判決案例集（2014-2025）</p>
-<div class="stats"><span class="stat">{len(md_jdgs)} 份精選判決</span><span class="stat">{total_cases} 個年度案例（一案一檔）</span><span class="stat">來源：中國法院年度案例叢書</span></div></header>
+<div class="stats"><span class="stat">{len(md_jdgs)} 份精選判決</span><span class="stat">{total_cases} 個年度案例（一案一檔）</span><span class="stat">來源：中國裁判文書網 + 中國法院年度案例叢書</span></div></header>
 <h2 class="sec-title">裁判文書網 · 精選判決分析</h2>
 <p style="margin-bottom:15px;color:#666;font-size:14px">來源：中國裁判文書網，人身保險合同糾紛案件</p>
 {md_cards}
