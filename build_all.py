@@ -342,6 +342,59 @@ def build_judgments(eb_files, scan_only):
         wenshu_urls = wu_data.get("urls", {})
         log.info(f"裁判文書網 URL: 已載入 {len(wenshu_urls)} 筆")
 
+    # B. 讀取 NotebookLM 生成的 artifacts
+    NLM_DIR = JDG_DIR / "_nlm_output"
+    NLM_PROGRESS = NLM_DIR / "_progress.json"
+    nlm_completed = {}
+    if NLM_PROGRESS.exists():
+        with open(NLM_PROGRESS, "r", encoding="utf-8") as f:
+            nlm_data = json.load(f)
+        nlm_completed = nlm_data.get("completed", {})
+        log.info(f"NotebookLM artifacts: 已載入 {len(nlm_completed)} 筆")
+
+    def build_nlm_section(nlm_key, detail_page_dir):
+        """Build HTML for NotebookLM artifacts and copy files to site."""
+        if nlm_key not in nlm_completed:
+            return ""
+        info = nlm_completed[nlm_key]
+        nlm_src = NLM_DIR / nlm_key
+        if not nlm_src.exists():
+            return ""
+
+        parts = []
+        # Copy and reference infographic
+        ig_src = nlm_src / "infographic.png"
+        if ig_src.exists() and info.get("infographic"):
+            ig_dest = detail_page_dir / "infographic.png"
+            ig_dest.parent.mkdir(parents=True, exist_ok=True)
+            import shutil
+            shutil.copy2(ig_src, ig_dest)
+            parts.append('<div style="margin:20px 0"><h3 style="font-size:15px;margin-bottom:10px">\U0001f4ca NotebookLM \u5206\u6790\u5716</h3>'
+                         '<img src="infographic.png" alt="NotebookLM Infographic" '
+                         'style="max-width:100%;border:1px solid #eee;border-radius:8px"></div>')
+
+        # Copy and reference slides PDF
+        sl_src = nlm_src / "slides.pdf"
+        if sl_src.exists() and info.get("slides"):
+            sl_dest = detail_page_dir / "slides.pdf"
+            sl_dest.parent.mkdir(parents=True, exist_ok=True)
+            import shutil
+            shutil.copy2(sl_src, sl_dest)
+            parts.append('<a class="dl-btn" href="slides.pdf" target="_blank">\U0001f4dd \u4e0b\u8f09 PPT \u7c21\u5831</a> ')
+
+        # Copy mind map
+        mm_src = nlm_src / "mindmap.json"
+        if mm_src.exists() and info.get("mind_map"):
+            mm_dest = detail_page_dir / "mindmap.json"
+            mm_dest.parent.mkdir(parents=True, exist_ok=True)
+            import shutil
+            shutil.copy2(mm_src, mm_dest)
+            parts.append('<a class="dl-btn sec" href="mindmap.json" download>\U0001f9e0 Mind Map JSON</a>')
+
+        if not parts:
+            return ""
+        return '<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">' + '\n'.join(parts) + '</div>'
+
     def get_wenshu_url(case_no_raw):
         """根據案號獲取裁判文書網 URL（真實 URL 或搜索連結）"""
         cn = extract_case_number(case_no_raw)
@@ -371,11 +424,15 @@ def build_judgments(eb_files, scan_only):
     for j in md_jdgs:
         ch = md2html(j["text"])
         w_url = get_wenshu_url(j["case_no"])
+        detail_dir = SITE / "judgment" / j["slug"]
+        nlm_key = f'featured/{j["slug"]}'
+        nlm_html = build_nlm_section(nlm_key, detail_dir)
         ab = f'''<article>
 <div style="margin-bottom:20px"><a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a></div>
+{nlm_html}
 <div class="content">{ch}</div>
 <div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><a class="dl-btn" href="../../../judgments/{quote(j["slug"])}.md" download>下載 Markdown</a></div></article>'''
-        wf(SITE / "judgment" / j["slug"] / "index.html", page(j["title"], ab, back="../../judgments.html"))
+        wf(detail_dir / "index.html", page(j["title"], ab, back="../../judgments.html"))
 
     # 2. Individual cases from split (一案一檔)
     split_cases = []
@@ -395,13 +452,19 @@ def build_judgments(eb_files, scan_only):
                 text = f.read()
             ch = md2html(text)
             case_slug = f'{c["year"]}_{c["num"]:0>2}'
+            detail_dir = SITE / "judgment" / case_slug
+            # NLM key for annual cases
+            case_stem = Path(c["filename"]).stem
+            nlm_key = f'cases/{c["year"]}/{case_stem}'
+            nlm_html = build_nlm_section(nlm_key, detail_dir)
             w_url = get_wenshu_url(c.get("case_no", ""))
             ab = f'''<article>
 <div style="margin-bottom:20px"><a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a></div>
+{nlm_html}
 <div class="content">{ch}</div>
 <div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
 <a class="dl-btn" href="../../../judgments/cases/{c["year"]}/{quote(c["filename"])}" download>下載 Markdown</a></div></article>'''
-            wf(SITE / "judgment" / case_slug / "index.html",
+            wf(detail_dir / "index.html",
                page(c["title"] or f"案例{c['num']}", ab, back="../../judgments.html"))
 
     # 3. Build listing page
@@ -410,8 +473,11 @@ def build_judgments(eb_files, scan_only):
     for j in md_jdgs:
         doc_type = get_doc_type(j["title"])
         w_url = get_wenshu_url(j["case_no"])
+        nlm_key = f'featured/{j["slug"]}'
+        has_nlm = nlm_key in nlm_completed
+        nlm_badge = ' <span style="font-size:11px;background:#e8f5e9;color:#2e7d32;padding:1px 6px;border-radius:3px">NLM</span>' if has_nlm else ''
         md_cards += f'''<div class="card"><h3><a href="judgment/{j["slug"]}/index.html">{esc(j["title"])}</a></h3>
-<div class="meta"><span class="tag tag-{doc_type}">{doc_type}</span> {esc(j["case_no"])}</div>
+<div class="meta"><span class="tag tag-{doc_type}">{doc_type}</span> {esc(j["case_no"])}{nlm_badge}</div>
 <div class="dl">
   <a href="{esc(w_url)}" target="_blank" class="dl-btn" style="font-size:12px;padding:3px 10px">裁判文書網原文</a>
   <a href="../judgments/{quote(j["slug"])}.md" download style="font-size:12px;color:#666">MD</a>

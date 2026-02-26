@@ -9,3 +9,9 @@ debug_wenshu.py
 open_wenshu.py
 scrape_v2.py
 scrape_wenshu.py
+.chrome_cdp/
+judgments/_nlm_output/
+judgments/_wenshu_urls_errors.json
+_nlm_login.py
+_nlm_runner.py
+logs/

@@ -319,8 +319,8 @@ def main():
                 save_errors(existing_errors)
                 print(f"  [AUTO-SAVE] 已保存進度 (ok={ok_count}, err={err_count})", flush=True)
 
-            # 隨機延遲（更長，降低觸發反爬風險）
-            random_delay(6.0, 12.0)
+            # 隨機延遲（掛機模式：30-60 秒，大幅降低反爬風險）
+            random_delay(30.0, 60.0)
 
     # ── 最終保存 ──
     progress["urls"] = existing_urls
