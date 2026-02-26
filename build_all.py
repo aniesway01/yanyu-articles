@@ -529,11 +529,22 @@ def build_judgments(eb_files, scan_only):
     for j in md_jdgs:
         doc_type = get_doc_type(j["title"])
         w_url = get_wenshu_url(j["case_no"])
+        core_cn = extract_case_number(j["case_no"])
+        # Title: 案號 — AI摘要第一句（如有），否則原標題
+        ai_key_feat = f'featured/{j["slug"]}'
+        ai_summary_feat = ""
+        if ai_key_feat in ai_analyses:
+            kps = ai_analyses[ai_key_feat].get("key_points", [])
+            # Use first key point as concise one-liner (usually ~20 chars)
+            if kps:
+                ai_summary_feat = kps[0]
+        one_liner = ai_summary_feat or j["title"]
+        feat_title = f"{core_cn} — {one_liner}" if core_cn else one_liner
         nlm_key = f'featured/{j["slug"]}'
         has_nlm = nlm_key in nlm_completed
         nlm_badge = ' <span style="font-size:11px;background:#e8f5e9;color:#2e7d32;padding:1px 6px;border-radius:3px">NLM</span>' if has_nlm else ''
-        md_cards += f'''<div class="card"><h3><a href="judgment/{j["slug"]}/index.html">{esc(j["title"])}</a></h3>
-<div class="meta"><span class="tag tag-{doc_type}">{doc_type}</span> {esc(j["case_no"])}{nlm_badge}</div>
+        md_cards += f'''<div class="card"><h3><a href="judgment/{j["slug"]}/index.html">{esc(feat_title)}</a></h3>
+<div class="meta"><span class="tag tag-{doc_type}">{doc_type}</span>{nlm_badge}</div>
 <div class="dl">
   <a href="{esc(w_url)}" target="_blank" class="dl-btn" style="font-size:12px;padding:3px 10px">裁判文書網原文</a>
   <a href="../judgments/{quote(j["slug"])}.md" download style="font-size:12px;color:#666">MD</a>
@@ -548,30 +559,51 @@ def build_judgments(eb_files, scan_only):
         for c in cases_by_year[yr]:
             case_slug = f'{c["year"]}_{c["num"]:0>2}'
             case_stem = Path(c["filename"]).stem
-            title_s = esc(c["title"] or f"案例{c['num']}")
+            raw_title = c["title"] or f"案例{c['num']}"
+            case_no_raw = c.get("case_no", "")
+            core_cn = extract_case_number(case_no_raw)
+            # New title format: 案號 — 一句話總結
+            display_title = f"{core_cn} — {raw_title}" if core_cn and core_cn != case_no_raw else raw_title
             parties_s = esc(c.get("parties", ""))
-            case_no_s = esc(c.get("case_no", ""))
-            w_url = get_wenshu_url(c.get("case_no", ""))
-            search_text = f'{c["title"]} {c.get("parties","")} {c.get("case_type","")}'.lower()
+            w_url = get_wenshu_url(case_no_raw)
             ai_key = f'cases/{c["year"]}/{case_stem}'
             has_ai = ai_key in ai_analyses
-            ai_badge = ' <span style="font-size:11px;background:#e3f2fd;color:#1565c0;padding:1px 6px;border-radius:3px">AI</span>' if has_ai else ''
+            # Build comprehensive search text
+            ai_summary = ai_analyses[ai_key].get("summary", "") if has_ai else ""
+            ai_kps = " ".join(ai_analyses[ai_key].get("key_points", [])) if has_ai else ""
+            search_text = f'{raw_title} {c.get("parties","")} {c.get("case_type","")} {case_no_raw} {ai_summary} {ai_kps}'.lower()
             # Show AI summary preview on card
             ai_preview = ""
-            if has_ai:
-                s = ai_analyses[ai_key].get("summary", "")
-                if s:
-                    ai_preview = f'<div style="font-size:13px;color:#555;margin-top:5px;line-height:1.5">{esc(s[:120])}{"..." if len(s)>120 else ""}</div>'
+            if ai_summary:
+                s = ai_summary
+                ai_preview = f'<div style="font-size:13px;color:#555;margin-top:5px;line-height:1.5">{esc(s[:150])}{"..." if len(s)>150 else ""}</div>'
             case_cards += f'''<div class="card" data-year="{c["year"]}" data-search="{esc(search_text)}">
-<h3><a href="judgment/{case_slug}/index.html">{title_s}</a></h3>
-<div class="meta">{parties_s}{ai_badge}</div>
-<div class="meta" style="color:#999">{case_no_s}</div>{ai_preview}
+<h3><a href="judgment/{case_slug}/index.html">{esc(display_title)}</a></h3>
+<div class="meta">{parties_s}</div>{ai_preview}
 <div class="dl">
   <a href="{esc(w_url)}" target="_blank" style="font-size:12px">裁判文書網</a>
 </div></div>\n'''
 
-    case_js = """let cy='';function fy(b,y){cy=y;document.querySelectorAll('.tg-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');fj();}
-function fj(){const q=document.getElementById('jq').value.toLowerCase();document.querySelectorAll('#jcards .card').forEach(c=>{const m=(!q||c.dataset.search.includes(q))&&(!cy||c.dataset.year===cy);c.classList.toggle('hidden',!m);});}"""
+    case_js = """let cy='',dt=null;
+function fy(b,y){cy=y;document.querySelectorAll('.tg-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');fj();}
+function fj(){
+  const q=document.getElementById('jq').value.toLowerCase().trim();
+  const words=q?q.split(/\\s+/):[];
+  let shown=0,total=0;
+  document.querySelectorAll('#jcards .card').forEach(c=>{
+    total++;
+    const s=c.dataset.search;
+    const ym=!cy||c.dataset.year===cy;
+    const qm=!words.length||words.every(w=>s.includes(w));
+    const vis=ym&&qm;
+    c.classList.toggle('hidden',!vis);
+    if(vis)shown++;
+  });
+  const el=document.getElementById('jcount');
+  if(el)el.textContent=q||cy?shown+'/'+total+' 筆':total+' 筆';
+}
+function djq(){clearTimeout(dt);dt=setTimeout(fj,200);}
+document.addEventListener('DOMContentLoaded',fj);"""
 
     total_cases = len(split_cases)
     total = len(md_jdgs) + total_cases
@@ -583,7 +615,8 @@ function fj(){const q=document.getElementById('jq').value.toLowerCase();document
 {md_cards}
 <h2 class="sec-title">中國法院年度案例 · 保險糾紛（一案一檔）</h2>
 <p style="margin-bottom:15px;color:#666;font-size:14px">來源：《中國法院年度案例》叢書（2018-2025），每個案例獨立成檔，含案件基本信息、案情、裁判要旨、法官后語</p>
-<input class="search" type="text" id="jq" placeholder="搜尋案例標題、當事人、案由..." oninput="fj()">
+<input class="search" type="text" id="jq" placeholder="搜尋案號、標題、當事人、案由、關鍵字（多個詞用空格分隔）..." oninput="djq()">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span id="jcount" style="font-size:13px;color:#666"></span></div>
 <div class="tg-btns">{year_btns}</div>
 <div id="jcards">{case_cards}</div>"""
     wf(SITE / "judgments.html", page("保險判決庫", body, back="index.html", extra_js=case_js))

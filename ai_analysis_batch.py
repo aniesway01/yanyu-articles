@@ -28,21 +28,20 @@ CASES_DIR = JUDGE_DIR / "cases"
 OUT_DIR = JUDGE_DIR / "_ai_analysis"
 PROGRESS_FILE = OUT_DIR / "_progress.json"
 
-# ─── API Keys (Gemini Flash, rotated) ───
-API_KEYS = [
-    "AIzaSyAH1zyXj_bTykb23LV1q0LRq6vM3ROkSp0",
-    "AIzaSyDy752wb7IxzSxkUxFD6RULKY0dGjIkidA",
-    "AIzaSyAFIlhS7a1mVx3no9-FvJ_sj4CJMmAa5Ic",
-    "AIzaSyA0-uyQkkqqhlgoh5McX1LGsVo9Xx1ufPc",
-    "AIzaSyCxIItktl7wq1ZqFrrE9beIFb-b4dtZKQI",
-    "AIzaSyBcG4OmFOrL3ktD5FuQ1BW8sKww8EtLOOQ",
+# ─── API Config (DeepSeek, OpenAI-compatible) ───
+DS_KEYS = [
+    "sk-fc941aac131b44a8a4b4d156d2d9bf47",
+    "sk-d48b907dd4e44147b002c615a9958ef0",
+    "sk-108152dca18f473dad1e5a5f5ada5a41",
+    "sk-f9b72c03237e4042b3002831211ce4ae",
+    "sk-a52df6a26a1b42ef9b52575c0f9c84a2",
+    "sk-bafb533463544e0b8587062b66c39d4c",
 ]
-MODEL = "gemini-2.0-flash"
-API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
+DS_MODEL = "deepseek-chat"
+DS_URL = "https://api.deepseek.com/v1/chat/completions"
 
 # Rate limiting
-RPM_PER_KEY = 15
-DELAY_BASE = 60.0 / (RPM_PER_KEY * len(API_KEYS))  # ~0.67s between requests
+DELAY_BASE = 1.0  # DeepSeek allows ~60 RPM
 
 PROMPT_TEMPLATE = """你是一位資深保險法律分析師。請分析以下保險糾紛判決，用繁體中文輸出以下三個部分：
 
@@ -93,27 +92,27 @@ def save_progress(data):
 
 _key_idx = 0
 
-def call_gemini(text, max_retries=3):
-    """Call Gemini Flash API with key rotation and retry."""
+def call_llm(text, max_retries=3):
+    """Call DeepSeek API (OpenAI-compatible) with key rotation and retry."""
     global _key_idx
     prompt = PROMPT_TEMPLATE + text
 
     for attempt in range(max_retries):
-        key = API_KEYS[_key_idx % len(API_KEYS)]
+        key = DS_KEYS[_key_idx % len(DS_KEYS)]
         _key_idx += 1
 
         try:
             resp = requests.post(
-                f"{API_URL}?key={key}",
+                DS_URL,
+                headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
                 json={
-                    "contents": [{"parts": [{"text": prompt}]}],
-                    "generationConfig": {
-                        "temperature": 0.3,
-                        "maxOutputTokens": 2048,
-                        "responseMimeType": "application/json",
-                    }
+                    "model": DS_MODEL,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": 0.3,
+                    "max_tokens": 2048,
+                    "response_format": {"type": "json_object"},
                 },
-                timeout=60,
+                timeout=90,
             )
 
             if resp.status_code == 429:
@@ -130,25 +129,18 @@ def call_gemini(text, max_retries=3):
                 return None
 
             data = resp.json()
-            # Extract text from response
-            candidates = data.get("candidates", [])
-            if not candidates:
-                print(f"    [EMPTY] No candidates", flush=True)
-                return None
-
-            text_out = candidates[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+            text_out = data.get("choices", [{}])[0].get("message", {}).get("content", "")
             if not text_out:
-                print(f"    [EMPTY] No text in response", flush=True)
+                print(f"    [EMPTY] No content", flush=True)
                 return None
 
-            # Parse JSON from response (strip code fences if any)
+            # Parse JSON (strip code fences if any)
             text_out = text_out.strip()
             text_out = re.sub(r'^```(?:json)?\s*', '', text_out)
             text_out = re.sub(r'\s*```$', '', text_out)
 
             result = json.loads(text_out)
 
-            # Validate required fields
             if not all(k in result for k in ("summary", "key_points", "legal_insights")):
                 print(f"    [INVALID] Missing fields: {list(result.keys())}", flush=True)
                 if attempt < max_retries - 1:
@@ -212,7 +204,7 @@ def process_batch(args):
 
         print(f"  {label} {Path(md_path).name[:50]}...", end=" ", flush=True)
 
-        result = call_gemini(text)
+        result = call_llm(text)
         if result:
             # Save individual JSON
             out_path = OUT_DIR / key
