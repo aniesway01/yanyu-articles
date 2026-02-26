@@ -157,6 +157,8 @@ def wf(path, content):
         f.write(content)
 
 def md2html(text):
+    # 前處理：把【xxx】行轉為 Markdown 標題，並確保前後有空行
+    text = re.sub(r'^(【.+?】)\s*$', r'\n## \1\n', text, flags=re.MULTILINE)
     return markdown.markdown(text, extensions=["tables","fenced_code"])
 
 # ════════ Phase 1: Prepare Content ════════
