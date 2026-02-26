@@ -17,3 +17,4 @@ _nlm_runner.py
 logs/
 judgments/_ai_analysis/
 judgments/_tags.json
+pagefind/
