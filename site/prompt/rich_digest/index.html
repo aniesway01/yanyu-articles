@@ -5376,4 +5376,4 @@ https://www.ptt.cc/bbs/Gossiping/M.1715967576.A.828.html</p>
 </ul>
 <hr /></div><div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><a class="dl-btn" href="../../../prompts/rich_digest.md" download>下載原始檔</a></div></article>
 <footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
-</div></body></html>
+</div><script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script></body></html>

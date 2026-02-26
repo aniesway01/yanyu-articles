@@ -132,4 +132,4 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <a class="dl-btn" href="../../ai_tips/9_%E5%80%8B%E5%85%8D%E8%B2%BB_AI_%E5%9C%96%E7%89%87%E7%94%9F%E6%88%90%E6%9C%8D%E5%8B%99_2025_%E5%B9%B4%E7%B8%BD%E6%95%B4%E7%90%86/index.md" download>下載 Markdown</a>
 <a class="dl-btn sec" href="https://www.koc.com.tw/archives/583125" target="_blank">原文連結</a></div></article>
 <footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
-</div></body></html>
+</div><script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script></body></html>

@@ -115,4 +115,4 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <a class="dl-btn" href="../../wechat_articles/articles/2026-02-10_关于「太平洋健康要求我删除文章」这件事，我有话说/index.md" download>Markdown</a>
 <a class="dl-btn sec" href="../../wechat_articles/articles/2026-02-10_关于「太平洋健康要求我删除文章」这件事，我有话说/article.txt" download>純文字</a></div></article>
 <footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
-</div></body></html>
+</div><script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script></body></html>

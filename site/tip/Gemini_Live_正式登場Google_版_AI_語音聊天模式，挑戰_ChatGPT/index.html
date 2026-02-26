@@ -87,4 +87,4 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <a class="dl-btn" href="../../ai_tips/Gemini_Live_%E6%AD%A3%E5%BC%8F%E7%99%BB%E5%A0%B4Google_%E7%89%88_AI_%E8%AA%9E%E9%9F%B3%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%BC%8F%EF%BC%8C%E6%8C%91%E6%88%B0_ChatGPT/index.md" download>下載 Markdown</a>
 <a class="dl-btn sec" href="https://www.kocpc.com.tw/archives/560378" target="_blank">原文連結</a></div></article>
 <footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
-</div></body></html>
+</div><script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script></body></html>

@@ -182,4 +182,4 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
 <a class="dl-btn" href="../../../judgments/cases/2019/01_%E8%BD%A6%E4%B8%8A%E4%BA%BA%E5%91%98%E8%B7%B3%E8%BD%A6%E8%A2%AB%E6%9C%AC%E8%BD%A6%E8%87%B4%E5%AE%B3%E6%97%B6%E7%9A%84%E8%BA%AB%E4%BB%BD%E8%AE%A4%E5%AE%9A.md" download>下載 Markdown</a></div></article>
 <footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
-</div></body></html>
+</div><script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script></body></html>

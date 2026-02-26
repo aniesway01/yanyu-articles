@@ -123,13 +123,15 @@ def esc(s):
 def page(title, body, back=None, extra_css="", extra_js=""):
     n = f'<nav><a href="{back}">&larr; \u8fd4\u56de</a></nav>' if back else ''
     sc = f'<script>{extra_js}</script>' if extra_js else ''
+    # BOM download script: intercept .md download links, prepend UTF-8 BOM
+    bom_js = r"""<script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script>"""
     return f"""<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>{esc(title)} - YanYu \u77e5\u8b58\u5eab</title>
 <style>{CSS}{extra_css}</style></head><body><div class="ctn">
 {n}{body}
 <footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu \u77e5\u8b58\u5eab</p></footer>
-</div>{sc}</body></html>"""
+</div>{bom_js}{sc}</body></html>"""
 
 def wf(path, content):
     path.parent.mkdir(parents=True, exist_ok=True)

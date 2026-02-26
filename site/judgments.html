@@ -4386,5 +4386,5 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 </div></div>
 </div>
 <footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
-</div><script>let cy='';function fy(b,y){cy=y;document.querySelectorAll('.tg-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');fj();}
+</div><script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script><script>let cy='';function fy(b,y){cy=y;document.querySelectorAll('.tg-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');fj();}
 function fj(){const q=document.getElementById('jq').value.toLowerCase();document.querySelectorAll('#jcards .card').forEach(c=>{const m=(!q||c.dataset.search.includes(q))&&(!cy||c.dataset.year===cy);c.classList.toggle('hidden',!m);});}</script></body></html>
