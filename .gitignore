@@ -16,3 +16,4 @@ _nlm_login.py
 _nlm_runner.py
 logs/
 judgments/_ai_analysis/
+judgments/_tags.json

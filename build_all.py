@@ -107,6 +107,21 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 .bm-nav{position:sticky;top:0;z-index:100;background:#fff;padding:8px 0;border-bottom:1px solid #eee;display:flex;gap:6px;flex-wrap:wrap;margin-bottom:15px}
 .bm-nav a{font-size:13px;padding:4px 12px;border:1px solid #1a73e8;border-radius:15px;color:#1a73e8;text-decoration:none;white-space:nowrap}
 .bm-nav a:hover{background:#1a73e8;color:#fff;text-decoration:none}
+.filter-group{margin-bottom:12px}
+.filter-group summary{font-size:14px;font-weight:600;color:#333;cursor:pointer;padding:6px 0}
+.filter-group summary:hover{color:#1a73e8}
+.ftag{display:inline-block;padding:3px 10px;border:1px solid #ddd;border-radius:12px;font-size:12px;margin:2px;cursor:pointer;background:#fff;transition:all .2s}
+.ftag:hover{border-color:#1a73e8;color:#1a73e8}
+.ftag.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+.ftag .cnt{font-size:10px;color:#999;margin-left:2px}
+.ftag.active .cnt{color:rgba(255,255,255,.8)}
+.card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.card-tags span{font-size:11px;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ct-nature{background:#e8f5e9;color:#2e7d32}
+.ct-ins{background:#e3f2fd;color:#1565c0}
+.ct-disp{background:#fff3e0;color:#e65100}
+.ct-verdict{background:#fce4ec;color:#c62828}
+.ct-level{background:#f3e8fd;color:#7627bb}
 """
 
 def extract_case_number(raw):
@@ -371,6 +386,43 @@ def build_judgments(eb_files, scan_only):
                 pass
         log.info(f"AI 分析: 已載入 {len(ai_analyses)} 筆")
 
+    # D. 讀取標籤數據
+    TAGS_FILE = JDG_DIR / "_tags.json"
+    all_tags = {}
+    if TAGS_FILE.exists():
+        with open(TAGS_FILE, "r", encoding="utf-8") as f:
+            all_tags = json.load(f)
+        tag_count = len([k for k in all_tags if k != "_meta"])
+        log.info(f"標籤: 已載入 {tag_count} 筆")
+
+    def get_tag_data(key):
+        """Get tag data for a case key."""
+        return all_tags.get(key, {})
+
+    def build_card_tags_html(tag_data):
+        """Build small tag badges for card display."""
+        parts = []
+        for it in tag_data.get("insurance_type", [])[:2]:
+            parts.append(f'<span class="ct-ins">{esc(it)}</span>')
+        for dt in tag_data.get("dispute_type", [])[:2]:
+            parts.append(f'<span class="ct-disp">{esc(dt)}</span>')
+        v = tag_data.get("verdict", "")
+        if v:
+            parts.append(f'<span class="ct-verdict">{esc(v)}</span>')
+        lv = tag_data.get("court_level", "")
+        if lv and lv != "未知":
+            parts.append(f'<span class="ct-level">{esc(lv)}</span>')
+        return f'<div class="card-tags">{"".join(parts)}</div>' if parts else ""
+
+    def build_tag_filter_data(key, tag_data):
+        """Build data attributes for tag filtering."""
+        ins = ",".join(tag_data.get("insurance_type", []))
+        disp = ",".join(tag_data.get("dispute_type", []))
+        v = tag_data.get("verdict", "")
+        lv = tag_data.get("court_level", "")
+        nat = tag_data.get("case_nature", "")
+        return f'data-ins="{esc(ins)}" data-disp="{esc(disp)}" data-verdict="{esc(v)}" data-level="{esc(lv)}" data-nature="{esc(nat)}"'
+
     def build_analysis_section(ai_key):
         """Build HTML for AI-generated summary/key_points/legal_insights."""
         if ai_key not in ai_analyses:
@@ -610,39 +662,113 @@ def build_judgments(eb_files, scan_only):
             if ai_summary:
                 s = ai_summary
                 ai_preview = f'<div style="font-size:13px;color:#555;margin-top:5px;line-height:1.5">{esc(s[:150])}{"..." if len(s)>150 else ""}</div>'
-            case_cards += f'''<div class="card" data-year="{c["year"]}" data-search="{esc(search_text)}">
+            # Tags
+            td = get_tag_data(ai_key)
+            card_tags = build_card_tags_html(td)
+            tag_attrs = build_tag_filter_data(ai_key, td)
+            case_cards += f'''<div class="card" data-year="{c["year"]}" data-search="{esc(search_text)}" {tag_attrs}>
 <h3><a href="judgment/{case_slug}/index.html">{esc(display_title)}</a></h3>
-<div class="meta">{parties_s}</div>{ai_preview}
+<div class="meta">{parties_s}</div>{card_tags}{ai_preview}
 <div class="dl">
   <a href="{esc(w_url)}" target="_blank" style="font-size:12px">裁判文書網</a>
 </div></div>\n'''
 
-    case_js = """let cy='',dt=null;
+    # Collect tag counts for filter buttons
+    ins_counts = {}
+    disp_counts = {}
+    verdict_counts = {}
+    level_counts = {}
+    nature_counts = {}
+    for c in split_cases:
+        case_stem = Path(c["filename"]).stem
+        ai_key = f'cases/{c["year"]}/{case_stem}'
+        td = get_tag_data(ai_key)
+        for it in td.get("insurance_type", []):
+            ins_counts[it] = ins_counts.get(it, 0) + 1
+        for dt in td.get("dispute_type", []):
+            disp_counts[dt] = disp_counts.get(dt, 0) + 1
+        v = td.get("verdict", "")
+        if v: verdict_counts[v] = verdict_counts.get(v, 0) + 1
+        lv = td.get("court_level", "")
+        if lv and lv != "未知": level_counts[lv] = level_counts.get(lv, 0) + 1
+        nat = td.get("case_nature", "")
+        if nat: nature_counts[nat] = nature_counts.get(nat, 0) + 1
+
+    def _ftag_btns(counts, group_id, top_n=15):
+        btns = ""
+        for label, cnt in sorted(counts.items(), key=lambda x: -x[1])[:top_n]:
+            btns += f'<span class="ftag" onclick="tf(this,\'{group_id}\')" data-val="{esc(label)}">{esc(label)} <span class="cnt">{cnt}</span></span>\n'
+        return btns
+
+    nature_btns = _ftag_btns(nature_counts, "nature")
+    ins_btns = _ftag_btns(ins_counts, "ins")
+    disp_btns = _ftag_btns(disp_counts, "disp")
+    verdict_btns = _ftag_btns(verdict_counts, "verdict")
+    level_btns = _ftag_btns(level_counts, "level")
+
+    tag_filters_html = f'''<div id="tag-filters" style="margin-bottom:20px;background:#fff;border-radius:8px;padding:15px;box-shadow:0 1px 3px rgba(0,0,0,.1)">
+<details open class="filter-group"><summary>案件性質</summary><div>{nature_btns}</div></details>
+<details class="filter-group"><summary>險種</summary><div>{ins_btns}</div></details>
+<details class="filter-group"><summary>爭議類型</summary><div>{disp_btns}</div></details>
+<details class="filter-group"><summary>裁判結果</summary><div>{verdict_btns}</div></details>
+<details class="filter-group"><summary>審級</summary><div>{level_btns}</div></details>
+<div style="margin-top:8px"><button onclick="clearAllFilters()" style="font-size:12px;padding:4px 12px;border:1px solid #ddd;border-radius:12px;background:#fff;cursor:pointer">清除所有篩選</button></div>
+</div>'''
+
+    case_js = """let cy='',dt=null,af={nature:'',ins:'',disp:'',verdict:'',level:''};
 function fy(b,y){cy=y;document.querySelectorAll('.tg-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');fj();}
+function tf(el,g){
+  const v=el.dataset.val;
+  if(af[g]===v){af[g]='';el.classList.remove('active');}
+  else{
+    el.parentElement.querySelectorAll('.ftag').forEach(x=>x.classList.remove('active'));
+    af[g]=v;el.classList.add('active');
+  }
+  fj();
+}
+function clearAllFilters(){
+  af={nature:'',ins:'',disp:'',verdict:'',level:''};
+  document.querySelectorAll('.ftag').forEach(x=>x.classList.remove('active'));
+  fj();
+}
 function fj(){
   const q=document.getElementById('jq').value.toLowerCase().trim();
   const words=q?q.split(/\\s+/):[];
   let shown=0,total=0;
   document.querySelectorAll('#jcards .card').forEach(c=>{
     total++;
-    const s=c.dataset.search;
+    const s=c.dataset.search||'';
     const ym=!cy||c.dataset.year===cy;
     const qm=!words.length||words.every(w=>s.includes(w));
-    const vis=ym&&qm;
+    const fm=(!af.nature||c.dataset.nature===af.nature)
+      &&(!af.ins||(c.dataset.ins||'').split(',').includes(af.ins))
+      &&(!af.disp||(c.dataset.disp||'').split(',').includes(af.disp))
+      &&(!af.verdict||c.dataset.verdict===af.verdict)
+      &&(!af.level||c.dataset.level===af.level);
+    const vis=ym&&qm&&fm;
     c.classList.toggle('hidden',!vis);
     if(vis)shown++;
   });
   const el=document.getElementById('jcount');
-  if(el)el.textContent=q||cy?shown+'/'+total+' 筆':total+' 筆';
+  const hasFilter=q||cy||Object.values(af).some(v=>v);
+  if(el)el.textContent=hasFilter?shown+'/'+total+' 筆':total+' 筆';
 }
 function djq(){clearTimeout(dt);dt=setTimeout(fj,200);}
 document.addEventListener('DOMContentLoaded',fj);"""
 
     total_cases = len(split_cases)
     total = len(md_jdgs) + total_cases
+    tag_stats = f' | {len(ins_counts)} 種險種 · {len(disp_counts)} 種爭議類型' if ins_counts else ''
     body = f"""<header><h1>保險判決庫</h1>
 <p>中國法院保險糾紛判決案例集（2014-2025）</p>
 <div class="stats"><span class="stat">{len(md_jdgs)} 份精選判決</span><span class="stat">{total_cases} 個年度案例（一案一檔）</span><span class="stat">來源：中國裁判文書網 + 中國法院年度案例叢書</span></div></header>
+<div style="margin-bottom:20px;padding:15px;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1)">
+<h3 style="font-size:15px;margin-bottom:8px">全站搜尋（Pagefind）</h3>
+<div id="pf-search"></div>
+<link href="pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="pagefind/pagefind-ui.js"></script>
+<script>window.addEventListener('DOMContentLoaded',function(){{if(typeof PagefindUI!=='undefined'){{new PagefindUI({{element:'#pf-search',showSubResults:true,showImages:false}});}}else{{document.getElementById('pf-search').innerHTML='<p style="color:#999;font-size:13px">搜尋索引載入中...</p>';}}}});</script>
+</div>
 <h2 class="sec-title">裁判文書網 · 精選判決分析</h2>
 <p style="margin-bottom:15px;color:#666;font-size:14px">來源：中國裁判文書網，人身保險合同糾紛案件</p>
 {md_cards}
@@ -650,6 +776,7 @@ document.addEventListener('DOMContentLoaded',fj);"""
 <p style="margin-bottom:15px;color:#666;font-size:14px">來源：《中國法院年度案例》叢書（2018-2025），每個案例獨立成檔，含案件基本信息、案情、裁判要旨、法官后語</p>
 <input class="search" type="text" id="jq" placeholder="搜尋案號、標題、當事人、案由、關鍵字（多個詞用空格分隔）..." oninput="djq()">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span id="jcount" style="font-size:13px;color:#666"></span></div>
+{tag_filters_html}
 <div class="tg-btns">{year_btns}</div>
 <div id="jcards">{case_cards}</div>"""
     wf(SITE / "judgments.html", page("保險判決庫", body, back="index.html", extra_js=case_js))
@@ -1002,6 +1129,28 @@ def main():
     tip_n = build_tips()
     comm_n = build_community_ai()
     build_main_page(wc_n, wc_img, jdg_n, prm_n, tip_n, comm_n)
+    # Phase 3: Pagefind search index
+    log.info("-- Phase 3: 建置搜尋索引 (Pagefind) --")
+    try:
+        import asyncio
+        from pagefind.index import PagefindIndex
+
+        async def _build_pagefind():
+            config = {"root_selector": "article", "verbose": False}
+            async with PagefindIndex(config=config) as index:
+                await index.add_directory(str(SITE))
+                pf_dir = SITE / "pagefind"
+                pf_dir.mkdir(parents=True, exist_ok=True)
+                await index.write_files(str(pf_dir))
+            return True
+
+        asyncio.run(_build_pagefind())
+        log.info("Pagefind 搜尋索引建置完成")
+    except ImportError:
+        log.warning("Pagefind 未安裝，跳過搜尋索引 (pip install 'pagefind[extended]')")
+    except Exception as e:
+        log.warning(f"Pagefind 索引建置失敗: {e}")
+
     log.info("=" * 50)
     log.info(f"\u5b8c\u6210: \u5fae\u4fe1{wc_n} | \u5224\u6c7a{jdg_n} | Prompt{prm_n} | AI\u6280\u5de7{tip_n} | \u793e\u7fa4{comm_n}")
     log.info(f"\u65e5\u8a8c: {log_path}")
