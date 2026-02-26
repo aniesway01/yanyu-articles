@@ -33,6 +33,12 @@ RUNNING_HEADER_V2_RE = re.compile(r'^中国法院\d{4}年度案例[·.·].*$')
 SECTION_TITLE_RE = re.compile(
     r'^[一二三四五六七八九十]+[、.．]\s*\S{2,8}(?:纠纷|案例)?\s*$'
 )
+# v3: watermark patterns (2026-02-26)
+WATERMARK_RE = re.compile(r'法律资料分享[，,]?\s*微信[：:]?\s*\w*')
+# v3: 【section】headers — also handle OCR variants like ) instead of 】
+BRACKET_HEADING_RE = re.compile(r'^【(.+?)[】)\]]\s*(.*)$')
+# v3: OCR footnote lines (①载..., ②载...)
+FOOTNOTE_RE = re.compile(r'^[①②③④⑤⑥⑦⑧⑨⑩]\s*载')
 # Punctuation that naturally ends a Chinese sentence/clause
 _END_PUNCT = set('。，；：？！」）》】、…—')
 # Patterns for lines that should NOT be merged with the previous line
@@ -43,10 +49,8 @@ _HEADING_PREFIX_RE = re.compile(r'^\s*(?:【|##|---|\*\*\*)')
 def clean_ocr_line(line, is_ocr):
     """Remove OCR artifacts from a single line.
 
-    v2 (2026-02-26): added rules for:
-      - standalone page numbers (1~3 digit lines)
-      - running headers like '中国法院20XX年度案例·...'
-      - stray section headings like '一、确认劳动关系'
+    v2 (2026-02-26): standalone page numbers, running headers, stray sections
+    v3 (2026-02-26): watermark removal, 【section】→ ## section formatting
     """
     if not is_ocr:
         return line
@@ -58,26 +62,71 @@ def clean_ocr_line(line, is_ocr):
     if EMPTY_COMMENT_RE.match(s):
         return None
     # v2 rules -------------------------------------------------------
-    # Standalone page number (e.g. "54", "120")
     if RUNNING_PAGE_NUM_RE.match(s):
         return None
-    # Running header at top of each page
-    # e.g. "中国法院2025年度案例·保险纠纷"
     if RUNNING_HEADER_V2_RE.match(s):
         return None
-    # Stray section heading that leaked into case body
-    # e.g. "一、确认劳动关系", "二、保险纠纷"
     if SECTION_TITLE_RE.match(s):
         return None
-    return line
+    # v3 rules -------------------------------------------------------
+    # Remove watermark text (may be standalone line or inline)
+    if WATERMARK_RE.search(s):
+        cleaned = WATERMARK_RE.sub('', s).strip()
+        if not cleaned:
+            return None  # entire line was watermark
+        s = cleaned  # remove inline watermark, continue processing
+    # Remove OCR footnote lines (①载上海城市法规全书网，bltps://...)
+    if FOOTNOTE_RE.match(s):
+        return None
+    # Remove footnote URL remnants (broken across lines)
+    if re.match(r'^[\w./:#?=&]+,\s*最后访[问同]时间', s):
+        return None
+    # NOTE: 【section】→## conversion is done in clean_case_content, not here
+    return line if not WATERMARK_RE.search(line) else s
+
+
+def format_metadata_block(text):
+    """Format numbered metadata lines into a clean table.
+    e.g. '1.裁判书字号...\n2.案由：...\n3.当事人...' → Markdown table
+    """
+    # Find and replace inline metadata pattern
+    # Match blocks like: 1.裁判书字号XXX\n2.案由：XXX\n3.当事人\n原告：XXX\n被告：XXX
+    def _fmt_meta(m):
+        block = m.group(0)
+        items = []
+        for line in block.split('\n'):
+            line = line.strip()
+            if not line:
+                continue
+            # Remove leading number+punctuation
+            line = re.sub(r'^\d{1,2}\s*[.、．)]\s*', '', line)
+            if line:
+                items.append(line)
+        if not items:
+            return block
+        result = []
+        for item in items:
+            # Split on first colon
+            parts = re.split(r'[：:]', item, maxsplit=1)
+            if len(parts) == 2 and len(parts[0]) <= 10:
+                result.append(f"- **{parts[0].strip()}**：{parts[1].strip()}")
+            else:
+                result.append(f"- {item}")
+        return '\n'.join(result)
+
+    # Match metadata blocks (start with 1.裁判 or 1．裁判)
+    text = re.sub(
+        r'(?:^|\n)\s*1\s*[.、．]\s*裁判书字号.*?(?=\n\s*(?:【|##|\n\n))',
+        _fmt_meta, text, flags=re.DOTALL
+    )
+    return text
 
 
 def clean_case_content(text, is_ocr):
     """Clean a block of case content.
 
-    v2 (2026-02-26): added OCR line-break merging — if a line does not end
-    with sentence-ending punctuation and the next line is a plain continuation
-    (not a heading / list item), merge them into one line.
+    v2 (2026-02-26): OCR line-break merging
+    v3 (2026-02-26): watermark removal, section heading formatting, metadata formatting
     """
     lines = text.split('\n')
     cleaned = []
@@ -100,6 +149,8 @@ def clean_case_content(text, is_ocr):
             #   4) next line is not a heading / list item / structural marker
             if (cur_stripped
                     and cur_stripped[-1] not in _END_PUNCT
+                    and not cur_stripped.startswith('##')
+                    and not cur_stripped.startswith('\n##')
                     and i + 1 < len(cleaned)):
                 nxt = cleaned[i + 1]
                 nxt_stripped = nxt.strip()
@@ -107,7 +158,8 @@ def clean_case_content(text, is_ocr):
                         and not nxt.startswith(' ')
                         and not nxt.startswith('\t')
                         and not _HEADING_PREFIX_RE.match(nxt_stripped)
-                        and not _LIST_ITEM_RE.match(nxt_stripped)):
+                        and not _LIST_ITEM_RE.match(nxt_stripped)
+                        and not nxt_stripped.startswith('##')):
                     # Merge: append next line content to current
                     merged.append(cur_stripped + nxt_stripped)
                     i += 2
@@ -119,6 +171,23 @@ def clean_case_content(text, is_ocr):
     # Remove excessive blank lines
     out = '\n'.join(cleaned)
     out = re.sub(r'\n{4,}', '\n\n\n', out)
+    out = re.sub(r'\n{3,}', '\n\n', out)
+
+    # v3: convert 【section】 headers to ## Markdown headings (after merge)
+    if is_ocr:
+        def _bracket_to_heading(m):
+            heading = m.group(1).strip()
+            rest = m.group(2).strip() if m.group(2) else ''
+            if rest:
+                return f'\n\n## {heading}\n\n{rest}'
+            return f'\n\n## {heading}\n'
+        out = re.sub(r'【(.+?)[】)\]](.*)$', _bracket_to_heading, out, flags=re.MULTILINE)
+
+    # (format_metadata_block removed — caused heading merge issues)
+
+    # Final cleanup of excessive blank lines
+    out = re.sub(r'\n{3,}', '\n\n', out)
+
     return out.strip()
 
 
@@ -172,12 +241,13 @@ def extract_case_meta(info_block):
 def find_cases_in_text(text, is_ocr):
     """Find all case boundaries in a single file's text"""
     lines = text.split('\n')
-    marker = '【案件基本信息】'
+    # v3: also match OCR variants like 【察件基本信息】(察→案), 【案件基本信息)
+    MARKER_RE = re.compile(r'【[案察]件基本信息[】)】\)]')
 
     # Find all line numbers with the marker
     marker_lines = []
     for i, line in enumerate(lines):
-        if marker in line.strip():
+        if MARKER_RE.search(line.strip()):
             marker_lines.append(i)
 
     if not marker_lines:
@@ -296,7 +366,8 @@ def find_cases_in_text(text, is_ocr):
         info_end = content.find('【基本案情】')
         if info_end == -1:
             info_end = min(len(content), 500)
-        info_block = content[content.find(marker):info_end] if marker in content else ""
+        marker_match = MARKER_RE.search(content)
+        info_block = content[marker_match.start():info_end] if marker_match else ""
         case_no, case_type, plaintiff, defendant = extract_case_meta(info_block)
 
         # Find section context
