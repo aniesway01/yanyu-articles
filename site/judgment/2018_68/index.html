@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>保险人代位求偿权的实现 - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+</style></head><body><div class="ctn">
+<nav><a href="../../judgments.html">&larr; 返回</a></nav><article><div class="content"><h1>保险人代位求偿权的实现</h1>
+<blockquote>
+<p><strong>來源</strong>：《中國法院2018年度案例》保險糾紛
+<strong>原始文件</strong>：中国法院2018年度案例·保险纠纷.pdf
+<strong>案號</strong>：河南省信阳市浉河区人民法院（2016）豫1502民初字第3798号民事判决
+<strong>案由</strong>：保险合同纠纷
+<strong>當事人</strong>：翟顺霞诉中华联合财产保险股份有限公司信阳中心支公司保险合同案
+<strong>分類</strong>：代位求偿权</p>
+</blockquote>
+<hr />
+<p>68.保险人代位求偿权的实现
+——翟顺霞诉中华联合财产保险股份有限公司信阳中心支公司保险合同案
+【案件基本信息】
+1.裁判书字号
+河南省信阳市浉河区人民法院（2016）豫1502民初字第3798号民事判决
+书
+2.案由：保险合同纠纷
+3.当事人
+原告：翟顺霞
+被告：中华联合财产保险股份有限公司信阳中心支公司
+【基本案情】
+2016年9月6日，原告翟顺霞在被告中华联合财产保险股份有限公司信阳中心支公司为
+自己所有的豫SS××××（临牌）号小型轿车投保了交强险、三责险、车辆损失险及不计免
+赔险等险种，保险期间自2016年9月6日11时起至2017年9月6日24时止。2016年9月7日11时
+许，原告驾驶豫SH××××号（临牌豫SS××××）小型轿车，沿南京大道由西向东行驶至南京
+大道九方购物广场门前时，与周录凌驾驶的电动三轮车发生碰撞，致双方车辆受损，周录
+凌受伤的交通事故。信阳市公安交通警察支队平桥区勤务大队作出道路交通事故认定书，
+认定翟顺霞承担事故的主要责任，周录凌承担事故的次要责任，王定银无责任。交通事故
+发生后，原告将受损车辆送至被告指定的信阳市荣升汽车销售有限公司进行维修，产生维</p>
+<p>修费4000元。被告中华联合财产保险股份有限公司信阳中心支公司在交强险范围内对伤者
+进行了赔付，对投保车辆的车辆损失部分未予赔偿。
+【案件焦点】
+原告能否直接要求保险公司予以全额赔偿？
+【法院裁判要旨】
+信阳市浉河区人民法院审理后认为：原、被告之间订立的保险合同是双
+方当事人真实意思的表示，内容合法有效，双方应按合同约定履行各自的义
+务。原告投保的车辆在保险期间内发生交通事故致被保险车辆受损后进行维
+修，支出维修费4000元，该保险事故符合保险合同约定的被告应承担赔偿责
+任的情形，因此原告要求被告承担赔偿责任的诉讼请求成立，法院予以支
+持。关于被告主张其应按照事故责任的百分之七十进行赔偿的辩解理由，法
+院认为，道路交通事故责任比例是根据交通事故发生时事故双方对交通事故
+所起的作用以及过错的严重程度而确定的责任比例，是确定交通事故损害赔
+偿责任的依据。而保险公司的保险赔偿责任是保险公司对于保险合同约定的
+可能发生的保险事故因其发生给被保险人所造成的财产损失承担赔偿保险金
+的责任。交通事故责任与保险赔偿责任二者性质不同，不能混同。同时，依
+据《中华人民共和国保险法》第六十条第一款“因第三者对保险标的的损害而
+造成保险事故的，保险人自向被保险人赔偿保险金之日起，在赔偿金额范围
+内代位行使被保险人对第三者请求赔偿的权利”的规定，《中华人民共和国保
+险法》已赋予保险公司在向被保险人赔偿保险金后享有代位求偿的权利。本
+案中，被告应先全额支付原告保险赔偿金，按照道路交通事故认定书划定的
+责任比例依法行使对第三者的代位求偿权。综上，被告的上述辩解理由不能
+成立，本院不予支持。依照《中华人民共和国民事诉讼法》第一百六十二
+条，《中华人民共和国合同法》第四十四条、第六十条、第一百零七条，
+《中华人民共和国保险法》第十条、第十四条、第六十条的规定，判决如
+下：</p>
+<p>被告中华联合财产保险股份有限公司信阳中心支公司在车辆损失险保险
+限额内向原告翟顺霞支付车辆保险理赔款4000元。
+【法官后语】
+本案处理重点主要在于保险人代位求偿权。保险代位求偿权又称保险代位权，是指当
+保险标的遭受保险事故造成的损失，依法应由第三者承担赔偿责任时，保险公司自支付保
+险赔偿金之日起，在赔偿金额的限度内，相应地取得向第三者请求赔偿的权利。《中华人
+民共和国保险法》第六十条第一款规定：“因第三者对保险标的的损害而造成保险事故
+的，保险人自向被保险人赔偿保险金之日起，在赔偿金额范围内代位行使被保险人对第三
+者请求赔偿的权利。”司法实践中对于代位求偿权运用，一般应具备以下条件，首先，保
+险人因保险事故对第三者享有损失赔偿请求权；其次，保险标的损失原因属于保险责任范
+围，即保险人负有赔偿义务；最后，保险人给付保险赔偿金。对第三者的赔偿请求权转移
+的时间界限是保险人给付赔偿金，并且这种转移是基于法律规定，不需要被保险人授权或
+第三者同意，即只要保险人给付赔偿金，请求权便自动转移给保险人。
+实践中，代位求偿制度在车险领域的实际应用并不广泛。由于追偿成本高，遇到责任
+方没有购买保险或者保额不足的情况，保险公司很难追偿成功，通常需要诉讼解决，成功
+率不足1%，故保险公司执行代位求偿制度的主动性不强。因此，在事故发生后，多数保
+险公司要求被保险人直接起诉负有赔偿责任的第三者，以签订的保险合同中的“无责免
+赔”为抗辩理由，拒绝对被保险人进行赔付或者在理赔过程中隐瞒被保险人可以直接向保
+险公司要求全额赔偿的信息。因此，我国的保险代位求偿权制度还有待进一步完善。
+编写人：河南省信阳市浉河区人民法院 黄志欣</p></div>
+<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
+<a class="dl-btn" href="../../../judgments/cases/2018/68_%E4%BF%9D%E9%99%A9%E4%BA%BA%E4%BB%A3%E4%BD%8D%E6%B1%82%E5%81%BF%E6%9D%83%E7%9A%84%E5%AE%9E%E7%8E%B0.md" download>下載 Markdown</a></div></article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div></body></html>

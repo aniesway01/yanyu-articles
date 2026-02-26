@@ -29,66 +29,83 @@ DEST_DIR = BASE / "prompts" / "roles"
 INDEX_FILE = BASE / "prompts" / "_index.json"
 LOG_DIR = BASE / "logs"
 
-# === 分類規則（根據檔名關鍵字）===
+# === 分類規則（根據檔名關鍵字，順序=優先級）===
+# 重要：越具體的分類放越前面，越模糊的放後面
 CATEGORY_RULES = [
-    ("image_gen", "圖片生成", [
-        "image", "photo", "picture", "draw", "paint", "art", "illustration",
-        "logo", "icon", "design", "graphic", "visual", "render", "3d",
-        "midjourney", "dalle", "stable_diffusion", "avatar", "portrait",
-        "wallpaper", "poster", "banner", "thumbnail",
-    ]),
     ("dev", "開發工具", [
-        "code", "coding", "programming", "developer", "software", "engineer",
+        "code", "coding", "programming", "developer", "software",
         "debug", "refactor", "api", "database", "sql", "python", "javascript",
         "typescript", "react", "vue", "angular", "node", "frontend", "backend",
-        "fullstack", "devops", "docker", "kubernetes", "git", "cicd", "test",
+        "fullstack", "devops", "docker", "kubernetes", "git", "cicd",
         "architecture", "algorithm", "data_structure", "compiler",
-        "html", "css", "web", "app", "mobile", "ios", "android",
+        "html", "css", "web_dev", "mobile_dev", "ios_dev", "android_dev",
         "rust", "golang", "java", "csharp", "php", "ruby", "swift",
-        "code_review", "pull_request", "commit",
+        "code_review", "pull_request", "commit", "terminal", "cli",
+        "regex", "webhook", "microservice", "deployment",
+    ]),
+    ("image_gen", "圖片生成", [
+        "image_gen", "photo_gen", "picture_gen", "draw", "paint",
+        "illustration", "logo", "icon", "graphic", "render",
+        "midjourney", "dalle", "stable_diffusion", "avatar", "portrait",
+        "wallpaper", "poster", "banner", "thumbnail", "pixel",
+        "3d_render", "3d_model", "3d_character", "3d_scene",
+        "cartoon", "anime", "comic", "sketch",
+    ]),
+    ("medical", "醫療健康", [
+        "medical", "doctor", "nurse", "health", "patient", "diagnos",
+        "treatment", "pharma", "drug", "clinical", "hospital",
+        "nutrition", "diet", "fitness", "wellness", "mental_health",
+        "symptom", "therapy", "disease", "medicine",
+    ]),
+    ("professional", "專業領域", [
+        "legal", "law", "lawyer", "attorney", "judge", "contract",
+        "accountant", "tax", "audit", "compliance", "regulat",
+        "architect", "civil_eng", "mechanical", "electrical",
+        "scientist", "chemist", "physicist", "biologist",
+        "psycholog", "therapist", "counselor", "social_work",
+        "real_estate", "insurance", "patent",
+    ]),
+    ("education", "教育學習", [
+        "teach", "tutor", "learn", "education", "student", "professor",
+        "academic", "university", "school", "course", "lesson", "quiz",
+        "exam", "homework", "study", "research", "paper", "thesis",
+        "mentor", "instructor", "lecture", "textbook",
+        "math", "science", "history", "language", "english", "chinese",
+        "explain", "flashcard", "vocabulary",
     ]),
     ("creative", "創意寫作", [
         "write", "writing", "story", "novel", "poem", "poetry", "creative",
         "fiction", "narrative", "screenplay", "script", "dialogue", "lyric",
         "song", "blog", "article", "essay", "content", "copywriting",
         "journalist", "reporter", "editor", "author", "storytell",
-    ]),
-    ("education", "教育學習", [
-        "teach", "tutor", "learn", "education", "student", "professor",
-        "academic", "university", "school", "course", "lesson", "quiz",
-        "exam", "homework", "study", "research", "paper", "thesis",
-        "mentor", "coach", "instructor", "lecture", "textbook",
-        "math", "science", "history", "language", "english", "chinese",
+        "fantasy", "scifi", "horror", "mystery", "drama", "romance",
     ]),
     ("business", "商業行銷", [
         "business", "market", "sales", "startup", "entrepreneur", "ceo",
         "manager", "strategy", "finance", "invest", "stock", "crypto",
         "ecommerce", "seo", "social_media", "brand", "advertis",
         "email", "pitch", "negotiat", "consult", "hr", "recruit",
-        "product", "project", "agile", "scrum",
+        "product", "project", "agile", "scrum", "analytics",
+        "budget", "revenue", "profit", "customer",
+    ]),
+    ("roleplay", "角色扮演", [
+        "roleplay", "role_play", "character", "persona", "npc",
+        "companion", "chat_bot", "virtual", "friend", "girlfriend",
+        "boyfriend", "waifu", "ai_girl", "ai_boy",
+        "act_as", "pretend", "simulate", "impersonat",
     ]),
     ("tool", "工具助手", [
         "tool", "assistant", "helper", "convert", "translat", "summariz",
-        "extract", "format", "template", "prompt", "system", "utility",
-        "calculator", "generator", "analyzer", "optimizer", "automat",
+        "extract", "format", "template", "prompt", "utility",
+        "calculator", "analyzer", "optimizer", "automat",
         "spreadsheet", "excel", "pdf", "csv", "json", "xml",
+        "email", "schedule", "organiz", "plan",
     ]),
-    ("professional", "專業領域", [
-        "legal", "law", "lawyer", "attorney", "judge", "contract",
-        "accountant", "tax", "audit", "compliance", "regulat",
-        "engineer", "architect", "civil", "mechanical", "electrical",
-        "scientist", "chemist", "physicist", "biologist",
-        "psycholog", "therapist", "counselor", "social_work",
-    ]),
-    ("medical", "醫療健康", [
-        "medical", "doctor", "nurse", "health", "patient", "diagnos",
-        "treatment", "pharma", "drug", "clinical", "hospital",
-        "nutrition", "diet", "fitness", "wellness", "mental_health",
-    ]),
-    ("game", "遊戲娛樂", [
-        "game", "gaming", "rpg", "adventure", "dungeon", "quest",
-        "character", "npc", "player", "fantasy", "scifi", "horror",
-        "puzzle", "trivia", "roleplay", "simulation", "fun",
+    ("game", "遊戲開發", [
+        "game_dev", "game_design", "gaming", "rpg_game", "adventure_game",
+        "dungeon", "quest", "gameplay", "player", "level_design",
+        "game_engine", "unity", "unreal", "godot",
+        "puzzle_game", "trivia", "board_game", "card_game",
     ]),
 ]
 DEFAULT_CATEGORY = ("other", "其他")

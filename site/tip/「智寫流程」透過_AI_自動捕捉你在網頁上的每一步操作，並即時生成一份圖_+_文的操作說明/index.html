@@ -1,0 +1,116 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+</style></head><body><div class="ctn">
+<nav><a href="../../ai-tips.html">&larr; 返回</a></nav><article><h1>「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明</h1>
+<div class="meta"><strong>作者</strong>：電腦王阿達 | <strong>發布時間</strong>：2025-11-13<br>
+<a href="https://www.koc.com.tw/archives/620228" target="_blank">查看原文（電腦王阿達）</a></div>
+<div class="content">
+<p>現在的 <strong><a href="https://www.koc.com.tw/archives/tag/AI">AI</a></strong> 真的有點誇張，越來越強，就連教學文也可以。過去寫教學文總是需要花很多時間，除了嘗試之外，還需要針對各步驟截圖，最後是補上文字，而現在有了「智寫流程」這款<strong><a href="https://www.koc.com.tw/archives/tag/工具">工具</a></strong>，AI 就能幫你製作好基本的教學文，而且不僅是圖文並茂，連影片演示都有。</p>
+<p>唯一你可能會在意的是，「智寫流程」是<strong><a href="https://www.koc.com.tw/archives/tag/中國">中國</a></strong>公司開發的工具，因此 AI 寫的文字會是簡體，後續你需要手動轉成繁體。</p>
+<p><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_001.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_002.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<h2>「智寫流程」透過 AI 自動完成教學文、影片演示介紹和操作教學</h2>
+<p>智寫流程是一款專為「製作操作教學文件」開發的 AI 自動化工具，最大的亮點在，會將你操作網站過程中的每一個動作全自動記錄下來，包含滑鼠點擊、鍵盤輸入、頁面跳轉等，接著生成出有圖片、文字的流程文件，意味著過去你需要自己截圖、貼圖、寫步驟的工作流程，現在變成只需按下錄製按鈕就能輕鬆完成。</p>
+<p>當然，生成後的內容也能自由編輯，包括調整步驟順序、補充／修改文字、刪除不需要的步驟，或加入更清楚的說明等等。完成後可直接分享連結，或是匯出 PDF、Word、Markdown 等格式。</p>
+<p><strong>主要特色</strong></p>
+<ul>
+<li>自動錄製操作行為：自動捕捉滑鼠、鍵盤、跳頁動作。</li>
+<li>自動生成圖文教學流程：每一步驟都有截圖與說明。</li>
+<li>可編輯調整內容：支援自行增加或刪除步驟、修改文字、補充細節。</li>
+<li>多種匯出格式：支援 PDF、Word、Markdown 等常見格式。</li>
+<li>一鍵分享：可生成線上連結與團隊共享。</li>
+<li>提升效率：官方宣稱最高可提升 85% 文件製作效率。</li>
+</ul>
+<p><a href="https://www.igenflow.com">前往智寫流程</a></p>
+<p>按上方連結進到智寫流程官方頁面後，選擇你要用的版本，提供「離線安裝」、「Chrome 應用商店」、以及「Edge 擴展中心」，我用 Chrome 擴充功能：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_003.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_004.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>點擊就會打開商店頁面，接著就按右上方加到 Chrome：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_005.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_006.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>完成安裝後，智寫流程會顯示在瀏覽器右側，需登入帳號才能使用，要注意是，個人用戶登入目前僅支援 WeChat，沒提供其他登入或註冊方法：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_007.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_008.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>登入成功後，按右邊的「開始紀錄」，AI 就會開始錄製和撰寫說明文件，無需設定任何東西：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_009.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_010.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>另外這工具也有分免費版和付費版，就一般使用來說，永久免費的標準版就很夠了，每次錄製最多支援 50 個步驟，也能分享連結和導出 PDF 格式：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_011.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_012.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>開始錄製時，第一步都會先記下當前的網址，右邊會顯示即時錄製和生成狀態：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_013.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_014.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>像我點網頁上的 pCloud 雙 11 優惠文章，AI 就自動幫我截圖並用圓圈標示我點擊的位置，然後生成點擊這裡….的文字：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_015.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_016.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>跳轉到另一個網頁分頁時，也會記錄下「切換到新瀏覽器標籤頁」，這些文字都是 AI 自動生成：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_017.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_018.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>接著我就把全部的操作都按完，智寫流程也一一成功記錄下來，最後就按下方的「完成紀錄」：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_019.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_020.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>會打開這個畫面，顯示剛剛記錄的所有流程，如果你覺得有多餘或錯誤的，可手動刪除或編輯：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_021.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_022.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>像是把簡體中文都改成繁體中文：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_023.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_024.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>另外每一步驟右側都有一個播放圖示，按下後會用影片演示這個步驟：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_025.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_026.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>會在左側畫面演示。有了這影片演示，就算是對方看不懂文字說明，也能快速了解到到底是怎麼操作：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_027.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_028.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>支援輸出以下四種格式：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_029.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_030.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>也能直接分享這個頁面的連結給其他人，而且可以設定連結的有效期限：<br />
+<img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_031.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /><img alt="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" src="../../ai_tips/「智寫流程」透過_AI_自動捕捉你在網頁上的每一步操作，並即時生成一份圖_+_文的操作說明/assets/img_032.jpg" title="「智寫流程」透過 AI 自動捕捉你在網頁上的每一步操作，並即時生成一份圖 + 文的操作說明 - 電腦王阿達" /></p>
+<p>Tags: <a href="https://www.koc.com.tw/archives/tag/ai">ai</a><a href="https://www.koc.com.tw/archives/tag/chrome">Chrome</a><a href="https://www.koc.com.tw/archives/tag/%e4%b8%ad%e5%9c%8b">中國</a><a href="https://www.koc.com.tw/archives/tag/%e4%ba%ba%e5%b7%a5%e6%99%ba%e6%85%a7">人工智慧</a><a href="https://www.koc.com.tw/archives/tag/%e6%93%b4%e5%85%85%e5%8a%9f%e8%83%bd">擴充功能</a></p>
+<hr />
+<p><em>原文連結：https://www.koc.com.tw/archives/620228</em>
+<em>本文轉載自電腦王阿達（kocpc.com.tw），版權歸原作者所有。</em></p></div>
+<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
+<a class="dl-btn" href="../../ai_tips/%E3%80%8C%E6%99%BA%E5%AF%AB%E6%B5%81%E7%A8%8B%E3%80%8D%E9%80%8F%E9%81%8E_AI_%E8%87%AA%E5%8B%95%E6%8D%95%E6%8D%89%E4%BD%A0%E5%9C%A8%E7%B6%B2%E9%A0%81%E4%B8%8A%E7%9A%84%E6%AF%8F%E4%B8%80%E6%AD%A5%E6%93%8D%E4%BD%9C%EF%BC%8C%E4%B8%A6%E5%8D%B3%E6%99%82%E7%94%9F%E6%88%90%E4%B8%80%E4%BB%BD%E5%9C%96_%2B_%E6%96%87%E7%9A%84%E6%93%8D%E4%BD%9C%E8%AA%AA%E6%98%8E/index.md" download>下載 Markdown</a>
+<a class="dl-btn sec" href="https://www.koc.com.tw/archives/620228" target="_blank">原文連結</a></div></article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div></body></html>

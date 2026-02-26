@@ -101,6 +101,67 @@ DEFAULT_ARTICLES = [
         "title": "Google Gemini 與 Gemini Advanced 的關鍵差異",
         "status": "pending",
     },
+    # === 2025 年文章 ===
+    {
+        "id": "tip_011",
+        "url": "https://www.koc.com.tw/archives/596435",
+        "title": "NotebookLM 的 Podcast 對話生成功能終於支援中文了",
+        "status": "pending",
+    },
+    {
+        "id": "tip_012",
+        "url": "https://www.koc.com.tw/archives/624621",
+        "title": "Google 分享最實用的 40 個 AI 使用技巧",
+        "status": "pending",
+    },
+    {
+        "id": "tip_013",
+        "url": "https://www.koc.com.tw/archives/583125",
+        "title": "9 個免費 AI 圖片生成服務 2025 年總整理",
+        "status": "pending",
+    },
+    {
+        "id": "tip_014",
+        "url": "https://www.koc.com.tw/archives/596254",
+        "title": "豆包 AI 助手全攻略：免費圖片生成、影片製作、翻譯搜尋",
+        "status": "pending",
+    },
+    {
+        "id": "tip_015",
+        "url": "https://www.koc.com.tw/archives/595139",
+        "title": "免費 AI 圖片影片工具 AIEASE 每日可免費生成 20 張",
+        "status": "pending",
+    },
+    {
+        "id": "tip_016",
+        "url": "https://www.koc.com.tw/archives/601306",
+        "title": "難以判斷 AI 圖片？Google 的這些工具可以幫助檢視",
+        "status": "pending",
+    },
+    {
+        "id": "tip_017",
+        "url": "https://www.koc.com.tw/archives/620228",
+        "title": "智寫流程：透過 AI 自動捕捉操作步驟並生成圖文說明",
+        "status": "pending",
+    },
+    {
+        "id": "tip_018",
+        "url": "https://www.koc.com.tw/archives/616444",
+        "title": "台灣版的學生方案 Google AI Pro 一年免費體驗",
+        "status": "pending",
+    },
+    {
+        "id": "tip_019",
+        "url": "https://www.koc.com.tw/archives/617061",
+        "title": "生成 AI 工具最新網路流量排行（2025/09）",
+        "status": "pending",
+    },
+    {
+        "id": "tip_020",
+        "url": "https://www.koc.com.tw/archives/627315",
+        "title": "教育部專為國高中小學生設計的 AI 教學手冊免費下載",
+        "status": "pending",
+    },
 ]
 
 
@@ -129,7 +190,14 @@ logger = Logger()
 def load_state():
     if STATE_FILE.exists():
         with open(STATE_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
+            state = json.load(f)
+        # Merge new articles from DEFAULT_ARTICLES into existing state
+        existing_ids = {a["id"] for a in state["articles"]}
+        for da in DEFAULT_ARTICLES:
+            if da["id"] not in existing_ids:
+                state["articles"].append(dict(da))
+                logger.info(f"新增文章到佇列: {da['title']}")
+        return state
     # 初始化
     return {"articles": list(DEFAULT_ARTICLES)}
 

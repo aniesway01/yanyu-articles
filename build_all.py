@@ -313,7 +313,10 @@ def build_wechat():
     return len(articles), total_imgs
 
 def build_judgments(eb_files, scan_only):
-    # 1. Original curated judgments (11 markdown files in judgments/)
+    CASE_IDX = JDG_DIR / "cases" / "_index.json"
+    CASE_DIR = JDG_DIR / "cases"
+
+    # 1. Original curated judgments (裁判文書網精選)
     md_jdgs = []
     for mf in sorted(JDG_DIR.glob("*.md")):
         with open(mf, "r", encoding="utf-8") as f:
@@ -324,52 +327,82 @@ def build_judgments(eb_files, scan_only):
         case_no = m2.group(1).strip() if m2 else ""
         slug = mf.stem
         md_jdgs.append({"slug": slug, "title": title, "case_no": case_no, "text": text})
-    # Individual curated judgment pages
     for j in md_jdgs:
         ch = md2html(j["text"])
-        ab = f'<article><div class="content">{ch}</div><div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><a class="dl-btn" href="../../../judgments/{quote(j["slug"])}.md" download>\u4e0b\u8f09 Markdown</a></div></article>'
+        src = '<div class="meta" style="margin-top:10px">來源：中國裁判文書網</div>'
+        ab = f'<article><div class="content">{ch}</div>{src}<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><a class="dl-btn" href="../../../judgments/{quote(j["slug"])}.md" download>下載 Markdown</a></div></article>'
         wf(SITE / "judgment" / j["slug"] / "index.html", page(j["title"], ab, back="../../judgments.html"))
-    # 2. Ebookhub converted markdown files - organize by year
-    eb_by_year = {}
-    for ef in eb_files:
-        eb_by_year.setdefault(ef["year"], []).append(ef)
-    # Build individual ebookhub judgment pages
-    for ef in eb_files:
-        md_path = JDG_EB_DIR / ef["name"]
-        with open(md_path, "r", encoding="utf-8") as f:
-            text = f.read()
-        ch = md2html(text)
-        ab = f'<article><div class="content">{ch}</div><div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><a class="dl-btn" href="../../../judgments/ebookhub/{quote(ef["name"])}" download>\u4e0b\u8f09 Markdown</a></div></article>'
-        wf(SITE / "judgment" / ef["slug"] / "index.html", page(ef["slug"], ab, back="../../judgments.html"))
+
+    # 2. Individual cases from split (一案一檔)
+    split_cases = []
+    cases_by_year = {}
+    if CASE_IDX.exists():
+        with open(CASE_IDX, "r", encoding="utf-8") as f:
+            cidx = json.load(f)
+        split_cases = cidx.get("cases", [])
+        for c in split_cases:
+            cases_by_year.setdefault(c["year"], []).append(c)
+        # Build individual case pages
+        for c in split_cases:
+            case_path = CASE_DIR / c["year"] / c["filename"]
+            if not case_path.exists():
+                continue
+            with open(case_path, "r", encoding="utf-8") as f:
+                text = f.read()
+            ch = md2html(text)
+            case_slug = f'{c["year"]}_{c["num"]:0>2}'
+            ab = f'''<article><div class="content">{ch}</div>
+<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
+<a class="dl-btn" href="../../../judgments/cases/{c["year"]}/{quote(c["filename"])}" download>下載 Markdown</a></div></article>'''
+            wf(SITE / "judgment" / case_slug / "index.html",
+               page(c["title"] or f"案例{c['num']}", ab, back="../../judgments.html"))
+
     # 3. Build listing page
+    # 3a. 精選判決卡片
     md_cards = ""
     for j in md_jdgs:
-        md_cards += f'<div class="card"><h3><a href="judgment/{j["slug"]}/index.html">{esc(j["title"])}</a></h3><div class="meta">{esc(j["case_no"])}</div><div class="dl"><a href="../judgments/{quote(j["slug"])}.md" download>MD</a></div></div>\n'
-    eb_html = ""
-    for yr in sorted(eb_by_year):
-        eb_html += f'<div class="yg"><h3>{yr} \u5e74</h3>\n'
-        for ef in eb_by_year[yr]:
-            eb_html += f'<div class="fi"><span><a href="judgment/{ef["slug"]}/index.html">{esc(ef["name"])}</a> <span class="sz">({ef["size_kb"]}KB)</span></span><a class="dl-btn" href="../judgments/ebookhub/{quote(ef["name"])}" download>\u4e0b\u8f09 MD</a></div>\n'
-        eb_html += '</div>\n'
-    # Add scan-only entries
-    scan_html = ""
-    if scan_only:
-        scan_html = '<div class="yg"><h3>\u672a\u80fd\u63d0\u53d6\u6587\u5b57\uff08\u539f\u59cb PDF \u70ba\u6383\u63cf\u5716\u7247\uff09</h3>\n'
-        for s in scan_only:
-            scan_html += f'<div class="fi"><span>{s["year"]} \u5e74 \u2014 {esc(s["name"])} <span class="sz">({s["note"]})</span></span></div>\n'
-        scan_html += '</div>\n'
-    total = len(md_jdgs) + len(eb_files) + len(scan_only)
-    body = f"""<header><h1>\u2696\ufe0f \u4fdd\u96aa\u5224\u6c7a\u5eab</h1>
-<p>\u4e2d\u570b\u6cd5\u9662\u4fdd\u96aa\u7cfe\u7d1b\u5224\u6c7a\u6848\u4f8b\u96c6\uff082014-2025\uff09</p>
-<div class="stats"><span class="stat">{len(md_jdgs)} \u4efd\u7cbe\u9078\u5224\u6c7a</span><span class="stat">{len(eb_files)} \u4efd\u5e74\u5ea6\u6848\u4f8b\uff08\u6587\u5b57\u7248\uff09</span></div></header>
-<h2 class="sec-title">\u88c1\u5224\u6587\u66f8\u7db2 \u00b7 \u7cbe\u9078\u5224\u6c7a\u5206\u6790</h2>
-<p style="margin-bottom:15px;color:#666;font-size:14px">\u4f86\u6e90\uff1a\u4e2d\u570b\u88c1\u5224\u6587\u66f8\u7db2\uff0c\u4eba\u8eab\u4fdd\u96aa\u5408\u540c\u7cfe\u7d1b\u6848\u4ef6</p>
+        md_cards += f'''<div class="card"><h3><a href="judgment/{j["slug"]}/index.html">{esc(j["title"])}</a></h3>
+<div class="meta">{esc(j["case_no"])}</div>
+<div class="meta" style="color:#999">來源：中國裁判文書網</div>
+<div class="dl"><a href="../judgments/{quote(j["slug"])}.md" download>MD</a></div></div>\n'''
+
+    # 3b. 年度案例（一案一檔卡片）
+    case_cards = ""
+    year_btns = '<button class="tg-btn active" onclick="fy(this,\'\')">全部</button>\n'
+    for yr in sorted(cases_by_year):
+        cnt = len(cases_by_year[yr])
+        year_btns += f'<button class="tg-btn" onclick="fy(this,\'{yr}\')">{yr} ({cnt})</button>\n'
+        for c in cases_by_year[yr]:
+            case_slug = f'{c["year"]}_{c["num"]:0>2}'
+            title_s = esc(c["title"] or f"案例{c['num']}")
+            parties_s = esc(c.get("parties", ""))
+            case_no_s = esc(c.get("case_no", ""))
+            src_s = esc(c.get("source_pdf", ""))
+            search_text = f'{c["title"]} {c.get("parties","")} {c.get("case_type","")}'.lower()
+            case_cards += f'''<div class="card" data-year="{c["year"]}" data-search="{esc(search_text)}">
+<h3><a href="judgment/{case_slug}/index.html">{title_s}</a></h3>
+<div class="meta">{parties_s}</div>
+<div class="meta" style="color:#999">{case_no_s}</div>
+<div class="meta" style="color:#aaa;font-size:12px">來源：{src_s}</div></div>\n'''
+
+    case_js = """let cy='';function fy(b,y){cy=y;document.querySelectorAll('.tg-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');fj();}
+function fj(){const q=document.getElementById('jq').value.toLowerCase();document.querySelectorAll('#jcards .card').forEach(c=>{const m=(!q||c.dataset.search.includes(q))&&(!cy||c.dataset.year===cy);c.classList.toggle('hidden',!m);});}"""
+
+    total_cases = len(split_cases)
+    total = len(md_jdgs) + total_cases
+    body = f"""<header><h1>保險判決庫</h1>
+<p>中國法院保險糾紛判決案例集（2014-2025）</p>
+<div class="stats"><span class="stat">{len(md_jdgs)} 份精選判決</span><span class="stat">{total_cases} 個年度案例（一案一檔）</span><span class="stat">來源：中國法院年度案例叢書</span></div></header>
+<h2 class="sec-title">裁判文書網 · 精選判決分析</h2>
+<p style="margin-bottom:15px;color:#666;font-size:14px">來源：中國裁判文書網，人身保險合同糾紛案件</p>
 {md_cards}
-<h2 class="sec-title">\u4e2d\u570b\u6cd5\u9662\u5e74\u5ea6\u6848\u4f8b \u00b7 \u4fdd\u96aa\u7cfe\u7d1b\uff08PDF \u8f49\u6587\u5b57\uff09</h2>
-<p style="margin-bottom:15px;color:#666;font-size:14px">\u4f86\u6e90\uff1a\u4e2d\u570b\u6cd5\u9662\u5e74\u5ea6\u6848\u4f8b\u53e2\u66f8\uff082014-2025\uff09\uff0c\u5df2\u5f9e PDF \u63d0\u53d6\u70ba\u7d14\u6587\u5b57\u683c\u5f0f</p>
-{eb_html}{scan_html}"""
-    wf(SITE / "judgments.html", page("\u4fdd\u96aa\u5224\u6c7a\u5eab", body, back="index.html"))
-    log.info(f"\u5efa\u7f6e: \u5224\u6c7a\u5eab ({len(md_jdgs)} \u7cbe\u9078 + {len(eb_files)} \u5e74\u5ea6\u6848\u4f8b + {len(scan_only)} \u7121\u6cd5\u63d0\u53d6)")
+<h2 class="sec-title">中國法院年度案例 · 保險糾紛（一案一檔）</h2>
+<p style="margin-bottom:15px;color:#666;font-size:14px">來源：《中國法院年度案例》叢書（2018-2025），每個案例獨立成檔，含案件基本信息、案情、裁判要旨、法官后語</p>
+<input class="search" type="text" id="jq" placeholder="搜尋案例標題、當事人、案由..." oninput="fj()">
+<div class="tg-btns">{year_btns}</div>
+<div id="jcards">{case_cards}</div>"""
+    wf(SITE / "judgments.html", page("保險判決庫", body, back="index.html", extra_js=case_js))
+    log.info(f"建置: 判決庫 ({len(md_jdgs)} 精選 + {total_cases} 年度案例)")
     return total
 
 def build_prompts(prompt_files):
@@ -420,17 +453,28 @@ def build_prompts(prompt_files):
             prompt_esc = esc(full_prompt)
             prompt_html = f'<pre style="white-space:pre-wrap;word-break:break-word;background:#f8f8f8;padding:20px;border-radius:8px;font-size:14px;line-height:1.7;max-height:70vh;overflow-y:auto">{prompt_esc}</pre>'
             copy_js = "function cp(){const t=document.getElementById('pt').textContent;navigator.clipboard.writeText(t).then(()=>{const b=document.getElementById('cb');b.textContent='已複製!';setTimeout(()=>b.textContent='複製 Prompt',1500);});}"
+            tags_detail = " ".join(f'<span style="display:inline-block;padding:2px 8px;background:#e8f0fe;color:#1a73e8;border-radius:10px;font-size:12px;margin-right:4px">{esc(t)}</span>' for t in p.get("tags", []))
             ab = f'''<article><h1>{esc(name)}</h1>
 <div class="meta"><strong>分類</strong>：{esc(cat_name)} | <strong>作者</strong>：{esc(author) if author else "社群貢獻"} | <strong>長度</strong>：{plen} 字元</div>
-{f'<div class="meta"><strong>來源</strong>：<a href="{esc(source)}" target="_blank">{esc(source)[:60]}</a></div>' if source else ''}
+{f'<div class="meta"><strong>來源</strong>：<a href="{esc(source)}" target="_blank">{esc(source)[:80]}</a></div>' if source else '<div class="meta"><strong>來源</strong>：awesome-chatgpt-prompts 社群收集</div>'}
+{f'<div style="margin:8px 0">{tags_detail}</div>' if tags_detail else ''}
 <div style="margin:20px 0"><button id="cb" onclick="cp()" style="padding:8px 20px;background:#1a73e8;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:14px">複製 Prompt</button>
 <a class="dl-btn sec" href="../../prompts/roles/{quote(p["filename"])}" download style="margin-left:8px">下載 YAML</a></div>
 <div id="pt">{prompt_esc}</div>
 {prompt_html}
 </article>'''
             wf(SITE / "prompt" / slug / "index.html", page(name, ab, back="../../prompts.html", extra_js=copy_js))
-            # Card for listing page
-            yaml_cards += f'<div class="card" data-cat="{cat_id}" data-title="{esc(name)}"><h3><a href="prompt/{slug}/index.html">{esc(name)}</a></h3><div class="meta">{esc(cat_name)} · {plen} 字元{(" · " + esc(author)) if author else ""}</div><div class="meta" style="color:#999">{esc(preview[:100])}...</div></div>\n'
+            # Card for listing page — search across title + preview + tags + author
+            tags = p.get("tags", [])
+            tags_str = ",".join(tags)
+            tags_html = " ".join(f'<span style="display:inline-block;padding:1px 6px;background:#e8f0fe;color:#1a73e8;border-radius:8px;font-size:11px;margin-right:3px">{esc(t)}</span>' for t in tags[:5])
+            search_text = f"{name} {preview[:150]} {tags_str} {author} {cat_name}".lower()
+            src_link = f' · <a href="{esc(source)}" target="_blank" style="font-size:12px">來源</a>' if source else ""
+            yaml_cards += f'''<div class="card" data-cat="{cat_id}" data-search="{esc(search_text)}">
+<h3><a href="prompt/{slug}/index.html">{esc(name)}</a></h3>
+<div class="meta">{esc(cat_name)} · {plen} 字元{(" · " + esc(author)) if author else ""}{src_link}</div>
+<div style="margin:4px 0">{tags_html}</div>
+<div class="meta" style="color:#999">{esc(preview[:120])}...</div></div>\n'''
     # ─── Part B: 學習資源 (電子書 + 社群資料) ───
     RESOURCE_INFO = {
         "knowledge_base.md": ("知識精萃庫", "13 篇教學文章 + 42 支影片連結", "T客邦、電腦玩物等", True),
@@ -467,12 +511,13 @@ def build_prompts(prompt_files):
     cat_btns = '<button class="tg-btn active" onclick="fp(this,\'\')">全部</button>\n'
     for cid, cname in sorted(cat_set, key=lambda x: x[1]):
         cat_btns += f'<button class="tg-btn" onclick="fp(this,\'{cid}\')">{cname}</button>\n'
-    filter_js = "let cc='';function fp(b,c){cc=c;document.querySelectorAll('.tg-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');ff();}function ff(){const q=document.getElementById('pq').value.toLowerCase();document.querySelectorAll('#pcards .card').forEach(c=>{const m=(!q||c.dataset.title.toLowerCase().includes(q))&&(!cc||c.dataset.cat===cc);c.classList.toggle('hidden',!m);});}"
+    filter_js = """let cc='';function fp(b,c){cc=c;document.querySelectorAll('.tg-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');ff();}
+function ff(){const q=document.getElementById('pq').value.toLowerCase();const words=q.split(/\\s+/).filter(w=>w);document.querySelectorAll('#pcards .card').forEach(c=>{const s=c.dataset.search||'';const catOk=!cc||c.dataset.cat===cc;const searchOk=!words.length||words.every(w=>s.includes(w));c.classList.toggle('hidden',!(catOk&&searchOk));});}"""
     body = f"""<header><h1>\U0001f916 Prompt \u5eab</h1>
 <p>662 \u500b AI \u63d0\u793a\u8a5e\u89d2\u8272 + \u5b78\u7fd2\u8cc7\u6e90\u8207\u96fb\u5b50\u66f8</p>
 <div class="stats"><span class="stat">{yaml_count} \u500b Prompt \u89d2\u8272</span><span class="stat">{len(cat_set)} \u500b\u5206\u985e</span><span class="stat">\u542b 4 \u672c\u96fb\u5b50\u66f8</span></div></header>
 <h2 class="sec-title">Prompt \u89d2\u8272\u5eab</h2>
-<input class="search" type="text" id="pq" placeholder="\u641c\u5c0b Prompt \u540d\u7a31..." oninput="ff()">
+<input class="search" type="text" id="pq" placeholder="搜尋 Prompt（名稱、內容、標籤、作者）..." oninput="ff()">
 <div class="tg-btns">{cat_btns}</div>
 <div id="pcards">{yaml_cards}</div>
 <h2 class="sec-title">\u5b78\u7fd2\u8cc7\u6e90</h2>
