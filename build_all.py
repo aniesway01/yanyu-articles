@@ -33,6 +33,9 @@ PROMPT_SRC = Path(r"C:\AntiGravityFile\Project\facebookPrompt\_legacy_prompt_col
 EBOOK_SRC  = Path(r"C:\AntiGravityFile\Project\ebookhub\library")
 TIPS_DIR   = BASE / "ai_tips"
 TIPS_STATE = TIPS_DIR / "_state.json"
+COMM_DIR   = BASE / "community_ai"
+COMM_REPOS = COMM_DIR / "github_repos.json"
+COMM_MSGS  = COMM_DIR / "_raw_ai_messages.json"
 
 
 # ─── Logging ───
@@ -219,7 +222,7 @@ def prepare_prompts():
 
 # ════════ Phase 2: Build Site ════════
 
-def build_main_page(wc_n, wc_img, jdg_n, prm_n, tip_n):
+def build_main_page(wc_n, wc_img, jdg_n, prm_n, tip_n, comm_n):
     body = f"""
 <header>
   <h1>YanYu \u77e5\u8b58\u5eab</h1>
@@ -246,6 +249,11 @@ def build_main_page(wc_n, wc_img, jdg_n, prm_n, tip_n):
     <div class="cc-icon">\U0001f4a1</div><h2>AI \u4f7f\u7528\u6280\u5de7</h2>
     <p>AI \u5de5\u5177\u6559\u5b78\u6587\u7ae0\uff08\u96fb\u8166\u738b\u963f\u9054\u7b49\uff09</p>
     <div class="num">{tip_n} \u7bc7\u6587\u7ae0</div>
+  </div>
+  <div class="cc" onclick="location.href='community-ai.html'">
+    <div class="cc-icon">\U0001f4ac</div><h2>AI \u5fc3\u5f97\u793e\u7fa4\u5206\u4eab</h2>
+    <p>\u4e09\u5144\u5f1f\u7fa4 GitHub / AI \u8cc7\u8a0a\u5f59\u6574</p>
+    <div class="num">{comm_n} \u500b GitHub Repo</div>
   </div>
 </div>"""
     wf(SITE / "index.html", page("\u9996\u9801", body))
@@ -529,6 +537,156 @@ def build_tips():
     log.info(f"建置: AI 使用技巧 ({len(articles)} 篇, {total_imgs} 圖)")
     return len(articles)
 
+# ════════ Community AI ════════
+
+# AI 嚴格關鍵字（二次驗證用）
+_AI_KW = [
+    'claude', 'gemini', 'gpt', 'chatgpt', 'openai', 'deepseek', 'llm',
+    'notebooklm', 'prompt', 'agent', 'copilot', 'cursor', 'antigravity',
+    'anthropic', 'codex', 'whisper', 'stable diffusion', 'midjourney',
+    'comfyui', 'langchain', 'rag', 'embedding', 'fine-tune', 'lora',
+    'transformer', 'github.com', 'huggingface', 'arxiv',
+    'clawdbot', 'openclaw', 'coding', 'vibe cod', 'ai agent',
+    'deepwiki', 'mcp', 'sdk',
+    '人工智', '深度學', '機器學', '大模型', '語言模型',
+]
+_JUNK_URL = ['support.weixin.qq.com', 'wx.qlogo.cn', 'mmbiz.qpic.cn',
+             'dldir1.qq.com', 'res.wx.qq.com']
+
+def _extract_community_highlights(msgs):
+    """從原始 AI 訊息中提取有價值的文字討論"""
+    out = []
+    for m in msgs:
+        d = m['display']
+        if d.startswith('[圖片]') or d.startswith('[語音]') or d.startswith('[影片]'):
+            continue
+        if '<?xml' in d or '<appmsg' in d or d.lstrip().startswith('<msg>'):
+            tm = re.search(r'<title>(.*?)</title>', d)
+            d = tm.group(1).strip() if tm and len(tm.group(1).strip()) > 3 else ''
+            if not d:
+                continue
+        d = re.sub(r'^(wxid_\w+|F\d+):\s*', '', d).strip()
+        if '<msg>' in d or '<appmsg' in d:
+            tm = re.search(r'<title>(.*?)</title>', d)
+            d = tm.group(1).strip() if tm and len(tm.group(1).strip()) > 3 else ''
+            if not d:
+                continue
+        if len(d) < 50:
+            continue
+        text_lower = (d + ' '.join(m.get('urls', []))).lower()
+        if not any(kw in text_lower for kw in _AI_KW):
+            continue
+        # 清理 URLs
+        urls = []
+        seen = set()
+        for u in m.get('urls', []):
+            if any(j in u for j in _JUNK_URL):
+                continue
+            key = re.split(r'[?&]', u)[0]
+            if key not in seen:
+                seen.add(key)
+                urls.append(u)
+        out.append({'time': m['time'], 'sender': m['sender'], 'display': d[:500], 'urls': urls[:2]})
+    return out
+
+
+def build_community_ai():
+    if not COMM_REPOS.exists():
+        log.warning("Community AI: github_repos.json 不存在")
+        wf(SITE / "community-ai.html", page("AI 心得社群分享",
+            '<header><h1>💬 AI 心得社群分享</h1><p>資料尚未準備</p></header>',
+            back="index.html"))
+        return 0
+    with open(COMM_REPOS, "r", encoding="utf-8") as f:
+        repos = json.load(f)
+    # 讀取文字討論
+    highlights = []
+    if COMM_MSGS.exists():
+        with open(COMM_MSGS, "r", encoding="utf-8") as f:
+            raw_msgs = json.load(f)
+        highlights = _extract_community_highlights(raw_msgs)
+
+    # ── GitHub 表格 ──
+    cats = {
+        'AI Agent / Coding': ['claude', 'agent', 'copilot', 'cursor', 'code',
+            'claw', 'skill', 'hook', 'proxy', 'bridge', 'orchestra'],
+        'AI 應用 / 工具': ['ai', 'draw', 'sleep', 'yolo', 'markitdown',
+            'stitch', 'clipper', 'threat', 'telegram'],
+        'AI 研究 / 理論': ['wfgy', 'embedding'],
+        '開發資源 / API': ['public-api', 'pageindex', 'assignment', 'quant', 'rss'],
+    }
+    def _cat(r):
+        t = (r['url'] + ' ' + r.get('description', '') + ' ' + r.get('context', '')).lower()
+        for c, kws in cats.items():
+            if any(k in t for k in kws):
+                return c
+        return '其他'
+
+    by_cat = {}
+    for r in repos:
+        if r.get('kind') not in ('repo', 'gist'):
+            continue
+        by_cat.setdefault(_cat(r), []).append(r)
+
+    repo_html = []
+    for cat_name in ['AI Agent / Coding', 'AI 應用 / 工具', 'AI 研究 / 理論', '開發資源 / API', '其他']:
+        items = by_cat.get(cat_name, [])
+        if not items:
+            continue
+        items.sort(key=lambda x: x.get('stars', 0), reverse=True)
+        repo_html.append(f'<h3 class="sec-title">{esc(cat_name)}</h3>')
+        repo_html.append('<table><thead><tr><th>Repo</th><th>說明</th>'
+                         '<th>★</th><th>語言</th><th>日期</th></tr></thead><tbody>')
+        for r in items:
+            desc = esc(r.get('description', '') or r.get('context', '')[:60])[:80]
+            stars = r.get('stars', '')
+            lang = esc(r.get('language', '') or '')
+            name = f"{r['owner']}/{r['name']}" if r['kind'] == 'repo' else f"gist/{r['owner']}"
+            repo_html.append(
+                f'<tr><td><a href="{esc(r["url"])}" target="_blank">{esc(name)}</a></td>'
+                f'<td>{desc}</td><td>{stars}</td><td>{lang}</td><td>{r["date"][:10]}</td></tr>')
+        repo_html.append('</tbody></table>')
+
+    # ── 文字討論精華 ──
+    disc_html = []
+    if highlights:
+        disc_html.append(f'<h3 class="sec-title">文字討論精華（{len(highlights)} 則）</h3>')
+        for h in highlights[:60]:
+            display = esc(h['display'][:300])
+            disc_html.append(
+                f'<div class="card"><div class="meta">{h["time"]} | {esc(h["sender"])}</div>'
+                f'<p style="font-size:14px;line-height:1.7">{display}</p>')
+            for u in h['urls'][:2]:
+                disc_html.append(f'<div class="dl"><a href="{esc(u)}" target="_blank">{esc(u[:80])}</a></div>')
+            disc_html.append('</div>')
+
+    total_repos = sum(len(v) for v in by_cat.values())
+    body = f"""<header><h1>💬 AI 心得社群分享</h1>
+<p>三兄弟群 WeChat 群組的 GitHub / AI 資訊彙整</p>
+<div class="stats"><span class="stat">{total_repos} 個 GitHub Repo</span>
+<span class="stat">{len(highlights)} 則討論</span>
+<span class="stat">2025-12 ~ 2026-02</span></div></header>
+<input class="search" type="text" placeholder="搜尋 repo 或討論內容…" oninput="
+var q=this.value.toLowerCase();
+document.querySelectorAll('table tbody tr, .card').forEach(function(el){{
+  el.style.display=el.textContent.toLowerCase().includes(q)?'':'none'}})">
+<h2 style="margin:20px 0 10px">GitHub 資源索引</h2>
+{"".join(repo_html)}
+<h2 style="margin:30px 0 10px">社群 AI 討論</h2>
+{"".join(disc_html)}"""
+
+    extra_css = """
+table{border-collapse:collapse;width:100%;margin-bottom:20px;font-size:14px}
+th,td{border:1px solid #e0e0e0;padding:8px 12px;text-align:left}
+th{background:#f5f5f5;font-weight:600}
+tr:hover{background:#f8f9fa}
+td a{word-break:break-all}
+"""
+    wf(SITE / "community-ai.html", page("AI 心得社群分享", body, back="index.html", extra_css=extra_css))
+    log.info(f"建置: AI 心得社群分享 ({total_repos} repos, {len(highlights)} 討論)")
+    return total_repos
+
+
 # ════════ Main ════════
 
 def main():
@@ -546,9 +704,10 @@ def main():
     jdg_n = build_judgments(eb_files, scan_only)
     prm_n = build_prompts(pf)
     tip_n = build_tips()
-    build_main_page(wc_n, wc_img, jdg_n, prm_n, tip_n)
+    comm_n = build_community_ai()
+    build_main_page(wc_n, wc_img, jdg_n, prm_n, tip_n, comm_n)
     log.info("=" * 50)
-    log.info(f"\u5b8c\u6210: \u5fae\u4fe1{wc_n} | \u5224\u6c7a{jdg_n} | Prompt{prm_n} | AI\u6280\u5de7{tip_n}")
+    log.info(f"\u5b8c\u6210: \u5fae\u4fe1{wc_n} | \u5224\u6c7a{jdg_n} | Prompt{prm_n} | AI\u6280\u5de7{tip_n} | \u793e\u7fa4{comm_n}")
     log.info(f"\u65e5\u8a8c: {log_path}")
 
 if __name__ == "__main__":

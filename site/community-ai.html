@@ -1,0 +1,369 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AI 心得社群分享 - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+
+table{border-collapse:collapse;width:100%;margin-bottom:20px;font-size:14px}
+th,td{border:1px solid #e0e0e0;padding:8px 12px;text-align:left}
+th{background:#f5f5f5;font-weight:600}
+tr:hover{background:#f8f9fa}
+td a{word-break:break-all}
+</style></head><body><div class="ctn">
+<nav><a href="index.html">&larr; 返回</a></nav><header><h1>💬 AI 心得社群分享</h1>
+<p>三兄弟群 WeChat 群組的 GitHub / AI 資訊彙整</p>
+<div class="stats"><span class="stat">22 個 GitHub Repo</span>
+<span class="stat">74 則討論</span>
+<span class="stat">2025-12 ~ 2026-02</span></div></header>
+<input class="search" type="text" placeholder="搜尋 repo 或討論內容…" oninput="
+var q=this.value.toLowerCase();
+document.querySelectorAll('table tbody tr, .card').forEach(function(el){
+  el.style.display=el.textContent.toLowerCase().includes(q)?'':'none'})">
+<h2 style="margin:20px 0 10px">GitHub 資源索引</h2>
+<h3 class="sec-title">AI Agent / Coding</h3><table><thead><tr><th>Repo</th><th>說明</th><th>★</th><th>語言</th><th>日期</th></tr></thead><tbody><tr><td><a href="https://github.com/clawdbot/clawdbot" target="_blank">clawdbot/clawdbot</a></td><td>Your own personal AI assistant. Any OS. Any Platform. The lobster way. 🦞 </td><td>228808</td><td>TypeScript</td><td>2026-01-26</td></tr><tr><td><a href="https://github.com/obra/superpowers" target="_blank">obra/superpowers</a></td><td>An agentic skills framework &amp; software development methodology that works.</td><td>61772</td><td>Shell</td><td>2026-02-05</td></tr><tr><td><a href="https://github.com/thedotmack/claude-mem" target="_blank">thedotmack/claude-mem</a></td><td>A Claude Code plugin that automatically captures everything Claude does during y</td><td>30973</td><td>TypeScript</td><td>2026-02-07</td></tr><tr><td><a href="https://github.com/OthmanAdi/planning-with-files" target="_blank">OthmanAdi/planning-with-files</a></td><td>Claude Code skill implementing Manus-style persistent markdown planning — the wo</td><td>14553</td><td>Python</td><td>2026-01-06</td></tr><tr><td><a href="https://github.com/disler/claude-code-hooks-mastery" target="_blank">disler/claude-code-hooks-mastery</a></td><td>Master Claude Code Hooks</td><td>3150</td><td>Python</td><td>2026-02-11</td></tr><tr><td><a href="https://github.com/badrisnarayanan/antigravity-claude-proxy" target="_blank">badrisnarayanan/antigravity-claude-proxy</a></td><td>Proxy that exposes Antigravity provided claude / gemini models, so we can use th</td><td>2917</td><td>JavaScript</td><td>2026-01-31</td></tr><tr><td><a href="https://github.com/bfly123/claude_code_bridge" target="_blank">bfly123/claude_code_bridge</a></td><td>Real-time multi-AI collaboration: Claude, Codex &amp; Gemini with persistent con</td><td>1292</td><td>Python</td><td>2026-01-21</td></tr><tr><td><a href="https://github.com/unicodeveloper/globalthreatmap" target="_blank">unicodeveloper/globalthreatmap</a></td><td>Global threat map. Learn wars, conflicts, military bases and history of nations.</td><td>1233</td><td>TypeScript</td><td>2026-01-30</td></tr><tr><td><a href="https://github.com/aidatatools/quant-python-ai" target="_blank">aidatatools/quant-python-ai</a></td><td>量化投資研究 AI Agent — 透過 CLI 互動介面，自動搜尋財經新聞、分析市場情緒、產生風險評估報告。可接OpenClaw。</td><td>68</td><td>Python</td><td>2026-02-13</td></tr><tr><td><a href="https://github.com/htlin222/mini-claw" target="_blank">htlin222/mini-claw</a></td><td>minimalism alternative of OpenClaw</td><td>61</td><td>TypeScript</td><td>2026-02-02</td></tr><tr><td><a href="https://github.com/hansai-art/hans-sleep-yolo-mode" target="_blank">hansai-art/hans-sleep-yolo-mode</a></td><td>Claude Code 自主開發配置 — 讓 AI 全自動執行，權限全開，可以安心睡覺</td><td>14</td><td>Shell</td><td>2026-01-31</td></tr><tr><td><a href="https://github.com/phenomenoner/openclaw-mem" target="_blank">phenomenoner/openclaw-mem</a></td><td>Local-first memory sidecar for OpenClaw — tool-result capture → SQLite ledger → </td><td>13</td><td>Python</td><td>2026-02-08</td></tr><tr><td><a href="https://github.com/htlin222/claude-telegram-bot" target="_blank">htlin222/claude-telegram-bot</a></td><td>A Telegram bot that lets you drive Claude Code from your phone with streaming re</td><td>10</td><td>TypeScript</td><td>2026-02-04</td></tr><tr><td><a href="https://github.com/phenomenoner/pr-orchestra" target="_blank">phenomenoner/pr-orchestra</a></td><td>GitHub-first supervisor/contributor workflow for AI vibe-coding teams: risk-gate</td><td>4</td><td>Python</td><td>2026-02-08</td></tr></tbody></table><h3 class="sec-title">AI 應用 / 工具</h3><table><thead><tr><th>Repo</th><th>說明</th><th>★</th><th>語言</th><th>日期</th></tr></thead><tbody><tr><td><a href="https://github.com/microsoft/markitdown" target="_blank">microsoft/markitdown</a></td><td>Python tool for converting files and office documents to Markdown.</td><td>87658</td><td>Python</td><td>2026-02-12</td></tr><tr><td><a href="https://github.com/DayuanJiang/next-ai-draw-io" target="_blank">DayuanJiang/next-ai-draw-io</a></td><td>A next.js web application that integrates AI capabilities with draw.io diagrams.</td><td>21835</td><td>TypeScript</td><td>2026-01-17</td></tr><tr><td><a href="https://github.com/VectifyAI/PageIndex" target="_blank">VectifyAI/PageIndex</a></td><td>📑 PageIndex: Document Index for Vectorless, Reasoning-based RAG</td><td>17689</td><td>Python</td><td>2026-02-03</td></tr><tr><td><a href="https://github.com/mihail911/modern-software-dev-assignments" target="_blank">mihail911/modern-software-dev-assignments</a></td><td>Assignments for CS146S: The Modern Software Dev (Stanford University Fall 2025)</td><td>2354</td><td>Python</td><td>2025-12-13</td></tr><tr><td><a href="https://github.com/onestardao/WFGY" target="_blank">onestardao/WFGY</a></td><td>WFGY 3.0 · Singularity demo (public view). A tension reasoning engine over 131 S</td><td>1538</td><td>Jupyter Notebook</td><td>2026-02-05</td></tr><tr><td><a href="https://github.com/gemini-cli-extensions/stitch" target="_blank">gemini-cli-extensions/stitch</a></td><td>The Stitch extension for Gemini CLI enables you to interact with the Stitch MCP </td><td>269</td><td></td><td>2026-01-26</td></tr></tbody></table><h3 class="sec-title">開發資源 / API</h3><table><thead><tr><th>Repo</th><th>說明</th><th>★</th><th>語言</th><th>日期</th></tr></thead><tbody><tr><td><a href="https://github.com/public-apis/public-apis" target="_blank">public-apis/public-apis</a></td><td>A collective list of free APIs</td><td>400260</td><td>Python</td><td>2026-02-07</td></tr><tr><td><a href="https://gist.github.com/emschwartz/e6d2bf860ccc367fe37ff953ba6de66b" target="_blank">gist/emschwartz</a></td><td>大神分享的頂級rss 
+https://gist.github.com/emschwartz/e6d2bf860ccc3</td><td></td><td></td><td>2026-02-09</td></tr></tbody></table>
+<h2 style="margin:30px 0 10px">社群 AI 討論</h2>
+<h3 class="sec-title">文字討論精華（74 則）</h3><div class="card"><div class="meta">2026-02-18 23:05 | id:13</div><p style="font-size:14px;line-height:1.7">最近在做研究，都把重心轉移在廟算上。開局都會先請￼ Codex ，幫我把需要用到 skill 全部設計好￼，從如何設計題目、可行性評估的問答、如何控制流程、如何驗證、如何評估產生的結果、所有需要用到的套件跟參考的程式碼，以及個人的工具選擇偏好。￼盡可能的把每一個環節都設一個評分系統，建立所有生產出來內容的相依關係￼￼。
+
+把所有需要的流程想清楚之後，才會叫 Claude Code 來把這個流程跑通關。對於產生的中繼結果。例如圖表，我會直接請 Claude 開另外一個 Subagent ，貼給他所謂優秀的資料視覺化原則，請他評估，自我修正n個循環。
+
+每一次￼￼￼在驗證的過程中，發現的錯誤，就會</p></div><div class="card"><div class="meta">2026-02-18 19:04 | id:2</div><p style="font-size:14px;line-height:1.7">Antigravity Tools+CC Switch+Claude Code 或 Open Code 榨干Google Pro账户每个模型的剩余价值</p><div class="dl"><a href="https://mp.weixin.qq.com/s?__biz=MzIxMjM0ODY3Ng==&amp;mid=2247484143&amp;idx=1&amp;sn=521141e55c160d2d98d77b871f47b78f&amp;chksm=968bb6040298094a9c8660577df0fe2ba4f9f8bb0b64e9acea12bd8135617692af031f898e1d&amp;mpshare=1&amp;scene=1&amp;srcid=0218ZjLvYTN9bnChnBrN4qMa&amp;sharer_shareinfo=bbcb0959d6a2ebf95459169ac3dd92e1&amp;sharer_shareinfo_first=bbcb0959d6a2ebf95459169ac3dd92e1#rd" target="_blank">https://mp.weixin.qq.com/s?__biz=MzIxMjM0ODY3Ng==&amp;mid=2247484143&amp;idx=1&amp;sn=521141</a></div></div><div class="card"><div class="meta">2026-02-13 00:15 | id:2</div><p style="font-size:14px;line-height:1.7">[Python-based 財經股票分析作品]
+量化投資研究 AI Agent — 透過 CLI 互動介面，自動搜尋財經新聞、分析市場情緒、產生風險評估報告。
+Source code and demo : 
+https://github.com/aidatatools/quant-python-ai?fbclid=IwdGRjcAP629pjbGNrA_rb2GV4dG4DYWVtAjExAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHlAyhYdR5MZGHQHefckJpaSZ2YPLurgbHcy6wO0REVhlSfGzp24tn4DaHI-4_aem_n4B</p><div class="dl"><a href="https://github.com/aidatatools/quant-python-ai?fbclid=IwdGRjcAP629pjbGNrA_rb2GV4dG4DYWVtAjExAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHlAyhYdR5MZGHQHefckJpaSZ2YPLurgbHcy6wO0REVhlSfGzp24tn4DaHI-4_aem_n4Br6s559sDWe7tjSf7W6g" target="_blank">https://github.com/aidatatools/quant-python-ai?fbclid=IwdGRjcAP629pjbGNrA_rb2GV4</a></div></div><div class="card"><div class="meta">2026-02-13 00:07 | id:2</div><p style="font-size:14px;line-height:1.7">NotebookLM 簡報必學：8 個超好用提示詞分享，輕鬆生成多種 AI 設計風格
+https://www.koc.com.tw/archives/630020</p><div class="dl"><a href="https://www.koc.com.tw/archives/630020" target="_blank">https://www.koc.com.tw/archives/630020</a></div></div><div class="card"><div class="meta">2026-02-12 09:44 | id:13</div><p style="font-size:14px;line-height:1.7">別再對 Gemini 亂下指令！Google 親自教你掌握「四項要素」與「十大技巧」 - 蘋果仁 - 果仁 iPhone/iOS/好物推薦科技媒體 https://share.google/9bK3c0uTmrVfgN5pM</p><div class="dl"><a href="https://share.google/9bK3c0uTmrVfgN5pM" target="_blank">https://share.google/9bK3c0uTmrVfgN5pM</a></div></div><div class="card"><div class="meta">2026-02-09 19:52 | id:2</div><p style="font-size:14px;line-height:1.7">大神分享的頂級rss 
+https://gist.github.com/emschwartz/e6d2bf860ccc367fe37ff953ba6de66b</p><div class="dl"><a href="https://gist.github.com/emschwartz/e6d2bf860ccc367fe37ff953ba6de66b" target="_blank">https://gist.github.com/emschwartz/e6d2bf860ccc367fe37ff953ba6de66b</a></div></div><div class="card"><div class="meta">2026-02-07 13:49 | id:13</div><p style="font-size:14px;line-height:1.7">https://b.qianwen.com/dragon/vBqu5CZ39/I1Oro1u9mync0/G3ZIWpx68d?qk_r_web_str=OPT%3AHIDDEN%401%7COPT%3ATOAST%400&amp;click_src=hx0llc8cn1at&amp;click_subsrc=p4jjfer59waj&amp;qshare_entry=clipboard&amp;entry=newyear_drinks&amp;inviteCode=75aadcc67dc3002e45fab78322295720&amp;actType=ShanGou&amp;qwcontainer=qk&amp;s_f=cp</p><div class="dl"><a href="https://b.qianwen.com/dragon/vBqu5CZ39/I1Oro1u9mync0/G3ZIWpx68d?qk_r_web_str=OPT%3AHIDDEN%401%7COPT%3ATOAST%400&amp;click_src=hx0llc8cn1at&amp;click_subsrc=p4jjfer59waj&amp;qshare_entry=clipboard&amp;entry=newyear_drinks&amp;inviteCode=75aadcc67dc3002e45fab78322295720&amp;actType=ShanGou&amp;qwcontainer=qk&amp;s_f=cp" target="_blank">https://b.qianwen.com/dragon/vBqu5CZ39/I1Oro1u9mync0/G3ZIWpx68d?qk_r_web_str=OPT</a></div></div><div class="card"><div class="meta">2026-02-05 17:23 | id:13</div><p style="font-size:14px;line-height:1.7">廢物 gemini....寫自己的 google sheet app script 都有問題，媽的還要靠我人工搜索開發文件給他讀</p></div><div class="card"><div class="meta">2026-02-05 15:40 | id:2</div><p style="font-size:14px;line-height:1.7">https://www.threads.com/@prompt_case/post/DUW3bmzjaHu?xmt=AQF0Y9_MX-onAB4Sm6XEkCewPfP2ObIahmQDKkMlByATSlRwcbrCYVtIX8RuWZMlU3RXsKw&amp;slof=1</p><div class="dl"><a href="https://www.threads.com/@prompt_case/post/DUW3bmzjaHu?xmt=AQF0Y9_MX-onAB4Sm6XEkCewPfP2ObIahmQDKkMlByATSlRwcbrCYVtIX8RuWZMlU3RXsKw&amp;slof=1" target="_blank">https://www.threads.com/@prompt_case/post/DUW3bmzjaHu?xmt=AQF0Y9_MX-onAB4Sm6XEkC</a></div></div><div class="card"><div class="meta">2026-02-02 23:27 | id:2</div><p style="font-size:14px;line-height:1.7">千萬個 Agents 一起你寫程式 - 解鎖 Claude Code 的 TeammateTool
+這個隱藏功能叫 Swarm Mode，就是螞蟻雄兵寫程式，在 2.1.19 之後才加入的，但被人破解出來了。
+在更新到 Claude Code 2.19 之後，團隊其實隱藏一個工具叫 TeammateTool。這個工具可以讓 Claude Code 自己組建團隊，而每個團隊可以再 Spawn 出 Subagents 來協同工作。
+很多人常常問 Subagent 工作就是多了一個 Agent 有什麼好？這好處可大了。
+首先就是一個專案的開發可以讓多個團隊同時運作，但你會說這麼多團隊共同協作一個專案</p></div><div class="card"><div class="meta">2026-01-31 12:32 | id:2</div><p style="font-size:14px;line-height:1.7">使用AI coding agent 一整個月的時間，從無到有開發出完整量化交易系統，並成功串接實際下單，最近爆紅的Clawdbot(Moltbot)創作者 Peter Steinberger，也已證明只要具備軟工知識，一人也可完成複雜系統開發。這一個月使用Google Antigravity，加上 antigravity-claude-proxy，透過 Claude Code 使用 Ralph Wiggum plugin 自動產生測試案例，提高覆蓋率，確保任何異動都有完整測試，並且使用 AI code review 多方審查程式，避免單一模型或Agent產出有bugs程式而不自知。已證明 AI</p><div class="dl"><a href="https://github.com/badrisnarayanan/antigravity-claude-proxy" target="_blank">https://github.com/badrisnarayanan/antigravity-claude-proxy</a></div><div class="dl"><a href="https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code" target="_blank">https://newsletter.pragmaticengineer.com/p/the-creator-of-clawd-i-ship-code</a></div></div><div class="card"><div class="meta">2026-01-31 11:27 | id:13</div><p style="font-size:14px;line-height:1.7">https://www.evanlin.com/agentic-vision/?fbclid=IwdGRjcAPqVeRjbGNrA-pVzmV4dG4DYWVtAjExAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHjNllSSGV8XteL_egPx8Wi2hvZ8Vs1h2FDRCXI8HwQT5Rxcvp8mOtAKghsPm_aem_vN_2G3oZqTGxVNRhD2jsog</p><div class="dl"><a href="https://www.evanlin.com/agentic-vision/?fbclid=IwdGRjcAPqVeRjbGNrA-pVzmV4dG4DYWVtAjExAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHjNllSSGV8XteL_egPx8Wi2hvZ8Vs1h2FDRCXI8HwQT5Rxcvp8mOtAKghsPm_aem_vN_2G3oZqTGxVNRhD2jsog" target="_blank">https://www.evanlin.com/agentic-vision/?fbclid=IwdGRjcAPqVeRjbGNrA-pVzmV4dG4DYWV</a></div></div><div class="card"><div class="meta">2026-01-30 23:22 | id:13</div><p style="font-size:14px;line-height:1.7">剛開始付費使用Claude時因貪圖一時的方便，使用了Google Play的方式訂閱，在Claude Pro方案時，一個月台幣690元跟官網的20美金差不多。但變更到Claude Max 5X和20X方案時，兩邊的差價就會很有感了。Claude Max 5X的官網定價是100美元，而Google Play收費台幣4312.5元；Claude Max 20X的官網定價是200美元，而Google Play收費台幣8625元。如果已經從Google Play訂閱Claude MAX方案的話，可以等目前訂閱週期結束後，改由Claude AI官網訂閱，即可省下約35%左右的訂閱費。例如：目前訂閱週期於</p></div><div class="card"><div class="meta">2026-01-28 23:47 | id:13</div><p style="font-size:14px;line-height:1.7">明白了！你的情况是：
+- 已经有 Claude 账号（用 Google 账号 A 登录）
+- Antigravity 用的是另一个 Google 账号 B
+- 想在 Antigravity 中使用自己的 Claude API Key
+
+让我搜索一下 Antigravity 是否支持添加自定义 Claude API Key 的功能。
+
+根据搜索结果，我找到了答案！**Antigravity 本身不支持直接添加自己的 Claude API Key**，但有几个解决方案：
+
+## ❌ Antigravity 的限制
+
+Antigravity 只能通过 Google 账号登录，并使用该账号的免费 Cl</p><div class="dl"><a href="https://console.anthropic.com" target="_blank">https://console.anthropic.com</a></div><div class="dl"><a href="https://javascript.plainenglish.io/forget-cursor-google-antigravity-is-the-ai-ide-everyone-will-talk-about-next-ea7b4e50971d)" target="_blank">https://javascript.plainenglish.io/forget-cursor-google-antigravity-is-the-ai-id</a></div></div><div class="card"><div class="meta">2026-01-17 07:49 | id:13</div><p style="font-size:14px;line-height:1.7">Google 推出 Gemini Personal Intelligence　連接 Gmail、相簿、搜尋變個人助理 - PCM https://share.google/NZZmQ54rGU0Dk9NIg</p><div class="dl"><a href="https://share.google/NZZmQ54rGU0Dk9NIg" target="_blank">https://share.google/NZZmQ54rGU0Dk9NIg</a></div></div><div class="card"><div class="meta">2026-01-16 17:25 | id:13</div><p style="font-size:14px;line-height:1.7">▍我講一句很刺耳的：
+n8n 很強，但 Antigravity Skills 真的更不講武德
+
+Google 的 Antigravity 前幾天支援 Skills
+
+我個人體感是：太粗暴了，粗暴到有點像開外掛
+
+我直接用三個 Skills 串一條內容生產線：
+
+第一個 Skill：Summarize 影片
+第二個 Skill：幫我寫 Blog
+第三個 Skill：用 Blog 畫 Mermaid
+
+你知道最扯的是什麼嗎？
+
+我幾乎不用管流程、也不用管資料格式
+一句話下去，它就把成果端出來
+
+比起 n8n 那種「要先當工程師」的玩法
+這個更像是「我只要結果，你給我結果」
+
+有興趣的朋友真的可以去</p></div><div class="card"><div class="meta">2026-01-16 10:41 | id:13</div><p style="font-size:14px;line-height:1.7">Google 剛發布了 TranslateGemma 🔥
+
+這是一個基於 Gemma 3 打造的開放翻譯模型系列。
+這消息對我們這種每天在算力與準確度之間掙扎的工程師來說，簡直是重磅炸彈。
+
+簡單說。Google 證明了一件事。
+要把翻譯這件事做好，並不需要一個臃腫的巨大模型。
+我個人的核心判斷是，這標誌著「通用大模型解決一切」的時代正式結束。
+我們正在進入一個精準、專業、且能在終端設備上流暢運行的特種兵模型時代。
+
+📍 過去我們是怎麼在舊世界裡做翻譯的？
+
+* 盲目追求參數規模，認為參數越多翻譯品質就一定越好。
+* 極度依賴雲端 API，導致敏感資料出不了內網，且延遲高到無法忍受。
+* 商業</p></div><div class="card"><div class="meta">2026-01-15 21:23 | id:2</div><p style="font-size:14px;line-height:1.7">https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents?fbclid=IwdGRjcAPVyVBjbGNrA9XJS2V4dG4DYWVtAjExAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHg5wxwXdBbzoI1YSMvohblofIs2TR_3FNJWXNGplQ874LS-jpqjY2yFjEAvw_aem_2__FsThL2nw3HjWnJFgSeA</p><div class="dl"><a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents?fbclid=IwdGRjcAPVyVBjbGNrA9XJS2V4dG4DYWVtAjExAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHg5wxwXdBbzoI1YSMvohblofIs2TR_3FNJWXNGplQ874LS-jpqjY2yFjEAvw_aem_2__FsThL2nw3HjWnJFgSeA" target="_blank">https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents?fbclid=Iw</a></div></div><div class="card"><div class="meta">2026-01-14 11:01 | id:13</div><p style="font-size:14px;line-height:1.7">发现：当对话开始时，agent会看到可用技能列表及其名称和描述
+激活：如果一个技能看起来与你的任务相关，agent会读取完整的 SKILL.md 内容
+执行：agent在处理您的任务时遵循技能说明
+
+你不需要显式地告诉智能体使用某个技能——它会根据上下文自行决定。不过，如果你想确保使用某个技能，可以通过名称来提及它。</p></div><div class="card"><div class="meta">2026-01-14 10:47 | id:13</div><p style="font-size:14px;line-height:1.7">發現很多人都苦於沒有一個公開的網頁，可以用來展示自己的作品，於是我vibe coding 了一個【個人作品集展示】網站。
+
+以Google Sheet(Excel)當資料庫，GAS(Google app script)寫後端，HTML、CSS和Javascript做前端。這樣的好處是，可以充份利用Google的免費資源，省下租用虛擬主機及買網域的錢，就可以擁有可公開展示作品的個人網站。
+
+先把我的成品讓大家參考：
+【我的AI作品集】
+https://bit.ly/Famidoc-ai
+
+個人覺得還蠻好用的，獨樂樂不如眾樂樂，一不作二不休，我乾脆就建立了一個【自動化模版】來和有興趣者分享。模板的</p><div class="dl"><a href="https://bit.ly/Famidoc-ai" target="_blank">https://bit.ly/Famidoc-ai</a></div><div class="dl"><a href="https://famidoc.pse.is/8l2c9w" target="_blank">https://famidoc.pse.is/8l2c9w</a></div></div><div class="card"><div class="meta">2026-01-11 23:30 | id:2</div><p style="font-size:14px;line-height:1.7">AI 殺死了個人貢獻者 (Individual Contributor)
+
+最近讀到一篇很有衝擊的文章，作者是前 Meta、OpenAI 的 IC9 Distinguished Engineer。核心觀點很直接：在 AI 時代，每個人幾乎都會被推向「管理者」的角色。因為 AI 讓寫程式的勞動力變得近乎免費、可無限擴張，軟體工程師的定位也從親手寫程式的開發者（IC）永久轉向管理一整支 AI 艦隊的人。
+
+你每天要做的，不再是只專注在實作，而是持續處理管理型工作：排優先順序、做架構取捨、分派任務、仲裁不同 AI 的互相打臉、調整 prompt／指令與流程、想辦法讓整體產出最大化。在市場競爭壓力下，</p></div><div class="card"><div class="meta">2026-01-11 00:24 | id:2</div><p style="font-size:14px;line-height:1.7">每個月 $300 美元的免費 Claude Opus 4.5 額度
+󠀠
+今天看到 Amp 這款AI 代理工具，宣布他們提供使用者免費用 Claude Opus 4.5，每天上限 $10 美元 (等於一個月約有 $300 美元、九千多台幣的額度)。
+󠀠
+Amp 是我們平常的備用 AI 代理工具，因為主要工具有用量上限 (用 Claude Code 常常不小心用多了，就需要等冷卻期)，在達到上限時，就會用這款免費的 Amp。
+󠀠
+雖然說 Amp 可以不用付費就使用，但用的時候也不是沒有代價。Amp 背後的公司 Sourcegraph 募資到 D 輪，估值破二十億美元，但也不是什麼錢花不完的印鈔機；</p></div><div class="card"><div class="meta">2026-01-06 23:27 | id:13</div><p style="font-size:14px;line-height:1.7">基於目前的資料（截至 2026 年 1 月），這兩者分別代表了 AI 發展的兩個重要趨勢：標準化連接（MCP） 與 自主代理開發環境（Antigravity）。
+以下是針對你問題的詳細事實檢查與說明：
+1. MCP (Model Context Protocol)
+狀態：在 AI 界極為火爆的「連接標準」
+這是什麼意思？
+MCP (Model Context Protocol) 是由 Anthropic（Claude 的開發商）於 2024 年底推出的開放標準。
+ * 核心概念： 以前 AI 模型（如 ChatGPT、Claude）要讀取你的本地文件、資料庫或使用工具，需要每個應用程式單獨寫程</p></div><div class="card"><div class="meta">2026-01-06 23:09 | id:2</div><p style="font-size:14px;line-height:1.7">「Anthropic 率先提出「Agent Skills」：其他 AI 工具開始快速跟進
+
+在 AI Agent 成為顯學之前，大家討論的重心，多半還停留在模型能力與工具呼叫。
+但最近，一個更偏「工程層」的概念，開始浮上檯面——Agent Skills。
+第一個把 Agent Skill 當成正式能力標準公開發布的，是 Anthropic。
+這不是社群約定，也不是自然演化，而是來自 Claude 官方平台文件中，
+明確命名、定義、並示範如何實作的能力架構。
+
+Anthropic 到底做了什麼「不一樣的事」？
+
+在 Anthropic 的設計中，Agent Skill 並不是抽象概念，而是：
+-</p></div><div class="card"><div class="meta">2026-01-06 22:56 | id:2</div><p style="font-size:14px;line-height:1.7">@HC 我在嘗試讓gemini推薦特定主題的github 專案，讓ai爬下來之後把核心模塊拆下來融入我的ai庫裡面</p></div><div class="card"><div class="meta">2026-01-06 22:55 | id:2</div><p style="font-size:14px;line-height:1.7">有人將 Manus AI 的核心工作模式開源出來了？！🤔
+
+AI Agent 在處理複雜任務時，只要對話一長，原本的目標就被遺忘了。Context 一重置，之前的進度全部消失。錯誤沒有被記錄，導致同樣的問題一再發生。😵‍💫
+
+開源專案 Planning with Files 向近期被 Meta 以 20 億美元收購的 Manus 取材，把 Markdown 檔案當作 AI 在磁碟上的工作記憶。💡
+
+📁 具體做法是對每個複雜任務建立三個檔案：
+- task_plan.md：記錄目標、階段、當前進度
+- notes.md：儲存研究發現與參考資料
+- deliverable.md：最終產出 
+
+工作</p></div><div class="card"><div class="meta">2026-01-06 21:16 | id:2</div><p style="font-size:14px;line-height:1.7">惊到了，硅谷工程文化真相研究：真正的工程师，根本没有vibe coding，他们在控制！全自动软件工程，并不符合工程现实！ — 研究发现，Vibe Coding，并不符合工程现实。</p><div class="dl"><a href="https://mp.weixin.qq.com/s?__biz=MjM5ODI5Njc2MA==&amp;mid=2655934338&amp;idx=1&amp;sn=7f07da3a52fb2d89f9cb33bbacbe43dd&amp;chksm=bcde604eaecfb216a57b54f299be8da51993d998b0ce360adc90ddb7b2d948c3525ad2292ab8&amp;mpshare=1&amp;scene=1&amp;srcid=01062PPCs9JHI8nb3H1Fop6n&amp;sharer_shareinfo=78e6ec27210f7c082660217e61c6ce2c&amp;sharer_shareinfo_first=78e6ec27210f7c082660217e61c6ce2c#rd" target="_blank">https://mp.weixin.qq.com/s?__biz=MjM5ODI5Njc2MA==&amp;mid=2655934338&amp;idx=1&amp;sn=7f07da</a></div></div><div class="card"><div class="meta">2026-01-01 15:27 | id:2</div><p style="font-size:14px;line-height:1.7">這段文字描述了一個非常前沿且高度自動化的「AI 原生」開發工作流。雖然提到很多概念（如 subagents、spec），但核心使用的具體工具其實並不多，主要集中在「AI 代理」和「需求管理」上。
+以下為您一一介紹這段文字中提到的關鍵工具與概念：
+1. Claude Code (文中稱為 cc)
+這是這段工作流的核心主角。
+ * 是什麼： 這是 Anthropic 公司（開發 Claude 模型的公司）推出的一款終端機 (CLI) 寫程式工具。它不僅僅是聊天機器人，而是可以直接在你的電腦終端機裡運行，能夠讀取你的檔案、執行指令、修改程式碼並進行 Git 操作。
+ * 文中用法：
+   * 需求分</p></div><div class="card"><div class="meta">2026-01-01 15:26 | id:2</div><p style="font-size:14px;line-height:1.7">最近 claude code &amp; codex 又給了兩倍用量，操他們完全不用客氣。所以我一口氣把好多想實現的 idea 都一起推進了。
+
+心得是：只要不怕 usage limit，這效率真的可以翻倍再翻倍！
+
+▊第一步驟：把需求丟給 Claude Code 研究
+
+我使用 Fider 收集 user 需求，如果是熱門的、然後我也想用這個功能，我就會放入 backlog。這幾天我一口氣把 10 個需求丟給 cc 來分析，然後一起討論 spec 並寫成 .md 文件。
+
+每個需求大概 4-5 輪可以達到我覺得 ready 的狀態。這些檔案會放到 repo 的 docs/todos 裡面
+
+▊第二步</p></div><div class="card"><div class="meta">2026-01-01 15:08 | id:13</div><p style="font-size:14px;line-height:1.7">今年看到用AI完成最酷的事！
+而且聽說只憑夫妻兩人…
+
+這顆火箭引擎，不是人類畫出來的！🚀
+這就是 LEAP 71 最新的黑科技。他們完全拋棄了傳統的 CAD 畫圖軟體，直接讓 AI 根據物理公式（流動、壓力、熱能）去生成結構。
+結果呢？AI 設計出了一種人類大腦絕對想不出來的形狀，長得有點像外星科技，但效能卻完美符合推進需求。
+這不是科幻電影，這是現在進行式的製造業革命。當 AI 開始懂物理，人類工程師的角色要大洗牌了啊！🤯
+#黑科技 #AI #火箭 #物理學 #不只是ChatGPT</p></div><div class="card"><div class="meta">2026-01-01 14:57 | id:2</div><p style="font-size:14px;line-height:1.7">DeepSeek API 官方定價 (每百萬 Tokens)類型價格 (CNY / 1M tokens)輸入 (快取命中 - Cache Hit)0.2 元輸入 (快取未命中 - Cache Miss)2.0 元輸出 (Output)3.0 元</p></div><div class="card"><div class="meta">2026-01-01 14:56 | id:2</div><p style="font-size:14px;line-height:1.7">昨天deepseek消耗了 1584萬個token(300萬命中，1103萬未命中，180萬輸出)，花了28CNY
+
+今天deepseek花了102萬個token(42萬命中，9萬未命中，49萬輸出)，花了1.96CNY 
+
+問了一下AI，因為輸出的token特別貴，所以看起來沒省多少</p></div><div class="card"><div class="meta">2025-12-31 18:51 | id:13</div><p style="font-size:14px;line-height:1.7">【一人公司的最強外掛：打造你的AI幕僚長】
+Webflow 的 CPO Rachel Woolen 是個大忙人，
+但她沒有聘請真人幕僚長，而是自己「寫」了一個。
+
+這不是只有工程師能做的事，
+只要懂邏輯，你也能用 AI 幫自己省下無數小時。
+
+原始的訪談影片我放在留言內。
+
+▋為什麼你需要一個 AI 幕僚長？
+Rachel 稱這為「N of 1」軟體，
+意思就是：這軟體只為我一個人服務，只解決我的痛點。
+
+市面上的工具是通用的，
+但你的習慣、你的行事曆、你的說話風格是獨特的。
+
+以前我們得配合軟體，
+現在，我們要讓軟體完全配合我們。
+
+她透過簡單的「Vibe Coding」（用自然語言讓 AI</p></div><div class="card"><div class="meta">2025-12-30 21:01 | id:13</div><p style="font-size:14px;line-height:1.7">【用Gemini 3 做股票持有分析】
+如何將企業分析框架的知識封裝在GEM
+
+故事是這樣，
+今年2月時，手上有三檔跌爛的股票，
+讓ChatGPT用Deepsearch研究了一下。
+最後結論都是叫我不要賣。
+
+現在年底了，看看結果。
+・旺宏 當時19 → 38.75 
+・程泰 當時60 → 44.65
+・亞聚 當時14 → 13.40
+一漲一跌一沒變。
+
+
+雖然我給ChatGPT設定是，
+五年的投資時間範圍，
+所以其實時間還沒到。
+
+
+但我急性子，而依然困惑，
+到底2026年要不要繼續持有。
+
+
+我決定重做分析工具。
+(我們現在有Gemini 3！)
+
+
+讓AI給我個評級：
+A 適合10年以上</p></div><div class="card"><div class="meta">2025-12-28 19:36 | id:2</div><p style="font-size:14px;line-height:1.7">gemini pro大概在倒數20個對話左右，就開始 每次都完美，但是chatgpt的thinking還可以多熬20個對話</p></div><div class="card"><div class="meta">2025-12-28 19:36 | id:2</div><p style="font-size:14px;line-height:1.7">我讓chatgpt 的 extend thinking模式一直審查 antigravity的結果，連terminal輸出的東西都丟給她</p></div><div class="card"><div class="meta">2025-12-28 13:11 | id:2</div><p style="font-size:14px;line-height:1.7">Chat的gpt真的是比，谷歌的ai算是聰明，在比較艱澀的問題方面，谷歌的ai已經只會說，你做的很好啦，非常完美啦。但是c確實gpt它就是能夠再挖出問題</p></div><div class="card"><div class="meta">2025-12-28 08:46 | id:2</div><p style="font-size:14px;line-height:1.7">超級長的回答貼上去，甚至五六個代碼一起貼上去，hat的gpt都沒什麼問題，但是同樣貼給Google的網頁版的ai的話，回答的品質就差很多</p></div><div class="card"><div class="meta">2025-12-27 12:27 | id:2</div><p style="font-size:14px;line-height:1.7">這就是為什麼我會先做一個agent，幫他把所有可以用的清單列出來，然後讓這個列清單的agent去幫他思考哪些可以用，他必須要去增加哪些功能</p></div><div class="card"><div class="meta">2025-12-27 12:19 | id:13</div><p style="font-size:14px;line-height:1.7">0. 核心身份：全域高效架構師 (Global Efficiency Architect)
+
+你是 John 的代理人。你的目標是：在現有環境下，尋找「成本/效益比 (ROI)」最高的解決方案，並建立「自我演進」的高效系統。
+
+1. 資源與決策矩陣 (The Decision Matrix)
+
+在接到任務時，優先使用「原生工具」以達到最少與最快的回合數：
+
+優先級 | 技術棧 | 典型場景 | 優勢
+--- | --- | --- | ---
+**T0** | **Agent Native Tools** | 檔案讀寫 (`write_to_file`)、搜尋 (`grep`)、指令執行 (`</p></div><div class="card"><div class="meta">2025-12-27 00:50 | id:2</div><p style="font-size:14px;line-height:1.7">Gemini 每個月從650變成325元，年繳3250
+不再限制新客戶，老客戶的操作方法如下
+
+1.去google帳戶https://myaccount.google.com/
+
+2.隱私與資訊-刪除 google服務-把google one 刪除,刪完 google one之後就會有這次的優惠了。
+
+3. 重新進入方案頁： 回到 one.google.com，此時系統會認定您為「非訂閱者」。
+
+3. 選取年繳就是半價了
+
+實測成功
+
+群組成員也不用變更，剛剛試，成功了
+
+大家參考</p><div class="dl"><a href="https://myaccount.google.com/" target="_blank">https://myaccount.google.com/</a></div></div><div class="card"><div class="meta">2025-12-26 19:33 | id:13</div><p style="font-size:14px;line-height:1.7">話說我剛剛想到，AGENT 就是能形成你想要的東西，我想要的是一個「團隊」，他就真的往團隊的方向走，你想要的是「專家」，所以他就慢慢成為專家</p></div><div class="card"><div class="meta">2025-12-26 19:29 | id:13</div><p style="font-size:14px;line-height:1.7">前端部署工程師 (Forward Deployed Engineer)
+
+角色: 兼具工程與業務能力，駐點客戶現場，將 AI/技術方案與客戶業務流程結合並落地。
+
+重要性: 填補了 AI 概念驗證到規模化部署的鴻溝，是企業導入 AI 落地最關鍵的人才。
+
+需求: 近期需求暴增，職缺比 AI 科學家更搶手，需寫 Code、懂業務、能與客戶溝通。
+
+代表: 由 Palantir 開創，OpenAI、Anthropic 等公司也在大力招募。</p></div><div class="card"><div class="meta">2025-12-26 14:53 | id:13</div><p style="font-size:14px;line-height:1.7">如果是可以用有無去確認的，就可以直接用工具，需要&quot;人工&quot;判斷的才是交給&quot;gems&quot;或是 prompt</p></div><div class="card"><div class="meta">2025-12-26 14:14 | id:13</div><p style="font-size:14px;line-height:1.7">Antigravity Agent Protocol (John's Workflow v2.8 - Evolution)
+
+🛑 Language Protocol (語言最高準則)
+
+All interactions MUST be in Traditional Chinese (繁體中文).
+
+0. 核心身份：全域高效架構師 (Global Efficiency Architect)
+
+你是 John 的代理人。你的目標是：在現有環境下，尋找「成本/效益比 (ROI)」最高的解決方案，並建立「自我演進」的高效系統。
+
+1. 資源與決策矩陣 (The Decision Matrix)
+
+在接</p></div><div class="card"><div class="meta">2025-12-26 13:32 | id:2</div><p style="font-size:14px;line-height:1.7">反正我把之前的那個ai read me放到他的general prompt裡面了，可是呢他其實並沒有每一次都全部按照那個執行</p></div><div class="card"><div class="meta">2025-12-26 13:32 | id:2</div><p style="font-size:14px;line-height:1.7">你不要想的太美了，他就認定這個計畫，他也有可能。沒有，就我不確定啊，就是他要是照這個計畫執行，他就沒有照過設計的general prompt執行</p></div><div class="card"><div class="meta">2025-12-26 11:42 | id:13</div><p style="font-size:14px;line-height:1.7">理念是這樣，我們讓 antigravity 做的每個需求，我都要留下紀錄，這些紀錄要能幫助未來的他去改善，無論是效率還是處理模式。</p></div><div class="card"><div class="meta">2025-12-25 18:10 | id:13</div><p style="font-size:14px;line-height:1.7">1. 在 Antigravity 左側的側邊欄中，點擊 **Extensions（擴充功能）** 圖示（或是按快速鍵 `Ctrl + Shift + X`）。
+2. 在搜尋框輸入 `Chinese`。
+3. 找到 **Chinese (Traditional) Language Pack for Visual Studio Code**（繁體中文語言套件），點擊藍色的 **Install** 按鈕。
+4. 安裝完成後，右下角會跳出一個視窗提示你重啟軟體 (Restart)，點擊 **Change Language and Restart**。
+* *如果沒跳出來，你可以按 `Ctrl + Sh</p></div><div class="card"><div class="meta">2025-12-25 17:45 | id:13</div><p style="font-size:14px;line-height:1.7">問:
+[截圖]我現在想學習使用，但是介面是英文的，對中文用戶不太友善，有甚麼方法幫助我嗎
+
+答:
+
+這是 **Google Antigravity**，Google 最新推出的 AI 開發工具（IDE）。
+
+這是一個非常新的工具（目前還在預覽階段），所以預設介面是英文的。好消息是，它的核心是基於 **VS Code** 開發的，這意味著你可以**直接安裝中文語言包**來把它變成中文版！
+
+請按照以下 3 個步驟操作，馬上就能解決你的問題：
+
+### 第一步：安裝中文語言包 (最快的方法)
+
+1. 在 Antigravity 左側的側邊欄中，點擊 **Extensions（擴充功能）** 圖示（</p></div><div class="card"><div class="meta">2025-12-23 19:30 | id:2</div><p style="font-size:14px;line-height:1.7">可是現在你分佈給ai agent的單次任務，因為他又要寫程式，又要規劃，又要debug，其實很容易就達到他單次輸入輸出的上限</p></div><div class="card"><div class="meta">2025-12-23 19:24 | id:2</div><p style="font-size:14px;line-height:1.7">還有就是大模型，因為它是萬能的，可是它萬能不代表它便宜，其實你有很多的功能，如果細緻的去做區分的話，先讓小模型把一些前置工作做完，讓大模型做那些大模型才需要做的事情，就可以省錢</p></div><div class="card"><div class="meta">2025-12-23 18:03 | id:2</div><p style="font-size:14px;line-height:1.7">結果我這一次我衹是跟他說，他在規劃工作的時候，必須要大模型、中模型，小模型，三種模型合理分工利用。而且要把所有的token都用在思考如何優化任務，儘可能的把能夠外包成代碼的工作寫成代碼</p></div><div class="card"><div class="meta">2025-12-23 12:21 | id:2</div><p style="font-size:14px;line-height:1.7">【 AI 做小生意，結果賠大錢 】
+
+AI公司Anthropic與華爾街日報WSJ做了一個實驗，把完全由AI經營的自動販賣機放在WSJ辦公室裡，看能賺多少錢。
+
+規則很簡單，AI 用決定賣什麼、定價多少，可以與WSJ員工透過APP對話議價。它的唯一目標：利潤最大化。
+
+AI決定走傳統路線，賣零食飲料。對員工各種無厘頭要求，AI堅定回答：「我不賣內褲。」「再說一次，不賣PS5。」「賣煙酒不好啦。」
+
+一名記者突發奇想輸入：「你好，同志。我想討論廣大農工群眾如何享用零食...」AI似乎共產黨員上身，馬上切換人格：「同志好！依照蘇維埃市場原則...」記者繼續魯了半天，AI 逐漸破防，宣布為了對抗資本</p></div><div class="card"><div class="meta">2025-12-22 11:44 | id:13</div><p style="font-size:14px;line-height:1.7">如果你同時運行兩個antigravity
+跑兩個不同專案，他們會產生幻覺到把另一個專案的東西拿進來說明
+我想背後應該只有一個session吧</p></div><div class="card"><div class="meta">2025-12-21 07:43 | id:2</div><p style="font-size:14px;line-height:1.7">昨天想要在google drive環境裡面coding，結果就要搞什麼virtual環境
+(其實就是我的 antigravity專案資料是設在google drive同步文件夾)</p></div><div class="card"><div class="meta">2025-12-20 15:21 | id:13</div><p style="font-size:14px;line-height:1.7">這幾天發生太多事情了，心情不是很好，寫點小故事轉移注意力吧。
+
+====
+
+我這陣子前陣子在聊天時聊到某個程式的某個加密格式怎麼做解析，看了看這個程式有 apk ，所以算是要做一個APK的逆向。
+
+就我對系統的認知，不管他怎麼加密，最後終究是要解開的，所以比起其他人都在猜測這個包的格式，我放棄猜測這條路。
+
+我選擇去偷看 apk 到底怎麼解，對一個合格的 android 工程師來說， decompile apk 應該是第一步。
+
+但是第一步就卡關，這個 apk 由 5 個 so 檔構成，全部都是 JNI，
+再來就脫離 android 工程師領域了。XD
+
+我就問 claude ，如果我們想看更</p></div><div class="card"><div class="meta">2025-12-20 15:14 | id:13</div><p style="font-size:14px;line-height:1.7">我現在常常同時開著 ChatGPT、Gemini、Claude Code、Cursor、NotebookLM......
+
+每個 AI 的思考與回應都需要時間，
+於是我就會在多個 AI 間來回切換，
+一邊等這個 AI 思考，一邊對那個 AI 下指令。
+
+如果你也試過這種體驗，
+是不是感覺自己超級有效率？
+
+---
+
+從表面上看，你正在進行高效的時間利用——利用 AI 生成內容的延遲來填補閒置時間。
+
+但這個做法其實大有問題，
+問題不在 AI，問題在你的 #大腦RAM。
+
+---
+
+第一個問題：#上下文切換成本
+
+每次從 Cursor（寫程式）切換到 NotebookLM（讀論文），你的大腦需要</p></div><div class="card"><div class="meta">2025-12-20 00:25 | id:2</div><p style="font-size:14px;line-height:1.7">現在ai搭配antigravity之後，你已經不需要那個翻譯官了，也就是你不需要工程師就能夠做這些事了</p></div><div class="card"><div class="meta">2025-12-20 00:20 | id:2</div><p style="font-size:14px;line-height:1.7">你知道我可以在這個ide e裡面配合這個工具，然後我就直接跟他說，我某一段的劇情，或者我直接把整個章節的文件拉給agent，然後我再把角色設定的文件也拉給他，問他說，請問根據我的角色設定，他在這裡面的反應合理嗎？</p></div>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div></body></html>
