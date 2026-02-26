@@ -104,6 +104,9 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 .fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
 .fi .sz{font-size:12px;color:#999}
 .sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+.bm-nav{position:sticky;top:0;z-index:100;background:#fff;padding:8px 0;border-bottom:1px solid #eee;display:flex;gap:6px;flex-wrap:wrap;margin-bottom:15px}
+.bm-nav a{font-size:13px;padding:4px 12px;border:1px solid #1a73e8;border-radius:15px;color:#1a73e8;text-decoration:none;white-space:nowrap}
+.bm-nav a:hover{background:#1a73e8;color:#fff;text-decoration:none}
 """
 
 def extract_case_number(raw):
@@ -376,20 +379,19 @@ def build_judgments(eb_files, scan_only):
         parts = []
         # 摘要
         if a.get("summary"):
-            parts.append(f'<div class="analysis-block"><h2 class="sec-title">摘要</h2>'
+            parts.append(f'<div id="summary" class="analysis-block"><h2 class="sec-title">摘要</h2>'
                          f'<p style="font-size:15px;line-height:1.8">{esc(a["summary"])}</p></div>')
         # 重點
         kps = a.get("key_points", [])
         if kps:
             li = "".join(f"<li>{esc(k)}</li>" for k in kps)
-            parts.append(f'<div class="analysis-block"><h2 class="sec-title">爭議焦點與裁判要旨</h2>'
+            parts.append(f'<div id="keypoints" class="analysis-block"><h2 class="sec-title">爭議焦點與裁判要旨</h2>'
                          f'<ul style="padding-left:20px;line-height:2">{li}</ul></div>')
         # 法學見解
         if a.get("legal_insights"):
-            # Split by newlines for paragraph formatting
             paras = a["legal_insights"].replace("\n\n", "\n").split("\n")
             body = "".join(f"<p>{esc(p)}</p>" for p in paras if p.strip())
-            parts.append(f'<div class="analysis-block"><h2 class="sec-title">法學見解</h2>'
+            parts.append(f'<div id="insights" class="analysis-block"><h2 class="sec-title">法學見解</h2>'
                          f'<div style="font-size:15px;line-height:1.8">{body}</div></div>')
         if not parts:
             return ""
@@ -405,38 +407,54 @@ def build_judgments(eb_files, scan_only):
             return ""
 
         parts = []
-        # Copy and reference infographic
+        # Infographic
         ig_src = nlm_src / "infographic.png"
         if ig_src.exists() and info.get("infographic"):
             ig_dest = detail_page_dir / "infographic.png"
             ig_dest.parent.mkdir(parents=True, exist_ok=True)
-            import shutil
             shutil.copy2(ig_src, ig_dest)
-            parts.append('<div style="margin:20px 0"><h3 style="font-size:15px;margin-bottom:10px">\U0001f4ca NotebookLM \u5206\u6790\u5716</h3>'
+            parts.append('<div style="margin:20px 0">'
                          '<img src="infographic.png" alt="NotebookLM Infographic" '
                          'style="max-width:100%;border:1px solid #eee;border-radius:8px"></div>')
 
-        # Copy and reference slides PDF
+        # Slides: convert to inline images (JPG) + keep PDF download
+        slides_img_dir = nlm_src / "slides_img"
         sl_src = nlm_src / "slides.pdf"
-        if sl_src.exists() and info.get("slides"):
+        if slides_img_dir.exists() and info.get("slides"):
+            # Copy slide images to site
+            site_slides_dir = detail_page_dir / "slides"
+            site_slides_dir.mkdir(parents=True, exist_ok=True)
+            slide_imgs = sorted(slides_img_dir.glob("slide_*.jpg"))
+            img_html = ""
+            for img in slide_imgs:
+                dest = site_slides_dir / img.name
+                shutil.copy2(img, dest)
+                img_html += f'<img src="slides/{img.name}" alt="{img.stem}" style="max-width:100%;border:1px solid #eee;border-radius:4px;margin-bottom:8px">\n'
+            if img_html:
+                parts.append(f'<div style="margin:15px 0">{img_html}</div>')
+            # Also keep PDF download
+            if sl_src.exists():
+                sl_dest = detail_page_dir / "slides.pdf"
+                shutil.copy2(sl_src, sl_dest)
+                parts.append('<a class="dl-btn sec" href="slides.pdf" target="_blank" style="margin-bottom:10px">下載 PDF</a> ')
+        elif sl_src.exists() and info.get("slides"):
+            # Fallback: no images, just PDF
             sl_dest = detail_page_dir / "slides.pdf"
             sl_dest.parent.mkdir(parents=True, exist_ok=True)
-            import shutil
             shutil.copy2(sl_src, sl_dest)
-            parts.append('<a class="dl-btn" href="slides.pdf" target="_blank">\U0001f4dd \u4e0b\u8f09 PPT \u7c21\u5831</a> ')
+            parts.append('<a class="dl-btn" href="slides.pdf" target="_blank">下載 PPT 簡報</a> ')
 
-        # Copy mind map
+        # Mind map
         mm_src = nlm_src / "mindmap.json"
         if mm_src.exists() and info.get("mind_map"):
             mm_dest = detail_page_dir / "mindmap.json"
             mm_dest.parent.mkdir(parents=True, exist_ok=True)
-            import shutil
             shutil.copy2(mm_src, mm_dest)
-            parts.append('<a class="dl-btn sec" href="mindmap.json" download>\U0001f9e0 Mind Map JSON</a>')
+            parts.append('<a class="dl-btn sec" href="mindmap.json" download>Mind Map JSON</a>')
 
         if not parts:
             return ""
-        return '<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">' + '\n'.join(parts) + '</div>'
+        return '<div id="nlm" style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">' + '\n'.join(parts) + '</div>'
 
     def get_wenshu_url(case_no_raw):
         """根據案號獲取裁判文書網 URL（真實 URL 或搜索連結）"""
@@ -472,14 +490,21 @@ def build_judgments(eb_files, scan_only):
         nlm_html = build_nlm_section(nlm_key, detail_dir)
         ai_key = f'featured/{j["slug"]}'
         analysis_html = build_analysis_section(ai_key)
+        has_nlm = nlm_key in nlm_completed
+        nav_items = '<a href="#summary">摘要</a><a href="#keypoints">爭議焦點</a><a href="#insights">法學見解</a>'
+        if has_nlm:
+            nav_items += '<a href="#nlm">NLM 分析</a>'
+        nav_items += '<a href="#fulltext">分析全文</a>'
+        bookmark_nav = f'<div class="bm-nav">{nav_items}</div>'
         ab = f'''<article>
+{bookmark_nav}
 <div style="margin-bottom:15px">
   <a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a>
   <a class="dl-btn sec" href="../../../judgments/{quote(j["slug"])}.md" download>下載 MD</a>
 </div>
 {analysis_html}
 {nlm_html}
-<div class="content" style="margin-top:20px;border-top:1px solid #eee;padding-top:15px">{ch}</div></article>'''
+<div id="fulltext" class="content" style="margin-top:20px;border-top:1px solid #eee;padding-top:15px">{ch}</div></article>'''
         wf(detail_dir / "index.html", page(j["title"], ab, back="../../judgments.html"))
 
     # 2. Individual cases from split (一案一檔)
@@ -508,14 +533,22 @@ def build_judgments(eb_files, scan_only):
             ai_key = f'cases/{c["year"]}/{case_stem}'
             analysis_html = build_analysis_section(ai_key)
             w_url = get_wenshu_url(c.get("case_no", ""))
+            has_nlm = nlm_key in nlm_completed
+            # Bookmark nav
+            nav_items = '<a href="#summary">摘要</a><a href="#keypoints">爭議焦點</a><a href="#insights">法學見解</a>'
+            if has_nlm:
+                nav_items += '<a href="#nlm">NLM 分析</a>'
+            nav_items += '<a href="#fulltext">判決原文</a>'
+            bookmark_nav = f'<div class="bm-nav">{nav_items}</div>'
             ab = f'''<article>
+{bookmark_nav}
 <div style="margin-bottom:15px">
   <a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a>
   <a class="dl-btn sec" href="../../../judgments/cases/{c["year"]}/{quote(c["filename"])}" download>下載 MD</a>
 </div>
 {analysis_html}
 {nlm_html}
-<details style="margin-top:25px;border-top:1px solid #eee;padding-top:15px">
+<details id="fulltext" style="margin-top:25px;border-top:1px solid #eee;padding-top:15px">
 <summary style="cursor:pointer;font-size:16px;font-weight:600;color:#1a73e8;padding:10px 0">
 展開判決原文</summary>
 <div class="content" style="margin-top:15px">{ch}</div>
