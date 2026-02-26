@@ -352,6 +352,49 @@ def build_judgments(eb_files, scan_only):
         nlm_completed = nlm_data.get("completed", {})
         log.info(f"NotebookLM artifacts: 已載入 {len(nlm_completed)} 筆")
 
+    # C. 讀取 AI 分析結果（摘要/重點/法學見解）
+    AI_DIR = JDG_DIR / "_ai_analysis"
+    ai_analyses = {}
+    if AI_DIR.exists():
+        for aj in AI_DIR.rglob("*.json"):
+            if aj.name == "_progress.json":
+                continue
+            # Key: relative path without .json, e.g. "cases/2018/01_xxx" or "featured/001_xxx"
+            rel = aj.relative_to(AI_DIR).with_suffix("").as_posix()
+            try:
+                with open(aj, "r", encoding="utf-8") as f:
+                    ai_analyses[rel] = json.load(f)
+            except Exception:
+                pass
+        log.info(f"AI 分析: 已載入 {len(ai_analyses)} 筆")
+
+    def build_analysis_section(ai_key):
+        """Build HTML for AI-generated summary/key_points/legal_insights."""
+        if ai_key not in ai_analyses:
+            return ""
+        a = ai_analyses[ai_key]
+        parts = []
+        # 摘要
+        if a.get("summary"):
+            parts.append(f'<div class="analysis-block"><h2 class="sec-title">摘要</h2>'
+                         f'<p style="font-size:15px;line-height:1.8">{esc(a["summary"])}</p></div>')
+        # 重點
+        kps = a.get("key_points", [])
+        if kps:
+            li = "".join(f"<li>{esc(k)}</li>" for k in kps)
+            parts.append(f'<div class="analysis-block"><h2 class="sec-title">爭議焦點與裁判要旨</h2>'
+                         f'<ul style="padding-left:20px;line-height:2">{li}</ul></div>')
+        # 法學見解
+        if a.get("legal_insights"):
+            # Split by newlines for paragraph formatting
+            paras = a["legal_insights"].replace("\n\n", "\n").split("\n")
+            body = "".join(f"<p>{esc(p)}</p>" for p in paras if p.strip())
+            parts.append(f'<div class="analysis-block"><h2 class="sec-title">法學見解</h2>'
+                         f'<div style="font-size:15px;line-height:1.8">{body}</div></div>')
+        if not parts:
+            return ""
+        return "\n".join(parts)
+
     def build_nlm_section(nlm_key, detail_page_dir):
         """Build HTML for NotebookLM artifacts and copy files to site."""
         if nlm_key not in nlm_completed:
@@ -427,11 +470,16 @@ def build_judgments(eb_files, scan_only):
         detail_dir = SITE / "judgment" / j["slug"]
         nlm_key = f'featured/{j["slug"]}'
         nlm_html = build_nlm_section(nlm_key, detail_dir)
+        ai_key = f'featured/{j["slug"]}'
+        analysis_html = build_analysis_section(ai_key)
         ab = f'''<article>
-<div style="margin-bottom:20px"><a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a></div>
+<div style="margin-bottom:15px">
+  <a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a>
+  <a class="dl-btn sec" href="../../../judgments/{quote(j["slug"])}.md" download>下載 MD</a>
+</div>
+{analysis_html}
 {nlm_html}
-<div class="content">{ch}</div>
-<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><a class="dl-btn" href="../../../judgments/{quote(j["slug"])}.md" download>下載 Markdown</a></div></article>'''
+<div class="content" style="margin-top:20px;border-top:1px solid #eee;padding-top:15px">{ch}</div></article>'''
         wf(detail_dir / "index.html", page(j["title"], ab, back="../../judgments.html"))
 
     # 2. Individual cases from split (一案一檔)
@@ -457,13 +505,21 @@ def build_judgments(eb_files, scan_only):
             case_stem = Path(c["filename"]).stem
             nlm_key = f'cases/{c["year"]}/{case_stem}'
             nlm_html = build_nlm_section(nlm_key, detail_dir)
+            ai_key = f'cases/{c["year"]}/{case_stem}'
+            analysis_html = build_analysis_section(ai_key)
             w_url = get_wenshu_url(c.get("case_no", ""))
             ab = f'''<article>
-<div style="margin-bottom:20px"><a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a></div>
+<div style="margin-bottom:15px">
+  <a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a>
+  <a class="dl-btn sec" href="../../../judgments/cases/{c["year"]}/{quote(c["filename"])}" download>下載 MD</a>
+</div>
+{analysis_html}
 {nlm_html}
-<div class="content">{ch}</div>
-<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee">
-<a class="dl-btn" href="../../../judgments/cases/{c["year"]}/{quote(c["filename"])}" download>下載 Markdown</a></div></article>'''
+<details style="margin-top:25px;border-top:1px solid #eee;padding-top:15px">
+<summary style="cursor:pointer;font-size:16px;font-weight:600;color:#1a73e8;padding:10px 0">
+展開判決原文</summary>
+<div class="content" style="margin-top:15px">{ch}</div>
+</details></article>'''
             wf(detail_dir / "index.html",
                page(c["title"] or f"案例{c['num']}", ab, back="../../judgments.html"))
 
@@ -491,15 +547,25 @@ def build_judgments(eb_files, scan_only):
         year_btns += f'<button class="tg-btn" onclick="fy(this,\'{yr}\')">{yr} ({cnt})</button>\n'
         for c in cases_by_year[yr]:
             case_slug = f'{c["year"]}_{c["num"]:0>2}'
+            case_stem = Path(c["filename"]).stem
             title_s = esc(c["title"] or f"案例{c['num']}")
             parties_s = esc(c.get("parties", ""))
             case_no_s = esc(c.get("case_no", ""))
             w_url = get_wenshu_url(c.get("case_no", ""))
             search_text = f'{c["title"]} {c.get("parties","")} {c.get("case_type","")}'.lower()
+            ai_key = f'cases/{c["year"]}/{case_stem}'
+            has_ai = ai_key in ai_analyses
+            ai_badge = ' <span style="font-size:11px;background:#e3f2fd;color:#1565c0;padding:1px 6px;border-radius:3px">AI</span>' if has_ai else ''
+            # Show AI summary preview on card
+            ai_preview = ""
+            if has_ai:
+                s = ai_analyses[ai_key].get("summary", "")
+                if s:
+                    ai_preview = f'<div style="font-size:13px;color:#555;margin-top:5px;line-height:1.5">{esc(s[:120])}{"..." if len(s)>120 else ""}</div>'
             case_cards += f'''<div class="card" data-year="{c["year"]}" data-search="{esc(search_text)}">
 <h3><a href="judgment/{case_slug}/index.html">{title_s}</a></h3>
-<div class="meta">{parties_s}</div>
-<div class="meta" style="color:#999">{case_no_s}</div>
+<div class="meta">{parties_s}{ai_badge}</div>
+<div class="meta" style="color:#999">{case_no_s}</div>{ai_preview}
 <div class="dl">
   <a href="{esc(w_url)}" target="_blank" style="font-size:12px">裁判文書網</a>
 </div></div>\n'''
