@@ -592,7 +592,7 @@ def build_judgments(eb_files, scan_only):
             nav_items = '<a href="#summary">摘要</a><a href="#keypoints">爭議焦點</a><a href="#insights">法學見解</a>'
             if has_nlm:
                 nav_items += '<a href="#nlm">NLM 分析</a>'
-            nav_items += '<a href="#fulltext">判決原文</a>'
+            nav_items += '<a href="#fulltext">案例評析</a>'
             bookmark_nav = f'<div class="bm-nav">{nav_items}</div>'
             ab = f'''<article>
 {bookmark_nav}
@@ -604,7 +604,7 @@ def build_judgments(eb_files, scan_only):
 {nlm_html}
 <details id="fulltext" style="margin-top:25px;border-top:1px solid #eee;padding-top:15px">
 <summary style="cursor:pointer;font-size:16px;font-weight:600;color:#1a73e8;padding:10px 0">
-展開判決原文</summary>
+展開案例評析</summary>
 <div class="content" style="margin-top:15px">{ch}</div>
 </details></article>'''
             wf(detail_dir / "index.html",
