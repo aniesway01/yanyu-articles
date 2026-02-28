@@ -2,19 +2,16 @@ __pycache__/
 *.pyc
 .env
 *.db
-wechat_articles/_raw/*.html
-wechat_articles/_raw_fetch.json
-check_cookies.py
-debug_wenshu.py
-open_wenshu.py
-scrape_v2.py
-scrape_wenshu.py
+
+# 暫存 / 大型生成物
 .chrome_cdp/
-judgments/_nlm_output/
-judgments/_wenshu_urls_errors.json
-_nlm_login.py
-_nlm_runner.py
+pagefind/
 logs/
+judgments/_nlm_output/
 judgments/_ai_analysis/
 judgments/_tags.json
-pagefind/
+judgments/_wenshu_urls_errors.json
+
+# 微信原始抓取
+wechat_articles/_raw/*.html
+wechat_articles/_raw_fetch.json
