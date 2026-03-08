@@ -3,15 +3,25 @@ __pycache__/
 .env
 *.db
 
-# 暫存 / 大型生成物
+# 暫存
 .chrome_cdp/
-pagefind/
 logs/
-judgments/_nlm_output/
-judgments/_ai_analysis/
-judgments/_tags.json
-judgments/_wenshu_urls_errors.json
+
+# 可重建的生成物
+site/
+pagefind/
+data/
+
+# 法院判决 — AI 生成物（可重建）
+法院判决/AI分析/
+法院判决/_metadata/
 
 # 微信原始抓取
 wechat_articles/_raw/*.html
 wechat_articles/_raw_fetch.json
+
+# 整理的相关资料 — 只保留文字版和PDF，排除HTML和图片
+整理的相关资料/**/article.html
+整理的相关资料/**/images/
+整理的相关资料/scrape_*.py
+整理的相关资料/*_state.json
