@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>服务流程构想 - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.content{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:20px}
+.content h2{font-size:22px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8;color:#1a73e8}
+.content h3{font-size:18px;margin:20px 0 10px;color:#333}
+.content p{margin-bottom:12px;font-size:15px}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:10px 14px;text-align:left;font-size:14px}
+.content th{background:#e8f0fe;color:#1a73e8;font-weight:600}
+.content ul,.content ol{margin:10px 0 15px 20px}
+.content li{margin-bottom:6px;font-size:15px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0;font-style:italic}
+.flow-box{background:#f8f9fa;border-radius:8px;padding:20px;margin:15px 0;font-family:"Cascadia Code","Fira Code",monospace;font-size:14px;line-height:1.8;overflow-x:auto;white-space:pre}
+.type-card{background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:20px;margin-bottom:15px;transition:all .2s}
+.type-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.type-label{display:inline-block;padding:3px 12px;border-radius:15px;font-size:13px;font-weight:600;color:#fff;margin-bottom:10px}
+.t1{background:#4caf50}.t2{background:#2196f3}.t3{background:#ff9800}.t4{background:#f44336}
+.matrix{overflow-x:auto}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px;background:#e8f0fe;color:#1a73e8;margin-right:4px}
+.note{background:#fff8e1;border-left:3px solid #ffc107;padding:12px 15px;border-radius:0 6px 6px 0;margin:15px 0;font-size:14px}
+</style></head><body><div class="ctn">
+
+<header>
+  <h1>服务流程构想</h1>
+  <p>岩育健康 · 惠民保代理赔咨询服务设计草稿</p>
+</header>
+
+<nav><a href="index.html">← 返回首頁</a></nav>
+
+<div class="content">
+
+<h2>一、客户分类：从就诊阶段出发</h2>
+
+<p>客户按<strong>就诊阶段</strong>分为四种类型。这是客户自身的状态，决定了他们的核心需求。</p>
+
+<div class="type-card">
+  <span class="type-label t1">Type 1</span>
+  <h3>一片白纸 — 未确诊，纯询问</h3>
+  <p>还没看医生或刚有疑似症状，纯粹来了解保险能做什么。</p>
+  <p><strong>核心需求：</strong>科普、了解保险能起什么作用</p>
+</div>
+
+<div class="type-card">
+  <span class="type-label t2">Type 2</span>
+  <h3>已就医未确诊 — 想知道保单能起什么作用</h3>
+  <p>已经看过医生但还没确诊，想提前了解自己的保单在未来可能派上什么用场。</p>
+  <p><strong>核心需求：</strong>保障评估、就医注意事项（医院资质、诊断书要求）</p>
+</div>
+
+<div class="type-card">
+  <span class="type-label t3">Type 3</span>
+  <h3>确诊且用药中 — 想知道能不能报销</h3>
+  <p>已经确诊并在用药，想知道当前药物能不能报销，或者保单对自己的疗程有什么好处。</p>
+  <p><strong>核心需求：</strong>药物匹配、理赔申请、特药直付</p>
+</div>
+
+<div class="type-card">
+  <span class="type-label t4">Type 4</span>
+  <h3>确诊但被拒赔 — 需要申诉帮助</h3>
+  <p>已经确诊并申请过理赔，但被保险公司拒绝了。</p>
+  <p><strong>核心需求：</strong>拒赔分析、申诉指导、救济渠道</p>
+</div>
+
+<h2>二、接待维度：从我们的角度</h2>
+
+<p>不管客户属于 Type 1~4 哪种，从我们接待的角度只有三种情况：</p>
+
+<table>
+  <tr><th>接待阶段</th><th>说明</th></tr>
+  <tr><td><strong>第 1 次见面</strong></td><td>初次接触，建立信任，收集基本信息</td></tr>
+  <tr><td><strong>第 2 次见面</strong></td><td>回访跟进，反馈评估结果</td></tr>
+  <tr><td><strong>第 N 次见面</strong></td><td>长期客户，持续服务</td></tr>
+</table>
+
+<h3>交叉矩阵</h3>
+
+<p>两个维度交叉后，形成完整的服务地图：</p>
+
+<div class="matrix">
+<table>
+  <tr>
+    <th></th>
+    <th>第 1 次见面</th>
+    <th>第 2 次见面</th>
+    <th>第 N 次见面</th>
+  </tr>
+  <tr>
+    <td><span class="badge">Type 1</span> 白纸</td>
+    <td>科普 + 收集基本信息</td>
+    <td>待定</td>
+    <td>待定</td>
+  </tr>
+  <tr>
+    <td><span class="badge">Type 2</span> 已就医未确诊</td>
+    <td>保障评估 + 就医指导</td>
+    <td>待定</td>
+    <td>待定</td>
+  </tr>
+  <tr>
+    <td><span class="badge">Type 3</span> 确诊+用药</td>
+    <td>药物匹配 + 材料准备</td>
+    <td>待定</td>
+    <td>待定</td>
+  </tr>
+  <tr>
+    <td><span class="badge">Type 4</span> 被拒赔</td>
+    <td>拒赔分析 + 情绪安抚</td>
+    <td>待定</td>
+    <td>待定</td>
+  </tr>
+</table>
+</div>
+
+<div class="note">⏳ 「第 2 次」和「第 N 次」的具体服务内容待补充。</div>
+
+<h2>三、后台运行流程</h2>
+
+<p>接待客户之后，后台的运作方式：</p>
+
+<div class="flow-box">客户提交资料给我们
+       │
+       ▼
+我们跟 TPA（第三方管理机构）沟通
+  → 确认能不能核销
+       │
+       ▼
+给客户答复
+  → 告知哪些能报、哪些不能、需要补什么
+       │
+       ▼
+客户根据我们的意见准备/整理申请材料
+       │
+       ▼
+客户提交材料给保司
+       │
+       ▼
+等保司审核结果
+  ├─ 通过 → 理赔成功
+  └─ 拒绝 → 回到我们，进入申诉流程</div>
+
+<blockquote>
+  <strong>关键定位：</strong>我们不是直接帮客户提交给保司，而是在中间做「预审 + TPA 沟通」的角色，确保客户提交的材料和方向是对的。
+</blockquote>
+
+<h2>四、角色定位</h2>
+
+<ul>
+  <li><strong>我们是咨询公司</strong>，不是法律公司，不是保险公司</li>
+  <li><strong>核心价值：</strong>帮保户最大化理赔成功率，降低因不懂规则导致的拒赔</li>
+  <li><strong>长期目标：</strong>成为保户的健康管理代办，每次报销前帮他复核一遍</li>
+</ul>
+
+</div>
+
+<footer>
+  <p><a href="index.html">← 返回首頁</a> | <a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p>
+</footer>
+
+</div></body></html>
