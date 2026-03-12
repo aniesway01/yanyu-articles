@@ -12,13 +12,14 @@ nav{margin-bottom:20px}nav a{font-size:14px}
 footer{text-align:center;padding:30px;color:#999;font-size:13px}
 .content{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:20px}
 .content h2{font-size:22px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8;color:#1a73e8}
+.content h2:first-child{margin-top:0}
 .content h3{font-size:18px;margin:20px 0 10px;color:#333}
 .content p{margin-bottom:12px;font-size:15px}
 .content table{border-collapse:collapse;width:100%;margin:15px 0}
 .content th,.content td{border:1px solid #ddd;padding:10px 14px;text-align:left;font-size:14px}
 .content th{background:#e8f0fe;color:#1a73e8;font-weight:600}
 .content ul,.content ol{margin:10px 0 15px 20px}
-.content li{margin-bottom:6px;font-size:15px}
+.content li{margin-bottom:8px;font-size:15px}
 .content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0;font-style:italic}
 .flow-box{background:#f8f9fa;border-radius:8px;padding:20px;margin:15px 0;font-family:"Cascadia Code","Fira Code",monospace;font-size:14px;line-height:1.8;overflow-x:auto;white-space:pre}
 .type-card{background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:20px;margin-bottom:15px;transition:all .2s}
@@ -27,21 +28,35 @@ footer{text-align:center;padding:30px;color:#999;font-size:13px}
 .t1{background:#4caf50}.t2{background:#2196f3}.t3{background:#ff9800}.t4{background:#f44336}
 .matrix{overflow-x:auto}
 .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px;background:#e8f0fe;color:#1a73e8;margin-right:4px}
-.note{background:#fff8e1;border-left:3px solid #ffc107;padding:12px 15px;border-radius:0 6px 6px 0;margin:15px 0;font-size:14px}
+.note{background:#e8f5e9;border-left:3px solid #4caf50;padding:12px 15px;border-radius:0 6px 6px 0;margin:15px 0;font-size:14px}
+.step{display:flex;gap:15px;margin-bottom:18px;align-items:flex-start}
+.step-num{min-width:36px;height:36px;background:#1a73e8;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0}
+.step-body h3{margin:0 0 6px;font-size:16px}.step-body p{margin:0;font-size:14px;color:#555}
 </style></head><body><div class="ctn">
 
 <header>
   <h1>服务流程构想</h1>
-  <p>岩育健康 · 惠民保代理赔咨询服务设计草稿</p>
+  <p>岩育健康 · 惠民保代理赔咨询服务</p>
 </header>
 
-<nav><a href="index.html">← 返回首頁</a></nav>
+<nav><a href="index.html">&larr; 返回首頁</a></nav>
 
 <div class="content">
 
-<h2>一、客户分类：从就诊阶段出发</h2>
+<h2>一、公司定位</h2>
 
-<p>客户按<strong>就诊阶段</strong>分为四种类型。这是客户自身的状态，决定了他们的核心需求。</p>
+<p><strong>保险理赔咨询顾问 + 长期健康管理代办</strong></p>
+
+<ol>
+  <li><strong>理赔咨询顾问</strong> — 协助客户最大化理赔成功率，消除医疗保险理赔的不确定性，让客户享受本属于他们的各类保险权益。</li>
+  <li><strong>健康管理代办</strong> — 保险条款对客户来说是较大的心智负担，我们鼓励客户在每次报销前将资料先提交给我们把关，形成客户愿意主动提交医疗相关资料的信任关系，成为客户的健康管理伙伴。</li>
+</ol>
+
+<h2>二、服务模式</h2>
+
+<p>以<strong>微信群</strong>为主要服务载体，通过微信消息解决客户疑惑。</p>
+
+<h2>三、客户分类（按就诊阶段）</h2>
 
 <div class="type-card">
   <span class="type-label t1">Type 1</span>
@@ -53,14 +68,14 @@ footer{text-align:center;padding:30px;color:#999;font-size:13px}
 <div class="type-card">
   <span class="type-label t2">Type 2</span>
   <h3>已就医未确诊 — 想知道保单能起什么作用</h3>
-  <p>已经看过医生但还没确诊，想提前了解自己的保单在未来可能派上什么用场。</p>
+  <p>已经看过医生但还没确诊，想提前了解保单在未来可能派上什么用场。</p>
   <p><strong>核心需求：</strong>保障评估、就医注意事项（医院资质、诊断书要求）</p>
 </div>
 
 <div class="type-card">
   <span class="type-label t3">Type 3</span>
   <h3>确诊且用药中 — 想知道能不能报销</h3>
-  <p>已经确诊并在用药，想知道当前药物能不能报销，或者保单对自己的疗程有什么好处。</p>
+  <p>已经确诊并在用药，想知道当前药物能不能报销，或保单对疗程有什么好处。</p>
   <p><strong>核心需求：</strong>药物匹配、理赔申请、特药直付</p>
 </div>
 
@@ -71,20 +86,57 @@ footer{text-align:center;padding:30px;color:#999;font-size:13px}
   <p><strong>核心需求：</strong>拒赔分析、申诉指导、救济渠道</p>
 </div>
 
-<h2>二、接待维度：从我们的角度</h2>
+<h2>四、主要服务流程</h2>
 
-<p>不管客户属于 Type 1~4 哪种，从我们接待的角度只有三种情况：</p>
+<div class="step">
+  <div class="step-num">1</div>
+  <div class="step-body">
+    <h3>接触客户，搜集信息</h3>
+    <p>通过医生转介 / 院内二维码 / 药厂销售群接触客户，在企业微信拉群，搜集当事人身份、就医状态、保险状态、合同、病历。</p>
+  </div>
+</div>
 
-<table>
-  <tr><th>接待阶段</th><th>说明</th></tr>
-  <tr><td><strong>第 1 次见面</strong></td><td>初次接触，建立信任，收集基本信息</td></tr>
-  <tr><td><strong>第 2 次见面</strong></td><td>回访跟进，反馈评估结果</td></tr>
-  <tr><td><strong>第 N 次见面</strong></td><td>长期客户，持续服务</td></tr>
-</table>
+<div class="step">
+  <div class="step-num">2</div>
+  <div class="step-body">
+    <h3>专业评估</h3>
+    <p>研究保险合同条款，评估理赔可行性，匹配药物与保单覆盖范围。复杂个案与 TPA 协商确认能否核销。</p>
+  </div>
+</div>
 
-<h3>交叉矩阵</h3>
+<div class="step">
+  <div class="step-num">3</div>
+  <div class="step-body">
+    <h3>提交理赔建议</h3>
+    <p>告知客户哪些能报、哪些不能、需要补什么材料，提供专业的材料准备指导。</p>
+  </div>
+</div>
 
-<p>两个维度交叉后，形成完整的服务地图：</p>
+<div class="step">
+  <div class="step-num">4</div>
+  <div class="step-body">
+    <h3>协助理赔执行</h3>
+    <p>预审客户材料确保无误，引导客户操作线上/线下提交流程，协助特药直付申请。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">5</div>
+  <div class="step-body">
+    <h3>理赔后跟踪</h3>
+    <p>追踪理赔进度，解读理赔结果。拒赔时分析原因、制定申诉方案。持续性理赔需求（如慢性处方）持续提供协助。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-num">6</div>
+  <div class="step-body">
+    <h3>长期维护</h3>
+    <p>启动健康管理服务，保单到期提醒 + 续保引导，推荐复发险等增值产品，推送健康权益。</p>
+  </div>
+</div>
+
+<h2>五、服务矩阵（客户类型 &times; 接待次数）</h2>
 
 <div class="matrix">
 <table>
@@ -97,73 +149,56 @@ footer{text-align:center;padding:30px;color:#999;font-size:13px}
   <tr>
     <td><span class="badge">Type 1</span> 白纸</td>
     <td>科普 + 收集基本信息</td>
-    <td>反馈权益评估：告知保单覆盖范围、就医注意事项；引导投保（若未投保）</td>
-    <td>保单到期提醒 + 续保引导；定期推送健康权益（洁牙、癌筛等增值服务）</td>
+    <td>反馈权益评估、告知保单范围、就医注意事项</td>
+    <td>保单到期提醒 + 续保引导；推送健康权益</td>
   </tr>
   <tr>
     <td><span class="badge">Type 2</span> 已就医未确诊</td>
     <td>保障评估 + 就医指导</td>
-    <td>跟进就医进展：确诊了吗？诊断书内容是否符合理赔要求？提前规划材料准备方向</td>
-    <td>持续关注病情发展；确诊后自动升级为 Type 3 服务；推送相关权益</td>
+    <td>跟进就医进展、提前规划材料方向</td>
+    <td>持续关注病情；确诊后升级为 Type 3</td>
   </tr>
   <tr>
     <td><span class="badge">Type 3</span> 确诊+用药</td>
     <td>药物匹配 + 材料准备</td>
-    <td>反馈 TPA 沟通结果：哪些能报、需要补什么材料；预审材料后指导客户提交保司</td>
-    <td>追踪理赔进度 + 结果解读；疗程变更时重新评估；到期推荐续保/复发险</td>
+    <td>反馈 TPA 沟通结果、预审后指导提交</td>
+    <td>追踪理赔进度；疗程变更时重评估；推荐续保/复发险</td>
   </tr>
   <tr>
     <td><span class="badge">Type 4</span> 被拒赔</td>
     <td>拒赔分析 + 情绪安抚</td>
-    <td>反馈申诉方案：补充材料清单、医生情况说明、申诉路径（保司申诉/消保投诉/仲裁）</td>
-    <td>跟踪申诉进度；推送同病种理赔成功案例；政策变动时主动通知</td>
+    <td>反馈申诉方案：补充材料、申诉路径</td>
+    <td>跟踪申诉进度；推送同病种成功案例</td>
   </tr>
 </table>
 </div>
 
-<div class="note">💡 核心逻辑：第 1 次建立信任、收集信息；第 2 次反馈专业评估结果（体现价值）；第 N 次持续跟踪 + 主动推送（建立长期依赖）。</div>
+<div class="note">核心逻辑：第 1 次建立信任、收集信息 &rarr; 第 2 次反馈专业评估（体现价值）&rarr; 第 N 次持续跟踪 + 主动推送（建立长期依赖）。</div>
 
-<h2>三、后台运行流程</h2>
+<h2>六、后台运行流程</h2>
 
-<p>接待客户之后，后台的运作方式：</p>
-
-<div class="flow-box">客户提交资料给我们
-       │
-       ▼
-我们跟 TPA（第三方管理机构）沟通
-  → 确认能不能核销
-       │
-       ▼
-给客户答复
-  → 告知哪些能报、哪些不能、需要补什么
-       │
-       ▼
-客户根据我们的意见准备/整理申请材料
-       │
-       ▼
+<div class="flow-box">客户提交资料
+    &darr;
+我们与 TPA 沟通确认能否核销
+    &darr;
+给客户答复（能报什么、不能报什么、需补什么）
+    &darr;
+客户根据我们意见准备材料
+    &darr;
 客户提交材料给保司
-       │
-       ▼
-等保司审核结果
+    &darr;
+保司审核
   ├─ 通过 → 理赔成功
   └─ 拒绝 → 回到我们，进入申诉流程</div>
 
 <blockquote>
-  <strong>关键定位：</strong>我们不是直接帮客户提交给保司，而是在中间做「预审 + TPA 沟通」的角色，确保客户提交的材料和方向是对的。
+  <strong>关键定位：</strong>我们不代替客户提交，而是做「预审 + TPA 沟通」，确保方向和材料正确。
 </blockquote>
-
-<h2>四、角色定位</h2>
-
-<ul>
-  <li><strong>我们是咨询公司</strong>，不是法律公司，不是保险公司</li>
-  <li><strong>核心价值：</strong>帮保户最大化理赔成功率，降低因不懂规则导致的拒赔</li>
-  <li><strong>长期目标：</strong>成为保户的健康管理代办，每次报销前帮他复核一遍</li>
-</ul>
 
 </div>
 
 <footer>
-  <p><a href="index.html">← 返回首頁</a> | <a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p>
+  <p><a href="index.html">&larr; 返回首頁</a> | <a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p>
 </footer>
 
 </div></body></html>
