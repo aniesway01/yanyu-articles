@@ -4,21 +4,26 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
-.ctn{max-width:960px;margin:0 auto;padding:20px}
 a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
-header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
-header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
-nav{margin-bottom:20px}nav a{font-size:14px}
-footer{text-align:center;padding:30px;color:#999;font-size:13px}
-/* TOC */
-.toc{background:#fff;border-radius:8px;padding:20px 28px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:24px}
-.toc h2{font-size:16px;color:#1a73e8;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #e8f0fe}
-.toc ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
-.toc ul li a{display:inline-block;background:#e8f0fe;color:#1a73e8;border-radius:20px;padding:4px 14px;font-size:14px;transition:background .2s}
-.toc ul li a:hover{background:#1a73e8;color:#fff;text-decoration:none}
+/* Layout */
+.page-header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:0;border-radius:8px 8px 0 0;max-width:1200px;margin:0 auto 0}
+.page-header h1{font-size:28px;margin-bottom:8px}.page-header p{opacity:.9;font-size:14px}
+.top-nav{max-width:1200px;margin:0 auto;padding:12px 20px}
+.top-nav a{font-size:14px}
+.layout{display:flex;max-width:1200px;margin:0 auto;gap:20px;padding:0 20px 20px;align-items:flex-start}
+.sidebar{width:240px;flex-shrink:0;position:sticky;top:16px;max-height:calc(100vh - 32px);overflow-y:auto;background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1);padding:16px;font-size:13px}
+.sidebar h3{font-size:14px;color:#1a73e8;margin:0 0 10px;padding-bottom:6px;border-bottom:2px solid #e8f0fe}
+.sidebar ul{list-style:none;margin:0;padding:0}
+.sidebar li{margin-bottom:2px}
+.sidebar li a{display:block;padding:4px 8px;border-radius:4px;color:#555;transition:all .15s;font-size:13px;line-height:1.4}
+.sidebar li a:hover{background:#e8f0fe;color:#1a73e8;text-decoration:none}
+.sidebar .sep{border:none;border-top:1px solid #e8f0fe;margin:10px 0}
+.sidebar .sec-label{font-size:11px;color:#999;text-transform:uppercase;letter-spacing:.5px;padding:6px 8px 2px;display:block}
+.main{flex:1;min-width:0}
+footer{text-align:center;padding:30px;color:#999;font-size:13px;max-width:1200px;margin:0 auto}
 /* Section dividers */
-.section-header-strategy{background:linear-gradient(135deg,#1a73e8 0%,#1558b0 100%);color:#fff;padding:18px 28px;border-radius:8px 8px 0 0;margin-top:30px}
-.section-header-sop{background:linear-gradient(135deg,#2e7d32 0%,#1b5e20 100%);color:#fff;padding:18px 28px;border-radius:8px 8px 0 0;margin-top:36px}
+.section-header-strategy{background:linear-gradient(135deg,#1a73e8 0%,#1558b0 100%);color:#fff;padding:18px 28px;border-radius:8px 8px 0 0;margin-top:0}
+.section-header-sop{background:linear-gradient(135deg,#2e7d32 0%,#1b5e20 100%);color:#fff;padding:18px 28px;border-radius:8px 8px 0 0;margin-top:30px}
 .section-header-strategy h2,.section-header-sop h2{font-size:20px;margin:0;color:#fff;border:none;padding:0}
 .section-header-strategy p,.section-header-sop p{margin:4px 0 0;font-size:13px;opacity:.85}
 /* Content */
@@ -48,39 +53,63 @@ footer{text-align:center;padding:30px;color:#999;font-size:13px}
 .step{display:flex;gap:15px;margin-bottom:18px;align-items:flex-start}
 .step-num{min-width:36px;height:36px;background:#2e7d32;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0}
 .step-body h3{margin:0 0 6px;font-size:16px}.step-body p{margin:0;font-size:14px;color:#555}
-hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
-</style></head><body><div class="ctn">
+.xref{color:#1a73e8;border-bottom:1px dashed #1a73e8;cursor:pointer}
+.xref:hover{color:#0d47a1;border-bottom-color:#0d47a1;text-decoration:none}
+.sop-content .xref{color:#2e7d32;border-bottom-color:#2e7d32}
+.sop-content .xref:hover{color:#1b5e20;border-bottom-color:#1b5e20}
+/* Mobile */
+@media(max-width:900px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;position:static;max-height:none}
+}
+</style></head><body>
 
-<header>
+<div class="page-header">
   <h1>岩育健康 — 服务框架</h1>
   <p>战略定位 · 服务执行 SOP</p>
-</header>
+</div>
 
-<nav><a href="index.html">&larr; 返回首頁</a></nav>
+<div class="top-nav"><a href="index.html">&larr; 返回首頁</a></div>
 
-<!-- TOC -->
-<div class="toc">
-  <h2>目录</h2>
+<div class="layout">
+
+<!-- ===== SIDEBAR ===== -->
+<nav class="sidebar">
+  <h3>目录导航</h3>
+  <span class="sec-label">战略篇</span>
   <ul>
-    <li><a href="#section-strategy">一、战略定位与商业规划</a></li>
-    <li><a href="#s1-positioning">公司定位</a></li>
-    <li><a href="#s2-channels">客户来源</a></li>
-    <li><a href="#s3-bizmodel">商业模式</a></li>
-    <li><a href="#s4-strategy">初期策略</a></li>
-    <li><a href="#s5-team">团队规划</a></li>
-    <li><a href="#s6-evolution">框架演进</a></li>
-    <li><a href="#section-sop">二、服务执行 SOP</a></li>
-    <li><a href="#sop-howto">如何使用</a></li>
-    <li><a href="#sop-s1">客户分类</a></li>
-    <li><a href="#sop-s2">6 阶段流程</a></li>
-    <li><a href="#sop-s3">服务矩阵</a></li>
-    <li><a href="#sop-s4">话术原则</a></li>
-    <li><a href="#sop-s5">服务模式</a></li>
-    <li><a href="#sop-s6">后台流程</a></li>
-    <li><a href="#sop-s7">工具记录</a></li>
+    <li><a href="#section-strategy">总览</a></li>
+    <li><a href="#s1-positioning">一、公司定位</a></li>
+    <li><a href="#s2-channels">二、客户来源</a></li>
+    <li><a href="#s3-bizmodel">三、商业模式</a></li>
+    <li><a href="#s4-strategy">四、初期策略</a></li>
+    <li><a href="#s5-team">五、团队规划</a></li>
+    <li><a href="#s6-evolution">六、框架演进</a></li>
+  </ul>
+  <hr class="sep">
+  <span class="sec-label">执行 SOP</span>
+  <ul>
+    <li><a href="#section-sop">总览</a></li>
+    <li><a href="#sop-howto">如何使用本文件</a></li>
+    <li><a href="#sop-s1">一、客户分类</a></li>
+    <li><a href="#sop-s2">二、6 阶段流程</a></li>
+    <li style="padding-left:12px"><a href="#sop-stage1">阶段 1 首次接触</a></li>
+    <li style="padding-left:12px"><a href="#sop-stage2">阶段 2 内部评估</a></li>
+    <li style="padding-left:12px"><a href="#sop-stage3">阶段 3 反馈客户</a></li>
+    <li style="padding-left:12px"><a href="#sop-stage4">阶段 4 执行支持</a></li>
+    <li style="padding-left:12px"><a href="#sop-stage5">阶段 5 理赔后跟踪</a></li>
+    <li style="padding-left:12px"><a href="#sop-stage6">阶段 6 长期维护</a></li>
+    <li><a href="#sop-s3">三、服务矩阵</a></li>
+    <li><a href="#sop-s4">四、话术原则</a></li>
+    <li><a href="#sop-s5">五、服务模式</a></li>
+    <li><a href="#sop-s6">六、后台流程</a></li>
+    <li><a href="#sop-s7">七、工具记录</a></li>
     <li><a href="#sop-appendix">附录：场景库</a></li>
   </ul>
-</div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<div class="main">
 
 <!-- ======================================================= -->
 <!-- SECTION 1: 战略 -->
@@ -92,7 +121,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 
 <div class="content">
 
-<blockquote>本文件聚焦公司定位、商业模式与扩展策略。具体服务执行流程见第二节《服务执行 SOP》。</blockquote>
+<blockquote>本文件聚焦公司定位、商业模式与扩展策略。具体服务执行流程见<a class="xref" href="#section-sop">《服务执行 SOP》</a>。</blockquote>
 
 <h2 id="s1-positioning">一、公司定位</h2>
 
@@ -102,7 +131,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   <tr><th>角色</th><th>说明</th></tr>
   <tr><td><strong>理赔咨询顾问</strong></td><td>协助客户最大化理赔成功率，消除医疗保险理赔的不确定性，让客户享受本属于他们的各类保险权益</td></tr>
   <tr><td><strong>健康管理代办</strong></td><td>鼓励客户在每次报销前将资料先提交给我们把关，形成信任关系，成为客户的健康管理伙伴</td></tr>
-  <tr><td><strong>福利管家</strong>（延伸）</td><td>帮客户扫描保单内所有保障权益（药品商城、洁牙、癌筛、陪诊等），主动提醒使用</td></tr>
+  <tr><td><strong><a class="xref" href="#sop-stage6">福利管家</a></strong>（延伸）</td><td>帮客户扫描保单内所有保障权益（药品商城、洁牙、癌筛、陪诊等），主动提醒使用</td></tr>
 </table>
 
 <ul>
@@ -160,10 +189,10 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 <p>本框架不追求一次设计完美，而是通过<strong>场景覆盖</strong>逐步完善：</p>
 
 <ul>
-  <li>前 10 个客户：每个个案都密集复盘，逐步细化服务流程</li>
+  <li>前 10 个客户：每个个案都密集复盘，逐步细化<a class="xref" href="#sop-s2">服务流程</a></li>
   <li>先跑通再扩展：烟台 + 海南 &rarr; 验证后再开放其他地区</li>
   <li>重点不是验证成功与否，而是确保遇到的每种客户场景都有对应预案</li>
-  <li>新场景的记录与归纳方式见第二节附录「场景库」</li>
+  <li>新场景的记录与归纳方式见<a class="xref" href="#sop-appendix">附录「场景库」</a></li>
 </ul>
 
 </div><!-- /content strategy -->
@@ -171,14 +200,14 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 <!-- ======================================================= -->
 <!-- SECTION 2: SOP -->
 <!-- ======================================================= -->
-<div class="section-header-sop" id="section-sop" style="margin-top:36px">
+<div class="section-header-sop" id="section-sop">
   <h2>服务执行 SOP</h2>
   <p>岩育健康 — 日常服务操作手册</p>
 </div>
 
 <div class="content sop-content">
 
-<blockquote>本文件是日常服务的操作手册。公司定位、商业模式与扩展策略见上方《战略定位与商业规划》。不含特定保险产品条款，具体产品服务细则另行建立。</blockquote>
+<blockquote>本文件是日常服务的操作手册。公司定位、商业模式与扩展策略见上方<a class="xref" href="#section-strategy">《战略定位与商业规划》</a>。不含特定保险产品条款，具体产品服务细则另行建立。</blockquote>
 
 <h2 id="sop-howto">如何使用本文件</h2>
 
@@ -186,16 +215,16 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 
 <table>
   <tr><th>工具</th><th>位置</th><th>用途</th><th>何时查</th></tr>
-  <tr><td><strong>客户分类表</strong>（第一节）</td><td>§一</td><td>判断客户是谁、处于什么状态</td><td><strong>首次接触时</strong> — 确定客户类型和当前场景</td></tr>
-  <tr><td><strong>6 阶段流程</strong>（第二节）</td><td>§二</td><td>我们该做什么、按什么顺序做</td><td><strong>每次服务推进时</strong> — 确认当前在哪一步、下一步做什么</td></tr>
-  <tr><td><strong>服务矩阵</strong>（第三节）</td><td>§三</td><td>这次见面具体说什么</td><td><strong>每次与客户互动前</strong> — 根据类型 &times; 第几次见面，查对应动作</td></tr>
+  <tr><td><strong><a class="xref" href="#sop-s1">客户分类表</a></strong></td><td>§一</td><td>判断客户是谁、处于什么状态</td><td><strong>首次接触时</strong> — 确定客户类型和当前场景</td></tr>
+  <tr><td><strong><a class="xref" href="#sop-s2">6 阶段流程</a></strong></td><td>§二</td><td>我们该做什么、按什么顺序做</td><td><strong>每次服务推进时</strong> — 确认当前在哪一步、下一步做什么</td></tr>
+  <tr><td><strong><a class="xref" href="#sop-s3">服务矩阵</a></strong></td><td>§三</td><td>这次见面具体说什么</td><td><strong>每次与客户互动前</strong> — 根据类型 &times; 第几次见面，查对应动作</td></tr>
 </table>
 
 <p><strong>三者的关系：</strong></p>
 <ul>
-  <li>分类表回答「客户是谁」&rarr; 流程回答「做什么」&rarr; 矩阵回答「这次见面怎么做」</li>
+  <li><a class="xref" href="#sop-s1">分类表</a>回答「客户是谁」&rarr; <a class="xref" href="#sop-s2">流程</a>回答「做什么」&rarr; <a class="xref" href="#sop-s3">矩阵</a>回答「这次见面怎么做」</li>
   <li>分类表是静态快照（首次判定 + 阶段升级时更新），流程是动态推进线，矩阵是每次互动的速查卡</li>
-  <li>实际操作：先查分类表定位 &rarr; 沿流程推进 &rarr; 每次互动前查矩阵确认重点</li>
+  <li>实际操作：先查<a class="xref" href="#sop-s1">分类表</a>定位 &rarr; 沿<a class="xref" href="#sop-s2">流程</a>推进 &rarr; 每次互动前查<a class="xref" href="#sop-s3">矩阵</a>确认重点</li>
 </ul>
 
 <h2 id="sop-s1">一、客户分类</h2>
@@ -226,13 +255,13 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
     <td><span class="type-label t3">Type 3</span> 确诊且用药中</td>
     <td>①用药选择咨询 ②方案已定，预审材料</td>
     <td>③等审核结果 ④被要求补材料</td>
-    <td>⑤成功（单次/长疗程） ⑥被拒 &rarr; 申诉</td>
+    <td>⑤成功（单次/长疗程） ⑥被拒 &rarr; <a class="xref" href="#sop-stage5">申诉</a></td>
   </tr>
   <tr>
     <td><span class="type-label t4">Type 4</span> 确诊但被拒赔</td>
     <td>—</td>
     <td>—</td>
-    <td>拒赔分析 + 申诉指导 + 救济渠道</td>
+    <td>拒赔分析 + <a class="xref" href="#sop-stage5">申诉指导</a> + 救济渠道</td>
   </tr>
 </table>
 </div>
@@ -247,25 +276,25 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   </ul>
 </blockquote>
 
-<h3>1.2 客户演变路径</h3>
+<h3 id="sop-evolution">1.2 客户演变路径</h3>
 
 <div class="flow-box">首次接触（Type 1~4）
     &darr;
 中间状态
   ├─ 单次报销成功 &rarr; 推荐续保 / 增值权益
-  ├─ 单次报销失败 &rarr; 二轮申诉服务
+  ├─ 单次报销失败 &rarr; 二轮<a class="xref" href="#sop-stage5" style="color:inherit;border:none">申诉服务</a>
   ├─ 长疗程首次成功 &rarr; 持续跟进理赔
   ├─ 长疗程首次失败 &rarr; 调整方案再申请
   └─ 加购惠民保 + 使用增值服务
     &darr;
 长期结果
-  ├─ 深度托付型：主动提交资料，健康管理全托付 ← 理想状态
+  ├─ 深度托付型：主动提交资料，健康管理全托付 &larr; 理想状态
   ├─ 单次型：仅单次报销相关
   └─ 流失型：未转化</div>
 
 <h2 id="sop-s2">二、服务全流程（6 阶段）</h2>
 
-<h3>阶段 1：首次接触（当天）</h3>
+<h3 id="sop-stage1">阶段 1：首次接触（当天）</h3>
 
 <p><strong>目标</strong>：建立信任 + 收集基本信息</p>
 
@@ -290,7 +319,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   <div class="step-body">
     <h3>告知保密与服务范畴</h3>
     <ul style="margin-top:6px">
-      <li>我们是理赔咨询，不是法律咨询</li>
+      <li>我们是理赔咨询，不是法律咨询（详见<a class="xref" href="#s1-positioning">公司定位</a>）</li>
       <li>资料仅用于理赔相关用途</li>
       <li>说明我们能做什么、不能做什么</li>
     </ul>
@@ -330,9 +359,9 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   </div>
 </div>
 
-<blockquote><strong>注意</strong>：不要做成问答模式。即使客户只是咨询，也要引导他提交资料，并告知"整个过程我们都可以协助跟进"。</blockquote>
+<blockquote><strong>注意</strong>：不要做成问答模式（参见<a class="xref" href="#sop-s4">话术原则「引导而非问答」</a>）。即使客户只是咨询，也要引导他提交资料，并告知"整个过程我们都可以协助跟进"。</blockquote>
 
-<h3>阶段 2：内部研究与评估（D+0 ～ D+2）</h3>
+<h3 id="sop-stage2">阶段 2：内部研究与评估（D+0 ～ D+2）</h3>
 
 <p><strong>目标</strong>：首次接触后 2 天内完成评估，形成理赔方案</p>
 
@@ -348,7 +377,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   <li>
     <strong>评估客户状态</strong>
     <ul>
-      <li>所属客户类型 + 当前场景</li>
+      <li>所属<a class="xref" href="#sop-s1">客户类型</a> + 当前场景</li>
       <li>判断理赔成功率</li>
       <li>评估合理理赔金额与可报销项目</li>
     </ul>
@@ -356,10 +385,10 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   <li>
     <strong>与审查单位沟通</strong>（需要时）
     <ul>
-      <li>疑难 case 提前与审查单位（惠民保为 TPA，非惠民保为保司审查机构）做事前沟通</li>
+      <li>疑难 case 提前与审查单位（惠民保为 TPA，非惠民保为保司审查机构）做事前沟通（详见<a class="xref" href="#sop-s6">后台流程</a>）</li>
       <li>确认适应症与可报销药物的匹配</li>
       <li>审查单位反馈时间：最多 2 天，即 D+2 前须收到（与我方研究并行）</li>
-      <li>此沟通贯穿阶段 2～4，不是单次动作：评估时问方向，执行时确认细节</li>
+      <li>此沟通贯穿<a class="xref" href="#sop-stage2">阶段 2</a>～<a class="xref" href="#sop-stage4">阶段 4</a>，不是单次动作：评估时问方向，执行时确认细节</li>
       <li><strong>审查单位未在 D+2 前回复时</strong>：先将已掌握的评估结果反馈客户，注明「审查单位确认中，后续补充」</li>
     </ul>
   </li>
@@ -367,7 +396,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 
 <blockquote>承诺客户 D+2 内反馈（首次接触当天为 D+0），因此与审查单位的沟通和内部研究必须同步进行，不能串行。</blockquote>
 
-<h3>阶段 3：反馈客户（D+2 内）</h3>
+<h3 id="sop-stage3">阶段 3：反馈客户（D+2 内）</h3>
 
 <p><strong>目标</strong>：提供专业建议 + 锁定长期服务关系</p>
 
@@ -382,7 +411,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
     </ul>
   </li>
   <li>
-    <strong>预期管理</strong>
+    <strong>预期管理</strong>（参见<a class="xref" href="#sop-s4">话术原则</a>）
     <ul>
       <li>只说「可能性较高/较低」，不说「一定能赔/不能赔」</li>
       <li>最终以审查单位的核定结果为准，我们的评估是帮客户降低对结果的不确定感</li>
@@ -390,7 +419,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
     </ul>
   </li>
   <li>
-    <strong>植入长期服务钩子</strong>（关键）
+    <strong>植入长期服务钩子</strong>（关键 — 详见<a class="xref" href="#sop-stage6">阶段 6 粘性逻辑</a>）
     <ul>
       <li>"下次报销前可以先把材料发给我们，我们帮您预审一遍。"</li>
       <li>"有新的治疗方案前，可以先跟我们确认哪些药品在报销范围内。"</li>
@@ -406,7 +435,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   </li>
 </ol>
 
-<h3>阶段 4：理赔执行支持</h3>
+<h3 id="sop-stage4">阶段 4：理赔执行支持</h3>
 
 <p><strong>目标</strong>：确保材料一次通过</p>
 
@@ -428,7 +457,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
     </ul>
   </li>
   <li>
-    <strong>与审查单位确认提交细节</strong>（延续阶段 2 的沟通）
+    <strong>与审查单位确认提交细节</strong>（延续<a class="xref" href="#sop-stage2">阶段 2</a> 的沟通）
     <div class="flow-box" style="margin-top:10px">就具体材料与审查单位确认
   ├─ 确认通过 &rarr; 指导客户提交
   ├─ 有异议 &rarr; 补材料 / 请医生出具情况说明
@@ -444,7 +473,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   </li>
 </ol>
 
-<h3>阶段 5：理赔后跟踪</h3>
+<h3 id="sop-stage5">阶段 5：理赔后跟踪</h3>
 
 <p><strong>目标</strong>：闭环 + 处理纠纷</p>
 
@@ -454,8 +483,8 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
     <p>《保险法》第 23 条规定保险人须在 30 日内作出核定；各产品实际时限：</p>
     <table>
       <tr><th>产品</th><th>常规核定</th><th>复杂案件</th><th>拒赔通知</th><th>备注</th></tr>
-      <tr><td>惠琼保</td><td>10 日内</td><td>30 日内</td><td>核定后 3 日内</td><td>补充材料期间不计入</td></tr>
-      <tr><td>烟台市民健康保</td><td>未明确</td><td>未明确</td><td>—</td><td>以一站式结算/免申直赔为主，条款未载明核定时限</td></tr>
+      <tr><td><a href="huiminbao.html">惠琼保</a></td><td>10 日内</td><td>30 日内</td><td>核定后 3 日内</td><td>补充材料期间不计入</td></tr>
+      <tr><td><a href="yantai.html">烟台市民健康保</a></td><td>未明确</td><td>未明确</td><td>—</td><td>以一站式结算/免申直赔为主，条款未载明核定时限</td></tr>
     </table>
     <p>主动向客户反馈进度。</p>
   </li>
@@ -472,7 +501,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
       <li>拒赔通知书解读</li>
       <li>判定审查单位是否存在核算错误或条例误读</li>
       <li>补充材料重新申诉 / 向消保部门投诉</li>
-      <li>如果我们的能力范围内实在无法满足客户预期 &rarr; 转介律所进行诉讼/仲裁（我们不做法律代理）</li>
+      <li>如果我们的能力范围内实在无法满足客户预期 &rarr; 转介律所进行诉讼/仲裁（我们不做法律代理，参见<a class="xref" href="#s1-positioning">公司定位</a>）</li>
     </ul>
   </li>
   <li>
@@ -484,15 +513,15 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   </li>
 </ol>
 
-<h3>阶段 6：长期维护与粘性</h3>
+<h3 id="sop-stage6">阶段 6：长期维护与粘性</h3>
 
 <p><strong>目标</strong>：让客户持续依赖我们，而非一次性服务后脱落</p>
 
 <p><strong>粘性核心逻辑：</strong></p>
 <ul>
-  <li><strong>不做纯问答</strong> &rarr; 每次互动都引导客户把资料交给我们</li>
+  <li><strong>不做纯问答</strong> &rarr; 每次互动都引导客户把资料交给我们（参见<a class="xref" href="#sop-s4">话术原则「引导而非问答」</a>）</li>
   <li><strong>不等客户找我们</strong> &rarr; 主动定期随访（尤其确诊后第一年复查频率高）</li>
-  <li><strong>不只做理赔</strong> &rarr; 福利管家角色，帮客户用好保单内所有权益</li>
+  <li><strong>不只做理赔</strong> &rarr; <a class="xref" href="#s1-positioning">福利管家</a>角色，帮客户用好保单内所有权益</li>
   <li>如果客户活跃度下降 &rarr; 推送他关心的话题、随访治疗进展、提醒复查</li>
 </ul>
 
@@ -500,13 +529,13 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 <table>
   <tr><th>时机</th><th>动作</th></tr>
   <tr><td>理赔成功后</td><td>梳理保单内其他权益，主动推送</td></tr>
-  <tr><td>理赔失败后</td><td>分析原因 + 制定申诉方案，不让客户因失败而脱落</td></tr>
+  <tr><td>理赔失败后</td><td>分析原因 + 制定<a class="xref" href="#sop-stage5">申诉方案</a>，不让客户因失败而脱落</td></tr>
   <tr><td>保单到期前</td><td>续保提醒 + 推荐复发险或增值产品</td></tr>
   <tr><td>治疗稳定时</td><td>通过理赔账单识别治疗阶段 &rarr; 推荐复发险</td></tr>
   <tr><td>日常</td><td>推送同病种理赔案例、政策变动预警、健康权益提醒</td></tr>
 </table>
 
-<p><strong>健康权益管理（福利管家）：</strong></p>
+<p><strong>健康权益管理（<a class="xref" href="#s1-positioning">福利管家</a>）：</strong></p>
 <ul>
   <li>帮客户梳理保单内所有可用权益</li>
   <li>主动提醒使用（药品商城、洁牙、癌筛、陪诊、线上问诊等）</li>
@@ -520,7 +549,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   <li>如客户同时有其他商保 &rarr; 做全保障扫描</li>
 </ul>
 
-<h2 id="sop-s3">三、服务矩阵（客户类型 &times; 接待次数）</h2>
+<h2 id="sop-s3">三、服务矩阵（<a class="xref" href="#sop-s1">客户类型</a> &times; 接待次数）</h2>
 
 <div class="matrix">
 <table>
@@ -551,13 +580,13 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   <tr>
     <td><span class="badge">Type 4</span> 被拒赔</td>
     <td>拒赔分析 + 情绪安抚</td>
-    <td>反馈申诉方案：补充材料、申诉路径</td>
+    <td>反馈<a class="xref" href="#sop-stage5">申诉方案</a>：补充材料、申诉路径</td>
     <td>跟踪申诉进度；推送同病种成功案例</td>
   </tr>
 </table>
 </div>
 
-<div class="note">核心逻辑：第 1 次建立信任、收集信息 &rarr; 第 2 次反馈专业评估（体现价值）&rarr; 第 N 次持续跟踪 + 主动推送（建立长期依赖）。</div>
+<div class="note">核心逻辑：第 1 次建立信任、收集信息 &rarr; 第 2 次反馈专业评估（体现价值）&rarr; 第 N 次持续跟踪 + 主动推送（建立长期依赖）。对应<a class="xref" href="#sop-s2">6 阶段流程</a>中的阶段 1 &rarr; 阶段 3 &rarr; 阶段 6。</div>
 
 <h2 id="sop-s4">四、话术原则</h2>
 
@@ -566,10 +595,10 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 <table>
   <tr><th>原则</th><th>说明</th></tr>
   <tr><td><strong>引导而非问答</strong></td><td>尽量引导客户提交资料让我们评估；客户只是随便问 &rarr; 轻量回答后告知「没有资料的话不好评估实际情况」，留下下次深入的入口</td></tr>
-  <tr><td><strong>统问统答</strong></td><td>收集所有问题和材料 &rarr; 约定时间统一回覆，避免碎片化沟通</td></tr>
-  <tr><td><strong>锁定下次</strong></td><td>每次服务结束都告知"下次理赔/换方案前先联系我们"</td></tr>
+  <tr><td><strong>统问统答</strong></td><td>收集所有问题和材料 &rarr; 约定时间统一回覆，避免碎片化沟通（详见<a class="xref" href="#sop-s5">服务模式</a>）</td></tr>
+  <tr><td><strong>锁定下次</strong></td><td>每次服务结束都告知"下次理赔/换方案前先联系我们"（对应<a class="xref" href="#sop-stage3">阶段 3 服务钩子</a>）</td></tr>
   <tr><td><strong>预期管理</strong></td><td>只说可能性高低，强调"审查结果有不确定性，交给我们预审可以降低风险"。争取不到的如实告知</td></tr>
-  <tr><td><strong>超预期服务</strong></td><td>后续跟进时主动推出客户没问到的权益信息</td></tr>
+  <tr><td><strong>超预期服务</strong></td><td>后续跟进时主动推出客户没问到的权益信息（对应<a class="xref" href="#sop-stage3">阶段 3 超预期</a>）</td></tr>
   <tr><td><strong>情绪管理</strong></td><td>有些客户需要安抚，通过事先告知流程和回覆时间缓解焦虑</td></tr>
   <tr><td><strong>问题边界</strong></td><td>乳腺癌以外的理赔/健康问题 &rarr; 能力范围内尽量回答（增加信任），超出范畴说明后研究</td></tr>
   <tr><td><strong>隐私合规</strong></td><td>涉及病历等敏感资料，告知客户资料仅用于理赔相关用途</td></tr>
@@ -579,7 +608,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 
 <ul>
   <li>以<strong>企业微信群</strong>为主要服务载体（客户 + 岩育专员）。</li>
-  <li>采用<strong>统问统答</strong>模式（工单式），不追求即问即答：
+  <li>采用<strong><a class="xref" href="#sop-s4">统问统答</a></strong>模式（工单式），不追求即问即答：
     <ol>
       <li>开场说明服务范畴</li>
       <li>请客户一次性提出所有问题并提交资料</li>
@@ -587,7 +616,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
       <li>整理后统一回覆</li>
     </ol>
   </li>
-  <li>理赔咨询<strong>不向客户收费</strong>。</li>
+  <li>理赔咨询<strong>不向客户收费</strong>（参见<a class="xref" href="#s3-bizmodel">商业模式</a>）。</li>
   <li><strong>紧急 case</strong>：如客户面临用药决策等时间敏感情况，尽量加快速度。但如果实在来不及，让客户先自行决定治疗 — 命比钱重要。</li>
 </ul>
 
@@ -599,11 +628,11 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 │                                              &larr; 并行，控制在 D+2 内
 └ 与审查单位沟通确认能否核销
     &darr;
-给客户答复（能报什么、不能报什么、需补什么）
+给客户答复（能报什么、不能报什么、需补什么）→ <a href="#sop-stage3" style="color:inherit">阶段 3</a>
     &darr;
 客户根据我们意见准备材料
     &darr;
-我方预审材料（确保完整正确）
+我方预审材料（确保完整正确）→ <a href="#sop-stage4" style="color:inherit">阶段 4</a>
     &darr;
 提交材料
   ├─ 客户自行提交（默认）&larr; 我们指导操作
@@ -612,10 +641,10 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 审查单位核定（法定上限 30 日；惠琼保常规 10 日/复杂 30 日；烟台未明确）
   惠民保 &rarr; TPA 审查后通知保司
   非惠民保 &rarr; 保司自有审查机构直接审查
-  ├─ 通过 &rarr; 理赔成功
+  ├─ 通过 &rarr; 理赔成功 → <a href="#sop-stage6" style="color:inherit">阶段 6 长期维护</a>
   │         ├─ 单次结束 &rarr; 进入长期维护
-  │         └─ 长疗程 &rarr; 下次报销时回到「预审材料」（一般首次核销成功后续就没问题）
-  └─ 拒绝 &rarr; 回到我们 &rarr; 拒赔分析 &rarr; 申诉 / 转介律所</div>
+  │         └─ 长疗程 &rarr; 下次报销时回到「预审材料」
+  └─ 拒绝 &rarr; <a href="#sop-stage5" style="color:inherit">阶段 5 拒赔申诉</a> &rarr; 申诉 / 转介律所</div>
 
 <p><strong>与审查单位协作路径：</strong></p>
 
@@ -624,10 +653,10 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   └─ 非惠民保 &rarr; 对接保司审查机构
         &darr;
   ├─ 确认可行 &rarr; 推进理赔
-  ├─ 有异议 &rarr; 补充材料 / 请医生出具情况说明
+  ├─ 有异议 &rarr; 补材料 / 请医生出具情况说明
   └─ 不回复 &rarr; 视情况推进</div>
 
-<blockquote>关键定位：我们是客户与审查单位之间的<strong>信息枢纽</strong>，确保方向和材料正确。惠民保的审查单位是 TPA，非惠民保则是保司自有审查机构。默认客户自行提交，审查单位允许时可代办。</blockquote>
+<blockquote>关键定位：我们是客户与审查单位之间的<strong>信息枢纽</strong>，确保方向和材料正确。惠民保的审查单位是 TPA，非惠民保则是保司自有审查机构。默认客户自行提交，审查单位允许时可代办。详见<a class="xref" href="#s1-positioning">公司定位 · 服务边界</a>。</blockquote>
 
 <h2 id="sop-s7">七、工具与客户记录</h2>
 
@@ -643,9 +672,9 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   <tr><th>字段</th><th>说明</th></tr>
   <tr><td>客户姓名</td><td>—</td></tr>
   <tr><td>联系方式</td><td>微信群名 / 手机</td></tr>
-  <tr><td>类型</td><td>Type 1/2/3/4</td></tr>
-  <tr><td>当前场景</td><td>Type 1: 科普中/已评估 · Type 2: 就医指导中/待确诊 · Type 3: ①~⑥ · Type 4: 申诉中/已转介</td></tr>
-  <tr><td>当前阶段</td><td>阶段 1~6</td></tr>
+  <tr><td>类型</td><td><a class="xref" href="#sop-s1">Type 1/2/3/4</a></td></tr>
+  <tr><td>当前场景</td><td>Type 1: 科普中/已评估 · Type 2: 就医指导中/待确诊 · Type 3: <a class="xref" href="#sop-s1">①~⑥</a> · Type 4: 申诉中/已转介</td></tr>
+  <tr><td>当前阶段</td><td><a class="xref" href="#sop-s2">阶段 1~6</a></td></tr>
   <tr><td>保险产品</td><td>哪家惠民保 / 其他商保</td></tr>
   <tr><td>病种</td><td>乳腺癌 / 其他</td></tr>
   <tr><td>首次接触日期</td><td>—</td></tr>
@@ -658,7 +687,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 
 <h2 id="sop-appendix">附录：场景库</h2>
 
-<blockquote>好的流程 = 遇到的每种客户场景都有预案。本场景库用于记录实际运行中遇到的新情况，逐步补全框架盲区。</blockquote>
+<blockquote>好的流程 = 遇到的每种客户场景都有预案。本场景库用于记录实际运行中遇到的新情况，逐步补全框架盲区。详见<a class="xref" href="#s6-evolution">框架演进机制</a>。</blockquote>
 
 <h3>记录格式</h3>
 
@@ -668,7 +697,7 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   <tr><th>字段</th><th>说明</th></tr>
   <tr><td>编号</td><td>S-001, S-002, ...</td></tr>
   <tr><td>日期</td><td>发生日期</td></tr>
-  <tr><td>客户类型</td><td>Type 1/2/3/4 / 未投保 / 其他</td></tr>
+  <tr><td>客户类型</td><td><a class="xref" href="#sop-s1">Type 1/2/3/4</a> / 未投保 / 其他</td></tr>
   <tr><td>场景描述</td><td>简述客户情况和我们遇到的问题</td></tr>
   <tr><td>当时处理</td><td>实际怎么做的</td></tr>
   <tr><td>应纳入位置</td><td>建议补到 SOP 的哪个章节</td></tr>
@@ -684,12 +713,15 @@ hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
   <tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
 </table>
 
-<blockquote>定期回顾场景库，将高频或重要场景固化到正文流程中。当场景库中「待归纳」项累积到 5 条以上时，安排一次框架更新。</blockquote>
+<blockquote>定期回顾场景库，将高频或重要场景固化到正文流程中。当场景库中「待归纳」项累积到 5 条以上时，安排一次<a class="xref" href="#s6-evolution">框架更新</a>。</blockquote>
 
 </div><!-- /content sop -->
+
+</div><!-- /main -->
+</div><!-- /layout -->
 
 <footer>
   <p><a href="index.html">&larr; 返回首頁</a> | <a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p>
 </footer>
 
-</div></body></html>
+</body></html>
