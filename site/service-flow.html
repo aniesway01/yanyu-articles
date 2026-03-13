@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>服务流程构想 - YanYu 知識庫</title>
+<title>岩育健康 — 服务框架</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
@@ -10,18 +10,34 @@ header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-
 header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
 nav{margin-bottom:20px}nav a{font-size:14px}
 footer{text-align:center;padding:30px;color:#999;font-size:13px}
-.content{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:20px}
-.content h2{font-size:22px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8;color:#1a73e8}
+/* TOC */
+.toc{background:#fff;border-radius:8px;padding:20px 28px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:24px}
+.toc h2{font-size:16px;color:#1a73e8;margin-bottom:12px;padding-bottom:6px;border-bottom:2px solid #e8f0fe}
+.toc ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.toc ul li a{display:inline-block;background:#e8f0fe;color:#1a73e8;border-radius:20px;padding:4px 14px;font-size:14px;transition:background .2s}
+.toc ul li a:hover{background:#1a73e8;color:#fff;text-decoration:none}
+/* Section dividers */
+.section-header-strategy{background:linear-gradient(135deg,#1a73e8 0%,#1558b0 100%);color:#fff;padding:18px 28px;border-radius:8px 8px 0 0;margin-top:30px}
+.section-header-sop{background:linear-gradient(135deg,#2e7d32 0%,#1b5e20 100%);color:#fff;padding:18px 28px;border-radius:8px 8px 0 0;margin-top:36px}
+.section-header-strategy h2,.section-header-sop h2{font-size:20px;margin:0;color:#fff;border:none;padding:0}
+.section-header-strategy p,.section-header-sop p{margin:4px 0 0;font-size:13px;opacity:.85}
+/* Content */
+.content{background:#fff;border-radius:0 0 8px 8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:4px}
+.content h2{font-size:21px;margin:32px 0 14px;padding-bottom:8px;border-bottom:2px solid #1a73e8;color:#1a73e8}
 .content h2:first-child{margin-top:0}
-.content h3{font-size:18px;margin:20px 0 10px;color:#333}
+.content.sop-content h2{border-bottom-color:#2e7d32;color:#2e7d32}
+.content h3{font-size:17px;margin:20px 0 10px;color:#333}
 .content p{margin-bottom:12px;font-size:15px}
 .content table{border-collapse:collapse;width:100%;margin:15px 0}
-.content th,.content td{border:1px solid #ddd;padding:10px 14px;text-align:left;font-size:14px}
+.content th,.content td{border:1px solid #ddd;padding:10px 14px;text-align:left;font-size:14px;vertical-align:top}
 .content th{background:#e8f0fe;color:#1a73e8;font-weight:600}
-.content ul,.content ol{margin:10px 0 15px 20px}
+.content.sop-content th{background:#e8f5e9;color:#2e7d32}
+.content ul,.content ol{margin:10px 0 15px 22px}
 .content li{margin-bottom:8px;font-size:15px}
-.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0;font-style:italic}
-.flow-box{background:#f8f9fa;border-radius:8px;padding:20px;margin:15px 0;font-family:"Cascadia Code","Fira Code",monospace;font-size:14px;line-height:1.8;overflow-x:auto;white-space:pre}
+.content li>ul,.content li>ol{margin:6px 0 6px 18px}
+.content blockquote{border-left:3px solid #1a73e8;padding:10px 15px;color:#555;margin:15px 0;background:#f5f8ff;border-radius:0 6px 6px 0;font-size:14px}
+.content.sop-content blockquote{border-left-color:#2e7d32;background:#f1f8f1}
+.flow-box{background:#f8f9fa;border-radius:8px;padding:20px;margin:15px 0;font-family:"Cascadia Code","Fira Code","Courier New",monospace;font-size:13.5px;line-height:1.9;overflow-x:auto;white-space:pre;border:1px solid #e0e0e0}
 .type-card{background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:20px;margin-bottom:15px;transition:all .2s}
 .type-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.1)}
 .type-label{display:inline-block;padding:3px 12px;border-radius:15px;font-size:13px;font-weight:600;color:#fff;margin-bottom:10px}
@@ -30,113 +46,481 @@ footer{text-align:center;padding:30px;color:#999;font-size:13px}
 .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px;background:#e8f0fe;color:#1a73e8;margin-right:4px}
 .note{background:#e8f5e9;border-left:3px solid #4caf50;padding:12px 15px;border-radius:0 6px 6px 0;margin:15px 0;font-size:14px}
 .step{display:flex;gap:15px;margin-bottom:18px;align-items:flex-start}
-.step-num{min-width:36px;height:36px;background:#1a73e8;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0}
+.step-num{min-width:36px;height:36px;background:#2e7d32;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex-shrink:0}
 .step-body h3{margin:0 0 6px;font-size:16px}.step-body p{margin:0;font-size:14px;color:#555}
+hr.section-rule{border:none;border-top:3px solid #e0e0e0;margin:40px 0 0}
 </style></head><body><div class="ctn">
 
 <header>
-  <h1>服务流程构想</h1>
-  <p>岩育健康 · 惠民保代理赔咨询服务</p>
+  <h1>岩育健康 — 服务框架</h1>
+  <p>战略定位 · 服务执行 SOP</p>
 </header>
 
 <nav><a href="index.html">&larr; 返回首頁</a></nav>
 
+<!-- TOC -->
+<div class="toc">
+  <h2>目录</h2>
+  <ul>
+    <li><a href="#section-strategy">一、战略定位与商业规划</a></li>
+    <li><a href="#s1-positioning">公司定位</a></li>
+    <li><a href="#s2-channels">客户来源</a></li>
+    <li><a href="#s3-bizmodel">商业模式</a></li>
+    <li><a href="#s4-strategy">初期策略</a></li>
+    <li><a href="#s5-team">团队规划</a></li>
+    <li><a href="#s6-evolution">框架演进</a></li>
+    <li><a href="#section-sop">二、服务执行 SOP</a></li>
+    <li><a href="#sop-howto">如何使用</a></li>
+    <li><a href="#sop-s1">客户分类</a></li>
+    <li><a href="#sop-s2">6 阶段流程</a></li>
+    <li><a href="#sop-s3">服务矩阵</a></li>
+    <li><a href="#sop-s4">话术原则</a></li>
+    <li><a href="#sop-s5">服务模式</a></li>
+    <li><a href="#sop-s6">后台流程</a></li>
+    <li><a href="#sop-s7">工具记录</a></li>
+    <li><a href="#sop-appendix">附录：场景库</a></li>
+  </ul>
+</div>
+
+<!-- ======================================================= -->
+<!-- SECTION 1: 战略 -->
+<!-- ======================================================= -->
+<div class="section-header-strategy" id="section-strategy">
+  <h2>战略定位与商业规划</h2>
+  <p>岩育健康 — 公司定位、商业模式与扩展策略</p>
+</div>
+
 <div class="content">
 
-<h2>一、公司定位</h2>
+<blockquote>本文件聚焦公司定位、商业模式与扩展策略。具体服务执行流程见第二节《服务执行 SOP》。</blockquote>
+
+<h2 id="s1-positioning">一、公司定位</h2>
 
 <p><strong>保险理赔咨询顾问 + 长期健康管理代办</strong></p>
 
+<table>
+  <tr><th>角色</th><th>说明</th></tr>
+  <tr><td><strong>理赔咨询顾问</strong></td><td>协助客户最大化理赔成功率，消除医疗保险理赔的不确定性，让客户享受本属于他们的各类保险权益</td></tr>
+  <tr><td><strong>健康管理代办</strong></td><td>鼓励客户在每次报销前将资料先提交给我们把关，形成信任关系，成为客户的健康管理伙伴</td></tr>
+  <tr><td><strong>福利管家</strong>（延伸）</td><td>帮客户扫描保单内所有保障权益（药品商城、洁牙、癌筛、陪诊等），主动提醒使用</td></tr>
+</table>
+
+<ul>
+  <li>我们是保险理赔咨询公司，<strong>不是法律公司、不是保险公司</strong>。</li>
+  <li>核心价值：帮保户拿到他本该拿到的钱。</li>
+  <li>服务边界：以咨询为主，核心工作是<strong>「预审 + 审查单位沟通 + 材料优化」</strong>。部分保司不允许第三方代办提交，因此我们像律师帮当事人准备材料一样，帮客户整理、优化提交内容。如果保司允许代办，我们也不回避。</li>
+</ul>
+
+<h2 id="s2-channels">二、客户来源与渠道策略</h2>
+
+<table>
+  <tr><th>渠道</th><th>说明</th></tr>
+  <tr><td>医生转介</td><td>医生直接告知患者可咨询我们</td></tr>
+  <tr><td>院内二维码</td><td>医院放置企业微信二维码，患者自行扫码</td></tr>
+  <tr><td>药厂销售群</td><td>当地执行专员拉群，对接有理赔需求的患者</td></tr>
+  <tr><td>主动触达</td><td>保单到期前主动联系老客户</td></tr>
+</table>
+
+<p><strong>渠道发展路径：</strong></p>
 <ol>
-  <li><strong>理赔咨询顾问</strong> — 协助客户最大化理赔成功率，消除医疗保险理赔的不确定性，让客户享受本属于他们的各类保险权益。</li>
-  <li><strong>健康管理代办</strong> — 保险条款对客户来说是较大的心智负担，我们鼓励客户在每次报销前将资料先提交给我们把关，形成客户愿意主动提交医疗相关资料的信任关系，成为客户的健康管理伙伴。</li>
+  <li><strong>起步阶段</strong>（当前）：合作药厂的 HER2 低表达乳腺癌药物已进入 8 个惠民保报销清单，先开放烟台 + 海南 2 个地区</li>
+  <li><strong>验证阶段</strong>：跑通药厂入口后，逐步扩展到其他地区</li>
+  <li><strong>拓展阶段</strong>：转向直接与医生合作，扩展到所有商保理赔</li>
 </ol>
 
-<h2>二、服务模式</h2>
+<h2 id="s3-bizmodel">三、商业模式</h2>
 
-<p>以<strong>微信群</strong>为主要服务载体，通过微信消息解决客户疑惑。</p>
+<ul>
+  <li>我们帮客户了解保单权益，让他们知道哪些药品在报销范围内</li>
+  <li>客户知道可以报销后，更愿意选择使用惠民保覆盖的药品（包括合作药厂的产品）</li>
+  <li>客户实际申请理赔 = 证明我们的服务促成了药品的使用</li>
+  <li><strong>对客户免费，收入来自药厂渠道服务费</strong></li>
+</ul>
 
-<h2>三、客户分类（按就诊阶段）</h2>
+<h2 id="s4-strategy">四、初期策略与约束</h2>
 
-<div class="type-card">
-  <span class="type-label t1">Type 1</span>
-  <h3>一片白纸 — 未确诊，纯询问</h3>
-  <p>还没看医生或刚有疑似症状，纯粹来了解保险能做什么。</p>
-  <p><strong>核心需求：</strong>科普、了解保险能起什么作用</p>
+<ul>
+  <li>初期预计日咨询量 &le;10 单</li>
+  <li>非乳腺癌客户也接，当作累积经验</li>
+  <li>不急于培训药厂专员：先看实际需求，有问题再沟通</li>
+  <li>材料收集宁多勿少：完整病历比单独确诊书有用得多</li>
+  <li>惠民保客户特征：大部分是「裸奔」状态（无其他商保），允许既往症参保，商保渗透率约 5%</li>
+</ul>
+
+<h2 id="s5-team">五、团队与扩编规划</h2>
+
+<ul>
+  <li><strong>少辰</strong>为核心执行人，负责所有客户对接与理赔咨询</li>
+  <li>其他人员（何总、Echo 等）为咨询与助力角色</li>
+  <li>初期不扩编，通过实际运行验证流程后再考虑</li>
+</ul>
+
+<h2 id="s6-evolution">六、框架演进机制</h2>
+
+<p>本框架不追求一次设计完美，而是通过<strong>场景覆盖</strong>逐步完善：</p>
+
+<ul>
+  <li>前 10 个客户：每个个案都密集复盘，逐步细化服务流程</li>
+  <li>先跑通再扩展：烟台 + 海南 &rarr; 验证后再开放其他地区</li>
+  <li>重点不是验证成功与否，而是确保遇到的每种客户场景都有对应预案</li>
+  <li>新场景的记录与归纳方式见第二节附录「场景库」</li>
+</ul>
+
+</div><!-- /content strategy -->
+
+<!-- ======================================================= -->
+<!-- SECTION 2: SOP -->
+<!-- ======================================================= -->
+<div class="section-header-sop" id="section-sop" style="margin-top:36px">
+  <h2>服务执行 SOP</h2>
+  <p>岩育健康 — 日常服务操作手册</p>
 </div>
 
-<div class="type-card">
-  <span class="type-label t2">Type 2</span>
-  <h3>已就医未确诊 — 想知道保单能起什么作用</h3>
-  <p>已经看过医生但还没确诊，想提前了解保单在未来可能派上什么用场。</p>
-  <p><strong>核心需求：</strong>保障评估、就医注意事项（医院资质、诊断书要求）</p>
+<div class="content sop-content">
+
+<blockquote>本文件是日常服务的操作手册。公司定位、商业模式与扩展策略见上方《战略定位与商业规划》。不含特定保险产品条款，具体产品服务细则另行建立。</blockquote>
+
+<h2 id="sop-howto">如何使用本文件</h2>
+
+<p>本 SOP 有三个核心参考工具，适用于不同场景：</p>
+
+<table>
+  <tr><th>工具</th><th>位置</th><th>用途</th><th>何时查</th></tr>
+  <tr><td><strong>客户分类表</strong>（第一节）</td><td>§一</td><td>判断客户是谁、处于什么状态</td><td><strong>首次接触时</strong> — 确定客户类型和当前场景</td></tr>
+  <tr><td><strong>6 阶段流程</strong>（第二节）</td><td>§二</td><td>我们该做什么、按什么顺序做</td><td><strong>每次服务推进时</strong> — 确认当前在哪一步、下一步做什么</td></tr>
+  <tr><td><strong>服务矩阵</strong>（第三节）</td><td>§三</td><td>这次见面具体说什么</td><td><strong>每次与客户互动前</strong> — 根据类型 &times; 第几次见面，查对应动作</td></tr>
+</table>
+
+<p><strong>三者的关系：</strong></p>
+<ul>
+  <li>分类表回答「客户是谁」&rarr; 流程回答「做什么」&rarr; 矩阵回答「这次见面怎么做」</li>
+  <li>分类表是静态快照（首次判定 + 阶段升级时更新），流程是动态推进线，矩阵是每次互动的速查卡</li>
+  <li>实际操作：先查分类表定位 &rarr; 沿流程推进 &rarr; 每次互动前查矩阵确认重点</li>
+</ul>
+
+<h2 id="sop-s1">一、客户分类</h2>
+
+<p>用<strong>一张表</strong>判断客户状态和对应服务重点。纵轴是客户的就诊阶段（首次接触时判断），横轴是他在理赔流程中的位置（随时间推移会变化）。</p>
+
+<div class="matrix">
+<table>
+  <tr>
+    <th></th>
+    <th>理赔前（未提交）</th>
+    <th>理赔中（已提交）</th>
+    <th>理赔后</th>
+  </tr>
+  <tr>
+    <td><span class="type-label t1">Type 1</span> 未确诊，纯询问</td>
+    <td>科普 + 保障评估</td>
+    <td>—（通常不会出现）</td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td><span class="type-label t2">Type 2</span> 已就医未确诊</td>
+    <td>就医指导 + 提前规划材料</td>
+    <td>—（通常不会出现）</td>
+    <td>—</td>
+  </tr>
+  <tr>
+    <td><span class="type-label t3">Type 3</span> 确诊且用药中</td>
+    <td>①用药选择咨询 ②方案已定，预审材料</td>
+    <td>③等审核结果 ④被要求补材料</td>
+    <td>⑤成功（单次/长疗程） ⑥被拒 &rarr; 申诉</td>
+  </tr>
+  <tr>
+    <td><span class="type-label t4">Type 4</span> 确诊但被拒赔</td>
+    <td>—</td>
+    <td>—</td>
+    <td>拒赔分析 + 申诉指导 + 救济渠道</td>
+  </tr>
+</table>
 </div>
 
-<div class="type-card">
-  <span class="type-label t3">Type 3</span>
-  <h3>确诊且用药中 — 想知道能不能报销</h3>
-  <p>已经确诊并在用药，想知道当前药物能不能报销，或保单对疗程有什么好处。</p>
-  <p><strong>核心需求：</strong>药物匹配、理赔申请、特药直付</p>
-</div>
+<blockquote>
+  <ul style="margin:0;padding-left:18px">
+    <li>Type 1/2 大多停留在「理赔前」，确诊后自然升级为 Type 3</li>
+    <li>Type 3 是核心服务对象，会经历理赔前&rarr;中&rarr;后的完整流程</li>
+    <li>Type 4 直接从「理赔后」切入</li>
+    <li>场景编号①~⑥用于内部记录，不对客户展示</li>
+    <li><strong>未投保客户</strong>：不在表内。告知相关保险信息（去哪里购买、能提供什么保障），引导其投保后再回来找我们</li>
+  </ul>
+</blockquote>
 
-<div class="type-card">
-  <span class="type-label t4">Type 4</span>
-  <h3>确诊但被拒赔 — 需要申诉帮助</h3>
-  <p>已经确诊并申请过理赔，但被保险公司拒绝了。</p>
-  <p><strong>核心需求：</strong>拒赔分析、申诉指导、救济渠道</p>
-</div>
+<h3>1.2 客户演变路径</h3>
 
-<h2>四、主要服务流程</h2>
+<div class="flow-box">首次接触（Type 1~4）
+    &darr;
+中间状态
+  ├─ 单次报销成功 &rarr; 推荐续保 / 增值权益
+  ├─ 单次报销失败 &rarr; 二轮申诉服务
+  ├─ 长疗程首次成功 &rarr; 持续跟进理赔
+  ├─ 长疗程首次失败 &rarr; 调整方案再申请
+  └─ 加购惠民保 + 使用增值服务
+    &darr;
+长期结果
+  ├─ 深度托付型：主动提交资料，健康管理全托付 ← 理想状态
+  ├─ 单次型：仅单次报销相关
+  └─ 流失型：未转化</div>
+
+<h2 id="sop-s2">二、服务全流程（6 阶段）</h2>
+
+<h3>阶段 1：首次接触（当天）</h3>
+
+<p><strong>目标</strong>：建立信任 + 收集基本信息</p>
 
 <div class="step">
   <div class="step-num">1</div>
   <div class="step-body">
-    <h3>接触客户，搜集信息</h3>
-    <p>通过医生转介 / 院内二维码 / 药厂销售群接触客户，在企业微信拉群，搜集当事人身份、就医状态、保险状态、合同、病历。</p>
+    <h3>开场白</h3>
+    <blockquote style="margin-top:6px">"XXX 您好，这里是岩育健康，我们提供保险理赔的咨询服务，不收取任何费用。这一轮对话主要了解您的基本情况，评估完后会在两个工作天内进一步联系您。请问您目前遇到什么问题？"</blockquote>
   </div>
 </div>
 
 <div class="step">
   <div class="step-num">2</div>
   <div class="step-body">
-    <h3>专业评估</h3>
-    <p>研究保险合同条款，评估理赔可行性，匹配药物与保单覆盖范围。复杂个案与 TPA 协商确认能否核销。</p>
+    <h3>拉企业微信群</h3>
+    <p>客户 + 岩育专员组成服务群组。</p>
   </div>
 </div>
 
 <div class="step">
   <div class="step-num">3</div>
   <div class="step-body">
-    <h3>提交理赔建议</h3>
-    <p>告知客户哪些能报、哪些不能、需要补什么材料，提供专业的材料准备指导。</p>
+    <h3>告知保密与服务范畴</h3>
+    <ul style="margin-top:6px">
+      <li>我们是理赔咨询，不是法律咨询</li>
+      <li>资料仅用于理赔相关用途</li>
+      <li>说明我们能做什么、不能做什么</li>
+    </ul>
   </div>
 </div>
 
 <div class="step">
   <div class="step-num">4</div>
   <div class="step-body">
-    <h3>协助理赔执行</h3>
-    <p>预审客户材料确保无误，引导客户操作线上/线下提交流程，协助特药直付申请。</p>
+    <h3>信息收集清单</h3>
+    <table style="margin-top:8px">
+      <tr><th>项目</th><th>具体内容</th></tr>
+      <tr><td>当事人确认</td><td>是保户本人还是家属代办？</td></tr>
+      <tr><td>就医状态</td><td>未就医 / 未确诊 / 已确诊（哪家医院？）</td></tr>
+      <tr><td>保险状态</td><td>未投保 / 已投保未申请 / 已投保被拒赔</td></tr>
+      <tr><td>保险详情</td><td>哪家公司？什么产品？投保时间？</td></tr>
+      <tr><td>保险合同</td><td>PDF 或照片</td></tr>
+      <tr><td>病历资料</td><td><strong>尽量完整</strong>：住院病历 &gt; 门诊病历 &gt; 确诊书（不止确诊书）</td></tr>
+      <tr><td>医生原话</td><td>请客户转达医生对病情的描述</td></tr>
+    </table>
   </div>
 </div>
 
 <div class="step">
   <div class="step-num">5</div>
   <div class="step-body">
-    <h3>理赔后跟踪</h3>
-    <p>追踪理赔进度，解读理赔结果。拒赔时分析原因、制定申诉方案。持续性理赔需求（如慢性处方）持续提供协助。</p>
+    <h3>告知后续流程</h3>
+    <p>"我们会在两个工作天内反馈评估结果。"</p>
   </div>
 </div>
 
 <div class="step">
   <div class="step-num">6</div>
   <div class="step-body">
-    <h3>长期维护</h3>
-    <p>启动健康管理服务，保单到期提醒 + 续保引导，推荐复发险等增值产品，推送健康权益。</p>
+    <h3>初步建议</h3>
+    <p>务必在指定类型医院就诊（通常为二级及以上公立医院普通部）。</p>
   </div>
 </div>
 
-<h2>五、服务矩阵（客户类型 &times; 接待次数）</h2>
+<blockquote><strong>注意</strong>：不要做成问答模式。即使客户只是咨询，也要引导他提交资料，并告知"整个过程我们都可以协助跟进"。</blockquote>
+
+<h3>阶段 2：内部研究与评估（D+0 ～ D+2）</h3>
+
+<p><strong>目标</strong>：首次接触后 2 天内完成评估，形成理赔方案</p>
+
+<ol>
+  <li>
+    <strong>研究保险合同</strong>
+    <ul>
+      <li>找出支持/不支持理赔的条款</li>
+      <li>确认免赔额、赔付比例、健康体 vs 既往症分级</li>
+      <li>确认客户投保的是哪个款别</li>
+    </ul>
+  </li>
+  <li>
+    <strong>评估客户状态</strong>
+    <ul>
+      <li>所属客户类型 + 当前场景</li>
+      <li>判断理赔成功率</li>
+      <li>评估合理理赔金额与可报销项目</li>
+    </ul>
+  </li>
+  <li>
+    <strong>与审查单位沟通</strong>（需要时）
+    <ul>
+      <li>疑难 case 提前与审查单位（惠民保为 TPA，非惠民保为保司审查机构）做事前沟通</li>
+      <li>确认适应症与可报销药物的匹配</li>
+      <li>审查单位反馈时间：最多 2 天，即 D+2 前须收到（与我方研究并行）</li>
+      <li>此沟通贯穿阶段 2～4，不是单次动作：评估时问方向，执行时确认细节</li>
+      <li><strong>审查单位未在 D+2 前回复时</strong>：先将已掌握的评估结果反馈客户，注明「审查单位确认中，后续补充」</li>
+    </ul>
+  </li>
+</ol>
+
+<blockquote>承诺客户 D+2 内反馈（首次接触当天为 D+0），因此与审查单位的沟通和内部研究必须同步进行，不能串行。</blockquote>
+
+<h3>阶段 3：反馈客户（D+2 内）</h3>
+
+<p><strong>目标</strong>：提供专业建议 + 锁定长期服务关系</p>
+
+<ol>
+  <li>
+    <strong>告知理赔评估结果</strong>
+    <ul>
+      <li>可申请理赔的项目</li>
+      <li>预估理赔金额</li>
+      <li>就医需注意的事项（医院资质、异地备案等）</li>
+      <li>如客户同时有其他商业保险 &rarr; 一并扫描，做全保障评估</li>
+    </ul>
+  </li>
+  <li>
+    <strong>预期管理</strong>
+    <ul>
+      <li>只说「可能性较高/较低」，不说「一定能赔/不能赔」</li>
+      <li>最终以审查单位的核定结果为准，我们的评估是帮客户降低对结果的不确定感</li>
+      <li>站在保户角度尽量争取，但争取不到的如实告知 — 跟律师不保证胜诉一样</li>
+    </ul>
+  </li>
+  <li>
+    <strong>植入长期服务钩子</strong>（关键）
+    <ul>
+      <li>"下次报销前可以先把材料发给我们，我们帮您预审一遍。"</li>
+      <li>"有新的治疗方案前，可以先跟我们确认哪些药品在报销范围内。"</li>
+      <li>让客户形成"每次理赔前先找我们"的习惯</li>
+    </ul>
+  </li>
+  <li>
+    <strong>超预期服务</strong>（控制客户预期）
+    <ul>
+      <li>本次反馈聚焦客户问的核心问题</li>
+      <li>后续跟进时再主动告知"我们还研究了您的其他权益"&rarr; 客户没预期到能得到这些服务，对我们印象加深</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>阶段 4：理赔执行支持</h3>
+
+<p><strong>目标</strong>：确保材料一次通过</p>
+
+<ol>
+  <li>
+    <strong>理赔材料预审</strong>
+    <ul>
+      <li>定制个人专属材料清单</li>
+      <li>客户上传前代为检查：凭证清晰、单据完整、适应症匹配</li>
+      <li>如有二次报销，提醒保留分割单原件</li>
+    </ul>
+  </li>
+  <li>
+    <strong>特殊情况处理</strong>
+    <ul>
+      <li>材料遗失：病历可补，发票可电子化</li>
+      <li>既往症隐瞒风险：提前告知客户如实提供</li>
+      <li>指定适应症：确认客户提供了正确的病历</li>
+    </ul>
+  </li>
+  <li>
+    <strong>与审查单位确认提交细节</strong>（延续阶段 2 的沟通）
+    <div class="flow-box" style="margin-top:10px">就具体材料与审查单位确认
+  ├─ 确认通过 &rarr; 指导客户提交
+  ├─ 有异议 &rarr; 补材料 / 请医生出具情况说明
+  └─ 不回复 &rarr; 视情况推进</div>
+  </li>
+  <li>
+    <strong>提交指导或代办</strong>
+    <ul>
+      <li>操作教学：线上提交流程（公众号步骤）、特药直付/直赔申请、一站式结算</li>
+      <li>默认由客户自己提交，我们提供全程指导</li>
+      <li>如审查单位允许且客户有需要，可代办提交</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>阶段 5：理赔后跟踪</h3>
+
+<p><strong>目标</strong>：闭环 + 处理纠纷</p>
+
+<ol>
+  <li>
+    <strong>进度追踪</strong>
+    <p>《保险法》第 23 条规定保险人须在 30 日内作出核定；各产品实际时限：</p>
+    <table>
+      <tr><th>产品</th><th>常规核定</th><th>复杂案件</th><th>拒赔通知</th><th>备注</th></tr>
+      <tr><td>惠琼保</td><td>10 日内</td><td>30 日内</td><td>核定后 3 日内</td><td>补充材料期间不计入</td></tr>
+      <tr><td>烟台市民健康保</td><td>未明确</td><td>未明确</td><td>—</td><td>以一站式结算/免申直赔为主，条款未载明核定时限</td></tr>
+    </table>
+    <p>主动向客户反馈进度。</p>
+  </li>
+  <li>
+    <strong>结果解读</strong>
+    <ul>
+      <li>拆解理算过程（免赔额扣除、比例核算、既往症降幅）</li>
+      <li>很多客户觉得"赔少了"，需要专业解释</li>
+    </ul>
+  </li>
+  <li>
+    <strong>拒赔申诉</strong>
+    <ul>
+      <li>拒赔通知书解读</li>
+      <li>判定审查单位是否存在核算错误或条例误读</li>
+      <li>补充材料重新申诉 / 向消保部门投诉</li>
+      <li>如果我们的能力范围内实在无法满足客户预期 &rarr; 转介律所进行诉讼/仲裁（我们不做法律代理）</li>
+    </ul>
+  </li>
+  <li>
+    <strong>医生协作</strong>（需要时）
+    <ul>
+      <li>请医生补开/修改情况说明</li>
+      <li>A 医院或 B 医院开具均可</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>阶段 6：长期维护与粘性</h3>
+
+<p><strong>目标</strong>：让客户持续依赖我们，而非一次性服务后脱落</p>
+
+<p><strong>粘性核心逻辑：</strong></p>
+<ul>
+  <li><strong>不做纯问答</strong> &rarr; 每次互动都引导客户把资料交给我们</li>
+  <li><strong>不等客户找我们</strong> &rarr; 主动定期随访（尤其确诊后第一年复查频率高）</li>
+  <li><strong>不只做理赔</strong> &rarr; 福利管家角色，帮客户用好保单内所有权益</li>
+  <li>如果客户活跃度下降 &rarr; 推送他关心的话题、随访治疗进展、提醒复查</li>
+</ul>
+
+<p><strong>关键粘性动作：</strong></p>
+<table>
+  <tr><th>时机</th><th>动作</th></tr>
+  <tr><td>理赔成功后</td><td>梳理保单内其他权益，主动推送</td></tr>
+  <tr><td>理赔失败后</td><td>分析原因 + 制定申诉方案，不让客户因失败而脱落</td></tr>
+  <tr><td>保单到期前</td><td>续保提醒 + 推荐复发险或增值产品</td></tr>
+  <tr><td>治疗稳定时</td><td>通过理赔账单识别治疗阶段 &rarr; 推荐复发险</td></tr>
+  <tr><td>日常</td><td>推送同病种理赔案例、政策变动预警、健康权益提醒</td></tr>
+</table>
+
+<p><strong>健康权益管理（福利管家）：</strong></p>
+<ul>
+  <li>帮客户梳理保单内所有可用权益</li>
+  <li>主动提醒使用（药品商城、洁牙、癌筛、陪诊、线上问诊等）</li>
+  <li>推送健康注意事项</li>
+</ul>
+
+<p><strong>增值转化窗口：</strong></p>
+<ul>
+  <li><strong>窗口 ①</strong>：惠民保保障到期时 &rarr; 推荐续保或复发险</li>
+  <li><strong>窗口 ②</strong>：标准治疗完成、病情稳定时 &rarr; 推荐复发险</li>
+  <li>如客户同时有其他商保 &rarr; 做全保障扫描</li>
+</ul>
+
+<h2 id="sop-s3">三、服务矩阵（客户类型 &times; 接待次数）</h2>
 
 <div class="matrix">
 <table>
@@ -161,8 +545,8 @@ footer{text-align:center;padding:30px;color:#999;font-size:13px}
   <tr>
     <td><span class="badge">Type 3</span> 确诊+用药</td>
     <td>药物匹配 + 材料准备</td>
-    <td>反馈 TPA 沟通结果、预审后指导提交</td>
-    <td>追踪理赔进度；疗程变更时重评估；推荐续保/复发险</td>
+    <td>反馈审查单位沟通结果、预审后指导提交</td>
+    <td>追踪理赔进度；疗程变更时重新评估；推荐续保/复发险</td>
   </tr>
   <tr>
     <td><span class="badge">Type 4</span> 被拒赔</td>
@@ -175,27 +559,134 @@ footer{text-align:center;padding:30px;color:#999;font-size:13px}
 
 <div class="note">核心逻辑：第 1 次建立信任、收集信息 &rarr; 第 2 次反馈专业评估（体现价值）&rarr; 第 N 次持续跟踪 + 主动推送（建立长期依赖）。</div>
 
-<h2>六、后台运行流程</h2>
+<h2 id="sop-s4">四、话术原则</h2>
+
+<p><strong>核心：每次互动都争取有效 — 引导客户提交资料，锁定下次联系。</strong></p>
+
+<table>
+  <tr><th>原则</th><th>说明</th></tr>
+  <tr><td><strong>引导而非问答</strong></td><td>尽量引导客户提交资料让我们评估；客户只是随便问 &rarr; 轻量回答后告知「没有资料的话不好评估实际情况」，留下下次深入的入口</td></tr>
+  <tr><td><strong>统问统答</strong></td><td>收集所有问题和材料 &rarr; 约定时间统一回覆，避免碎片化沟通</td></tr>
+  <tr><td><strong>锁定下次</strong></td><td>每次服务结束都告知"下次理赔/换方案前先联系我们"</td></tr>
+  <tr><td><strong>预期管理</strong></td><td>只说可能性高低，强调"审查结果有不确定性，交给我们预审可以降低风险"。争取不到的如实告知</td></tr>
+  <tr><td><strong>超预期服务</strong></td><td>后续跟进时主动推出客户没问到的权益信息</td></tr>
+  <tr><td><strong>情绪管理</strong></td><td>有些客户需要安抚，通过事先告知流程和回覆时间缓解焦虑</td></tr>
+  <tr><td><strong>问题边界</strong></td><td>乳腺癌以外的理赔/健康问题 &rarr; 能力范围内尽量回答（增加信任），超出范畴说明后研究</td></tr>
+  <tr><td><strong>隐私合规</strong></td><td>涉及病历等敏感资料，告知客户资料仅用于理赔相关用途</td></tr>
+</table>
+
+<h2 id="sop-s5">五、服务模式</h2>
+
+<ul>
+  <li>以<strong>企业微信群</strong>为主要服务载体（客户 + 岩育专员）。</li>
+  <li>采用<strong>统问统答</strong>模式（工单式），不追求即问即答：
+    <ol>
+      <li>开场说明服务范畴</li>
+      <li>请客户一次性提出所有问题并提交资料</li>
+      <li>告知回覆时间（<strong>D+2 内反馈评估结果</strong>）</li>
+      <li>整理后统一回覆</li>
+    </ol>
+  </li>
+  <li>理赔咨询<strong>不向客户收费</strong>。</li>
+  <li><strong>紧急 case</strong>：如客户面临用药决策等时间敏感情况，尽量加快速度。但如果实在来不及，让客户先自行决定治疗 — 命比钱重要。</li>
+</ul>
+
+<h2 id="sop-s6">六、后台运行流程</h2>
 
 <div class="flow-box">客户提交资料
     &darr;
-我们与 TPA 沟通确认能否核销
+┌ 我方初步评估（研究合同 + 匹配药物/适应症）
+│                                              &larr; 并行，控制在 D+2 内
+└ 与审查单位沟通确认能否核销
     &darr;
 给客户答复（能报什么、不能报什么、需补什么）
     &darr;
 客户根据我们意见准备材料
     &darr;
-客户提交材料给保司
+我方预审材料（确保完整正确）
     &darr;
-保司审核
-  ├─ 通过 → 理赔成功
-  └─ 拒绝 → 回到我们，进入申诉流程</div>
+提交材料
+  ├─ 客户自行提交（默认）&larr; 我们指导操作
+  └─ 我方代办提交（审查单位允许时）
+    &darr;
+审查单位核定（法定上限 30 日；惠琼保常规 10 日/复杂 30 日；烟台未明确）
+  惠民保 &rarr; TPA 审查后通知保司
+  非惠民保 &rarr; 保司自有审查机构直接审查
+  ├─ 通过 &rarr; 理赔成功
+  │         ├─ 单次结束 &rarr; 进入长期维护
+  │         └─ 长疗程 &rarr; 下次报销时回到「预审材料」（一般首次核销成功后续就没问题）
+  └─ 拒绝 &rarr; 回到我们 &rarr; 拒赔分析 &rarr; 申诉 / 转介律所</div>
 
-<blockquote>
-  <strong>关键定位：</strong>我们不代替客户提交，而是做「预审 + TPA 沟通」，确保方向和材料正确。
-</blockquote>
+<p><strong>与审查单位协作路径：</strong></p>
 
-</div>
+<div class="flow-box">我方评估 case &rarr; 与审查单位预沟通
+  ├─ 惠民保 &rarr; 对接 TPA
+  └─ 非惠民保 &rarr; 对接保司审查机构
+        &darr;
+  ├─ 确认可行 &rarr; 推进理赔
+  ├─ 有异议 &rarr; 补充材料 / 请医生出具情况说明
+  └─ 不回复 &rarr; 视情况推进</div>
+
+<blockquote>关键定位：我们是客户与审查单位之间的<strong>信息枢纽</strong>，确保方向和材料正确。惠民保的审查单位是 TPA，非惠民保则是保司自有审查机构。默认客户自行提交，审查单位允许时可代办。</blockquote>
+
+<h2 id="sop-s7">七、工具与客户记录</h2>
+
+<p><strong>工具：</strong></p>
+<ul>
+  <li>起步阶段以微信群手动管理</li>
+  <li>等客户量增长、累积实际运行经验后，再评估哪些步骤可以自动化或引入 CRM/工单系统</li>
+</ul>
+
+<p><strong>客户记录（每个客户一条，用 Excel 或在线表格）：</strong></p>
+
+<table>
+  <tr><th>字段</th><th>说明</th></tr>
+  <tr><td>客户姓名</td><td>—</td></tr>
+  <tr><td>联系方式</td><td>微信群名 / 手机</td></tr>
+  <tr><td>类型</td><td>Type 1/2/3/4</td></tr>
+  <tr><td>当前场景</td><td>Type 1: 科普中/已评估 · Type 2: 就医指导中/待确诊 · Type 3: ①~⑥ · Type 4: 申诉中/已转介</td></tr>
+  <tr><td>当前阶段</td><td>阶段 1~6</td></tr>
+  <tr><td>保险产品</td><td>哪家惠民保 / 其他商保</td></tr>
+  <tr><td>病种</td><td>乳腺癌 / 其他</td></tr>
+  <tr><td>首次接触日期</td><td>—</td></tr>
+  <tr><td>上次沟通日期</td><td>—</td></tr>
+  <tr><td>下次跟进日期</td><td>主动设定</td></tr>
+  <tr><td>备注</td><td>关键信息、待办事项</td></tr>
+</table>
+
+<blockquote>初期用 Excel 即可。每次沟通后更新「当前场景」「上次/下次日期」「备注」。</blockquote>
+
+<h2 id="sop-appendix">附录：场景库</h2>
+
+<blockquote>好的流程 = 遇到的每种客户场景都有预案。本场景库用于记录实际运行中遇到的新情况，逐步补全框架盲区。</blockquote>
+
+<h3>记录格式</h3>
+
+<p>每遇到一个现有流程未覆盖的场景，按以下格式记录：</p>
+
+<table>
+  <tr><th>字段</th><th>说明</th></tr>
+  <tr><td>编号</td><td>S-001, S-002, ...</td></tr>
+  <tr><td>日期</td><td>发生日期</td></tr>
+  <tr><td>客户类型</td><td>Type 1/2/3/4 / 未投保 / 其他</td></tr>
+  <tr><td>场景描述</td><td>简述客户情况和我们遇到的问题</td></tr>
+  <tr><td>当时处理</td><td>实际怎么做的</td></tr>
+  <tr><td>应纳入位置</td><td>建议补到 SOP 的哪个章节</td></tr>
+  <tr><td>状态</td><td>待归纳 / 已归纳（注明更新了哪一节）</td></tr>
+</table>
+
+<h3>场景记录</h3>
+
+<p>（运行后逐步填入）</p>
+
+<table>
+  <tr><th>编号</th><th>日期</th><th>类型</th><th>场景</th><th>处理</th><th>归纳位置</th><th>状态</th></tr>
+  <tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
+
+<blockquote>定期回顾场景库，将高频或重要场景固化到正文流程中。当场景库中「待归纳」项累积到 5 条以上时，安排一次框架更新。</blockquote>
+
+</div><!-- /content sop -->
 
 <footer>
   <p><a href="index.html">&larr; 返回首頁</a> | <a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p>
