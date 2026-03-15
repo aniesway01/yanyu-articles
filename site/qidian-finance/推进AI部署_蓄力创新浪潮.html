@@ -1,0 +1,760 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>推进AI部署，蓄力创新浪潮 - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#1a1a2e;color:#e0e0e0;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#64b5f6;text-decoration:none}a:hover{text-decoration:underline;color:#90caf9}
+header{background:#0d47a1;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.85;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px;color:#90caf9}
+footer{text-align:center;padding:30px;color:#666;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.1);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#16213e;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3);transition:all .3s;border:1px solid #2a2a4a}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.4);border-color:#64b5f6}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px;color:#e0e0e0}.cc p{font-size:14px;color:#999;margin-bottom:12px}
+.cc .num{font-size:13px;color:#64b5f6;font-weight:500}
+.card{background:#16213e;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.3);margin-bottom:12px;transition:transform .2s;border:1px solid #2a2a4a}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.4);border-color:#333}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#64b5f6}
+.meta{font-size:13px;color:#888;margin-bottom:8px}
+.dl a{color:#64b5f6;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #333;border-radius:6px;font-size:14px;margin-bottom:15px;background:#0f3460;color:#e0e0e0}
+.search::placeholder{color:#777}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#1a3a5c;color:#64b5f6}
+.tag-醫療健康{background:#1b3a2a;color:#66bb6a}
+.tag-AI科技{background:#3c1a1a;color:#ef5350}
+.tag-行業分析{background:#3c2e10;color:#ffa726}
+.tag-生活其他{background:#2a1a3c;color:#ab47bc}
+.tag-裁定書{background:#3c2a10;color:#ff8a65}
+.tag-判決書{background:#1a2a3c;color:#42a5f5}
+.tag-文書{background:#2a1a3c;color:#ab47bc}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #333;border-radius:15px;background:#16213e;color:#ccc;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#0d47a1;color:#fff;border-color:#0d47a1}
+article{background:#16213e;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.3);border:1px solid #2a2a4a}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4;color:#e0e0e0}
+.content{font-size:16px;line-height:1.8;color:#ccc}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px;color:#e0e0e0}
+.content blockquote{border-left:3px solid #0d47a1;padding-left:15px;color:#999;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #333;padding:8px 12px;text-align:left;color:#ccc}
+.content th{background:#0f3460}
+.content pre{background:#0a0a1a;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0;color:#afc}
+.content code{font-size:14px;color:#afc}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+.bm-nav{position:sticky;top:0;z-index:100;background:#fff;padding:8px 0;border-bottom:1px solid #eee;display:flex;gap:6px;flex-wrap:wrap;margin-bottom:15px}
+.bm-nav a{font-size:13px;padding:4px 12px;border:1px solid #1a73e8;border-radius:15px;color:#1a73e8;text-decoration:none;white-space:nowrap}
+.bm-nav a:hover{background:#1a73e8;color:#fff;text-decoration:none}
+.filter-group{margin-bottom:12px}
+.filter-group summary{font-size:14px;font-weight:600;color:#333;cursor:pointer;padding:6px 0}
+.filter-group summary:hover{color:#1a73e8}
+.ftag{display:inline-block;padding:3px 10px;border:1px solid #ddd;border-radius:12px;font-size:12px;margin:2px;cursor:pointer;background:#fff;transition:all .2s}
+.ftag:hover{border-color:#1a73e8;color:#1a73e8}
+.ftag.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+.ftag .cnt{font-size:10px;color:#999;margin-left:2px}
+.ftag.active .cnt{color:rgba(255,255,255,.8)}
+.card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.card-tags span{font-size:11px;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ct-nature{background:#e8f5e9;color:#2e7d32}
+.ct-ins{background:#e3f2fd;color:#1565c0}
+.ct-disp{background:#fff3e0;color:#e65100}
+.ct-verdict{background:#fce4ec;color:#c62828}
+.ct-level{background:#f3e8fd;color:#7627bb}
+</style></head><body><div class="ctn">
+<nav><a href="../qidian-finance.html">&larr; 返回</a></nav>
+<header><h1>推进AI部署，蓄力创新浪潮</h1>
+<p>來源：起点财经免费分享</p></header>
+<article class="content"><h1>推进AI部署，蓄力创新浪潮</h1>
+<h2>第 1 頁</h2>
+<p>金融服务业领导网络
+2026年3月
+推进AI部署
+蓄力创新浪潮</p>
+<h2>第 2 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+金融机构董事会及管理层持续探索生成式人工智能（AI）规模化
+部署路径。面对亟需平衡AI快速应用需求与复杂系统环境整合难
+题的现状，他们还需密切关注可能进一步颠覆商业模式的其他新
+兴技术。必须迎难而上，除此以外，别无选择。正如一位与会者
+所言：“指数级技术跃迁或将持续，也可能骤然停滞。未来技术发
+展走向尚未可知，但置身事外绝非选项。”
+2025年10月8日至9日以及10月28日，全球主要金融机构的董
+事与高管分别齐聚伦敦及纽约，探讨各自机构的AI部署进展，
+实现AI技术价值最大化的关键能力建设，以及新兴技术的潜在
+影响。会议还聚焦金融机构如何应对极端不确定性，并剖析政
+治与市场波动对金融机构及其董事会的影响。有关该议题的深
+度观点可参阅配套报告《视点》。
+本期《视点》1重点呈现会议和
+相关对话中探讨的关键主题：
+与会者名单详见《视点》第11页。
+AI
+当前金融服务业生成式AI应用以
+提升生产力为核心
+，以释放
+AI
+金融机构必须调整适应，以释放
+AI转型潜力
+以量子计算为主导的未来图景已
+悄然临近</p>
+<h2>第 3 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+当前金融服务业生成式AI应用以提升生产力
+为核心
+金融机构已从生成式AI投资中初步获得生产力与效率回报，但该技
+术推动根本性变革的潜能尚未充分释放。与会者就其所在机构在AI
+应用方面的阶段性成果展开讨论。
+3
+◼金融机构已取得生产力提升与成本节约的初步成果。一位与会
+高管指出：“几乎所有金融服务机构都在推进生产力相关实践。”
+有与会者分享称，其机构已部署“约90个成熟生产用例”，并已
+“跨越实验阶段……转而聚焦投资回报率”。其中一个应用场景为
+软件开发，生成式AI在该领域已为数千名开发人员带来约“30%
+的即时效率提升”。考虑到大型金融机构的员工规模与人力成本，
+此类效率提升或有助于节约数十亿美元成本。一位与会高管表
+示：“无论将节省的资金用于再投资还是直接削减成本，生产力
+提升效果毋庸置疑，数据会持续向好。”
+◼尽管具备成本节约潜力，多家机构甚至尚未充分挖掘AI在提升
+基础生产力方面的功能。一位与会者指出：“多数金融机构仅运
+用了其现有AI基础功能的10%。多数甚至尚未将最低版本AI工具
+推广至全体员工，即便已推广，半数员工也只会用它写邮件。”
+◼多数金融机构尚未在代理式AI领域深入布局。具备自主决策或
+执行能力的AI系统（通常称“代理式AI”）目前仍主要处于实验
+阶段，对银行来说尤为如此。一位与会高管表示：“仅10%至
+20%的银行在代理式AI应用方面有所涉猎。”保险行业则进展稍
+快。安永近期研究显示，27%的保险公司已选择性地将代理式AI
+整合至业务流程。2有与会者指出：“业界普遍预期，代理式AI
+应用比例将有所增长，但迄今为止，实际业务应用规模仍有
+限。”另有高管指出：“代理式AI工作负载萌芽已显现，特别是
+在后台运营领域，这是因其监管风险相对较低。”
+“无论将节省的资金用于
+再投资还是直接削减成
+本，生产力提升效果毋
+庸置疑，数据会持续向
+好。”
+——与会高管</p>
+<h2>第 4 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+金融机构必须调整适应，以释放AI转型潜力
+尽管生成式AI应用已带来生产力与运营效率双提升，但金融机构尚
+未实现全面转型。在监管严格、架构复杂的机构中规模化部署AI需
+要投入大量时间、精力和资金。一位与会董事表示：“影响将是巨
+大的，人们低估了达成目标的难度。”另一位与会者提醒道：“我们
+尚处起步阶段。虽投入大量资金用于技术许可和培训，但仍处于山
+麓攀登期，任重道远。”
+4
+为全力挖掘AI潜能，金融机构必须应对技术、文化、人才储备及领
+导力等多重挑战。正如一位与会董事所言：“这些并非新问题”，但
+从过往经验看，它们的确难以有效解决。
+“我们尚处起步阶段。虽
+投入大量资金用于技术
+许可和培训，但仍处于
+山麓攀登期，任重道
+远。”
+——与会董事
+突破遗留技术及数据瓶颈是关键
+大型金融机构多受困于数十年陈旧的遗留系统与碎片化的数据架构，
+难以从海量信息中提取有价值的洞察。一位与会董事将金融服务业
+描述为“数据丰富，但洞察匮乏”。尽管金融机构多年来一直努力解
+决数据架构局限性问题，但生成式AI在过去三年间的快速发展强化
+了变革的紧迫性。一位与会高管直言：“AI基于数据推理。若数据
+混乱，AI投资成效将大打折扣。”
+数据清理对任何机构而言均“至关重要”，但清理范围或因企业实际
+情况及目标用途而有所差异，且实施难于规划。与会者一致认为，
+云迁移仍是关键路径。一位与会者指出：“我们观察到，数据云迁
+移及数据云端化进程正在加速。”有与会高管认为，部分机构仍“固
+守本地部署，拒绝云迁移，但这终将难以为继”。出于安全、监管
+及成本等方面的考量，全面拥抱云端仍非易事。一位与会董事坦言：
+“云端与本地部署之间的抉择问题会持续存在，且地理位置因素不
+容忽视。”
+尽管此前有技术专家提出，生成式AI本身或许能够凭借“转换数据
+语言和格式”的能力快速解决金融机构的数据难题，但迄今为止这
+一设想尚未完全实现。正如一位与会者所言，金融机构仍需持续
+“投资数据治理工具及能力建设”。</p>
+<h2>第 5 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+5
+“若在各金融机构中抽取
+前200位领导者，真正
+理解AI技术的人恐不及
+半数。领导者对技术原
+理及潜力的认知，以及
+对探索技术可能性的洞
+察力，才是决定因素。”
+——与会者
+领导力、文化及变革管理与技术同等重要
+金融机构如想充分释放AI潜力，便不能仅局限于技术层面。一位与
+会高管强调：“AI曾仅是信息技术部门的职责……如今它更是文化命
+题及变革管理课题。”与会者认识到应对AI对员工与企业文化影响
+的重要性，并明确重点领域。
+◼领导力是关键的差别化利器。具备洞见且深度参与的领导层对
+推动AI在机构内广泛部署至关重要。一位安永人士指出，AI领
+先金融机构“往往具有鲜明特质——领导者亲力亲为，主导技术重
+构与应用实践，尤其重视奖励积极投身该领域的员工”。但与会
+者普遍认为，高管层对AI的认知往往不足。一位与会者表示：
+“若在各金融机构中抽取前200位领导者，真正理解AI技术的人
+恐不及半数。领导者对技术原理及潜力的认知，以及对探索技
+术可能性的洞察力，才是决定因素。”董事会有责任推动高管层
+深化AI理解、推进技术落地。一位与会董事指出：“我们需审视
+领导层的认知局限，提高高级管理人员的好奇心阈值。”
+◼全员AI能力建设亟待加强。除数据科学团队外，大多数员工缺
+乏对AI运作原理及有效应用方法的理解。一位与会者打趣道：
+“无人掌握提示词技巧。”AI素养正逐渐成为一项关键技能。一
+位与会高管表示：“员工必须学习使用工具、编写提示词、与机
+器对话。”能力建设需投入大量时间与资源。一位与会高管透露，
+其机构耗时数月为2,300名同事提供了提示词工程及相关技能培
+训。他表示：“每名员工都必须接受充分培训，因为AI规模化应
+用成效直接取决于实际使用工具的人数、使用频率及使用效
+果。”另有高管指出，他所使用的许多生成式AI提示词长达三页
+或更多，这表明有效使用生成式AI需要深度思考与不断尝试。
+一位与会高管表示：“提示词是一种通过与机器反复沟通以获取
+所需结果的路径，需要创造性思维，方能‘从橙子中榨取所需精
+华’。”</p>
+<h2>第 6 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+6
+“在知识可即时获取的时
+代，仅仅知晓信息创造
+的价值有限。”
+——与会者
+◼AI赋能的工作场所推动机构人才战略重构。在机构内部全面部
+署AI将提升不同的技能与能力。一位与会者指出：“在知识可即
+时获取的时代，仅仅知晓信息创造的价值有限。”创造力与协作
+力将愈发重要。另一位与会者强调：“由于未来不再局限于熟知
+流程和执行，而在于对例外情况的识别及判断，批判性思维将
+比以往更加重要。”另有与会者强调管理新范式：“协作能力空
+前重要。随着AI智能体崛起，领导者需统筹管理智能体与人力
+资源，这要求极高的灵活性、直觉力及复杂问题的解决能力。”
+制定有效的人才战略仍在推进。一位与会者坦言：“目前难以精
+确界定未来所需技能，因为我们尚在探索AI重塑岗位职责与工
+作流程的路径。”传统教育与培训可能已无法满足未来需求。一
+位与会者警示道：“切勿认为在学校所学内容仍具现实相关性”，
+这意味着需要建立全新的在职学习体系。
+◼金融机构须正视员工顾虑并构建创新文化。部分董事担忧，员
+工对岗位迁移的忧虑正导致他们对AI技术采纳持保守态度。一
+位与会者提出：“您的团队是勇于拥抱突破性思维？还是受自我
+保护意识影响而倾向保守？部分员工对前瞻性思维极为敏感，
+因为这可能对整个业务单元造成冲击。”金融机构管理者须直面
+员工忧虑，明确传达AI将有助于增强岗位价值而非取代岗位的
+理念，引导员工参与转型进程。机构还需培育创新文化，建立
+对新型工作方式的开放态度。一位与会董事强调，这关乎“推动
+企业与文化总体发展，而非仅改变员工认知与适应程度”。</p>
+<h2>第 7 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+7
+“最终的竞争失利者一定
+是那些未强制业务领导
+者学习AI技术的企业。”
+——与会者
+业务领导者应在核心技术团队支持下主导AI应用
+与会者普遍认为，各业务线领导均需将AI视为关乎业务未来发展的
+战略要务，而非交由IT部门独立推进的辅助性项目。一位与会者表
+示：“这正是关键所在。最终的竞争失利者一定是那些未强制业务
+领导者学习AI技术的企业。处于正态分布曲线前沿的企业已将技术
+融入企业肌理。业务领导者决定企业投资方向，当他们真正理解AI
+技术时，企业战略重心必将发生转移。”
+多家机构正在设立由新任集团AI负责人领导的核心支持团队，协助
+业务领导者部署AI。明确该负责人及其团队的权责界定至关重要。
+一位与会高管建议：“切勿简单地组建庞大的集权团队，而应通过
+该团队赋能业务端自主运用AI技术。”核心AI团队应扮演赋能者与
+顾问角色，提供培训，开发基础设施和工具，并展示该技术潜力。
+另有与会高管强调，各机构还需“业务端的技术推广者提出用例，
+培训团队在各业务线内开展推广活动，从而提升AI技术使用率。”
+企业长期目标应为精简核心团队规模，将包括负责人在内的所有团
+队成员重新部署至业务线。一位与会者认为：“AI团队负责人价值
+递减的过程，正是企业向好发展的过程。终有一日，我们将不再需
+要这个职位。”一位与会董事对此表示认同：“我赞同这种业务主导
+型卓越中心模式。控制AI团队规模至关重要，因为此类职能必须适
+时向业务端迁移。”
+董事会应助推思维定式超越生产力提升与成本节约范畴
+部分与会者指出，当前应勇于拥抱更宏大的战略视野，而非仅局限
+于生产力提升或成本节约。一位与会者指出，AI已催生出新的收入
+来源和产品形态：“创收机遇正在显现。我们将见证新业务模式、
+附加产品线以及通过新分销渠道触达新市场的能力。”</p>
+<h2>第 8 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+8
+“竞争对手正在研究我们
+的客户、客户代理方以
+及未来工具应用场景。”
+——与会董事
+董事会可助力组织机构把握这些机遇。一位与会董事表示：“我们
+的技术委员会和董事会已明确，今年要从效率讨论转向机遇探讨，
+聚焦能够推动业务增长、实现跨越式发展的举措。我们是否关注新
+产品线或服务？能否量化因技术革新而消融的准入壁垒？”另一位
+与会董事也强调了拓展思维边界的必要性：“竞争对手正在研究我
+们的客户、客户代理方以及未来工具应用场景。而我们却过度关注
+AI的内部应用。无论下一代AI是智能体还是其他形态，其部署方式
+尚未可知，但决不能完全从机构内部视角来看待这个问题。”
+更宏大的视野意味着更多投入。一位与会董事透露，其董事会已将
+管理层申报的技术预算翻倍。其他与会者亦持同样观点，认为董事
+会有时需要鼓励管理层采取更加积极进取的投资策略。然而，把握
+平衡至关重要。一位与会高管指出，董事会有时会盲目推动领导层
+“应用AI”，实际缺乏清晰目标。正确态度应为，“我们的目的并不
+在于‘应用AI’，而在于解决问题。” 董事会不应简单倡导应用AI，
+而应“协助界定问题范畴并评估可行性”，同时确保建立恰当的治理
+机制，使成功试点项目得以规模化推广。
+量子计算的潜力为金融服务业带来引人注目的应用场景
+量子计算能够以指数级的速度解决问题。一位与会者比喻道：“假
+设你有一串钥匙需要试开一把锁，每试一把钥匙都要耗费时间。经
+典计算是一次试一把钥匙，而量子计算则是同时试所有钥匙并迅速
+获得精确答案。”谷歌于近期发布的研究显示，量子计算机执行可
+重复计算的速度比经典超级计算机快13,000倍，这足以让我们直
+观感受速度差异。3
+以量子计算为主导的未来图景已悄然临近
+当前，人工智能主导着企业的战略议程，但它并非唯一正在崛起的
+新兴技术。量子计算虽仍处于起步阶段且时间表尚不明确，但其一
+旦实现商业化应用，将对金融服务业产生深远影响。</p>
+<h2>第 9 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+9
+“在反欺诈领域，哪怕仅
+实现微小改进，就能开
+始产生商业价值。”
+——与会高管
+这种能力或将在欺诈检测等领域带来彻底变革。一位与会高管指出：
+“反欺诈模型的核心在于精准界定‘正常交易’与‘欺诈交易’的边界。
+若能借助量子计算更精准地对边界加以建模，欺诈评估效率将大幅
+提升。”一位高管指出，近期的一次模拟实验显示，量子计算可将
+欺诈识别率提升25%至30%，并补充道：“在反欺诈领域，哪怕仅
+实现微小改进，就能开始产生商业价值。”
+除反欺诈外，量子计算还能推动保险产品的超个性化定制，使金融
+机构以前所未有的速度和精度建模并交付定制化方案。正如与会者
+所言：“纵观金融服务业运行的所有模型，你不禁会问，量子计算
+在行业的哪些领域没有优势呢？”
+量子计算能力亦引发切实的安全隐忧
+若恶意行为者掌握量子计算能力，传统网络风险管理体系将面临挑
+战，加密数据亦将陷入风险。因此，量子技术的安全影响已成为金
+融行业高层领导者的重大关切。一位与会董事强调：“每个机构均
+应了解量子加密技术并部署实施。加密技术是绝对必要的基础设
+施。”他还补充道：“若对‘后量子时代’毫无准备，那么讨论恶意行
+为者的身份将毫无意义，因为你对所有人都不设防。”这种安全忧
+虑导致部分管理者将量子技术完全视为风险。一位与会董事直言：
+“在我看来，量子技术只有负面影响。针对量子技术，我们应专注
+于防御，而非寻求机遇。”
+董事会正初步建立量子计算监督机制
+无论量子计算技术最终带来的是净效益还是风险，其实际影响仍需
+数年才能显现。一位与会董事表示：“我们距离破解加密技术尚远，
+但随着量子计算机性能提升，某些突破终将实现。多数人预测是在
+2031到2035年之间，但谁也说不准。”</p>
+<h2>第 10 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+10
+“生成式AI已激发广泛想
+象，且准入门槛较低；
+而量子计算的准入门槛
+相对较高，需要投入巨
+额资金。”
+——与会者
+多位与会者表示，其董事会尚未投入大量时间探讨量子计算议题。
+目前，相关设备成本高昂、操作复杂，保持技术稳定能耗巨大，这
+意味着该技术尚未具备商业可行性。一位与会者坦言：“生成式AI
+已激发广泛想象，且准入门槛较低；而量子计算的准入门槛相对较
+高，需要投入巨额资金。”另一位与会董事补充道：“我们目前尚未
+更换加密技术。作为一家保险公司，我认为我们会快速跟进。”
+然而，部分机构已开始布局基础工作。一位与会者指出：“三四年
+前，我所在机构曾耗费数月研讨量子战略，当时的复杂度并不高。”
+他建议其他金融机构必须“将量子防御方案纳入预算，由首席技术
+官（CTO）负责，明确优先级并予以执行”。其他相关准备建议包
+括：在机构内部发掘对量子技术感兴趣的人员，并给予其自主学习
+空间。这些内部推动者可与具备相关专业知识的学术机构人士开展
+合作。各机构还可与大型科技企业建立正式合作关系，以获取其技
+术资源。值得注意的是，该领域目前仍处于开放协作阶段。一位与
+会者指出：“当前阶段，若能唤起同业机构共同关注，仍能就此类
+议题展开深入交流。”</p>
+<h2>第 11 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+与会者名单
+以下为参加会议或相关讨论的人员名单：
+与会者
+Vivek Ahuja
+安本审计和风险委员会主席
+Doug Caldwell
+Corebridge Financial执行副总裁及首席风险官
+Homaira Akbari
+桑坦德银行非执行董事
+Marcia Campbell
+加拿大人寿资产管理公司董事会主席
+Giles Andrews
+爱尔兰银行转型监督委员会主席
+Libby Cantrill
+太平洋投资管理公司公共政策主管及常务董事
+David Bailey
+英格兰银行审慎政策执行董事
+Jan Carendi
+MSIG Europe董事会主席
+Guy Bainbridge
+宏利金融集团审计委员会主席
+Celeste Clark
+富国银行非执行董事
+Michele Bang
+美国再保险集团非执行董事
+Chris Cochrane
+M&amp;G首席信息技术官
+Colin Bell
+Serendipity Capital非执行董事
+Jim Coyle
+汇丰环球客户服务有限公司董事会主席、汇丰银行
+（新加坡）风险委员会主席
+Karolina Belwal
+花旗财富管理全球数据智能、自动化主管及生成式
+人工智能主管、董事总经理
+Martha Cummings
+Marqeta提名与公司治理委员会主席
+Sarah Beshar
+景顺集团提名与公司治理委员会主席
+Jeff Dailey
+利宝互助保险非执行董事
+Paul Bishop
+安盛信利及苏黎世人寿审计委员会主席、大都会人寿
+（英国）董事会主席
+Pierre-Olivier Desaulle
+Beazley高级独立董事
+Jack Boyer
+OQC主席
+Beatrice Devillon-Cohen
+三菱UFJ 证券（欧洲）高级独立董事及风险委员会主席
+Megan Butler
+摩根士丹利非执行董事
+Carmine Di Sibio
+PayPal审计及财务委员会主席、保德信金融集团非
+执行董事
+11</p>
+<h2>第 12 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+12
+Kristen Dickey
+Aperture Investors非执行董事
+Margarete Haase
+荷兰国际集团审计委员会主席
+Dante Disparte
+Circle Internet Financial首席战略官及全球政策主管
+Harry Harrison
+Anthemis集团副总裁及主管合伙人、CommonAI CIC及
+CommonAI Compute非执行董事
+Anne Melissa Dowling
+Axis Capital财务委员会主席
+Mike Hawker
+安联技术委员会主席、保柏非执行董事
+Terri Duhon
+摩根士丹利国际风险委员会主席
+Nigel Hinshelwood
+劳埃德银行和苏格兰银行高级独立董事、Marsh Limited
+董事会主席
+Harriet Edelman
+安信龙独立董事及技术委员会主席
+Sheila Hooda
+Enact Holdings和AGL Private Credit Income Fund提
+名与公司治理委员会主席、Alera Group非执行董事
+Rebecca Emerson
+JPMorgan Markets非执行董事
+Joe Hurd
+伦敦劳合社保险非执行董事
+Peter Estlin
+罗斯柴尔德集团审计委员会主席
+Sian Hurrell
+RBC欧洲资本市场主管及全球销售与关系管理主管
+Kene Ezeji-Okoye
+Ubyx首席区块链官
+Arlene Isaacs-Lowe
+Equitable Holdings非执行董事
+John Fitzpatrick
+Assurely董事会主席
+Jim Islam
+OneFamily首席执行官
+Shyam Gidumal
+Renaissance Reinsurance非执行董事
+Yasmin Jetha
+NatWest技术、创新与简化委员会主席
+Marcela Granados
+Databricks全球保险与专业服务主管
+Colm Kelleher
+瑞银集团事会主席
+Emma Griffin
+iA金融集团及英国罗斯柴尔德集团非执行董事、英国
+金融机构集团、罗斯柴尔德集团主席
+Jane Kinney
+Intact Financial 审计委员会主席
+Ashok Gupta
+加拿大永明金融集团风险委员会主席、美世咨询公司
+董事会主席
+Senthil Kumar
+BNY前任首席风险官
+Christine Larsen
+加拿大帝国商业银行非执行董事
+Karen Fawcett
+荷兰全球保险集团非执行董事</p>
+<h2>第 13 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+13
+Brian Lee
+高盛集团风险事业部主席
+Sally Orton
+全英房屋抵押贷款协会非执行董事
+John Lister
+英国耆卫保险公司精算委员会及风险委员会主席、
+菲尼克斯人寿保险公司风险委员会主席
+Andy Parsons
+加拿大人寿有限公司及皇家太阳联合保险集团非执行董事
+Andrew Lowe
+美国银行EMEA地区技术业务发展主管
+Debra Perry
+安信龙财务与风险委员会主席
+Marcus Martinez
+微软EMEA地区全球金融服务部、微软行业与合作
+伙伴销售部
+Marty Pfinsgraff
+PNC Financial 风险委员会主席
+Hilary Maxson
+施耐德电气执行副总裁及集团首席财务官
+Mary Phibbs
+Just Group非执行董事
+Sean McHugh
+迪拜虚拟资产监管局市场保障高级总监
+Simon Phillips
+OQC首席技术官
+Eithne McManus
+皇家伦敦保险公司盈余委员会主席
+Sabrina Pucci
+欧洲财务报告咨询工作组跨境互联咨询小组成员
+Jeff McMillan
+摩根士丹利人工智能主管
+Lisa Pollina
+渣打银行及渣打创投副主席、慕尼黑再保险美国公司非
+执行董事
+Alessa Quane
+安盛信利非执行董事
+Jennifer Miller
+Databricks美洲银行业务主管
+George Quinn
+瑞士再保险非执行董事
+Scott Moeller
+JPMorgan Markets 董事会主席
+Caroline Ramsay
+荷兰全球保险集团风险委员会主席
+Bill Morneau
+加拿大帝国商业银行技术委员会主席
+Ed Ocampo
+JPMorgan Securities风险委员会主席
+Lewis O'Donald
+汇丰银行非执行董事
+Bruce Richards
+加拿大皇家银行非执行董事
+Phil Rivett
+渣打银行高级独立董事、全英房屋抵押贷款协会审计委
+员会主席
+Alex Rolfe
+金融机构集团（FIG）投资银行业务及坎托·菲茨杰拉德
+常务董事</p>
+<h2>第 14 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+Manolo Sánchez
+房利美审计委员会主席
+Kate Thomson
+英国石油公司（BP）首席财务官
+Nicole Sandler
+Ubyx首席生态体系官
+Rolf Tolle
+Marco Capital非执行董事
+Chris Sanger
+坎托·菲茨杰拉德税务政策主管合伙人
+Suzanne Vautrinot
+富国银行非执行董事
+David Sidwell
+Chubb提名与公司治理委员会主席
+David Ward
+M&amp;G首席数据官
+Kate Stevenson
+加拿大帝国商业银行董事会主席
+Betsy Ward
+汉诺威集团非执行董事
+Elisabeth Stheeman
+M&amp;G非执行董事
+David Wildermuth
+瑞银美洲控股有限责任公司常务董事及总裁
+John Sutherland
+欧洲投资银行审计委员会观察员
+Barbara Yastine
+轴心资本企业治理、提名与社会责任委员会主席、
+Primerica薪酬委员会主席
+Ramy Tadros
+Metlife美国业务区域总裁及MetLife Holdings主管
+Lizabeth Zlatkus
+轴心资本审计委员会主席、Brighthouse Financial 非
+执行董事
+Patrick Tannock
+富达国际非执行董事
+安永
+Omar Ali
+安永全球金融服务主管合伙人
+Phil Andriyevsky
+安永美洲区金融服务人工智能与数据主管合伙人
+Stuart Doyle
+安永全球金融服务合伙人
+Sid Khosla
+安永美洲区银行业与资本市场主管合伙人
+Sarah Lowe
+安永大洋洲金融服务主管合伙人
+Nigel Moden
+安永全球银行业与资本市场主管合伙人
+Sumit Narayanan
+安永东亚金融服务联合主管合伙人、东盟金融服务主管
+合伙人、东盟金融服务咨询主管合伙人
+Saby Roy
+安永金融服务人工智能与云技术合伙人
+Isabelle Santenac
+安永全球客户服务合伙人
+14</p>
+<h2>第 15 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+Rashmi Singh
+安永纽约都会区金融服务合伙人
+Phil Vermeulen
+安永EMEIA区金融服务保险业主管合伙人
+Jeremy Spier
+安永美洲区战略与交易保险业主管合伙人
+赵晓京
+安永全球保险业主管合伙人
+Tapestry Networks
+Dennis Andrade
+常务董事
+Eric Baldwin
+执行董事
+Tiffany Luehrs
+高级专员
+Brenna McNeill
+高级专员
+Tucker Nielsen
+董事总经理
+15</p>
+<h2>第 16 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+关于本文
+金融服务业领导网络（FSLN）汇集了金融服务领域董事会成员、高管和利益关联方以及其他相关
+领域专家，旨在解决迫在眉睫的问题、提高金融市场公信力。FSLN由Tapestry Networks组织和
+牵头，安永提供支持，作为其对实现董事会效率及良好治理的持续承诺的一部分。
+《视点》由Tapestry Networks编撰，有助于董事会针对审计委员会成员、管理层及其顾问分别对
+投资者履职履责时所面临的战略抉择展开及时的实质性讨论。《视点》的终极价值在于它能够帮
+助所有读者在这些重要问题上形成自己的观点。欢迎读者将《视点》与同行分享。参与这一对话
+的董事会成员、高管和咨询顾问越多，《视点》为读者创造的价值就越大。
+关于Tapestry Networks
+自2004年以来，Tapestry成为与全球一流组织领导者建立协作平台的顶级公司。Tapestry 
+Networks将高层领导者聚集在一起，学习并制定解决方案，以应对当今最紧迫的挑战。我们获得
+董事会董事、高管、政策制定者和其他利益关联方的信任，为其提供信息、见解，同时帮助其相互
+联系。我们邀请顶级专家加入我们的讨论，向我们召集的领导者学习，并分享他们的知识。我们的
+平台有助于为市场提供培训，确定良好实践，制定共享解决方案——我们称之为关联性思维影响力。
+关于安永
+安永是全球领先的审计、税务、交易和咨询服务机构之一。我们的深刻洞察和优质服务有助全球各
+地资本市场和经济体建立信任和信心。我们致力培养杰出领导人才，通过团队协作落实我们对所有
+利益关联方的坚定承诺。因此，我们在为员工、客户及社会各界建设更美好的商业世界的过程中担
+当重要角色。安永为金融服务业提供支持，持续致力于实现金融服务业董事会效率及良好治理。
+16</p>
+<h2>第 17 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+尾注
+1《视点》采用了《查塔姆宫规则》（Chatham House Rule）的修订版本，按照该规则，相关评
+论不归属于个人或公司。与会者会谈内容以斜体形式显示。
+2 Gaston Messineo、Sameer Gupta和Jaret Kwait，“保险公司如何将生成式AI应用于客户服务场
+景（How Insurers Are Embracing Customer-Facing Applications for GenAI） ”，安永，2025
+年9月17日。
+3 Hartmut Neven和Vadim Smelyanski, “量子回声算法是量子计算迈向现实应用的重要一步（Our
+Quantum Echoes Algorithm Is a Big Step Toward Real-World Applications for Quantum 
+Computing）”，The Keyword（谷歌博客），2025年10月22日。
+17</p>
+<h2>第 18 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+忻怡
+安永大中华区金融服务首席合伙人
+安永亚太区金融科技与创新首席合伙人
++86 21 2228 3286 
+effie.xin@cn.ey.com
+许旭明
+大中华区金融服务高增长市场主管合伙人
+安永华明会计师事务所（特殊普通合伙）
++86 10 5815 2621 
+steven.xu@cn.ey.com
+张小东
+大中华区金融服务华北市场主管合伙人
+安永华明会计师事务所（特殊普通合伙）
++86 10 58153322 
+xiaodong.Zhang@cn.ey.com
+张超
+大中华区金融服务中国咨询主管合伙人
+安永（中国）企业咨询有限公司
++86 10 5815 3502
+jason-c.zhang@cn.ey.com
+吴俊
+大中华区金融服务华中市场主管合伙人
+安永（上海）税务师事务所有限公司
++86 21 2228 2823
+david.wu@cn.ey.com
+阮褀康
+大中华区金融服务科技咨询主管合伙人
+安永（中国）企业咨询有限公司
++86 755 2238 5688
+keith.yuen@cn.ey.com
+张秉贤
+大中华区金融服务华南市场主管合伙人
+安永会计师事务所
++86 755 2502 8287 
+benny-by.cheung@cn.ey.com
+孙苏勇
+金融科技与创新合伙人
+安永（中国）企业咨询有限公司
++86 10 5815 4595
+su-yong.sun@cn.ey.com
+庄智斌
+大中华区金融服务香港市场主管合伙人
+安永咨询服务有限公司
++852 2846 9200 
+tze-ping.chng@hk.ey.com
+联系安永</p>
+<h2>第 20 頁</h2>
+<p>推进AI部署，蓄力创新浪潮
+安永| 建设更美好的商业世界
+安永致力于建设更美好的商业世界，为客户、员工、
+社会各界及地球创造新价值，同时建立资本市场的
+信任。
+在数据、人工智能及先进科技的赋能下，安永团队
+帮助客户聚信心以塑未来，并为当下和未来最迫切
+的问题提供解决方案。
+安永团队提供全方位的专业服务，涵盖审计、咨询、
+税务、战略与交易等领域。凭借我们对行业的深入
+洞察、全球联通的多学科网络以及多元的业务生态
+合作伙伴，安永团队能够在150多个国家和地区提供
+服务。
+All in，聚信心，塑未来。
+安永是指Ernst &amp; Young Global Limited的全球组织，加盟该全球组织的各
+成员机构均为独立的法律实体，各成员机构可单独简称为“安永”。Ernst &amp; 
+Young Global Limited是注册于英国的一家保证（责任）有限公司，不对
+外提供任何服务，不拥有其成员机构的任何股权或控制权，亦不担任任何
+成员机构的总部。请登录ey.com/privacy，了解安永如何收集及使用个人
+信息，以及在个人信息法规保护下个人所拥有权利的描述。安永成员机构
+不从事当地法律禁止的法律业务。如欲进一步了解安永，请浏览ey.com。
+©
+ 2026 安永，中国。
+版权所有。
+APAC no. 03025270
+ED None
+本材料是为提供一般信息的用途编制，并非旨在成为可依赖的会计、税务、
+法律或其他专业意见。请向您的顾问获取具体意见。
+ey.com/china
+关注安永微信公众号
+扫描二维码，获取最新资讯。</p></article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div><script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script></body></html>
