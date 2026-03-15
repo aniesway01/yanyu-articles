@@ -19,12 +19,12 @@ except ImportError:
     print("pip install markdown"); sys.exit(1)
 
 # ─── Paths ───
-BASE       = Path(r"C:\AntiGravityFile\YanYuInc")
+BASE       = Path(r"C:\AntiGravityFile\Work\YanYuInc")
 SITE       = BASE / "site"
 LOG_DIR    = BASE / "logs"
 WC_STATE   = BASE / "wechat_articles" / "_state.json"
 WC_ARTS    = BASE / "wechat_articles" / "articles"
-JDG_DIR    = BASE / "judgments"
+JDG_DIR    = BASE / "法院判决"
 JDG_EB_DIR = JDG_DIR / "ebookhub"
 PROMPT_DIR = BASE / "prompts"
 PROMPT_IDX = PROMPT_DIR / "_index.json"
@@ -349,9 +349,9 @@ def build_wechat():
     return len(articles), total_imgs
 
 def build_judgments(eb_files, scan_only):
-    CASE_IDX = JDG_DIR / "cases" / "_index.json"
-    CASE_DIR = JDG_DIR / "cases"
-    WENSHU_URLS_FILE = JDG_DIR / "_wenshu_urls.json"
+    CASE_IDX = JDG_DIR / "按案拆分" / "_index.json"
+    CASE_DIR = JDG_DIR / "按案拆分"
+    WENSHU_URLS_FILE = JDG_DIR / "_metadata" / "_wenshu_urls.json"
     WENSHU_SEARCH = "https://wenshu.court.gov.cn/website/wenshu/181217BMTKHNT2W0/index.html?s21="
 
     # A. 讀取裁判文書網 URL 數據
@@ -363,7 +363,7 @@ def build_judgments(eb_files, scan_only):
         log.info(f"裁判文書網 URL: 已載入 {len(wenshu_urls)} 筆")
 
     # B. 讀取 NotebookLM 生成的 artifacts
-    NLM_DIR = JDG_DIR / "_nlm_output"
+    NLM_DIR = JDG_DIR / "AI分析" / "nlm_output"
     NLM_PROGRESS = NLM_DIR / "_progress.json"
     nlm_completed = {}
     if NLM_PROGRESS.exists():
@@ -373,7 +373,7 @@ def build_judgments(eb_files, scan_only):
         log.info(f"NotebookLM artifacts: 已載入 {len(nlm_completed)} 筆")
 
     # C. 讀取 AI 分析結果（摘要/重點/法學見解）
-    AI_DIR = JDG_DIR / "_ai_analysis"
+    AI_DIR = JDG_DIR / "AI分析" / "analysis"
     ai_analyses = {}
     if AI_DIR.exists():
         for aj in AI_DIR.rglob("*.json"):
@@ -389,7 +389,7 @@ def build_judgments(eb_files, scan_only):
         log.info(f"AI 分析: 已載入 {len(ai_analyses)} 筆")
 
     # D. 讀取標籤數據
-    TAGS_FILE = JDG_DIR / "_tags.json"
+    TAGS_FILE = JDG_DIR / "_metadata" / "_tags.json"
     all_tags = {}
     if TAGS_FILE.exists():
         with open(TAGS_FILE, "r", encoding="utf-8") as f:
@@ -527,7 +527,7 @@ def build_judgments(eb_files, scan_only):
 
     # 1. Original curated judgments (裁判文書網精選)
     md_jdgs = []
-    for mf in sorted(JDG_DIR.glob("*.md")):
+    for mf in sorted((JDG_DIR / "按案拆分" / "精选").glob("*.md")):
         with open(mf, "r", encoding="utf-8") as f:
             text = f.read()
         m = re.search(r'^#\s+(.+)', text)
@@ -554,7 +554,7 @@ def build_judgments(eb_files, scan_only):
 {bookmark_nav}
 <div style="margin-bottom:15px">
   <a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a>
-  <a class="dl-btn sec" href="../../../judgments/{quote(j["slug"])}.md" download>下載 MD</a>
+  <a class="dl-btn sec" href="../../../{quote('法院判决/按案拆分/精选', safe='/')}/{quote(j["slug"])}.md" download>下載 MD</a>
 </div>
 {analysis_html}
 {nlm_html}
@@ -598,7 +598,7 @@ def build_judgments(eb_files, scan_only):
 {bookmark_nav}
 <div style="margin-bottom:15px">
   <a class="dl-btn" href="{esc(w_url)}" target="_blank">裁判文書網原文</a>
-  <a class="dl-btn sec" href="../../../judgments/cases/{c["year"]}/{quote(c["filename"])}" download>下載 MD</a>
+  <a class="dl-btn sec" href="../../../{quote('法院判决/按案拆分', safe='/')}/{c["year"]}/{quote(c["filename"])}" download>下載 MD</a>
 </div>
 {analysis_html}
 {nlm_html}
@@ -634,7 +634,7 @@ def build_judgments(eb_files, scan_only):
 <div class="meta"><span class="tag tag-{doc_type}">{doc_type}</span>{nlm_badge}</div>
 <div class="dl">
   <a href="{esc(w_url)}" target="_blank" class="dl-btn" style="font-size:12px;padding:3px 10px">裁判文書網原文</a>
-  <a href="../judgments/{quote(j["slug"])}.md" download style="font-size:12px;color:#666">MD</a>
+  <a href="../{quote('法院判决/按案拆分/精选', safe='/')}/{quote(j["slug"])}.md" download style="font-size:12px;color:#666">MD</a>
 </div></div>\n'''
 
     # 3b. 年度案例（一案一檔卡片）

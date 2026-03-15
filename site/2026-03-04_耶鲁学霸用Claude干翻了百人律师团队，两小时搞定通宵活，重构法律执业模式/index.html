@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式 - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.tag-裁定書{background:#fff3e0;color:#e65100}
+.tag-判決書{background:#e3f2fd;color:#1565c0}
+.tag-文書{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+.bm-nav{position:sticky;top:0;z-index:100;background:#fff;padding:8px 0;border-bottom:1px solid #eee;display:flex;gap:6px;flex-wrap:wrap;margin-bottom:15px}
+.bm-nav a{font-size:13px;padding:4px 12px;border:1px solid #1a73e8;border-radius:15px;color:#1a73e8;text-decoration:none;white-space:nowrap}
+.bm-nav a:hover{background:#1a73e8;color:#fff;text-decoration:none}
+.filter-group{margin-bottom:12px}
+.filter-group summary{font-size:14px;font-weight:600;color:#333;cursor:pointer;padding:6px 0}
+.filter-group summary:hover{color:#1a73e8}
+.ftag{display:inline-block;padding:3px 10px;border:1px solid #ddd;border-radius:12px;font-size:12px;margin:2px;cursor:pointer;background:#fff;transition:all .2s}
+.ftag:hover{border-color:#1a73e8;color:#1a73e8}
+.ftag.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+.ftag .cnt{font-size:10px;color:#999;margin-left:2px}
+.ftag.active .cnt{color:rgba(255,255,255,.8)}
+.card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.card-tags span{font-size:11px;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ct-nature{background:#e8f5e9;color:#2e7d32}
+.ct-ins{background:#e3f2fd;color:#1565c0}
+.ct-disp{background:#fff3e0;color:#e65100}
+.ct-verdict{background:#fce4ec;color:#c62828}
+.ct-level{background:#f3e8fd;color:#7627bb}
+</style></head><body><div class="ctn">
+<nav><a href="../wechat.html">&larr; 返回</a></nav><article><h1>耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式</h1>
+<div class="meta"><strong>作者</strong>：张锦怡 | <strong>轉發時間</strong>：2026-03-04 17:39（by ShawnCH）<br>
+<a href="https://mp.weixin.qq.com/s/DBXlXXeR_XYBv3sWlE2Xqg" target="_blank">查看原文</a><div style="margin-top:8px"><span class="tag tag-AI科技">AI科技</span></div></div>
+<div class="content">
+<p><img alt="" src="../../wechat_articles/articles/2026-03-04_耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式/assets/img_001.png" /></p>
+<p>近日，一名来自耶鲁法学院的毕业生、前 Davis Polk &amp; Wardwell（顶尖国际律所）律师 Zack Shapiro（扎克·夏皮罗）在 X 上发布了一篇长文，引发了法律界和科技圈的热烈讨论。</p>
+<p>短短几天，这篇题为《2026 年我是如何使用 AI 执业》的文章浏览量已经突破 700 万。</p>
+<p><img alt="" src="../../wechat_articles/articles/2026-03-04_耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式/assets/img_002.png" /></p>
+<p>（来源：X）</p>
+<p>在这篇文章中，Shapiro 没有介绍抽象的理论，而是拆解了他作为一名“两人律所”合伙人使用 AI 的真实工作流。Shapiro 经营的 Rains LLP 律所位于曼哈顿，全职员工只有两人。然而，他们正在处理以往需要数十甚至百人团队才能消化的复杂风险投资与并购交易。</p>
+<p>让他引发热议的，并非他们使用了 AI 的事实，而是他彻底摒弃了市面上昂贵的“法律专用 AI”，仅凭一个通用的 Claude 账号和一套自建的指令系统，实现了对传统工作模式的重构。</p>
+<p><img alt="" src="../../wechat_articles/articles/2026-03-04_耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式/assets/img_003.png" /></p>
+<p>图 | Zack Shapiro（来源：Rains LLP）</p>
+<p>Shapiro 在文中描述了一个让所有交易律师感到压力的事例。</p>
+<p>在某次收购案交割前夜，晚上 7 点，买方突然给他的团队发来一封措辞强硬的信函，要求重构关键交易条款：需要新的托管条件、扩大的赔偿免责范围、修订后的交割交付物。并且对方摆出了一副“不接受就谈崩”的架势。</p>
+<p>在以前，这意味着合伙人要立即召集三五个初级律师通宵加班，按小时计费，疯狂翻阅数百页文件。</p>
+<p>但 Shapiro 没有这样做。他将购买协议、披露表和对方律师函上传至 Claude 桌面版，输入指令：“从我方客户视角评估这些变更。”</p>
+<p>几分钟内，Claude 完成了对所有条款的交叉映射，并发现了对方几十人团队都没注意到的致命漏洞：买方提出的两项免责条款，与其在披露表中已确认的陈述直接冲突；而另一项修改甚至会削弱买方自己的交割后保护。</p>
+<p>Shapiro 利用这些发现，指挥 Claude 生成了一份精准的反击清单。当晚 11 点，一套无懈可击的反提案已经躺在对方邮箱里。第二天一早，交易按 Shapiro 客户满意的条款顺利交割。</p>
+<p>“如果是传统中型律所，需要一个三人律师团队忙到第二天早晨才能完成这种分析，”Shapiro 写道，“我只用了不到两小时。”</p>
+<p>为什么是通用模型，而不是专用 AI？</p>
+<p>如今，市场上早已充斥着 Harvey、Spellbook 等垂直法律 AI 产品。它们的共同口号是：律师需要专为法律工作打造的 AI。</p>
+<p><img alt="" src="../../wechat_articles/articles/2026-03-04_耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式/assets/img_004.png" /></p>
+<p>（来源：Aline）</p>
+<p>但 Shapiro 评估后认为，对于小型律所从业者，配置良好的通用 AI 远胜于专用工具。因为“这些专用产品大多是建立在基础模型之上的套壳”Shapiro 直言，“它们的营销口号很有诱惑力：定制律所 playbook、训练模板、构建工作流。但这背后有一个根本性误区。”</p>
+<p>在他看来，模板库从来不是律所的核心竞争力。任何一家称职的律所都有标准的 NDA 或股权购买协议模板。真正的价值在于“判断”——知道某个条款中隐藏的陷阱，知道在哪个赔偿条款上必须寸步不让，在哪里可以顺水推舟。</p>
+<p>“模板是大宗商品（必要但不稀缺），判断才是杠杆。”Shapiro 解释道，“法律 AI 公司忽略了真正重要的问题：如何编码律师个人的判断力。”</p>
+<p>因此，Shapiro 选择了一条自主探索的道路。他利用 Claude 的“技能（Skills）”功能，编写了持久的指令集文件。这些不是每次都要输入的提示词（Prompt），而是编码了他十年执业经验的分析框架、文风偏好和风险权重。</p>
+<p>当他上传一份合同进行审查时，Claude 不会套用通用模版，而是自动触发 Shapiro 的“合同审查技能”：按严重程度对风险分级，检查缺失条款，并根据交易双方的强弱地位给出具体的谈判建议。</p>
+<p>“我教给 AI 的不是食谱，而是怎么做菜，”Shapiro 比喻道，“律所操作手册与律师个人编码判断的区别，就在于此。”</p>
+<p>Shapiro 实践中最让同行感到不可思议的，是他对“代码模式”的运用。</p>
+<p>所有律师都经历过 Microsoft Word 的折磨：粘贴时崩溃的段落编号、无法统一的交叉引用格式、混乱的修订模式……“这些不是法律问题，这是软件问题，”Shapiro 说，“而 Claude 通过写代码来解决软件问题。”</p>
+<p>于是，他利用前沿模型针对代码编写进行了重度优化。当 Shapiro 指挥 Claude“应用修订”时，Claude 并不是像插件那样模拟点击，而是直接在后台编写脚本，深入.docx 文件的 XML 底层代码。它能精准地写入符合 Word 标准的修订标记，保留所有复杂的格式，甚至自动归属到 Shapiro 的用户名下。</p>
+<p>三个模式，重构工作流</p>
+<p>在具体的工作中，Shapiro 将 Claude 桌面版的使用分为三种模式，他认为学会何时使用哪种模式，是让 AI 真正落地的关键：</p>
+<p>首先是 Chat（对话模式）。就像与坐在对面的快速助理交谈。用于分析法律问题、头脑风暴谈判策略、起草初稿。律师掌控每一步。</p>
+<p>其次是 Cowork（协作模式）。这是改变一切的自主模式。指向电脑上的文件夹，给定任务，AI 自主读取文件、创建新文件、编辑文档。当需要为 40 页协议制作完整红线版本，或从条款清单生成一堆交割文件时，Shapiro 会交给 Cowork 模式。</p>
+<p>最后是 Code（开发模式）。拥有完整的终端访问权限。Shapiro 利用它构建了一个命令行工具，将法律文档转换为 spoken audio。它能解析 Word 和 PDF，将"Section 4.2(b)(iii)"的合同条款层级引用转换为自然语音，处理缩写，分段后发送到 AI 语音 API。现在，Shapiro 都在通勤路上直接听合同。</p>
+<p>Shapiro 也分享了三个真实的工作场景：</p>
+<p>第一个场景是处理对方发回的红线修订版合同。当一份 40 页的协议被对方修改后返回，传统做法是律师逐页审阅、标记风险、起草回复，往往需要大半天时间。Shapiro 的做法是直接将文档上传，系统会自动按风险等级对修改内容进行分类，标出哪些条款转移了风险、哪些修改与其他条款存在逻辑冲突，并针对关键问题生成具体的修改建议。</p>
+<p>第二个场景是监管政策调研。当客户需要了解新产品涉及的合规要求时，传统研究往往需要跨多个法规领域逐一检索、比对、归纳。Shapiro 的系统可以同时启动多线程检索，覆盖证券监管、地方许可、银行合规、消费者保护等多个维度，并在输出前执行自我验证：核对每条引用是否真实存在、是否确实支持结论，标记置信度较低的内容，排查逻辑矛盾，专门防范虚构引用的风险。</p>
+<p>第三个场景是应对突发违约指控。客户收到对方发来的违约通知函，要求 48 小时内回复。Shapiro 将主协议、指控函及近期往来邮件一并上传，系统会自动将指控内容与合同条款逐一比对，很快发现对方声称的四项违约中，有两项所依据的义务其实已被双方此前签署的补充协议明确修改，而这份补充协议恰恰是对方律师起草的。在起草回复过程中，每写一段内容，系统都会实时压力测试。</p>
+<p>伦理、计费与未来</p>
+<p>关于数据隐私，Shapiro 指出，目前美国律师协会伦理意见将 AI 工具视为受代理/工具例外覆盖的第三方技术提供商。义务是做出合理努力保护客户数据，实践中意味着关闭模型训练、理解提供商的数据处理做法。而 Anthropic 提供零数据保留 API 选项，确保客户数据不用于训练模型。</p>
+<p>Shapiro 甚至让 Claude 帮他起草了聘书中的 AI 使用条款，将 AI 框架作为效率和质量增强器，强调律师监督，并将数据处理与现有保密义务挂钩。</p>
+<p>这种工作模式对律所运营产生了直接影响。传统上由初级律师承担的初稿撰写、研究备忘录、红线摘要等工作，现可由 AI 在监督下完成，律师的精力更多聚焦于判断、客户关系与输出审核。计费模式也随之调整，Shapiro 的律所在传统小时计费外提供订阅制定价，借助 AI 在可预测的成本结构内交付更全面的服务。</p>
+<p>当 AI 能够高效完成信息检索、文档起草、模式识别等任务时，律师的核心价值或将从“智力输出”转向“判断决策”。不加审视地信任 AI 输出或在能力边界外使用工具，必然导致表现下降。因此，未来的法律从业者可能需要更注重构建有效的指令系统、建立 AI 输出的审核机制，并在关键节点承担专业责任。</p>
+<p>对于行业而言，技术工具本身并非决定性因素，关键在于从业者是否愿意投入时间理解工具原理、优化使用方式，并将个人经验有效转化为可复用的工作流。</p>
+<p>参考链接：</p>
+<p>https://x.com/zackbshapiro/status/2027389987444957625</p>
+<p>运营/排版：何晨龙</p>
+<p><img alt="" src="../../wechat_articles/articles/2026-03-04_耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式/assets/img_005.png" /></p>
+<hr />
+<p><em>本文由 ShawnCH（何智翔）轉發，透過微信聊天記錄自動提取並整理。</em>
+<em>原文連結：https://mp.weixin.qq.com/s/DBXlXXeR_XYBv3sWlE2Xqg</em></p></div>
+<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><h3 style="font-size:15px;margin-bottom:10px">下載</h3>
+<a class="dl-btn" href="../../wechat_articles/articles/2026-03-04_耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式/index.md" download>Markdown</a>
+<a class="dl-btn sec" href="../../wechat_articles/articles/2026-03-04_耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式/article.txt" download>純文字</a></div></article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div><script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script></body></html>

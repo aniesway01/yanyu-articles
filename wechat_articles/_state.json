@@ -1,7 +1,7 @@
 {
   "source": "ShawnCH private chat (F1487329976)",
   "extracted_at": "2026-02-25 19:18:15",
-  "total": 49,
+  "total": 72,
   "articles": [
     {
       "id": "art_001",
@@ -895,6 +895,426 @@
       "pub_time": "",
       "slug": "2023-03-04_YOUNG TEEC 青创会  入会指南",
       "img_count": 4
+    },
+    {
+      "id": "art_050",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzI3NTMxMTUyMw==&mid=2247486331&idx=1&sn=03dc13a9707234c27e57b2b73a41fa22&chksm=ea6781caf3d95314a6ab2addcfa49675fe3c092976e8533f03e0129f54c3f4331abb41e06f01&mpshare=1&scene=1&srcid=0219coCK9z5fbaKQAB5qBlmU&sharer_shareinfo=cd44fbbef18d85f8755f7487c2b819e6&sharer_shareinfo_first=cd44fbbef18d85f8755f7487c2b819e6#rd",
+      "title": "首款保障终身的「复星联合医路相伴」高端医疗险优缺点分析",
+      "sender": "id:18",
+      "chat_time": "2026-02-19 16:48",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:01",
+      "error": null,
+      "tags": [
+        "保險理賠",
+        "醫療健康"
+      ],
+      "real_title": "首款保障终身的「复星联合医路相伴」高端医疗险优缺点分析",
+      "author": "陈瑾",
+      "pub_time": "",
+      "slug": "2026-02-19_首款保障终身的「复星联合医路相伴」高端医疗险优缺点分析",
+      "img_count": 14
+    },
+    {
+      "id": "art_051",
+      "url": "https://mp.weixin.qq.com/s/3I12uIdSA6J7tM9Nc1FTfQ",
+      "title": "分子AI专栏 | 商业保险能成为AI时代的避风港吗？",
+      "sender": "id:18",
+      "chat_time": "2026-02-25 11:36",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:06",
+      "error": null,
+      "tags": [
+        "保險理賠",
+        "AI科技",
+        "行業分析"
+      ],
+      "real_title": "分子AI专栏 | 商业保险能成为AI时代的避风港吗？",
+      "author": "刘扬",
+      "pub_time": "",
+      "slug": "2026-02-25_分子AI专栏  商业保险能成为AI时代的避风港吗？",
+      "img_count": 5
+    },
+    {
+      "id": "art_052",
+      "url": "https://mp.weixin.qq.com/s/ABc-at64bentUmg1eDyn5w",
+      "title": "我如何用一封申诉信追回80万理赔款",
+      "sender": "id:18",
+      "chat_time": "2026-02-25 12:18",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:12",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "我如何用一封申诉信追回80万理赔款",
+      "author": "冷冰团战",
+      "pub_time": "",
+      "slug": "2026-02-25_我如何用一封申诉信追回80万理赔款",
+      "img_count": 7
+    },
+    {
+      "id": "art_053",
+      "url": "https://mp.weixin.qq.com/s?__biz=Mzk2NDU1ODI0Mw==&mid=2247484146&idx=1&sn=71d17e81e41f207b666e77e83a1eb9f6&chksm=c567eb2b12f64045f1250c32a25b239a44cde0a6d6ad5d498d68b885170c2bb2e02b36074be1&mpshare=1&scene=1&srcid=0225yvZLrADbBUUH53vYF3Wc&sharer_shareinfo=18cda129e8ffb9ecbae36057f0e88839&sharer_shareinfo_first=18cda129e8ffb9ecbae36057f0e88839#rd",
+      "title": "拒绝赔付！太平洋寿险总经理李劲松：我们不想再当\"赔钱的\"？",
+      "sender": "id:18",
+      "chat_time": "2026-02-25 21:29",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:16",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "拒绝赔付！太平洋寿险总经理李劲松：我们不想再当“赔钱的”？",
+      "author": "子丑",
+      "pub_time": "",
+      "slug": "2026-02-25_拒绝赔付！太平洋寿险总经理李劲松：我们不想再当“赔钱的”？",
+      "img_count": 2
+    },
+    {
+      "id": "art_054",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwNTEzNjExNA==&mid=2247546823&idx=2&sn=286e9fb2c4e15a8ebf3685226e7efc71&chksm=96173960a3485f73f41e009d8f069bb62977a4c2b5ff17377cdd973fe582bdf5281652060cc8&mpshare=1&scene=1&srcid=02278bGIUR2fiehv48aLg2Qg&sharer_shareinfo=9d452292e3fc6b136fb33850ef057ba7&sharer_shareinfo_first=9d452292e3fc6b136fb33850ef057ba7#rd",
+      "title": "病史\"罗生门\"？君龙人寿拒赔胃癌患者二审败诉丨315金融曝光台",
+      "sender": "id:18",
+      "chat_time": "2026-02-27 15:57",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:21",
+      "error": null,
+      "tags": [
+        "保險理賠",
+        "行業分析"
+      ],
+      "real_title": "病史“罗生门”？君龙人寿拒赔胃癌患者二审败诉丨315金融曝光台",
+      "author": "金融曝光台",
+      "pub_time": "",
+      "slug": "2026-02-27_病史“罗生门”？君龙人寿拒赔胃癌患者二审败诉丨315金融曝光台",
+      "img_count": 10
+    },
+    {
+      "id": "art_055",
+      "url": "https://mp.weixin.qq.com/s/V93amMFTg5K3tvnvssaJIg",
+      "title": "洗浴中心滑倒骨折，店家推诿、保司不回应？公众责任险索赔实例来了！",
+      "sender": "id:18",
+      "chat_time": "2026-02-27 23:32",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:26",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "洗浴中心滑倒骨折，店家推诿、保司不回应？公众责任险索赔实例来了！",
+      "author": "小薇",
+      "pub_time": "",
+      "slug": "2026-02-27_洗浴中心滑倒骨折，店家推诿、保司不回应？公众责任险索赔实例来了！",
+      "img_count": 7
+    },
+    {
+      "id": "art_056",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzI3MDk4ODk4NQ==&mid=2247520727&idx=1&sn=7dc893917bebbcc7cb0d1eceeca3e063&chksm=eb8b5b3abe525fa564846790f156384077ce5d1bc21df3d2ca1219a07f29e2c3b5b7e6837534&mpshare=1&scene=1&srcid=02280nQuXgd05RIhgozK8O0v&sharer_shareinfo=1e88d73a9dec856db416fb22fd2ac9ec&sharer_shareinfo_first=adc9b78190672dd1902a7b962f2e1dc5#rd",
+      "title": "国际罕见病日 | 从问诊到直付，AI解锁确定性的下一步",
+      "sender": "id:18",
+      "chat_time": "2026-02-28 15:46",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:35",
+      "error": null,
+      "tags": [
+        "AI科技"
+      ],
+      "real_title": "国际罕见病日 | 从问诊到直付，AI解锁确定性的下一步",
+      "author": "镁信健康",
+      "pub_time": "",
+      "slug": "2026-02-28_国际罕见病日  从问诊到直付，AI解锁确定性的下一步",
+      "img_count": 12
+    },
+    {
+      "id": "art_057",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzUxNzM5MzQwNg==&mid=2247485083&idx=1&sn=8fc1423e777df39829a4a1c6061dca0f&chksm=f8d060cdcf7e0346a531d9ade90f08b16a49b6d950bb58534b4fa04aaad351c2a010d3052bc1&mpshare=1&scene=1&srcid=0228FdF4xYiW2Vv8W7FIvHZM&sharer_shareinfo=8f569cd35d40032fe9116d108bb547a0&sharer_shareinfo_first=8f569cd35d40032fe9116d108bb547a0#rd",
+      "title": "保险拒赔申诉，为什么我行你不行？揭秘我们专业的\"三板斧\"",
+      "sender": "id:18",
+      "chat_time": "2026-02-28 17:51",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:38",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "保险拒赔申诉，为什么我行你不行？揭秘我们专业的“三板斧”",
+      "author": "任巍巍",
+      "pub_time": "",
+      "slug": "2026-02-28_保险拒赔申诉，为什么我行你不行？揭秘我们专业的“三板斧”",
+      "img_count": 1
+    },
+    {
+      "id": "art_058",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzAwOTg0OTU1MQ==&mid=2651317777&idx=1&sn=5d972063102e7a9f5a757861b78d548c&chksm=81d89e9ab4fc1208936cbdd25755905dd0eae47d5fd91dc547307e392acecef4e90e703567e8&mpshare=1&scene=1&srcid=03020q1uDlJGrEIRjj2tXtye&sharer_shareinfo=c962fc6b12f6945f51ce6894b1d6a3f8&sharer_shareinfo_first=c962fc6b12f6945f51ce6894b1d6a3f8#rd",
+      "title": "百万医疗不够免赔额的这种情况是不是不应该申请理赔？",
+      "sender": "id:18",
+      "chat_time": "2026-03-02 22:08",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:42",
+      "error": null,
+      "tags": [
+        "保險理賠",
+        "醫療健康"
+      ],
+      "real_title": "百万医疗不够免赔额的这种情况是不是不应该申请理赔？",
+      "author": "凤山说",
+      "pub_time": "",
+      "slug": "2026-03-02_百万医疗不够免赔额的这种情况是不是不应该申请理赔？",
+      "img_count": 2
+    },
+    {
+      "id": "art_059",
+      "url": "https://mp.weixin.qq.com/s/YneEhn16LWTuCGILDFoMFA",
+      "title": "理赔资料 | 中国保险行业协会发布《人身保险承保服务规范》（征求意见稿）",
+      "sender": "id:18",
+      "chat_time": "2026-03-03 09:37",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:46",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "理赔资料 | 中国保险行业协会发布《人身保险承保服务规范》（征求意见稿）",
+      "author": "凌云",
+      "pub_time": "",
+      "slug": "2026-03-03_理赔资料  中国保险行业协会发布《人身保险承保服务规范》（征求意见稿）",
+      "img_count": 2
+    },
+    {
+      "id": "art_060",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzA4NTIyMjMyMw==&mid=2653523306&idx=1&sn=899530dc65394debab0aeca892c643ac&chksm=856d33cf33ec49a5f32f048821ef70e63bb0c227f19e76f6684cef90fa3d6ba9bf92405e4446&mpshare=1&scene=1&srcid=0303ssXcBGOm1sgDMhPMXTwS&sharer_shareinfo=6359c03fd1ac584f2c9bc9985fb78078&sharer_shareinfo_first=8179595aa878d70b5b369b68a2088253#rd",
+      "title": "北京医保购药再升级！最新消息——",
+      "sender": "id:18",
+      "chat_time": "2026-03-03 11:32",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:50",
+      "error": null,
+      "tags": [
+        "醫療健康"
+      ],
+      "real_title": "北京医保购药再升级！最新消息——",
+      "author": "",
+      "pub_time": "",
+      "slug": "2026-03-03_北京医保购药再升级！最新消息——",
+      "img_count": 6
+    },
+    {
+      "id": "art_061",
+      "url": "https://mp.weixin.qq.com/s/ZXGcmbFX2bRZCE5lcLpz3Q",
+      "title": "上班路上10分钟，OpenClaw干了件我拖了三年的事",
+      "sender": "id:18",
+      "chat_time": "2026-03-04 12:53",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:53",
+      "error": null,
+      "tags": [
+        "生活其他"
+      ],
+      "real_title": "上班路上10分钟，OpenClaw干了件我拖了三年的事",
+      "author": "邦比快跑",
+      "pub_time": "",
+      "slug": "2026-03-04_上班路上10分钟，OpenClaw干了件我拖了三年的事",
+      "img_count": 2
+    },
+    {
+      "id": "art_062",
+      "url": "https://mp.weixin.qq.com/s/DBXlXXeR_XYBv3sWlE2Xqg",
+      "title": "耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式",
+      "sender": "id:18",
+      "chat_time": "2026-03-04 17:39",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:18:56",
+      "error": null,
+      "tags": [
+        "AI科技"
+      ],
+      "real_title": "耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式",
+      "author": "张锦怡",
+      "pub_time": "",
+      "slug": "2026-03-04_耶鲁学霸用Claude干翻了百人律师团队，两小时搞定通宵活，重构法律执业模式",
+      "img_count": 5
+    },
+    {
+      "id": "art_063",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzA5MTQzMzUwMg==&mid=2652375305&idx=1&sn=8713acc3d2c39279683cfabeeb9ba503&chksm=8a4b270f99dc4f08deb3f1d71845e691dc4fdccc4ca649e476a8782047053262d14816989130&mpshare=1&scene=1&srcid=0305ykdvp2IbSJLsXjlLmvOC&sharer_shareinfo=d10f10943757ea485f01c442dd0c27cd&sharer_shareinfo_first=d10f10943757ea485f01c442dd0c27cd#rd",
+      "title": "理赔避坑｜医保报销=0，就等于没走医保？保险公司这套路我拆给你看！",
+      "sender": "id:18",
+      "chat_time": "2026-03-05 15:48",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:19:00",
+      "error": null,
+      "tags": [
+        "保險理賠",
+        "醫療健康"
+      ],
+      "real_title": "理赔避坑｜医保报销=0，就等于没走医保？保险公司这套路我拆给你看！",
+      "author": "左右说理赔",
+      "pub_time": "",
+      "slug": "2026-03-05_理赔避坑｜医保报销=0，就等于没走医保？保险公司这套路我拆给你看！",
+      "img_count": 3
+    },
+    {
+      "id": "art_064",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzkyMTU5MjA5Ng==&mid=2247485417&idx=1&sn=6a8042db5d8bd391881731188126b55f&chksm=c031d8e769d412c2916edf4b687444f82eb26a037542b599127ecfb4659568ef089a6bb5a3dd&mpshare=1&scene=1&srcid=0306WEIT32YPFXxdz3Ht7pT0&sharer_shareinfo=6f2e99b23a39054b2c24d5c9e6866122&sharer_shareinfo_first=6f2e99b23a39054b2c24d5c9e6866122#rd",
+      "title": "离谱！身体好的投不了众民保，得过大病的却能投进来",
+      "sender": "id:18",
+      "chat_time": "2026-03-06 09:38",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:19:04",
+      "error": null,
+      "tags": [
+        "生活其他"
+      ],
+      "real_title": "离谱！身体好的投不了众民保，得过大病的却能投进来",
+      "author": "依然是一然",
+      "pub_time": "",
+      "slug": "2026-03-06_离谱！身体好的投不了众民保，得过大病的却能投进来",
+      "img_count": 2
+    },
+    {
+      "id": "art_065",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzkyMTU5MjA5Ng==&mid=2247485422&idx=1&sn=29cf6c6d27e1ce3780a0e65b989e2264&chksm=c0cbf9dfc43c7dd711a8e32029d887ff7befd0d01a45891619dff21f2e628a45d318e3eeab90&mpshare=1&scene=1&srcid=0307qk0qqSPQTwCoQzAy4quC&sharer_shareinfo=e9b734e52cb1ab4d604426f8ded4fffb&sharer_shareinfo_first=e9b734e52cb1ab4d604426f8ded4fffb#rd",
+      "title": "花了880上的核保专家课，笔记整理出来了，免费分享",
+      "sender": "id:18",
+      "chat_time": "2026-03-07 10:37",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:19:07",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "花了880上的核保专家课，笔记整理出来了，免费分享",
+      "author": "依然是一然",
+      "pub_time": "",
+      "slug": "2026-03-07_花了880上的核保专家课，笔记整理出来了，免费分享",
+      "img_count": 0
+    },
+    {
+      "id": "art_066",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzAwOTg0OTU1MQ==&mid=2651317797&idx=1&sn=5d1f5336771de47bd47a68b589e9571a&chksm=814da6bd3d5da0faf208c3d22eb374686ee962eb6800c6606be9fc6c2712df954d4a383e4882&mpshare=1&scene=1&srcid=0307Ofgu5leELQuXXJvgiwR5&sharer_shareinfo=916e2a0890dcfb5e0a65ca293b42c5df&sharer_shareinfo_first=916e2a0890dcfb5e0a65ca293b42c5df#rd",
+      "title": "一年前被拒赔的案子，今天到账了",
+      "sender": "id:18",
+      "chat_time": "2026-03-07 21:10",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:19:11",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "一年前被拒赔的案子，今天到账了",
+      "author": "左右说理赔",
+      "pub_time": "",
+      "slug": "2026-03-07_一年前被拒赔的案子，今天到账了",
+      "img_count": 4
+    },
+    {
+      "id": "art_067",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzAwOTg0OTU1MQ==&mid=2651317799&idx=1&sn=8ded4fef277e7f1861b08b6953b6abee&chksm=81e2962a33b1d922ad783c10cbfb52d3a6ff2a7021c972ed75e82b88913e22aeb3d1cb425dba&mpshare=1&scene=1&srcid=0308WS1Wn4d7I8pUX9oZrY2O&sharer_shareinfo=53156af8eb2ff1bb764266773b5c0cb4&sharer_shareinfo_first=53156af8eb2ff1bb764266773b5c0cb4#rd",
+      "title": "探理 |  明确既往症条款举证责任 规范人身保险行业秩序-2025年最高法典型案例解读",
+      "sender": "id:18",
+      "chat_time": "2026-03-08 21:21",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:19:15",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "探理 |  明确既往症条款举证责任 规范人身保险行业秩序-2025年最高法典型案例解读",
+      "author": "凌云",
+      "pub_time": "",
+      "slug": "2026-03-08_探理   明确既往症条款举证责任 规范人身保险行业秩序-2025年最高法典型案例",
+      "img_count": 3
+    },
+    {
+      "id": "art_068",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzkxNTYzMDI3Nw==&mid=2247783905&idx=1&sn=7b82f216233790f82d454d60ab0233a3&chksm=c05a3cdd86a14f24e9ec088ec82f9e086756f45bac3f3b55c7f58cf1f0f626d65009a5a68a45&mpshare=1&scene=1&srcid=0309m8YbbtTqoj3xSD7wOfCm&sharer_shareinfo=6d523b198ee980069c4187c08485ce71&sharer_shareinfo_first=a784fb5a598a9981aab5483b4814a715#rd",
+      "title": "春节，医院里的临时家人",
+      "sender": "id:18",
+      "chat_time": "2026-03-09 09:37",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:19:20",
+      "error": null,
+      "tags": [
+        "生活其他"
+      ],
+      "real_title": "春节，医院里的临时家人",
+      "author": "每人作者",
+      "pub_time": "",
+      "slug": "2026-03-09_春节，医院里的临时家人",
+      "img_count": 19
+    },
+    {
+      "id": "art_069",
+      "url": "https://mp.weixin.qq.com/s/kplklQgDd8zxryeEMZboGA",
+      "title": "推动商保创新药目录落地，全国政协委员吴凡提出三点实操建议",
+      "sender": "id:18",
+      "chat_time": "2026-03-11 10:36",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:19:24",
+      "error": null,
+      "tags": [
+        "生活其他"
+      ],
+      "real_title": "推动商保创新药目录落地，全国政协委员吴凡提出三点实操建议",
+      "author": "健闻咨询",
+      "pub_time": "",
+      "slug": "2026-03-11_推动商保创新药目录落地，全国政协委员吴凡提出三点实操建议",
+      "img_count": 2
+    },
+    {
+      "id": "art_070",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzI0NjEzMjQ3OQ==&mid=2247526800&idx=1&sn=9261b6f50faa7933dcdc49f016665454&chksm=e8cbe3666e73cd7490871fa74ca89b3acbb1707849e91972b6814b14495cbf4c867b4bf0aaf9&mpshare=1&scene=1&srcid=0311ZumfOjl4N5QYjt19EMBg&sharer_shareinfo=8161a9e48a2b587075fbd258cead411d&sharer_shareinfo_first=8161a9e48a2b587075fbd258cead411d#rd",
+      "title": "保险人\"养龙虾\"的N种姿势：从获客到理赔，我们能用OpenClaw做些什么？",
+      "sender": "id:18",
+      "chat_time": "2026-03-11 23:11",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:19:29",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "保险人“养龙虾”的N种姿势：从获客到理赔，我们能用OpenClaw做些什么？",
+      "author": "保观",
+      "pub_time": "",
+      "slug": "2026-03-11_保险人“养龙虾”的N种姿势：从获客到理赔，我们能用OpenClaw做些什么？",
+      "img_count": 12
+    },
+    {
+      "id": "art_071",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzA5MTQzMzUwMg==&mid=2652375331&idx=2&sn=7f2f2651db433a51226604ef2b4e7299&chksm=8a044e8820cc46361f41de1e6682e5d369233352fb1b3724d435df52985a2e6a4821a74f057b&mpshare=1&scene=1&srcid=03131JH0fxSCllChgmvryGFY&sharer_shareinfo=118d0025f73f1529616c9f2766ee84c4&sharer_shareinfo_first=118d0025f73f1529616c9f2766ee84c4#rd",
+      "title": "裁员潮下,你被约谈了吗？换个赛道吧——为什么说【保险理赔】是最稳的职业赛道？",
+      "sender": "id:18",
+      "chat_time": "2026-03-13 15:30",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:19:33",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "裁员潮下,你被约谈了吗？换个赛道吧——为什么说【保险理赔】是最稳的职业赛道？ (突出趋势)",
+      "author": "左右姐",
+      "pub_time": "",
+      "slug": "2026-03-13_裁员潮下,你被约谈了吗？换个赛道吧——为什么说【保险理赔】是最稳的职业赛道？ (",
+      "img_count": 3
+    },
+    {
+      "id": "art_072",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzA5MTQzMzUwMg==&mid=2652375343&idx=1&sn=2a24506e6fc9bcc7011479942860d179&chksm=8a9b20c3e956f394b5ca3718d8fdc698a0018b8733e1236a19f3e9dcf57f23284ad888a28ec4&mpshare=1&scene=1&srcid=0314XbFC6CGlUaEmueWpsZ87&sharer_shareinfo=9a13a55ca15192b6c900350b912f43be&sharer_shareinfo_first=9a13a55ca15192b6c900350b912f43be#rd",
+      "title": "《为什么你买的保险，理赔总那么难？我把行业里最实在的话，说给你听》",
+      "sender": "id:18",
+      "chat_time": "2026-03-14 18:50",
+      "status": "fetched",
+      "fetch_time": "2026-03-15 17:19:36",
+      "error": null,
+      "tags": [
+        "保險理賠"
+      ],
+      "real_title": "《为什么你买的保险，理赔总那么难？我把行业里最实在的话，说给你听》",
+      "author": "左右姐",
+      "pub_time": "",
+      "slug": "2026-03-14_《为什么你买的保险，理赔总那么难？我把行业里最实在的话，说给你听》",
+      "img_count": 2
     }
   ]
 }

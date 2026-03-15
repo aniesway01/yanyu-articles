@@ -1,0 +1,128 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>理赔避坑｜医保报销=0，就等于没走医保？保险公司这套路我拆给你看！ - YanYu 知識庫</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
+.ctn{max-width:960px;margin:0 auto;padding:20px}
+a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
+header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
+header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+nav{margin-bottom:20px}nav a{font-size:14px}
+footer{text-align:center;padding:30px;color:#999;font-size:13px}
+.stats{display:flex;gap:15px;justify-content:center;margin-top:15px;flex-wrap:wrap}
+.stat{background:rgba(255,255,255,.2);padding:5px 15px;border-radius:20px;font-size:13px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px}
+.cc{background:#fff;border-radius:12px;padding:30px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .3s}
+.cc:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cc-icon{font-size:48px;margin-bottom:15px}
+.cc h2{font-size:20px;margin-bottom:8px}.cc p{font-size:14px;color:#666;margin-bottom:12px}
+.cc .num{font-size:13px;color:#1a73e8;font-weight:500}
+.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
+.meta{font-size:13px;color:#666;margin-bottom:8px}
+.dl a{color:#1a73e8;margin-right:12px;font-size:13px}
+.search{width:100%;padding:10px 15px;border:1px solid #ddd;border-radius:6px;font-size:14px;margin-bottom:15px}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:12px}
+.tag-保險理賠{background:#e8f0fe;color:#1a73e8}
+.tag-醫療健康{background:#e6f4ea;color:#137333}
+.tag-AI科技{background:#fce8e6;color:#c5221f}
+.tag-行業分析{background:#fef7e0;color:#e37400}
+.tag-生活其他{background:#f3e8fd;color:#7627bb}
+.tag-裁定書{background:#fff3e0;color:#e65100}
+.tag-判決書{background:#e3f2fd;color:#1565c0}
+.tag-文書{background:#f3e8fd;color:#7627bb}
+.hidden{display:none!important}
+.tg-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tg-btn{padding:5px 12px;border:1px solid #ddd;border-radius:15px;background:#fff;cursor:pointer;font-size:13px}
+.tg-btn:hover,.tg-btn.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+.content{font-size:16px;line-height:1.8}
+.content img{max-width:100%;height:auto;border-radius:4px;margin:15px 0}
+.content p{margin-bottom:15px}
+.content h2,.content h3{margin:25px 0 10px}
+.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0}
+.content table{border-collapse:collapse;width:100%;margin:15px 0}
+.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
+.content th{background:#f5f5f5}
+.content pre{background:#f8f8f8;padding:15px;border-radius:6px;overflow-x:auto;margin:15px 0}
+.content code{font-size:14px}
+.dl-btn{display:inline-block;padding:6px 14px;background:#1a73e8;color:#fff;border-radius:5px;margin-right:8px;font-size:13px;text-decoration:none}
+.dl-btn:hover{background:#1557b0;text-decoration:none}
+.dl-btn.sec{background:#5f6368}.dl-btn.sec:hover{background:#3c4043}
+.yg{margin-bottom:20px}
+.yg h3{font-size:16px;color:#1a73e8;margin-bottom:10px}
+.fi{display:flex;justify-content:space-between;align-items:center;padding:10px 15px;background:#fafafa;border-radius:6px;margin-bottom:6px;flex-wrap:wrap;gap:8px}
+.fi .sz{font-size:12px;color:#999}
+.sec-title{font-size:20px;margin:30px 0 15px;padding-bottom:8px;border-bottom:2px solid #1a73e8}
+.bm-nav{position:sticky;top:0;z-index:100;background:#fff;padding:8px 0;border-bottom:1px solid #eee;display:flex;gap:6px;flex-wrap:wrap;margin-bottom:15px}
+.bm-nav a{font-size:13px;padding:4px 12px;border:1px solid #1a73e8;border-radius:15px;color:#1a73e8;text-decoration:none;white-space:nowrap}
+.bm-nav a:hover{background:#1a73e8;color:#fff;text-decoration:none}
+.filter-group{margin-bottom:12px}
+.filter-group summary{font-size:14px;font-weight:600;color:#333;cursor:pointer;padding:6px 0}
+.filter-group summary:hover{color:#1a73e8}
+.ftag{display:inline-block;padding:3px 10px;border:1px solid #ddd;border-radius:12px;font-size:12px;margin:2px;cursor:pointer;background:#fff;transition:all .2s}
+.ftag:hover{border-color:#1a73e8;color:#1a73e8}
+.ftag.active{background:#1a73e8;color:#fff;border-color:#1a73e8}
+.ftag .cnt{font-size:10px;color:#999;margin-left:2px}
+.ftag.active .cnt{color:rgba(255,255,255,.8)}
+.card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.card-tags span{font-size:11px;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.ct-nature{background:#e8f5e9;color:#2e7d32}
+.ct-ins{background:#e3f2fd;color:#1565c0}
+.ct-disp{background:#fff3e0;color:#e65100}
+.ct-verdict{background:#fce4ec;color:#c62828}
+.ct-level{background:#f3e8fd;color:#7627bb}
+</style></head><body><div class="ctn">
+<nav><a href="../wechat.html">&larr; 返回</a></nav><article><h1>理赔避坑｜医保报销=0，就等于没走医保？保险公司这套路我拆给你看！</h1>
+<div class="meta"><strong>作者</strong>：左右说理赔 | <strong>轉發時間</strong>：2026-03-05 15:48（by ShawnCH）<br>
+<a href="https://mp.weixin.qq.com/s?__biz=MzA5MTQzMzUwMg==&mid=2652375305&idx=1&sn=8713acc3d2c39279683cfabeeb9ba503&chksm=8a4b270f99dc4f08deb3f1d71845e691dc4fdccc4ca649e476a8782047053262d14816989130&mpshare=1&scene=1&srcid=0305ykdvp2IbSJLsXjlLmvOC&sharer_shareinfo=d10f10943757ea485f01c442dd0c27cd&sharer_shareinfo_first=d10f10943757ea485f01c442dd0c27cd#rd" target="_blank">查看原文</a><div style="margin-top:8px"><span class="tag tag-保險理賠">保險理賠</span> <span class="tag tag-醫療健康">醫療健康</span></div></div>
+<div class="content">
+<p>最近帮一位客户处理被狗咬伤的意外险理赔，遇到一个特别典型的坑：</p>
+<p>客户意外受伤，门诊+用药一共花了465.8元，提交理赔后，保险公司却只肯赔80%，理由是：</p>
+<p><img alt="" src="../../wechat_articles/articles/2026-03-05_理赔避坑｜医保报销=0，就等于没走医保？保险公司这套路我拆给你看！/assets/img_001.jpg" /></p>
+<p>“你医保报销金额是0，等于没走医保，所以要打折赔付。”</p>
+<p>我询问客户具体情况客户说看了发票照片刷了医保卡，只是因为费用没到医保起付线（800元），医保没启动报销，怎么就成了“没走医保”？</p>
+<p>这就是保险公司最常见的文字游戏：</p>
+<p>把「医保报销金额&gt;0」偷换成「是否使用医保」的唯一标准，故意混淆概念、少赔客户钱。</p>
+<p><img alt="" src="../../wechat_articles/articles/2026-03-05_理赔避坑｜医保报销=0，就等于没走医保？保险公司这套路我拆给你看！/assets/img_002.jpg" /></p>
+<p>✅ 我直接帮客户把逻辑掰碎了讲：</p>
+<ol>
+<li>
+<p>使用医保 ≠ 必须有报销金额：刷医保卡挂号、结算，本身就是「使用医保」的行为，只是费用未达起付线，客观上无法产生报销金额；</p>
+</li>
+<li>
+<p>条款里的「未使用医保」，指的是主观上不走医保、直接自费结算，而不是「报销金额为0」；</p>
+</li>
+<li>
+<p>这种因起付线导致的报销金额为0，完全不属于条款约定的打折赔付情形。</p>
+</li>
+</ol>
+<p>就靠这几句，我帮客户跟保险公司据理力争，最终对方松口：</p>
+<p>同意100%全额赔付，并完成补赔！</p>
+<p><img alt="" src="../../wechat_articles/articles/2026-03-05_理赔避坑｜医保报销=0，就等于没走医保？保险公司这套路我拆给你看！/assets/img_003.jpg" /></p>
+<p>💡 给所有投保人的3个关键提醒</p>
+<ol>
+<li>
+<p>别被「报销金额=0」吓住：只要你刷了医保卡结算，就算没报出钱，也属于「使用医保」；</p>
+</li>
+<li>
+<p>看条款要看本质：免责/打折条款，核心是看你是否「主观规避医保」，而不是看报销数字；</p>
+</li>
+<li>
+<p>理赔不分钱多少：哪怕只有几百块，只要不合理，就该争回属于自己的钱。</p>
+</li>
+</ol>
+<p>我是左右姐，专注保险理赔协赔，帮普通人把被保险公司“抠走”的钱，一分不少拿回来。</p>
+<p>📌 最后补一句你可以直接怼保险公司的话术</p>
+<p>“刷医保卡结算就代表已使用医保，只是费用未达起付线导致报销金额为0，这是客观政策限制，不是客户主观未使用医保。你们将「报销金额&gt;0」等同于「使用医保」，属于曲解条款、故意少赔，我要求按100%比例全额赔付。”</p>
+<hr />
+<p><em>本文由 ShawnCH（何智翔）轉發，透過微信聊天記錄自動提取並整理。</em>
+<em>原文連結：https://mp.weixin.qq.com/s?__biz=MzA5MTQzMzUwMg==&amp;mid=2652375305&amp;idx=1&amp;sn=8713acc3d2c39279683cfabeeb9ba503&amp;chksm=8a4b270f99dc4f08deb3f1d71845e691dc4fdccc4ca649e476a8782047053262d14816989130&amp;mpshare=1&amp;scene=1&amp;srcid=0305ykdvp2IbSJLsXjlLmvOC&amp;sharer_shareinfo=d10f10943757ea485f01c442dd0c27cd&amp;sharer_shareinfo_first=d10f10943757ea485f01c442dd0c27cd#rd</em></p></div>
+<div style="margin-top:25px;padding-top:20px;border-top:1px solid #eee"><h3 style="font-size:15px;margin-bottom:10px">下載</h3>
+<a class="dl-btn" href="../../wechat_articles/articles/2026-03-05_理赔避坑｜医保报销=0，就等于没走医保？保险公司这套路我拆给你看！/index.md" download>Markdown</a>
+<a class="dl-btn sec" href="../../wechat_articles/articles/2026-03-05_理赔避坑｜医保报销=0，就等于没走医保？保险公司这套路我拆给你看！/article.txt" download>純文字</a></div></article>
+<footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
+</div><script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script></body></html>

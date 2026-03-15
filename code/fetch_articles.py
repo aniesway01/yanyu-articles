@@ -27,7 +27,7 @@ except ImportError as e:
     sys.exit(1)
 
 # === 路徑 ===
-BASE_DIR = Path(r"C:\AntiGravityFile\YanYuInc")
+BASE_DIR = Path(__file__).parent.parent
 STATE_FILE = BASE_DIR / "wechat_articles" / "_state.json"
 ARTICLES_DIR = BASE_DIR / "wechat_articles" / "articles"
 RAW_DIR = BASE_DIR / "wechat_articles" / "_raw"
