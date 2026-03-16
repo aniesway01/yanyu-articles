@@ -112,7 +112,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4;color:#e0e0e0}
   <div class="cc" onclick="location.href='qidian-finance.html'">
     <div class="cc-icon">📊</div><h2>起点财经免费分享</h2>
     <p>起点财经QE38群分享的研究報告與資料</p>
-    <div class="num">86 份資料</div>
+    <div class="num">94 份資料</div>
   </div>
   <div class="cc" onclick="location.href='service-flow.html'">
     <div class="cc-icon">📋</div><h2>服务流程构想</h2>
@@ -130,5 +130,60 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4;color:#e0e0e0}
     <div class="num">7 篇主题整理 · 497 篇来源</div>
   </div>
 </div>
+
+<div style="margin-top:30px;background:#16213e;border-radius:12px;padding:25px;border:1px solid #2a2a4a">
+  <h2 style="font-size:20px;margin-bottom:15px;color:#e0e0e0">📌 快速收藏</h2>
+  <p style="font-size:13px;color:#888;margin-bottom:15px">看到有趣的網頁？貼上連結，立即收藏到 AI 心得社群分享</p>
+  <div id="bm-auth" style="margin-bottom:12px;display:none">
+    <input id="bm-token" type="password" placeholder="GitHub Token (ghp_...)" style="width:100%;padding:8px 12px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:13px;margin-bottom:6px">
+    <button onclick="saveBmToken()" style="padding:6px 16px;background:#0d47a1;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">儲存 Token</button>
+    <span style="font-size:12px;color:#666;margin-left:8px">僅存在瀏覽器 localStorage</span>
+  </div>
+  <input id="bm-url" type="url" placeholder="貼上網址 https://..." style="width:100%;padding:10px 15px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:14px;margin-bottom:8px">
+  <input id="bm-title" type="text" placeholder="標題（選填，空白會自動用 URL）" style="width:100%;padding:8px 15px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:13px;margin-bottom:8px">
+  <textarea id="bm-notes" placeholder="備註（選填）" rows="2" style="width:100%;padding:8px 15px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:13px;margin-bottom:10px;resize:vertical"></textarea>
+  <button id="bm-submit" onclick="submitBookmark()" style="padding:8px 24px;background:#0d47a1;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500">提交收藏</button>
+  <span id="bm-status" style="margin-left:12px;font-size:13px;color:#888"></span>
+</div>
+
+<script>
+const BM_REPO='aniesway01/yanyu-articles';
+const BM_PATH='bookmarks.json';
+function getBmToken(){return localStorage.getItem('gh_bm_token')||'';}
+function saveBmToken(){
+  var t=document.getElementById('bm-token').value.trim();
+  if(t){localStorage.setItem('gh_bm_token',t);document.getElementById('bm-auth').style.display='none';document.getElementById('bm-status').textContent='✅ Token 已儲存';}
+}
+window.addEventListener('DOMContentLoaded',function(){
+  if(!getBmToken())document.getElementById('bm-auth').style.display='block';
+});
+async function submitBookmark(){
+  var url=document.getElementById('bm-url').value.trim();
+  if(!url){alert('請輸入網址');return;}
+  var token=getBmToken();
+  if(!token){document.getElementById('bm-auth').style.display='block';alert('請先輸入 GitHub Token');return;}
+  var title=document.getElementById('bm-title').value.trim()||url;
+  var notes=document.getElementById('bm-notes').value.trim();
+  var st=document.getElementById('bm-status');
+  var btn=document.getElementById('bm-submit');
+  btn.disabled=true;st.textContent='提交中...';st.style.color='#64b5f6';
+  try{
+    var api='https://api.github.com/repos/'+BM_REPO+'/contents/'+BM_PATH;
+    var r=await fetch(api,{headers:{'Authorization':'Bearer '+token,'Accept':'application/vnd.github.v3+json'}});
+    var d=await r.json();
+    var items=JSON.parse(atob(d.content))||[];
+    items.unshift({url:url,title:title,notes:notes,time:new Date().toISOString().slice(0,16).replace('T',' ')});
+    var body=JSON.stringify({message:'bookmark: '+title.slice(0,50),content:btoa(unescape(encodeURIComponent(JSON.stringify(items,null,2)))),sha:d.sha});
+    var r2=await fetch(api,{method:'PUT',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},body:body});
+    if(r2.ok){
+      st.textContent='✅ 已收藏！稍後刷新 community-ai 即可看到';st.style.color='#66bb6a';
+      document.getElementById('bm-url').value='';document.getElementById('bm-title').value='';document.getElementById('bm-notes').value='';
+    }else{
+      var e=await r2.json();st.textContent='❌ '+e.message;st.style.color='#ef5350';
+    }
+  }catch(ex){st.textContent='❌ '+ex.message;st.style.color='#ef5350';}
+  btn.disabled=false;
+}
+</script>
 <footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知識庫</p></footer>
 </div><script>document.addEventListener('click',function(e){var a=e.target.closest('a[download]');if(!a)return;var h=a.getAttribute('href')||'';if(!h.endsWith('.md')&&!h.endsWith('.txt'))return;e.preventDefault();fetch(a.href).then(function(r){return r.text()}).then(function(t){var b=new Blob(['\uFEFF'+t],{type:'text/markdown;charset=utf-8'});var u=URL.createObjectURL(b);var d=document.createElement('a');d.href=u;d.download=h.split('/').pop();document.body.appendChild(d);d.click();document.body.removeChild(d);URL.revokeObjectURL(u)}).catch(function(){window.open(a.href)})})</script></body></html>
