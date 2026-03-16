@@ -112,7 +112,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4;color:#e0e0e0}
   <div class="cc" onclick="location.href='qidian-finance.html'">
     <div class="cc-icon">📊</div><h2>起点财经免费分享</h2>
     <p>起点财经QE38群分享的研究報告與資料</p>
-    <div class="num">94 份資料</div>
+    <div class="num">102 份資料</div>
   </div>
   <div class="cc" onclick="location.href='service-flow.html'">
     <div class="cc-icon">📋</div><h2>服务流程构想</h2>
@@ -132,16 +132,19 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4;color:#e0e0e0}
 </div>
 
 <div style="margin-top:30px;background:#16213e;border-radius:12px;padding:25px;border:1px solid #2a2a4a">
-  <h2 style="font-size:20px;margin-bottom:15px;color:#e0e0e0">📌 快速收藏</h2>
-  <p style="font-size:13px;color:#888;margin-bottom:15px">看到有趣的網頁？貼上連結，立即收藏到 AI 心得社群分享</p>
+  <h2 style="font-size:20px;margin-bottom:8px;color:#e0e0e0">📌 快速收藏</h2>
+  <div style="font-size:13px;color:#999;margin-bottom:15px;line-height:1.8">
+    <p style="margin-bottom:6px">看到值得記錄的內容？貼上網址就能收藏，收藏後會出現在「<a href="community-ai.html" style="color:#64b5f6">AI 心得社群分享</a>」頁面頂部。</p>
+    <p style="margin:0;color:#777">• 支援任何網址：Facebook、X (Twitter)、Threads、微信文章、GitHub、部落格…<br>• 只需貼網址，標題和備註都可以不填</p>
+  </div>
   <div id="bm-auth" style="margin-bottom:12px;display:none">
     <input id="bm-token" type="password" placeholder="GitHub Token (ghp_...)" style="width:100%;padding:8px 12px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:13px;margin-bottom:6px">
     <button onclick="saveBmToken()" style="padding:6px 16px;background:#0d47a1;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px">儲存 Token</button>
-    <span style="font-size:12px;color:#666;margin-left:8px">僅存在瀏覽器 localStorage</span>
+    <span style="font-size:12px;color:#666;margin-left:8px">僅存在瀏覽器 localStorage，不會傳到伺服器</span>
   </div>
-  <input id="bm-url" type="url" placeholder="貼上網址 https://..." style="width:100%;padding:10px 15px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:14px;margin-bottom:8px">
-  <input id="bm-title" type="text" placeholder="標題（選填，空白會自動用 URL）" style="width:100%;padding:8px 15px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:13px;margin-bottom:8px">
-  <textarea id="bm-notes" placeholder="備註（選填）" rows="2" style="width:100%;padding:8px 15px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:13px;margin-bottom:10px;resize:vertical"></textarea>
+  <input id="bm-url" type="url" placeholder="網址（必填）— 貼上你看到的頁面連結" style="width:100%;padding:10px 15px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:14px;margin-bottom:8px">
+  <input id="bm-title" type="text" placeholder="標題（選填）— 給這筆收藏取個名字，不填會用網址代替" style="width:100%;padding:8px 15px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:13px;margin-bottom:8px">
+  <textarea id="bm-notes" placeholder="備註（選填）— 可以貼上重點摘要、你的想法、或是原文片段" rows="4" style="width:100%;padding:8px 15px;background:#0f3460;border:1px solid #333;border-radius:6px;color:#e0e0e0;font-size:13px;margin-bottom:10px;resize:vertical"></textarea>
   <button id="bm-submit" onclick="submitBookmark()" style="padding:8px 24px;background:#0d47a1;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:500">提交收藏</button>
   <span id="bm-status" style="margin-left:12px;font-size:13px;color:#888"></span>
 </div>
