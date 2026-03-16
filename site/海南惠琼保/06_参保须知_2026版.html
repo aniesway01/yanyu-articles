@@ -3,47 +3,159 @@
 <title>海南惠琼保 — 参保须知（2026版全文） - YanYu 知识库</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f5f5;color:#333;line-height:1.6}
-.ctn{max-width:960px;margin:0 auto;padding:20px}
-a{color:#1a73e8;text-decoration:none}a:hover{text-decoration:underline}
-header{background:#1a73e8;color:#fff;padding:40px 20px;text-align:center;margin-bottom:30px;border-radius:8px}
-header h1{font-size:28px;margin-bottom:8px}header p{opacity:.9;font-size:14px}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#1a1a2e;color:#e0e0e0;line-height:1.6}
+a{color:#64b5f6;text-decoration:none}a:hover{text-decoration:underline}
+.page-wrap{display:flex;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;width:260px;height:100vh;background:#0f1a2e;border-right:1px solid #1e3a5f;overflow-y:auto;padding:15px 0;z-index:100;transition:transform .3s}
+.sidebar-header{padding:10px 15px 15px;border-bottom:1px solid #1e3a5f;margin-bottom:8px}
+.sidebar-header h3{font-size:14px;color:#64b5f6;margin-bottom:6px}
+.sidebar-header a{font-size:13px;color:#999}
+.sidebar-header a:hover{color:#64b5f6}
+.product-group{margin-bottom:2px}
+.product-title{display:block;padding:8px 15px;font-size:13px;font-weight:600;color:#b0bec5;cursor:pointer;border:none;border-left:3px solid transparent;width:100%;text-align:left;background:none;transition:all .2s}
+.product-title:hover{background:#162d50;color:#64b5f6;border-left-color:#64b5f6}
+.product-group.open .product-title{color:#64b5f6;border-left-color:#64b5f6;background:#162d50}
+.sub-items{display:none;padding:2px 0}
+.product-group.open .sub-items{display:block}
+.sub-items a{display:block;padding:5px 15px 5px 28px;font-size:12px;color:#78909c;transition:all .2s}
+.sub-items a:hover,.sub-items a.active{color:#64b5f6;background:#1a2744;text-decoration:none}
+.main-content{margin-left:260px;flex:1;padding:20px;max-width:960px}
+.sidebar-toggle{display:none;position:fixed;top:10px;left:10px;z-index:200;background:#0d47a1;color:#fff;border:none;border-radius:4px;padding:8px 12px;cursor:pointer;font-size:16px}
+@media(max-width:900px){
+.sidebar{transform:translateX(-100%)}
+.sidebar.open{transform:translateX(0)}
+.sidebar-toggle{display:block}
+.main-content{margin-left:0}
+}
 nav{margin-bottom:20px}nav a{font-size:14px}
 footer{text-align:center;padding:30px;color:#999;font-size:13px}
-.card{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:12px;transition:transform .2s}
-.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.card h3{font-size:17px;margin-bottom:8px}.card h3 a{color:#1a73e8}
-.card p{font-size:14px;color:#666}
-article{background:#fff;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
+article{background:#16213e;border-radius:8px;padding:30px;box-shadow:0 1px 3px rgba(0,0,0,.3)}
+article h1{font-size:24px;margin-bottom:15px;line-height:1.4;color:#e0e0e0}
 .content{font-size:16px;line-height:1.8}
 .content p{margin-bottom:15px}
-.content h2{margin:30px 0 12px;font-size:20px;border-bottom:2px solid #1a73e8;padding-bottom:6px}
-.content h3{margin:20px 0 10px;font-size:17px}
-.content h4{margin:15px 0 8px;font-size:15px}
-.content blockquote{border-left:3px solid #1a73e8;padding-left:15px;color:#555;margin:15px 0;font-size:14px}
+.content h2{margin:30px 0 12px;font-size:20px;border-bottom:2px solid #64b5f6;padding-bottom:6px;color:#e0e0e0;scroll-margin-top:20px}
+.content h3{margin:20px 0 10px;font-size:17px;color:#e0e0e0}
+.content h4{margin:15px 0 8px;font-size:15px;color:#e0e0e0}
+.content blockquote{border-left:3px solid #64b5f6;padding-left:15px;color:#999;margin:15px 0;font-size:14px}
 .content table{border-collapse:collapse;width:100%;margin:15px 0}
-.content th,.content td{border:1px solid #ddd;padding:8px 12px;text-align:left}
-.content th{background:#f5f5f5;font-weight:600}
+.content th,.content td{border:1px solid #333;padding:8px 12px;text-align:left;color:#e0e0e0}
+.content th{background:#0f3460;font-weight:600}
 .content ul,.content ol{margin:10px 0 15px 20px}
 .content li{margin-bottom:6px}
-.content strong{color:#1a73e8}
-.content hr{border:none;border-top:1px solid #eee;margin:25px 0}
-</style></head><body><div class="ctn">
+.content strong{color:#64b5f6}
+.content hr{border:none;border-top:1px solid #333;margin:25px 0}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-track{background:#0f1a2e}
+.sidebar::-webkit-scrollbar-thumb{background:#1e3a5f;border-radius:2px}
+</style></head><body>
+<button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ 目录</button>
+<div class="page-wrap">
+<nav class="sidebar">
+<div class="sidebar-header">
+<h3>目录导航</h3>
+<a href="../huiminbao.html">&larr; 返回惠琼保</a>
+</div>
+<div class="product-group">
+<button class="product-title" onclick="toggleGroup(this)">A款升级版</button>
+<div class="sub-items">
+<a href="#prod-a-plus">概述</a>
+<a href="#a-plus-s1">产品说明</a>
+<a href="#a-plus-s2">保障责任</a>
+<a href="#a-plus-s3">责任免除</a>
+<a href="#a-plus-s5">公共服务</a>
+<a href="#a-plus-s6">附表</a>
+</div></div>
+<div class="product-group">
+<button class="product-title" onclick="toggleGroup(this)">A款</button>
+<div class="sub-items">
+<a href="#prod-a-std">概述</a>
+<a href="#a-std-s1">产品说明</a>
+<a href="#a-std-s2">保障责任</a>
+<a href="#a-std-s3">责任免除</a>
+<a href="#a-std-s5">公共服务</a>
+<a href="#a-std-s6">附表</a>
+</div></div>
+<div class="product-group">
+<button class="product-title" onclick="toggleGroup(this)">B款升级版</button>
+<div class="sub-items">
+<a href="#prod-b-plus">概述</a>
+<a href="#b-plus-s1">产品说明</a>
+<a href="#b-plus-s2">保障责任</a>
+<a href="#b-plus-s3">责任免除</a>
+<a href="#b-plus-s5">公共服务</a>
+<a href="#b-plus-s6">附表</a>
+</div></div>
+<div class="product-group">
+<button class="product-title" onclick="toggleGroup(this)">B款</button>
+<div class="sub-items">
+<a href="#prod-b-std">概述</a>
+<a href="#b-std-s1">产品说明</a>
+<a href="#b-std-s2">保障责任</a>
+<a href="#b-std-s3">责任免除</a>
+<a href="#b-std-s5">公共服务</a>
+<a href="#b-std-s6">附表</a>
+</div></div>
+<div class="product-group">
+<button class="product-title" onclick="toggleGroup(this)">惠学保A款</button>
+<div class="sub-items">
+<a href="#prod-stu-a">概述</a>
+<a href="#stu-a-s1">产品说明</a>
+<a href="#stu-a-s2">保障计划</a>
+<a href="#stu-a-s3">责任免除</a>
+<a href="#stu-a-s4">名词释义</a>
+<a href="#stu-a-s5">公共服务</a>
+<a href="#stu-a-s6">附件</a>
+</div></div>
+<div class="product-group">
+<button class="product-title" onclick="toggleGroup(this)">惠学保B款</button>
+<div class="sub-items">
+<a href="#prod-stu-b">概述</a>
+<a href="#stu-b-s1">产品说明</a>
+<a href="#stu-b-s2">保障计划</a>
+<a href="#stu-b-s3">责任免除</a>
+<a href="#stu-b-s4">名词释义</a>
+<a href="#stu-b-s5">公共服务</a>
+<a href="#stu-b-s6">附件</a>
+</div></div>
+<div class="product-group">
+<button class="product-title" onclick="toggleGroup(this)">惠学保C款</button>
+<div class="sub-items">
+<a href="#prod-stu-c">概述</a>
+<a href="#stu-c-s1">产品说明</a>
+<a href="#stu-c-s2">保障计划</a>
+<a href="#stu-c-s3">责任免除</a>
+<a href="#stu-c-s4">名词释义</a>
+<a href="#stu-c-s5">公共服务</a>
+<a href="#stu-c-s6">附件</a>
+</div></div>
+<div class="product-group">
+<button class="product-title" onclick="toggleGroup(this)">健康管理服务</button>
+<div class="sub-items">
+<a href="#prod-health">概述</a>
+<a href="#health-s1">服务总览</a>
+<a href="#health-s2">服务详情</a>
+</div></div>
+<div class="product-group">
+<button class="product-title" onclick="toggleGroup(this)">重要告知</button>
+<div class="sub-items">
+<a href="#prod-notice">概述</a>
+</div></div>
+</nav>
+<div class="main-content">
 <nav><a href="../huiminbao.html">&larr; 返回</a></nav><article><div class="content"><h1>海南惠琼保 — 参保须知（2026版全文）</h1>
 <blockquote>
 <p>以下为2026版各款产品的完整参保须知原文，包含详细条款、药品目录、服务网点等。
 历史版本（2024/2025）参见各年度参保须知原文。
 数据来源: "海南惠琼保"微信公众号</p>
 </blockquote>
-<h2>“惠琼保”2026版A款升级版参保须知</h2>
+<h2 id="prod-a-plus">“惠琼保”2026版A款升级版参保须知</h2>
 <blockquote>
 <p>来源: <a href="https://mp.weixin.qq.com/s/5jEt_8eIAfJpzyIgWJX26g">“惠琼保”2026版A款升级版参保须知</a></p>
 </blockquote>
 <p>“惠琼保A款升级版”参保须知
 产品保障内容</p>
 <p>本出资人已完整阅读并正确理解“惠琼保A款（升级版）”保险产品所适用的保险条款、参保须知、理赔须知等各项内容，并特别就其中免除保险公司责任的条款或约定（包括但不限于责任免除、投保人及被保险人义务、保险金申请与给付等）的内容进行阅读，并已充分理解并接受上述全部内容。本出资人确认被保险人信息填写无误，被保险人符合参保条件，被保险人知悉本产品关于被保险人的健康状况约定。</p>
-<h2>一、产品说明</h2>
+<h2 id="a-plus-s1">一、产品说明</h2>
 <ul>
 <li>本产品由多家保险公司组成共保体共同承保（以下简称“共保体公司”或“保险公司”，名单详见附表），由海保人寿保险股份有限公司统一提供承保及理赔服务（以下简称“海保人寿”或“主承保公司”）。</li>
 <li>参保对象：</li>
@@ -66,7 +178,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <li>本产品适用条款为《海保人寿惠琼保定制团体补充医疗保险（互联网）》（备案文号：海保字〔2025〕245号、条款编码：海保人寿[2025]医疗保险065号）;未尽事宜，以条款为准。</li>
 <li>本产品仅提供电子参保凭证，参保人可在参保期结束后在“海南惠琼保”公众号查询下载电子参保凭证。本产品不对个人出资人提供纸质或电子发票。</li>
 </ul>
-<h2>二、保障责任</h2>
+<h2 id="a-plus-s2">二、保障责任</h2>
 <p>保险期间内，保险公司承担以下保险责任：</p>
 <h3>保障责任一：基本医疗保险支付范围内医疗费用保险金</h3>
 <p>被保险人在保险期间内因发生疾病或遭受意外伤害，经医院确诊必须住院治疗的或接受符合当地医疗保障行政部门基本医疗保险规定的门诊特定病种和门诊慢性病种治疗的，保险公司就其在治疗期间实际发生的、符合被保险人当地基本医疗保险支付范围内的合理医疗费用，经当地基本医疗保险和大病保险报销后，应由其个人自负的部分，在扣除年度累计免赔额后，按80%的给付比例（特定既往症人群按40%的给付比例）给付基本医疗保险支付范围内医疗费用保险金。</p>
@@ -168,7 +280,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>对于未参加海南省基本医疗保险，但符合其他参保条件的人员，理赔申请时须同时提供出资人参保本产品符合参保条件的证明材料，包括但不限于海南省内居住证、工作证明等。</p>
 <p><strong>（7）</strong>关于医疗费用补偿原则的约定</p>
 <p>保险公司在保险责任范围内给付各项保险金，但若被保险人已从其它途径（包括但不限于社会医疗保险、公费医疗、工作单位、侵权人或侵权责任承担方、保险公司在内的任何商业保险机构）获得补偿，对于被保险人发生的符合保险责任约定的医疗费用，除保险责任另有约定外，保险公司将在扣除其他途径已获得的补偿后，对于剩余部分费用根据保险责任约定的免赔额和给付比例分别给付各项保险金，赔付金额以各项保险责任的保额为限。</p>
-<h2>三、责任免除</h2>
+<h2 id="a-plus-s3">三、责任免除</h2>
 <p>因下列情形之一，导致被保险人医疗费用支出的，本公司不承担给付基本医疗保险支付范围内医疗费用保险金（保障责任一）、基本医疗保险支付范围内高额医疗费用保险金（保障责任二）和基本医疗保险支付范围外自费药品费用医疗保险金（保障责任三）责任：</p>
 <p><strong>（1）</strong>投保人对被保险人的故意杀害、故意伤害；</p>
 <p><strong>（2）</strong>被保险人故意自伤或自杀，但被保险人自杀时为无民事行为能力人的除外；</p>
@@ -236,7 +348,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p><strong>（1）</strong>被保险人在参保前，医生已有明确诊断，长期治疗未间断；</p>
 <p><strong>（2）</strong>被保险人在参保前，医生已有明确诊断，治疗后症状未完全消失，有间断用药或接受治疗的情况；</p>
 <p><strong>（3）</strong>被保险人在参保前发生，未经医生诊断和治疗，但症状已经显现足以促使一般普通谨慎人士引起注意并寻求诊断、治疗或护理的病症。</p>
-<h2>五、公共服务内容及其他</h2>
+<h2 id="a-plus-s5">五、公共服务内容及其他</h2>
 <p>1、参保过程中如有任何疑问可联系惠琼保客户服务中心或拨打4000012871咨询。</p>
 <p>2、海保人寿偿付能力符合监管要求，综合偿付能力充足率及分类监管评级信息，您可以登陆我司官网（www.haibao-life.com）“公开信息披露-专项信息-偿付能力”栏查询，或拨打客服电话 400-898-0899 咨询。</p>
 <p>3、本产品仅提供电子保单。根据《民法典》第四百六十九条规定，数据电文是合法的合同表现形式。本人接受以“惠琼保”承保公司（海保人寿保险股份有限公司）提供的电子保单作为本投保书成立的合法有效凭证，具有完全证据效力。</p>
@@ -246,17 +358,17 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>为确保本人信息的安全，本产品共保公司及其集团公司、及其合作伙伴对上述信息负有保密义务，并采取各种措施保证信息安全。
 本条款自本单证签署时生效，具有独立法律效力，不受合同成立与否及效力状态变化的影响。
 如您不同意上述授权条款的部分或全部，可【致电客户热线（4000012871）】取消或变更授权。</p>
-<h2>六、附表</h2>
+<h2 id="a-plus-s6">六、附表</h2>
 <p>附表1：“共保体公司”名单</p>
 <hr />
-<h2>“惠琼保”2026版A款参保须知</h2>
+<h2 id="prod-a-std">“惠琼保”2026版A款参保须知</h2>
 <blockquote>
 <p>来源: <a href="https://mp.weixin.qq.com/s/RrjLt5kWHI_J1pAycqSr3Q">“惠琼保”2026版A款参保须知</a></p>
 </blockquote>
 <p>“惠琼保A款”参保须知
 产品保障内容</p>
 <p>本出资人已完整阅读并正确理解“惠琼保A款”保险产品所适用的保险条款、参保须知、理赔须知等各项内容，并特别就其中免除保险公司责任的条款或约定（包括但不限于责任免除、投保人及被保险人义务、保险金申请与给付等）的内容进行阅读，并已充分理解并接受上述全部内容。本出资人确认被保险人信息填写无误，被保险人符合参保条件，被保险人知悉本产品关于被保险人的健康状况约定。</p>
-<h2>一、产品说明</h2>
+<h2 id="a-std-s1">一、产品说明</h2>
 <ul>
 <li>本产品由多家保险公司组成共保体共同承保（以下简称“共保体公司”或“保险公司”，名单详见附表），由海保人寿保险股份有限公司统一提供承保及理赔服务（以下简称“海保人寿”或“主承保公司”）。</li>
 <li>参保对象：</li>
@@ -279,7 +391,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <li>本产品适用条款为《海保人寿惠琼保定制团体补充医疗保险（互联网）》（备案文号：海保字〔2025〕245号、条款编码：海保人寿[2025]医疗保险065号）;未尽事宜，以条款为准。</li>
 <li>本产品仅提供电子参保凭证，参保人可在参保期结束后在“海南惠琼保”公众号查询下载电子参保凭证。本产品不对个人出资人提供纸质或电子发票。</li>
 </ul>
-<h2>二、保障责任</h2>
+<h2 id="a-std-s2">二、保障责任</h2>
 <p>保险期间内，保险公司承担以下保险责任：</p>
 <h3>保障责任一：基本医疗保险支付范围内医疗费用保险金</h3>
 <p>被保险人在保险期间内因发生疾病或遭受意外伤害，经医院确诊必须住院治疗的或接受符合当地医疗保障行政部门基本医疗保险规定的门诊特定病种和门诊慢性病种治疗的，保险公司就其在治疗期间实际发生的、符合被保险人当地基本医疗保险支付范围内的合理医疗费用，经当地基本医疗保险和大病保险报销后，应由其个人自付的部分，在扣除年度累计免赔额后，按80%的给付比例（特定既往症人群按40%的给付比例）给付基本医疗保险支付范围内医疗费用保险金。</p>
@@ -380,7 +492,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>对于未参加海南省基本医疗保险，但符合其他参保条件的人员，理赔申请时须同时提供出资人参保本产品符合参保条件的证明材料，包括但不限于海南省内居住证、工作证明等。</p>
 <p><strong>（7）</strong>关于医疗费用补偿原则的约定</p>
 <p>保险公司在保险责任范围内给付各项保险金，但若被保险人已从其它途径（包括但不限于社会医疗保险、公费医疗、工作单位、侵权人或侵权责任承担方、保险公司在内的任何商业保险机构）获得补偿，对于被保险人发生的符合保险责任约定的医疗费用，除保险责任另有约定外，保险公司将在扣除其他途径已获得的补偿后，对于剩余部分费用根据保险责任约定的免赔额和给付比例分别给付各项保险金，赔付金额以各项保险责任的保额为限。</p>
-<h2>三、责任免除</h2>
+<h2 id="a-std-s3">三、责任免除</h2>
 <p>因下列情形之一，导致被保险人医疗费用支出的，本公司不承担给付基本医疗保险支付范围内医疗费用保险金（保障责任一）、基本医疗保险支付范围内高额医疗费用保险金（保障责任二）和基本医疗保险支付范围外自费药品费用医疗保险金（保障责任三）责任：</p>
 <p><strong>（1）</strong>投保人对被保险人的故意杀害、故意伤害；</p>
 <p><strong>（2）</strong>被保险人故意自伤或自杀，但被保险人自杀时为无民事行为能力人的除外；</p>
@@ -448,7 +560,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p><strong>（1）</strong>被保险人在参保前，医生已有明确诊断，长期治疗未间断；</p>
 <p><strong>（2）</strong>被保险人在参保前，医生已有明确诊断，治疗后症状未完全消失，有间断用药或接受治疗的情况；</p>
 <p><strong>（3）</strong>被保险人在参保前发生，未经医生诊断和治疗，但症状已经显现足以促使一般普通谨慎人士引起注意并寻求诊断、治疗或护理的病症。</p>
-<h2>五、公共服务内容及其他</h2>
+<h2 id="a-std-s5">五、公共服务内容及其他</h2>
 <p>1、参保过程中如有任何疑问可联系惠琼保客户服务中心或拨打4000012871咨询。</p>
 <p>2、海保人寿偿付能力符合监管要求，综合偿付能力充足率及分类监管评级信息，您可以登陆我司官网（www.haibao-life.com）“公开信息披露-专项信息-偿付能力”栏查询，或拨打客服电话 400-898-0899 咨询。</p>
 <p>3、本产品仅提供电子保单。根据《民法典》第四百六十九条规定，数据电文是合法的合同表现形式。本人接受以“惠琼保”承保公司（海保人寿保险股份有限公司）提供的电子保单作为本投保书成立的合法有效凭证，具有完全证据效力。</p>
@@ -458,17 +570,17 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>为确保本人信息的安全，本产品共保公司及其集团公司、及其合作伙伴对上述信息负有保密义务，并采取各种措施保证信息安全。
 本条款自本单证签署时生效，具有独立法律效力，不受合同成立与否及效力状态变化的影响。
 如您不同意上述授权条款的部分或全部，可【致电客户热线（4000012871）】取消或变更授权。</p>
-<h2>六、附表</h2>
+<h2 id="a-std-s6">六、附表</h2>
 <p>附表1：“共保体公司”名单</p>
 <hr />
-<h2>“惠琼保”2026版B款升级版参保须知</h2>
+<h2 id="prod-b-plus">“惠琼保”2026版B款升级版参保须知</h2>
 <blockquote>
 <p>来源: <a href="https://mp.weixin.qq.com/s/ktWNNlXoB9H273vv5D_ZTQ">“惠琼保”2026版B款升级版参保须知</a></p>
 </blockquote>
 <p>“惠琼保B款升级版”参保须知
 产品保障内容</p>
 <p>本出资人已完整阅读并正确理解“惠琼保B款（升级版）”保险产品所适用的保险条款、参保须知、理赔须知等各项内容，并特别就其中免除保险公司责任的条款或约定（包括但不限于责任免除、投保人及被保险人义务、保险金申请与给付等）的内容进行阅读，并已充分理解并接受上述全部内容。本出资人确认被保险人信息填写无误，被保险人符合参保条件，被保险人知悉本产品关于被保险人的健康状况约定。</p>
-<h2>一、产品说明</h2>
+<h2 id="b-plus-s1">一、产品说明</h2>
 <ul>
 <li>本产品由多家保险公司组成共保体共同承保（以下简称“共保体公司”或“保险公司”，名单详见附表），由海保人寿保险股份有限公司统一提供承保及理赔服务（以下简称“海保人寿”或“主承保公司”）。</li>
 <li>参保对象：</li>
@@ -491,7 +603,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <li>本产品适用条款为《海保人寿惠琼保定制团体补充医疗保险（互联网）》（备案文号：海保字〔2025〕245号、条款编码：海保人寿[2025]医疗保险065号）;未尽事宜，以条款为准。</li>
 <li>本产品仅提供电子参保凭证，参保人可在参保期结束后在“海南惠琼保”公众号查询下载电子参保凭证。本产品不对个人出资人提供纸质或电子发票。</li>
 </ul>
-<h2>二、保障责任</h2>
+<h2 id="b-plus-s2">二、保障责任</h2>
 <p>保险期间内，保险公司承担以下保险责任：</p>
 <h3>保障责任一：基本医疗保险支付范围内医疗费用保险金</h3>
 <p>被保险人在保险期间内因发生疾病或遭受意外伤害，经医院确诊必须住院治疗的或接受符合当地医疗保障行政部门基本医疗保险规定的门诊特定病种和门诊慢性病种治疗的，保险公司就其在治疗期间实际发生的、符合被保险人当地基本医疗保险支付范围内的合理医疗费用，经当地基本医疗保险和大病保险报销后，应由其个人自负的部分，在扣除年度累计免赔额后，按80%的给付比例（特定既往症人群按40%的给付比例）给付基本医疗保险支付范围内医疗费用保险金。</p>
@@ -628,7 +740,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>保险公司在保险责任范围内给付各项保险金，但若被保险人已从其它途径（包括但不限于社会医疗保险、公费医疗、工作单位、侵权人或侵权责任承担方、保险公司在内的任何商业保险机构）获得补偿，对于被保险人发生的符合保险责任约定的医疗费用，除保险责任另有约定外，保险公司将在扣除其他途径已获得的补偿后，对于剩余部分费用根据保险责任约定的免赔额和给付比例分别给付各项保险金，赔付金额以各项保险责任的保额为限。</p>
 <p><strong>（8）</strong>关于慈善援助的约定
 责任四中药品涉及慈善援助的，应当按照慈善机构援助方案执行，由慈善机构援助的药品费用不纳入本产品支付范围。</p>
-<h2>三、责任免除</h2>
+<h2 id="b-plus-s3">三、责任免除</h2>
 <p>1、因下列情形之一，导致被保险人医疗费用支出的，本公司不承担给付基本医疗保险支付范围内医疗费用保险金（保障责任一）、基本医疗保险支付范围内高额医疗费用保险金（保障责任二）和基本医疗保险支付范围外医疗费用保险金（保障责任三）责任：</p>
 <p><strong>（1）</strong>投保人对被保险人的故意杀害、故意伤害；</p>
 <p><strong>（2）</strong>被保险人故意自伤或自杀，但被保险人自杀时为无民事行为能力人的除外；</p>
@@ -717,7 +829,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 指由慈善机构设定的针对特定药品的慈善项目或捐助计划等。
 【认可的慈善机构】
 指依法成立、符合《中华人民共和国慈善法》规定，以面向社会开展慈善活动为宗旨的非营利性组织机构。慈善机构可以采取基金会、社会团体、社会服务机构等组织形式。</p>
-<h2>五、公共服务内容及其他</h2>
+<h2 id="b-plus-s5">五、公共服务内容及其他</h2>
 <p>1、参保过程中如有任何疑问可联系惠琼保客户服务中心或拨打4000012871咨询。</p>
 <p>2、海保人寿偿付能力符合监管要求，综合偿付能力充足率及分类监管评级信息，您可以登陆我司官网（www.haibao-life.com）“公开信息披露-专项信息-偿付能力”栏查询，或拨打客服电话 400-898-0899 咨询。</p>
 <p>3、本产品仅提供电子保单。根据《民法典》第四百六十九条规定，数据电文是合法的合同表现形式。本人接受以“惠琼保”承保公司（海保人寿保险股份有限公司）提供的电子保单作为本投保书成立的合法有效凭证，具有完全证据效力。</p>
@@ -727,17 +839,17 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>为确保本人信息的安全，本产品共保公司及其集团公司、及其合作伙伴对上述信息负有保密义务，并采取各种措施保证信息安全。
 本条款自本单证签署时生效，具有独立法律效力，不受合同成立与否及效力状态变化的影响。
 如您不同意上述授权条款的部分或全部，可【致电客户热线（4000012871）】取消或变更授权。</p>
-<h2>六、附表</h2>
+<h2 id="b-plus-s6">六、附表</h2>
 <p>附表1：“共保体公司”名单</p>
 <hr />
-<h2>“惠琼保”2026版B款参保须知</h2>
+<h2 id="prod-b-std">“惠琼保”2026版B款参保须知</h2>
 <blockquote>
 <p>来源: <a href="https://mp.weixin.qq.com/s/j-t2zyAbe8DHVKW-wzWzFw">“惠琼保”2026版B款参保须知</a></p>
 </blockquote>
 <p>“惠琼保B款”参保须知
 产品保障内容</p>
 <p>本出资人已完整阅读并正确理解“惠琼保B款”保险产品所适用的保险条款、参保须知、理赔须知等各项内容，并特别就其中免除保险公司责任的条款或约定（包括但不限于责任免除、投保人及被保险人义务、保险金申请与给付等）的内容进行阅读，并已充分理解并接受上述全部内容。本出资人确认被保险人信息填写无误，被保险人符合参保条件，被保险人知悉本产品关于被保险人的健康状况约定。</p>
-<h2>一、产品说明</h2>
+<h2 id="b-std-s1">一、产品说明</h2>
 <ul>
 <li>本产品由多家保险公司组成共保体共同承保（以下简称“共保体公司”或“保险公司”，名单详见附表），由海保人寿保险股份有限公司统一提供承保及理赔服务（以下简称“海保人寿”或“主承保公司”）。</li>
 <li>参保对象：</li>
@@ -760,7 +872,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <li>本产品适用条款为《海保人寿惠琼保定制团体补充医疗保险（互联网）》（备案文号：海保字〔2025〕245号、条款编码：海保人寿[2025]医疗保险065号）;未尽事宜，以条款为准。</li>
 <li>本产品仅提供电子参保凭证，参保人可在参保期结束后在“海南惠琼保”公众号查询下载电子参保凭证。本产品不对个人出资人提供纸质或电子发票。</li>
 </ul>
-<h2>二、保障责任</h2>
+<h2 id="b-std-s2">二、保障责任</h2>
 <p>保险期间内，保险公司承担以下保险责任：</p>
 <h3>保障责任一：基本医疗保险支付范围内医疗费用保险金</h3>
 <p>被保险人在保险期间内因发生疾病或遭受意外伤害，经医院确诊必须住院治疗的或接受符合当地医疗保障行政部门基本医疗保险规定的门诊特定病种和门诊慢性病种治疗的，保险公司就其在治疗期间实际发生的、符合被保险人当地基本医疗保险支付范围内的合理医疗费用，经当地基本医疗保险和大病保险报销后，应由其个人自负的部分，在扣除年度累计免赔额后，按80%的给付比例（特定既往症人群按40%的给付比例）给付基本医疗保险支付范围内医疗费用保险金。</p>
@@ -895,7 +1007,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>保险公司在保险责任范围内给付各项保险金，但若被保险人已从其它途径（包括但不限于社会医疗保险、公费医疗、工作单位、侵权人或侵权责任承担方、保险公司在内的任何商业保险机构）获得补偿，对于被保险人发生的符合保险责任约定的医疗费用，除保险责任另有约定外，保险公司将在扣除其他途径已获得的补偿后，对于剩余部分费用根据保险责任约定的免赔额和给付比例分别给付各项保险金，赔付金额以各项保险责任的保额为限。</p>
 <p><strong>（8）</strong>关于慈善援助的约定
 责任四中药品涉及慈善援助的，应当按照慈善机构援助方案执行，由慈善机构援助的药品费用不纳入本产品支付范围。</p>
-<h2>三、责任免除</h2>
+<h2 id="b-std-s3">三、责任免除</h2>
 <p>1、因下列情形之一，导致被保险人医疗费用支出的，本公司不承担给付基本医疗保险支付范围内医疗费用保险金（保障责任一）、基本医疗保险支付范围内高额医疗费用保险金（保障责任二）和基本医疗保险支付范围外自费药品费用医疗保险金（保障责任三）责任：</p>
 <p><strong>（1）</strong>投保人对被保险人的故意杀害、故意伤害；</p>
 <p><strong>（2）</strong>被保险人故意自伤或自杀，但被保险人自杀时为无民事行为能力人的除外；</p>
@@ -984,7 +1096,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 指由慈善机构设定的针对特定药品的慈善项目或捐助计划等。
 【认可的慈善机构】
 指依法成立、符合《中华人民共和国慈善法》规定，以面向社会开展慈善活动为宗旨的非营利性组织机构。慈善机构可以采取基金会、社会团体、社会服务机构等组织形式。</p>
-<h2>五、公共服务内容及其他</h2>
+<h2 id="b-std-s5">五、公共服务内容及其他</h2>
 <p>1、参保过程中如有任何疑问可联系惠琼保客户服务中心或拨打4000012871咨询。</p>
 <p>2、海保人寿偿付能力符合监管要求，综合偿付能力充足率及分类监管评级信息，您可以登陆我司官网（www.haibao-life.com）“公开信息披露-专项信息-偿付能力”栏查询，或拨打客服电话 400-898-0899 咨询。</p>
 <p>3、本产品仅提供电子保单。根据《民法典》第四百六十九条规定，数据电文是合法的合同表现形式。本人接受以“惠琼保”承保公司（海保人寿保险股份有限公司）提供的电子保单作为本投保书成立的合法有效凭证，具有完全证据效力。</p>
@@ -994,16 +1106,16 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>为确保本人信息的安全，本产品共保公司及其集团公司、及其合作伙伴对上述信息负有保密义务，并采取各种措施保证信息安全。
 本条款自本单证签署时生效，具有独立法律效力，不受合同成立与否及效力状态变化的影响。
 如您不同意上述授权条款的部分或全部，可【致电客户热线（4000012871）】取消或变更授权。</p>
-<h2>六、附表</h2>
+<h2 id="b-std-s6">六、附表</h2>
 <p>附表1：“共保体公司”名单</p>
 <hr />
-<h2>“惠学保A款”参保须知</h2>
+<h2 id="prod-stu-a">“惠学保A款”参保须知</h2>
 <blockquote>
 <p>来源: <a href="https://mp.weixin.qq.com/s/e0MyCd-38Vyu-p-GxLHs2w">“惠学保A款”参保须知</a></p>
 </blockquote>
 <p>“惠学保A款”参保须知</p>
 <p>本出资人已完整阅读并正确理解“惠学保A款”保险计划所适用的保险条款、参保须知、理赔须知等各项内容，并特别就其中免除保险公司责任的条款或约定（包括但不限于责任免除、投保人及被保险人义务、保险金申请与给付等）的内容进行阅读，并已充分理解并接受上述全部内容。本出资人确认被保险人信息填写无误，被保险人符合参保条件，被保险人知悉本产品关于被保险人的健康状况约定。</p>
-<h2>一、产品说明</h2>
+<h2 id="stu-a-s1">一、产品说明</h2>
 <ul>
 <li>本保障计划由多家保险公司组成共保体共同承保（以下简称“共保体公司”或“保险公司”，名单详见附表），由海保人寿保险股份有限公司统一提供承保及理赔服务（以下简称“海保人寿”或“主承保公司”）。</li>
 <li>参保对象：
@@ -1027,7 +1139,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <li>本保障计划交费方式为一次性交清，支持多种保费支付方式，如微信、银行卡等，请在提交订单后及时支付保费。请勿直接将现金交付给销售人员或其他自称保险公司工作人员的陌生人。</li>
 <li>本保障计划适用条款为《海保人寿乐无忧团体住院医疗保险（互联网）》（备案文号：海保字〔2025〕266号、条款编码：海保人寿[2025]医疗保险070号），未尽事宜，以条款为准。</li>
 </ul>
-<h2>二、保障计划</h2>
+<h2 id="stu-a-s2">二、保障计划</h2>
 <p>1.本保障计划保障方案如下：
 注：因意外原因导致的住院医疗和特定疾病，无等待期</p>
 <p><strong>（2）</strong>等待期说明:
@@ -1049,7 +1161,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>住院医疗保险金的定点医疗机构为基本医疗保险定点医疗机构，被保险人在非基本医疗保险定点医疗机构所产生的医疗费用，保险公司均不予补偿。基本医疗保险定点医疗机构的范围，以当地基本医疗保险政策规定为准。</p>
 <p><strong>（2）</strong>关于医疗费用补偿原则的约定</p>
 <p>保险公司在保险责任范围内给付各项保险金，但若被保险人已从其它途径（包括但不限于社会医疗保险、公费医疗、工作单位、侵权人或侵权责任承担方、保险公司在内的任何商业保险机构）获得补偿，对于被保险人发生的符合保险责任约定的医疗费用，除保险责任另有约定外，保险公司将在扣除其他途径已获得的补偿后，对于剩余部分费用根据保险责任约定的免赔额和给付比例分别给付各项保险金，赔付金额以各项保险责任的保额为限。</p>
-<h2>三、责任免除</h2>
+<h2 id="stu-a-s3">三、责任免除</h2>
 <p>海保人寿乐无忧团体住院医疗保险（互联网）免责条款如下：
 因下列情形之一，导致被保险人支出医疗费用的，本公司不承担给付保险金的责任：</p>
 <p><strong>（1）</strong>投保人对被保险人的故意杀害、故意伤害；</p>
@@ -1068,7 +1180,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p><strong>（14）</strong>被保险人感染艾滋病病毒或患艾滋病；</p>
 <p><strong>（15）</strong>遗传性疾病，先天性畸形、变形或染色体异常；</p>
 <p><strong>（16）</strong>被保险人在香港特别行政区、澳门特别行政区、台湾地区或中国境外接受治疗。</p>
-<h2>四、名词释义</h2>
+<h2 id="stu-a-s4">四、名词释义</h2>
 <p>【当地】
 指基本医疗保险参保地。
 【基本医疗保险】
@@ -1107,7 +1219,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p><strong>（1）</strong>被保险人在参保前，医生已有明确诊断，长期治疗未间断；</p>
 <p><strong>（2）</strong>被保险人在参保前，医生已有明确诊断，治疗后症状未完全消失，有间断用药或接受治疗的情况；</p>
 <p><strong>（3）</strong>被保险人在参保前发生，未经医生诊断和治疗，但症状已经显现足以促使一般普通谨慎人士引起注意并寻求诊断、治疗或护理的病症。</p>
-<h2>五、公共服务内容及其他</h2>
+<h2 id="stu-a-s5">五、公共服务内容及其他</h2>
 <p>1、
 参保过程中如有任何疑问可拨打400-898-0899咨询。</p>
 <p>2、海保人寿偿付能力符合监管要求，综合偿付能力充足率及分类监管评级信息，您可以登陆我司官网（www.haibao-life.com）“公开信息披露-专项信息-偿付能力”栏查询，或拨打客服电话 400-898-0899 咨询。</p>
@@ -1118,16 +1230,16 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>为确保本人信息的安全，本产品共保公司及其集团公司、及其合作伙伴对上述信息负有保密义务，并采取各种措施保证信息安全。
 本条款自本单证签署时生效，具有独立法律效力，不受合同成立与否及效力状态变化的影响。
 如您不同意上述授权条款的部分或全部，可致电客服热线（400-898-0899）取消或变更授权。</p>
-<h2>六、附件</h2>
+<h2 id="stu-a-s6">六、附件</h2>
 <p>附表1：“共保体公司”名单</p>
 <hr />
-<h2>“惠学保B款”参保须知</h2>
+<h2 id="prod-stu-b">“惠学保B款”参保须知</h2>
 <blockquote>
 <p>来源: <a href="https://mp.weixin.qq.com/s/yzBppG4yL6hiZB9tVNTNzg">“惠学保B款”参保须知</a></p>
 </blockquote>
 <p>“惠学保B款”参保须知</p>
 <p>本出资人已完整阅读并正确理解“惠学保B款”保险计划所适用的保险条款、参保须知、理赔须知等各项内容，并特别就其中免除保险公司责任的条款或约定（包括但不限于责任免除、投保人及被保险人义务、保险金申请与给付等）的内容进行阅读，并已充分理解并接受上述全部内容。本出资人确认被保险人信息填写无误，被保险人符合参保条件，被保险人知悉本产品关于被保险人的健康状况约定。</p>
-<h2>一、产品说明</h2>
+<h2 id="stu-b-s1">一、产品说明</h2>
 <ul>
 <li>本保障计划由多家保险公司组成共保体共同承保（以下简称“共保体公司”或“保险公司”，名单详见附表），由海保人寿保险股份有限公司统一提供承保及理赔服务（以下简称“海保人寿”或“主承保公司”）。</li>
 <li>参保对象：
@@ -1148,7 +1260,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <li>本保障计划交费方式为一次性交清，支持多种保费支付方式，如微信、银行卡等，请在提交订单后及时支付保费。请勿直接将现金交付给销售人员或其他自称保险公司工作人员的陌生人。</li>
 <li>本保障计划适用条款为《海保人寿乐无忧团体住院医疗保险（互联网）》（备案文号：海保字〔2025〕266号、条款编码：海保人寿[2025]医疗保险070号）、《海保人寿乐无忧团体特定疾病保险（互联网）》（备案文号：海保字〔2025〕267号、条款编码：海保人寿[2025]疾病保险071号），未尽事宜，以条款为准。</li>
 </ul>
-<h2>二、保障计划</h2>
+<h2 id="stu-b-s2">二、保障计划</h2>
 <p>1.本保障计划保障方案如下：
 注：因意外原因导致的住院医疗和特定疾病，无等待期</p>
 <p><strong>（2）</strong>等待期说明:
@@ -1173,7 +1285,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>住院医疗保险金的定点医疗机构为基本医疗保险定点医疗机构，被保险人在非基本医疗保险定点医疗机构所产生的医疗费用，保险公司均不予补偿。基本医疗保险定点医疗机构的范围，以当地基本医疗保险政策规定为准。</p>
 <p><strong>（2）</strong>关于医疗费用补偿原则的约定</p>
 <p>保险公司在保险责任范围内给付各项保险金，但若被保险人已从其它途径（包括但不限于社会医疗保险、公费医疗、工作单位、侵权人或侵权责任承担方、保险公司在内的任何商业保险机构）获得补偿，对于被保险人发生的符合保险责任约定的医疗费用，除保险责任另有约定外，保险公司将在扣除其他途径已获得的补偿后，对于剩余部分费用根据保险责任约定的免赔额和给付比例分别给付各项保险金，赔付金额以各项保险责任的保额为限。</p>
-<h2>三、责任免除</h2>
+<h2 id="stu-b-s3">三、责任免除</h2>
 <p>海保人寿乐无忧团体住院医疗保险（互联网）免责条款如下：
 因下列情形之一，导致被保险人支出医疗费用的，本公司不承担给付保险金的责任：</p>
 <p><strong>（1）</strong>投保人对被保险人的故意杀害、故意伤害；</p>
@@ -1205,7 +1317,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p><strong>（9）</strong>遗传性疾病，先天性畸形、变形或染色体异常。</p>
 <p>发生上述第（1）项情形导致被保险人患有本合同所列特定疾病的，本合同对该被保险人保险责任终止，本公司向该被保险人退还保险责任终止时本合同项下该被保险人对应的现金价值。</p>
 <p>发生上述第（2）-（9）项情形导致被保险人患有本合同所列特定疾病的，本合同对该被保险人保险责任终止，本公司向投保人退还保险责任终止时本合同项下该被保险人对应的现金价值。</p>
-<h2>四、名词释义</h2>
+<h2 id="stu-b-s4">四、名词释义</h2>
 <p>【当地】
 指基本医疗保险参保地。
 【基本医疗保险】
@@ -1246,7 +1358,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p><strong>（1）</strong>被保险人在参保前，医生已有明确诊断，长期治疗未间断；</p>
 <p><strong>（2）</strong>被保险人在参保前，医生已有明确诊断，治疗后症状未完全消失，有间断用药或接受治疗的情况；</p>
 <p><strong>（3）</strong>被保险人在参保前发生，未经医生诊断和治疗，但症状已经显现足以促使一般普通谨慎人士引起注意并寻求诊断、治疗或护理的病症。</p>
-<h2>五、公共服务内容及其他</h2>
+<h2 id="stu-b-s5">五、公共服务内容及其他</h2>
 <p>1、
 参保过程中如有任何疑问可拨打400-898-0899咨询。
 2、海保人寿偿付能力符合
@@ -1259,16 +1371,16 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>为确保本人信息的安全，本产品共保公司及其集团公司、及其合作伙伴对上述信息负有保密义务，并采取各种措施保证信息安全。
 本条款自本单证签署时生效，具有独立法律效力，不受合同成立与否及效力状态变化的影响。
 如您不同意上述授权条款的部分或全部，可【致电客户热线（4000012871）】取消或变更授权。</p>
-<h2>六、附件</h2>
+<h2 id="stu-b-s6">六、附件</h2>
 <p>附表1：“共保体公司”名单</p>
 <hr />
-<h2>“惠学保C款”参保须知</h2>
+<h2 id="prod-stu-c">“惠学保C款”参保须知</h2>
 <blockquote>
 <p>来源: <a href="https://mp.weixin.qq.com/s/DsU8nPHH6JyKdNvy90DyXA">“惠学保C款”参保须知</a></p>
 </blockquote>
 <p>“惠学保C款”参保须知</p>
 <p>本出资人已完整阅读并正确理解“惠学保C款”保险计划所适用的保险条款、参保须知、理赔须知等各项内容，并特别就其中免除保险公司责任的条款或约定（包括但不限于责任免除、投保人及被保险人义务、保险金申请与给付等）的内容进行阅读，并已充分理解并接受上述全部内容。本出资人确认被保险人信息填写无误，被保险人符合参保条件，被保险人知悉本产品关于被保险人的健康状况约定。</p>
-<h2>一、产品说明</h2>
+<h2 id="stu-c-s1">一、产品说明</h2>
 <ul>
 <li>本保障计划由多家保险公司组成共保体共同承保（以下简称“共保体公司”或“保险公司”，名单详见附表），由海保人寿保险股份有限公司统一提供承保及理赔服务（以下简称“海保人寿”或“主承保公司”）。</li>
 <li>参保对象：
@@ -1293,7 +1405,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <li>本保障计划交费方式为一次性交清，支持多种保费支付方式，如微信、银行卡等，请在提交订单后及时支付保费。请勿直接将现金交付给销售人员或其他自称保险公司工作人员的陌生人。</li>
 <li>本保障计划适用条款为《海保人寿乐无忧团体住院医疗保险（互联网）》（备案文号：海保字〔2025〕266号、条款编码：海保人寿[2025]医疗保险070号）、《海保人寿乐无忧团体特定疾病保险（互联网）》（备案文号：海保字〔2025〕267号、条款编码：海保人寿[2025]疾病保险071号）、《海保人寿乐无忧团体综合意外伤害保险（互联网）》（备案文号：海保字〔2025〕264号、条款编码：海保人寿[2025]意外伤害保险068号）、《海保人寿团体意外伤害门急诊医疗保险（互联网）》（备案文号：海保字〔2025〕265号、条款编码：海保人寿[2025]医疗保险069号），未尽事宜，以条款为准。</li>
 </ul>
-<h2>二、保障计划</h2>
+<h2 id="stu-c-s2">二、保障计划</h2>
 <p>1.本保障计划保障方案如下：</p>
 <p><strong>（1）</strong>保障计划说明:
 注：因意外原因导致的住院医疗和特定疾病，无等待期</p>
@@ -1356,7 +1468,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>住院医疗保险金、意外伤害门急诊医疗保险金的定点医疗机构为基本医疗保险定点医疗机构，被保险人在非基本医疗保险定点医疗机构所产生的医疗费用，保险公司均不予补偿。基本医疗保险定点医疗机构的范围，以当地基本医疗保险政策规定为准。</p>
 <p><strong>（2）</strong>关于医疗费用补偿原则的约定</p>
 <p>保险公司在保险责任范围内给付各项保险金，但若被保险人已从其它途径（包括但不限于社会医疗保险、公费医疗、工作单位、侵权人或侵权责任承担方、保险公司在内的任何商业保险机构）获得补偿，对于被保险人发生的符合保险责任约定的医疗费用，除保险责任另有约定外，保险公司将在扣除其他途径已获得的补偿后，对于剩余部分费用根据保险责任约定的免赔额和给付比例分别给付各项保险金，赔付金额以各项保险责任的保额为限。</p>
-<h2>三、责任免除</h2>
+<h2 id="stu-c-s3">三、责任免除</h2>
 <p>海保人寿乐无忧团体住院医疗保险（互联网）免责条款如下：
 因下列情形之一，导致被保险人支出医疗费用的，本公司不承担给付保险金的责任：</p>
 <p><strong>（1）</strong>投保人对被保险人的故意杀害、故意伤害；</p>
@@ -1422,7 +1534,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>发生上述第（1）项情形导致被保险人身故的，本合同对该被保险人的保险责任终止，本公司向该被保险人的继承人（除投保人本人）退还保险责任终止时本合同项下该被保险人对应的现金价值。</p>
 <p>发生上述第（2）-（12）项情形导致被保险人身故的，本合同对该被保险人的保险责任终止，本公司向投保人退还保险责任终止时本合同项下该被保险人对应的现金价值。
 因上述情形之一导致被保险人伤残的，本公司不承担给付保险金的责任，本合同继续有效。</p>
-<h2>四、名词释义</h2>
+<h2 id="stu-c-s4">四、名词释义</h2>
 <p>【当地】
 指基本医疗保险参保地。
 【基本医疗保险】
@@ -1460,7 +1572,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p><strong>（1）</strong>被保险人在参保前，医生已有明确诊断，长期治疗未间断；</p>
 <p><strong>（2）</strong>被保险人在参保前，医生已有明确诊断，治疗后症状未完全消失，有间断用药或接受治疗的情况；</p>
 <p><strong>（3）</strong>被保险人在参保前发生，未经医生诊断和治疗，但症状已经显现足以促使一般普通谨慎人士引起注意并寻求诊断、治疗或护理的病症。</p>
-<h2>五、公共服务内容及其他</h2>
+<h2 id="stu-c-s5">五、公共服务内容及其他</h2>
 <p>1、
 参保过程中如有任何疑问可拨打4008980899咨询。</p>
 <p>2、海保人寿偿付能力符合监管要求，综合偿付能力充足率及分类监管评级信息，您可以登陆我司官网（www.haibao-life.com）“公开信息披露-专项信息-偿付能力”栏查询，或拨打客服电话 400-898-0899 咨询。</p>
@@ -1471,15 +1583,15 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 <p>为确保本人信息的安全，本产品共保公司及其集团公司、及其合作伙伴对上述信息负有保密义务，并采取各种措施保证信息安全。
 本条款自本单证签署时生效，具有独立法律效力，不受合同成立与否及效力状态变化的影响。
 如您不同意上述授权条款的部分或全部内容，可致电客服热线（4008980899）取消或变更授权。</p>
-<h2>六、附件</h2>
+<h2 id="stu-c-s6">六、附件</h2>
 <p>附表1：“共保体公司”名单</p>
 <hr />
-<h2>“惠学保”健康管理服务手册</h2>
+<h2 id="prod-health">“惠学保”健康管理服务手册</h2>
 <blockquote>
 <p>来源: <a href="https://mp.weixin.qq.com/s/Aay5P07G_Srhjdo_dh6KIw">“惠学保”健康管理服务手册</a></p>
 </blockquote>
-<h2>一、“惠学保”健康管理服务总览</h2>
-<h2>二、服务详情介绍</h2>
+<h2 id="health-s1">一、”惠学保”健康管理服务总览</h2>
+<h2 id="health-s2">二、服务详情介绍</h2>
 <p>1.儿童涂氟服务
 为被保人提供全面口腔检查，儿童涂氟。
 【服务时间】
@@ -1541,7 +1653,7 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 1）服务预约成功后，如需取消服务或更改时间，需要提前1个工作日告知，预约成功后因被保人本人原因未能按时使用服务且没有提前进行服务取消或更改，视同本次服务已完成。
 2）是否满足牙齿服务条件以服务机构专业人员现场评估为准，因被保人本人原因无法使用该服务，视同本次服务已完成。</p>
 <hr />
-<h2>“惠学保”重要告知</h2>
+<h2 id="prod-notice">“惠学保”重要告知</h2>
 <blockquote>
 <p>来源: <a href="https://mp.weixin.qq.com/s/1AtfbMzLOkeIX30d_qIVKg">“惠学保”重要告知</a></p>
 </blockquote>
@@ -1571,4 +1683,35 @@ article h1{font-size:24px;margin-bottom:15px;line-height:1.4}
 </ol>
 <hr /></div></article>
 <footer><p><a href="https://github.com/aniesway01/yanyu-articles">GitHub Repo</a> | YanYu 知识库</p></footer>
-</div></body></html>
+</div></div></div>
+
+<script>
+function toggleGroup(btn){btn.parentElement.classList.toggle("open")}
+const h2s=document.querySelectorAll("h2[id]");
+function updateActive(){
+  let current="";
+  h2s.forEach(h=>{if(h.getBoundingClientRect().top<=80)current=h.id});
+  if(!current&&h2s.length)current=h2s[0].id;
+  if(!current)return;
+  document.querySelectorAll(".sub-items a").forEach(a=>{
+    a.classList.toggle("active",a.getAttribute("href")==="#"+current)
+  });
+  document.querySelectorAll(".product-group").forEach(g=>{
+    const links=g.querySelectorAll("a");
+    let has=false;
+    links.forEach(a=>{if(a.classList.contains("active"))has=true});
+    if(has&&!g.classList.contains("open"))g.classList.add("open")
+  })
+}
+window.addEventListener("scroll",updateActive);
+updateActive();
+document.querySelectorAll(".sidebar a[href^='#']").forEach(a=>{
+  a.addEventListener("click",e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute("href"));
+    if(t)t.scrollIntoView({behavior:"smooth",block:"start"});
+    document.querySelector(".sidebar").classList.remove("open")
+  })
+});
+</script>
+</body></html>
