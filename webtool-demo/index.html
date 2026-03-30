@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>理赔流程原型设计器 v2</title>
+<script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
+<style>
+/* ========== Reset & Base ========== */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  background:#f8fafc;color:#1e293b;overflow:hidden;height:100vh}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+input,textarea,select{font-family:inherit;font-size:13px}
+
+/* ========== Layout ========== */
+#app{display:flex;height:100vh;position:relative}
+#left-panel{display:flex;flex-direction:column;border-right:1px solid #e2e8f0;background:#fff;overflow:hidden}
+#right-panel{display:flex;flex-direction:column;background:#fff;flex:1;overflow:hidden}
+#divider{width:6px;background:#f1f5f9;cursor:col-resize;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  transition:background .2s}
+#divider:hover,#divider.dragging{background:#B20708}
+#divider::after{content:'⋮';color:#94a3b8;font-size:14px}
+
+/* ========== Headers ========== */
+.panel-header{height:48px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;padding:0 16px;
+  justify-content:space-between;flex-shrink:0;gap:8px}
+.panel-header .title{font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;white-space:nowrap}
+.panel-header .badge{font-size:11px;font-family:monospace;background:#fef2f2;color:#B20708;padding:2px 10px;
+  border-radius:12px}
+.header-btns{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.header-btns button{font-size:11px;color:#64748b;padding:4px 10px;border:1px solid #e2e8f0;border-radius:6px;
+  font-weight:600;white-space:nowrap;transition:all .15s}
+.header-btns button:hover{background:#f8fafc;border-color:#cbd5e1}
+.header-btns .btn-danger{color:#ef4444;border-color:#fecaca}
+.header-btns .btn-danger:hover{background:#fef2f2}
+.save-indicator{font-size:9px;color:#22c55e;font-weight:700;opacity:0;transition:opacity .3s}
+.save-indicator.show{opacity:1}
+
+/* ========== Phone Mockup ========== */
+#phone-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#f8fafc;padding:16px}
+#phone{width:280px;height:520px;background:#fff;border-radius:32px;border:6px solid #1e293b;
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:0 25px 50px -12px rgba(0,0,0,.25)}
+#phone-nav{height:40px;background:#fff;border-bottom:1px solid #f1f5f9;display:flex;align-items:flex-end;
+  justify-content:space-between;padding:0 12px 6px;flex-shrink:0}
+#phone-nav .page-title{font-size:12px;font-weight:700;color:#1e293b;max-width:140px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+#phone-nav .capsule{display:flex;align-items:center;gap:6px;border:1px solid #e2e8f0;border-radius:12px;
+  padding:2px 8px;font-size:10px;color:#64748b}
+#phone-content{flex:1;overflow-y:auto;background:#f8fafc;padding:0}
+#phone-bottom{height:16px;display:flex;justify-content:center;align-items:center;flex-shrink:0}
+#phone-bottom div{width:60px;height:4px;background:#e2e8f0;border-radius:4px}
+#phone-hint{margin-top:12px;font-size:11px;color:#94a3b8;letter-spacing:1px}
+
+/* Phone content styles */
+.phone-page{padding:16px;min-height:100%;display:flex;flex-direction:column}
+.phone-page .icon-box{width:32px;height:32px;background:#B20708;border-radius:8px;display:flex;
+  align-items:center;justify-content:center;color:#fff;font-size:16px;margin-bottom:12px;
+  box-shadow:0 4px 6px -1px rgba(178,7,8,.2)}
+.phone-page .code-badge{font-size:9px;font-weight:800;background:#f1f5f9;color:#94a3b8;padding:2px 6px;
+  border-radius:4px;margin-right:6px}
+.phone-page h2{font-size:16px;font-weight:700;color:#1e293b;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.phone-page .desc-line{font-size:10px;color:#64748b;line-height:1.6;margin-bottom:2px;display:flex;gap:6px}
+.phone-page .desc-line .num{color:#cbd5e1;font-family:monospace;flex-shrink:0}
+.phone-page .form-group{margin-top:16px}
+.phone-page .form-field{margin-bottom:10px}
+.phone-page .form-field label{display:block;font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;
+  letter-spacing:.5px;margin-bottom:4px}
+.phone-page .form-field .input-mock{height:32px;background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px;
+  padding:0 10px;font-size:10px;color:#cbd5e1;font-style:italic;display:flex;align-items:center}
+.phone-page .upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.phone-page .upload-slot{aspect-ratio:1;background:#f8fafc;border:2px dashed #e2e8f0;border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;text-align:center;
+  transition:border-color .2s}
+.phone-page .upload-slot:hover{border-color:#fca5a5}
+.phone-page .upload-slot .plus{width:28px;height:28px;background:#fff;border-radius:50%;display:flex;
+  align-items:center;justify-content:center;font-size:16px;color:#94a3b8;box-shadow:0 1px 3px rgba(0,0,0,.1);
+  margin-bottom:4px}
+.phone-page .upload-slot .name{font-size:8px;font-weight:700;color:#475569}
+.phone-page .upload-slot .note{font-size:7px;color:#94a3b8;margin-top:2px}
+.phone-page .qr-area{margin-top:16px;display:flex;flex-direction:column;align-items:center}
+.phone-page .qr-box{width:120px;height:120px;border:2px solid #f1f5f9;border-radius:12px;display:flex;
+  align-items:center;justify-content:center;font-size:11px;color:#64748b;background:#fafafa}
+.phone-page .qr-label{margin-top:8px;font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;
+  letter-spacing:1px}
+.phone-actions{margin-top:auto;padding-top:12px}
+.phone-actions .btn{width:100%;padding:10px;border-radius:8px;font-size:12px;font-weight:700;margin-bottom:6px;
+  display:flex;align-items:center;justify-content:space-between;transition:all .15s}
+.phone-actions .btn-primary{background:#B20708;color:#fff;box-shadow:0 4px 6px -1px rgba(178,7,8,.2)}
+.phone-actions .btn-primary:hover{background:#9a0607}
+.phone-actions .btn-secondary{background:#fff;border:1px solid #e2e8f0;color:#475569}
+.phone-actions .btn-secondary:hover{background:#f8fafc}
+.phone-actions .btn .arrow{font-size:14px;opacity:.5}
+
+/* Progress bar */
+.progress-bar{padding:10px 16px;background:#fff;border-bottom:1px solid #f8fafc;flex-shrink:0}
+
+/* ========== Flowchart Canvas ========== */
+#canvas-container{flex:1;overflow:hidden;position:relative;background:
+  radial-gradient(circle,#e2e8f0 1px,transparent 1px);background-size:24px 24px}
+#canvas{position:absolute;transform-origin:0 0}
+#canvas svg{position:absolute;top:0;left:0;pointer-events:none}
+
+/* Connecting mode overlay */
+#canvas-container.connecting{cursor:crosshair}
+#canvas-container.connecting .flow-node{cursor:crosshair}
+#canvas-container.connecting .flow-node:hover{border-color:#22c55e !important;box-shadow:0 0 0 3px #dcfce7 !important}
+#connect-banner{position:absolute;top:12px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;
+  padding:8px 20px;border-radius:10px;font-size:12px;font-weight:600;z-index:100;display:none;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);white-space:nowrap}
+#connect-banner span{color:#4ade80}
+
+/* Flow nodes */
+.flow-node{position:absolute;width:180px;padding:12px;background:#fff;border:1px solid #e2e8f0;
+  border-radius:12px;cursor:grab;transition:box-shadow .2s,border-color .2s;z-index:10;user-select:none}
+.flow-node:hover{border-color:#cbd5e1;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.flow-node.active{border-color:#B20708;box-shadow:0 0 0 3px #fef2f2,0 8px 20px rgba(178,7,8,.1)}
+.flow-node.dragging{cursor:grabbing;box-shadow:0 20px 40px rgba(0,0,0,.15);z-index:100;opacity:.9}
+.flow-node .node-code{position:absolute;top:-8px;left:-8px;padding:2px 8px;border-radius:10px;
+  font-size:9px;font-weight:800;color:#fff;z-index:20}
+.flow-node .node-code.active-code{background:#B20708}
+.flow-node .node-code.inactive-code{background:#334155}
+.flow-node .node-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.flow-node .type-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.flow-node .type-label{font-size:9px;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px}
+.flow-node .node-title{font-size:11px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flow-node .node-title.active-title{color:#B20708}
+.flow-node .active-dot{position:absolute;top:-4px;right:-4px;width:10px;height:10px;background:#B20708;
+  border-radius:50%;border:2px solid #fff}
+.flow-node .conn-count{position:absolute;bottom:-6px;right:8px;font-size:8px;color:#94a3b8;
+  background:#f1f5f9;padding:1px 6px;border-radius:8px}
+
+/* Connection labels on SVG */
+.conn-label{font-size:9px;fill:#94a3b8;pointer-events:none;font-weight:600}
+
+/* ========== Context Menu ========== */
+#context-menu{position:fixed;background:#fff;border:1px solid #e2e8f0;border-radius:10px;
+  box-shadow:0 10px 40px rgba(0,0,0,.15);padding:4px;z-index:1000;min-width:200px;display:none}
+#context-menu .menu-item{padding:8px 12px;font-size:12px;border-radius:6px;display:flex;align-items:center;
+  gap:8px;color:#475569;transition:all .1s}
+#context-menu .menu-item:hover{background:#f8fafc;color:#1e293b}
+#context-menu .menu-item.danger:hover{background:#fef2f2;color:#dc2626}
+#context-menu .menu-sep{height:1px;background:#f1f5f9;margin:4px 8px}
+#context-menu .menu-icon{width:16px;text-align:center;flex-shrink:0}
+#context-menu .menu-shortcut{margin-left:auto;font-size:10px;color:#cbd5e1;font-weight:600}
+
+/* ========== Modal ========== */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:2000;display:flex;
+  align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;
+  box-shadow:0 25px 50px -12px rgba(0,0,0,.25)}
+.modal-header{padding:20px 24px 12px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;
+  justify-content:space-between}
+.modal-header h3{font-size:16px;font-weight:700}
+.modal-header .close-btn{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;
+  justify-content:center;font-size:16px;color:#94a3b8;transition:all .15s}
+.modal-header .close-btn:hover{background:#f1f5f9;color:#1e293b}
+.modal-body{padding:16px 24px}
+.modal-footer{padding:12px 24px 20px;display:flex;gap:8px;justify-content:flex-end}
+.form-row{margin-bottom:14px}
+.form-row label{display:block;font-size:11px;font-weight:700;color:#64748b;margin-bottom:4px;
+  text-transform:uppercase;letter-spacing:.5px}
+.form-row input,.form-row textarea,.form-row select{width:100%;padding:8px 12px;border:1px solid #e2e8f0;
+  border-radius:8px;font-size:13px;transition:border-color .15s;outline:none}
+.form-row input:focus,.form-row textarea:focus,.form-row select:focus{border-color:#B20708;
+  box-shadow:0 0 0 3px rgba(178,7,8,.1)}
+.form-row textarea{resize:vertical;min-height:60px}
+.modal .btn-save{padding:8px 20px;background:#B20708;color:#fff;border-radius:8px;font-size:13px;
+  font-weight:600;transition:background .15s}
+.modal .btn-save:hover{background:#9a0607}
+.modal .btn-cancel{padding:8px 20px;background:#f1f5f9;color:#64748b;border-radius:8px;font-size:13px;
+  font-weight:600;transition:all .15s}
+.modal .btn-cancel:hover{background:#e2e8f0;color:#1e293b}
+
+/* Fields editor in modal */
+.fields-editor{border:1px solid #f1f5f9;border-radius:8px;padding:8px;margin-top:4px}
+.field-row{display:flex;gap:6px;margin-bottom:6px;align-items:center}
+.field-row input{flex:1;padding:6px 8px;font-size:12px}
+.field-row .remove-field{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;
+  justify-content:center;color:#ef4444;font-size:14px;flex-shrink:0}
+.field-row .remove-field:hover{background:#fef2f2}
+.add-field-btn{font-size:11px;color:#B20708;font-weight:600;padding:4px 8px;border-radius:6px;
+  display:inline-flex;align-items:center;gap:4px}
+.add-field-btn:hover{background:#fef2f2}
+
+/* Actions editor in modal */
+.action-row{display:flex;gap:6px;margin-bottom:6px;align-items:center;flex-wrap:wrap}
+.action-row input,.action-row select{flex:1;padding:6px 8px;font-size:12px;min-width:80px}
+
+/* ========== Toolbar ========== */
+#canvas-toolbar{position:absolute;top:12px;right:12px;display:flex;gap:6px;z-index:50}
+#canvas-toolbar button{width:36px;height:36px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:16px;color:#64748b;transition:all .15s;
+  box-shadow:0 1px 3px rgba(0,0,0,.05)}
+#canvas-toolbar button:hover{background:#f8fafc;border-color:#cbd5e1;color:#1e293b}
+
+/* Keyboard hints */
+#kb-hints{position:absolute;bottom:52px;right:12px;font-size:9px;color:#94a3b8;text-align:right;
+  line-height:1.6;z-index:50}
+#kb-hints kbd{background:#f1f5f9;padding:1px 4px;border-radius:3px;font-size:8px;border:1px solid #e2e8f0}
+
+/* Footer */
+.panel-footer{height:44px;border-top:1px solid #f1f5f9;padding:0 16px;display:flex;align-items:center;
+  gap:16px;flex-shrink:0;background:#fff}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:9px;font-weight:700;color:#64748b;
+  text-transform:uppercase;letter-spacing:.5px}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+.footer-right{margin-left:auto;font-size:10px;color:#94a3b8;font-weight:700}
+
+/* ========== Toast ========== */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:#1e293b;color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;
+  z-index:9999;transition:transform .3s ease;box-shadow:0 10px 25px rgba(0,0,0,.2)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- Left Panel: Phone Mockup -->
+  <div id="left-panel" style="width:40%">
+    <div class="panel-header">
+      <span class="title">WeChat Mini Program Preview</span>
+      <span class="badge" id="page-path">pages/home/home</span>
+    </div>
+    <div id="phone-area">
+      <div id="phone">
+        <div id="phone-nav">
+          <span class="page-title" id="phone-page-title">理赔助手</span>
+          <span class="capsule">···&nbsp;|&nbsp;○</span>
+        </div>
+        <div id="phone-content"></div>
+        <div id="phone-bottom"><div></div></div>
+      </div>
+      <div id="phone-hint">点击按钮模拟小程序跳转</div>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div id="divider"></div>
+
+  <!-- Right Panel: Flowchart -->
+  <div id="right-panel">
+    <div class="panel-header">
+      <span class="title">Flow Map</span>
+      <div class="header-btns">
+        <button id="btn-undo" title="撤销 Ctrl+Z">↩ 撤销</button>
+        <button id="btn-redo" title="重做 Ctrl+Y">↪ 重做</button>
+        <span class="save-indicator" id="save-ind">已保存</span>
+        <button id="btn-export" title="匯出 JSON">📤 匯出</button>
+        <button id="btn-import" title="匯入 JSON">📥 匯入</button>
+        <button id="btn-reset" class="btn-danger" title="重置為預設">🔄 重置</button>
+      </div>
+    </div>
+    <div id="canvas-container">
+      <div id="connect-banner">点击目标节点完成连线 · <span>ESC 取消</span></div>
+      <div id="canvas-toolbar">
+        <button id="btn-auto-layout" title="自动排列" style="width:auto;padding:0 10px;font-size:11px;font-weight:700">⚡排列</button>
+        <button id="btn-zoom-in" title="放大">＋</button>
+        <button id="btn-zoom-out" title="缩小">−</button>
+        <button id="btn-zoom-fit" title="适应">⊞</button>
+      </div>
+      <div id="kb-hints">
+        <kbd>双击</kbd> 编辑 · <kbd>右键</kbd> 菜单 · <kbd>Del</kbd> 删除<br>
+        <kbd>Ctrl+Z</kbd> 撤销 · <kbd>Ctrl+Y</kbd> 重做 · <kbd>滚轮</kbd> 缩放
+      </div>
+      <div id="canvas">
+        <svg id="canvas-svg"></svg>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="legend-item"><span class="legend-dot" style="background:#60a5fa"></span> Page</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#a78bfa"></span> Modal</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#4ade80"></span> Action</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#fb923c"></span> Form</div>
+      <div class="legend-item"><span class="legend-dot" style="background:#38bdf8"></span> Upload</div>
+      <span class="footer-right">Prototyper v2.0</span>
+    </div>
+  </div>
+</div>
+
+<!-- Context Menu -->
+<div id="context-menu">
+  <div class="menu-item" data-action="add-node"><span class="menu-icon">➕</span> 新增节点</div>
+  <div class="menu-item" data-action="edit-node" id="ctx-edit" style="display:none"><span class="menu-icon">✏️</span> 编辑节点 <span class="menu-shortcut">双击</span></div>
+  <div class="menu-item" data-action="duplicate-node" id="ctx-dup" style="display:none"><span class="menu-icon">📋</span> 复制节点</div>
+  <div class="menu-sep" id="ctx-sep1" style="display:none"></div>
+  <div class="menu-item" data-action="add-connection" id="ctx-conn" style="display:none"><span class="menu-icon">🔗</span> 从此节点连线</div>
+  <div class="menu-item" data-action="manage-connections" id="ctx-manage" style="display:none"><span class="menu-icon">📐</span> 管理连线</div>
+  <div class="menu-sep" id="ctx-sep2" style="display:none"></div>
+  <div class="menu-item danger" data-action="delete-node" id="ctx-del" style="display:none"><span class="menu-icon">🗑️</span> 删除节点 <span class="menu-shortcut">Del</span></div>
+</div>
+
+<!-- Modal container -->
+<div id="modal-container"></div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Hidden file input -->
+<input type="file" id="file-input" accept=".json" style="display:none">
+
+<script>
+// ============================================================
+//  SECURITY: Proper escaping for all contexts
+// ============================================================
+const _escDiv = document.createElement('div');
+function escHtml(s) {
+  _escDiv.textContent = String(s || '');
+  return _escDiv.innerHTML;
+}
+function escAttr(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ============================================================
+//  DEFAULT FLOW DATA
+// ============================================================
+const DEFAULT_FLOW = [
+  {id:'home',code:'ST01',title:'欢迎页 (Start)',type:'page',
+    content:{heading:'岩育健康理赔助手',
+      text:'1. 您好！我们是岩育健康的理赔协助团队。\n2. 整个申请大约需要 5-10 分钟，我们会一步步引导您。\n3. 如果暂时没有准备好全部材料也没关系，可以先了解流程。\n4. 遇到困难随时点击右下角联系顾问。',
+      actions:[{label:'开始理赔申请',targetId:'terms_agreement',variant:'primary'}]},
+    position:{x:40,y:40}},
+  {id:'terms_agreement',code:'TA02',title:'服务协议 (Terms)',type:'page',
+    content:{heading:'服务协议与授权',
+      text:'1. 为了保护您的权益，请阅读以下协议：\n2. 《用户服务条款》— 明确双方权利义务\n3. 《个人信息处理授权书》— 我们如何保护您的隐私\n4. 《理赔咨询委托协议》— 我们代您与保险公司沟通\n5. 我们承诺：您的信息仅用于理赔，不会泄露给第三方。',
+      actions:[{label:'我已阅读，同意并继续',targetId:'user_dashboard',variant:'primary'},{label:'暂不同意',targetId:'declined_end',variant:'secondary'}]},
+    position:{x:270,y:40}},
+  {id:'declined_end',code:'DE09',title:'暂未同意 (Pause)',type:'action',
+    content:{heading:'没关系，我们随时在这里',
+      text:'1. 您可以稍后再来，协议内容不会改变。\n2. 如果对协议条款有疑问，欢迎联系我们的顾问详细了解。\n3. 客服热线：XXX-XXX-XXXX（工作日 9:00-18:00）',
+      actions:[{label:'重新查看协议',targetId:'terms_agreement',variant:'primary'},{label:'联系顾问咨询',targetId:'wecom_contact',variant:'secondary'}]},
+    position:{x:730,y:40}},
+  {id:'user_dashboard',code:'RD03',title:'我的看板 (Dashboard)',type:'page',
+    content:{heading:'我的理赔看板',
+      text:'1. 【您的理赔记录】\n2. 2024-01-12 门诊理赔 — 审核中（预计3个工作日内回复）\n3. 2023-11-05 住院理赔 — 已结案，已赔付 ¥12,500.00\n4. 您可以发起新的理赔，或查看历史详情。',
+      actions:[{label:'发起新的理赔申请',targetId:'select_type',variant:'primary'},{label:'查看历史详情',targetId:'history_details',variant:'secondary'}]},
+    position:{x:500,y:40}},
+  {id:'history_details',code:'HD14',title:'历史详情 (History)',type:'page',
+    content:{heading:'理赔历史详情',
+      text:'1. 【住院理赔】保单号 PA20231105001\n2. 状态：已结案 | 赔付金额：¥12,500.00\n3. 处理周期：提交后 5 个工作日\n4. 【门诊理赔】保单号 PA20240112002\n5. 状态：审核中 | 已提交资料，等待审核\n6. 如有疑问可联系您的专属理赔顾问。',
+      actions:[{label:'返回看板',targetId:'user_dashboard',variant:'secondary'}]},
+    position:{x:500,y:190}},
+  {id:'select_type',code:'TY04',title:'选择类型 (Type)',type:'page',
+    content:{heading:'您需要哪种理赔？',
+      text:'1. 请选择最符合您情况的理赔类型：\n2. 不确定也没关系，我们的顾问可以帮您判断。',
+      actions:[
+        {label:'门诊理赔 — 门诊/急诊就医费用',targetId:'claim_checklist_outpatient',variant:'primary'},
+        {label:'住院理赔 — 住院治疗产生的费用',targetId:'claim_checklist_inpatient',variant:'primary'},
+        {label:'住院津贴 — 按住院天数给付',targetId:'claim_checklist_allowance',variant:'primary'},
+        {label:'重大疾病 — 确诊重疾后申请',targetId:'claim_checklist_critical',variant:'primary'},
+        {label:'残疾理赔 — 因意外/疾病致残',targetId:'claim_checklist_disability',variant:'primary'},
+        {label:'身故理赔 — 被保险人身故',targetId:'claim_checklist_death',variant:'primary'},
+        {label:'不确定？联系顾问',targetId:'wecom_contact',variant:'secondary'}
+      ]},
+    position:{x:730,y:190}},
+  {id:'claim_checklist_outpatient',code:'CK5a',title:'门诊材料准备',type:'page',
+    content:{heading:'门诊理赔需要准备什么？',
+      text:'1. 以下是门诊理赔所需的材料清单。\n2. 暂时找不到部分材料？没关系，可以先提交已有的，后续再补充。',
+      items:[
+        {name:'被保险人身份证正反面',hint:'少儿可提供户口页或出生证明'},
+        {name:'银行储蓄卡正反面',hint:'用于接收赔款，少儿需提供监护人银行卡'},
+        {name:'门诊病历',hint:'电子或手写均可，请向就诊医院病案室申请复印'},
+        {name:'门诊发票原件',hint:'如医保或其他保险已核销，请提供：发票复印件（加盖核销机构公章）+ 医保结算单/分割单原件'},
+        {name:'费用明细清单',hint:'发票上无明细时需提供，请向医院收费处申请打印'},
+        {name:'检查报告（如有）',hint:'血液、影像等检查结果，病情复杂时需提供'},
+        {name:'监护人身份证+关系证明（少儿）',hint:'少儿理赔必须提供监护人身份证及亲子关系证明（出生证/户口本）'},
+        {name:'意外事故证明（如为意外）',hint:'交通事故需交管部门认定书，治安事故需公安证明'}
+      ],
+      actions:[{label:'已了解，开始填写',targetId:'claim_info_input',variant:'primary'}]},
+    position:{x:200,y:190}},
+  {id:'claim_checklist_inpatient',code:'CK5b',title:'住院材料准备',type:'page',
+    content:{heading:'住院理赔需要准备什么？',
+      text:'1. 以下是住院理赔所需的材料清单。\n2. 暂时找不到部分材料？没关系，可以先提交已有的，后续再补充。',
+      items:[
+        {name:'被保险人身份证正反面',hint:'少儿可提供户口页或出生证明'},
+        {name:'银行储蓄卡正反面',hint:'用于接收赔款，少儿需提供监护人银行卡'},
+        {name:'住院发票原件',hint:'如医保或其他保险已核销，请提供：发票复印件（加盖核销机构公章）+ 医保结算单/分割单原件'},
+        {name:'住院费用汇总清单',hint:'请向医院住院收费处申请打印'},
+        {name:'出院小结/出院记录',hint:'请向医院病案室申请，普通住院提供出院小结即可'},
+        {name:'完整住院病历（病情复杂时）',hint:'含入院记录、病案首页、手术记录、医嘱单等，请向病案室申请复印'},
+        {name:'监护人身份证+关系证明（少儿）',hint:'少儿理赔必须提供监护人身份证及亲子关系证明（出生证/户口本）'},
+        {name:'意外事故证明（如为意外）',hint:'交通事故需交管部门认定书，工伤需单位证明，治安事故需公安证明'}
+      ],
+      actions:[{label:'已了解，开始填写',targetId:'claim_info_input',variant:'primary'}]},
+    position:{x:400,y:190}},
+  {id:'claim_checklist_allowance',code:'CK5c',title:'津贴材料准备',type:'page',
+    content:{heading:'住院津贴理赔需要准备什么？',
+      text:'1. 住院津贴是按住院天数给付的保险金，与实际医疗费用无关。\n2. 暂时找不到部分材料？没关系，可以先提交已有的，后续再补充。',
+      items:[
+        {name:'被保险人身份证正反面',hint:'少儿可提供户口页或出生证明'},
+        {name:'银行储蓄卡正反面',hint:'用于接收赔款，少儿需提供监护人银行卡'},
+        {name:'住院发票',hint:'用于确认住院事实及天数'},
+        {name:'住院费用汇总清单',hint:'请向医院住院收费处申请打印'},
+        {name:'出院小结/出院记录',hint:'需显示入院及出院日期，请向医院病案室申请'},
+        {name:'监护人身份证+关系证明（少儿）',hint:'少儿理赔必须提供监护人身份证及亲子关系证明'}
+      ],
+      actions:[{label:'已了解，开始填写',targetId:'claim_info_input',variant:'primary'}]},
+    position:{x:200,y:340}},
+  {id:'claim_checklist_critical',code:'CK5d',title:'重疾材料准备',type:'page',
+    content:{heading:'重大疾病理赔需要准备什么？',
+      text:'1. 重大疾病理赔需要提供确诊相关的医学证明材料。\n2. 暂时找不到部分材料？没关系，可以先提交已有的，后续再补充。',
+      items:[
+        {name:'被保险人身份证正反面',hint:'少儿可提供户口页或出生证明'},
+        {name:'银行储蓄卡正反面',hint:'用于接收赔款，少儿需提供监护人银行卡'},
+        {name:'病历材料',hint:'门诊/住院病历及相关检查报告'},
+        {name:'确诊重疾的病理性报告',hint:'如病理切片报告、基因检测报告等'},
+        {name:'相关检查报告',hint:'影像学报告、血液检查等确诊依据'},
+        {name:'理赔申请书',hint:'可向保险公司索取模板或在线填写'},
+        {name:'监护人身份证+关系证明（少儿）',hint:'少儿理赔必须提供'}
+      ],
+      actions:[{label:'已了解，开始填写',targetId:'claim_info_input',variant:'primary'}]},
+    position:{x:400,y:340}},
+  {id:'claim_checklist_disability',code:'CK5e',title:'残疾材料准备',type:'page',
+    content:{heading:'残疾理赔需要准备什么？',
+      text:'1. 残疾理赔需要提供经认可机构出具的伤残鉴定。\n2. 暂时找不到部分材料？没关系，可以先提交已有的，后续再补充。',
+      items:[
+        {name:'被保险人身份证正反面',hint:'少儿可提供户口页或出生证明'},
+        {name:'银行储蓄卡正反面',hint:'用于接收赔款，少儿需提供监护人银行卡'},
+        {name:'病历材料',hint:'门诊/住院病历及相关检查报告'},
+        {name:'伤残鉴定文件',hint:'由医疗机构或司法鉴定机构根据保险合同约定的伤残评定标准出具'},
+        {name:'意外事故证明（如为意外致残）',hint:'交通事故认定书/工伤证明/治安事故证明'},
+        {name:'理赔申请书',hint:'可向保险公司索取模板或在线填写'},
+        {name:'监护人身份证+关系证明（少儿）',hint:'少儿理赔必须提供'}
+      ],
+      actions:[{label:'已了解，开始填写',targetId:'claim_info_input',variant:'primary'}]},
+    position:{x:600,y:340}},
+  {id:'claim_checklist_death',code:'CK5f',title:'身故材料准备',type:'page',
+    content:{heading:'身故理赔需要准备什么？',
+      text:'1. 身故理赔需要提供多项法律文件，请提前准备。\n2. 暂时找不到部分材料？没关系，可以先提交已有的，后续再补充。',
+      items:[
+        {name:'被保险人身份证正反面',hint:'用于确认被保险人身份'},
+        {name:'受益人身份证正反面',hint:'保单指定的受益人或法定继承人'},
+        {name:'受益人银行储蓄卡',hint:'用于接收保险金'},
+        {name:'受益人与被保人的关系证明',hint:'结婚证/户口本/出生证明等'},
+        {name:'死亡证明',hint:'医院身故由医院出具《医学死亡证明书》；医院外死亡需公安机关出具《法医学死亡证明书》'},
+        {name:'户籍注销证明',hint:'由户口所在地派出所出具'},
+        {name:'丧葬证明',hint:'火葬由殡仪馆出具；土葬由当地村/居委会出具，需注明姓名、死亡日期、原因'},
+        {name:'继承权利文件（如需）',hint:'由公证机构出具，对继承关系和份额进行公证'},
+        {name:'病历材料（如有）',hint:'与身故原因相关的就医记录'},
+        {name:'意外事故证明（如为意外身故）',hint:'交通事故认定书/治安事故证明'},
+        {name:'理赔申请书',hint:'可向保险公司索取模板或在线填写'}
+      ],
+      actions:[{label:'已了解，开始填写',targetId:'claim_info_input',variant:'primary'}]},
+    position:{x:800,y:340}},
+  {id:'claim_info_input',code:'CI01',title:'第一步：基本信息',type:'form',
+    content:{heading:'第一步：基本理赔信息',
+      text:'1. 请填写本次理赔的基础信息，带 * 的为必填项。\n2. 提示：如果发票已被医保或其他保险收取原件，请准备好该发票的复印件（加盖公章）和结算单原件。',
+      fields:[
+        {label:'保险产品名称 *',placeholder:'例如：岩育百万医疗险2024版'},
+        {label:'发票总金额 *',placeholder:'例如：8500.00（元）'},
+        {label:'出险时间 *',placeholder:'例如：2024-03-15'},
+        {label:'出险经过 *',placeholder:'例如：因发烧前往XX医院就诊，诊断为急性肺炎，住院治疗5天'},
+        {label:'是否已经过医保或其他保险报销 *',type:'select',placeholder:'是 / 否'}
+      ],
+      actions:[{label:'下一步：谁需要理赔？',targetId:'insured_info_input',variant:'primary'}]},
+    position:{x:40,y:190}},
+  {id:'insured_info_input',code:'CI02',title:'第二步：被保人',type:'form',
+    content:{heading:'第二步：谁需要理赔？',
+      text:'1. 请填写被保险人（患者）的身份信息。\n2. 如果发票金额低于1万元，部分信息可选填。',
+      fields:[
+        {label:'姓名 *',placeholder:'请输入被保险人姓名'},
+        {label:'证件类型 *',type:'select',placeholder:'身份证 / 护照 / 港澳台通行证'},
+        {label:'证件号码 *',placeholder:'请输入证件号码',note:'请仔细核对'},
+        {label:'性别',type:'select',placeholder:'男 / 女'},
+        {label:'出生日期',type:'date',placeholder:'例如：1990-05-20'},
+        {label:'与被保险人的关系 *',type:'select',placeholder:'本人 / 监护人'}
+      ],
+      actions:[{label:'本人申请，下一步',targetId:'contact_info_input',variant:'primary'},{label:'监护人代为申请',targetId:'guardian_info_input',variant:'secondary'}]},
+    position:{x:40,y:340}},
+  {id:'contact_info_input',code:'CI03',title:'第三步：联系方式',type:'form',
+    content:{heading:'第三步：我们怎么联系您？',
+      text:'1. 请填写有效的联系方式，以便我们通知您理赔进展。',
+      fields:[
+        {label:'称谓 *',placeholder:'如何称呼您（例如：张先生、李女士）'},
+        {label:'手机号码 *',placeholder:'例如：138-0000-0000'},
+        {label:'电子邮箱',placeholder:'例如：yourname@email.com（选填）'},
+        {label:'联系地址',placeholder:'用于邮寄理赔材料原件（如需要）'}
+      ],
+      actions:[{label:'下一步：赔款打到哪里？',targetId:'payee_info_input',variant:'primary'}]},
+    position:{x:270,y:340}},
+  {id:'payee_info_input',code:'CI04',title:'第四步：收款账户',type:'form',
+    content:{heading:'第四步：收款账户信息',
+      text:'1. 请确认用于接收赔款的银行账户信息。',
+      fields:[
+        {label:'收款人身份 *',placeholder:'被保险人本人 / 监护人代收'}
+      ],
+      actions:[{label:'本人证件上传',targetId:'identity_upload_self',variant:'primary'},{label:'监护人+被保人证件上传',targetId:'identity_upload_guardian',variant:'secondary'}]},
+    position:{x:500,y:340}},
+  {id:'guardian_info_input',code:'GI05',title:'监护人信息 (Guardian)',type:'form',
+    content:{heading:'监护人信息',
+      text:'1. 被保险人为未成年人时，需要填写监护人信息。\n2. 赔款将打入监护人的银行账户。',
+      fields:[
+        {label:'监护人姓名 *',placeholder:'请输入监护人姓名'},
+        {label:'与被保人关系 *',placeholder:'父亲 / 母亲 / 法定监护人'},
+        {label:'证件类型 *',placeholder:'身份证 / 护照'},
+        {label:'证件号码 *',placeholder:'请输入证件号码'}
+      ],
+      actions:[{label:'下一步：联系方式',targetId:'contact_info_input',variant:'primary'}]},
+    position:{x:730,y:340}},
+  {id:'identity_upload_self',code:'PU1a',title:'上传证件·本人 (ID Self)',type:'upload',
+    content:{heading:'上传证件照片（本人申请）',
+      text:'1. 请拍照或从相册选择，确保照片清晰、完整、无遮挡。\n2. 支持 JPG/PNG 格式，每张不超过 10MB。',
+      uploads:[
+        {label:'身份证正面',description:'有照片的一面'},
+        {label:'身份证反面',description:'有国徽的一面'},
+        {label:'银行卡正面',description:'储蓄卡，显示卡号'}
+      ],
+      actions:[{label:'下一步：上传医疗材料',targetId:'documents_upload',variant:'primary'}]},
+    position:{x:730,y:490}},
+  {id:'identity_upload_guardian',code:'PU1b',title:'上传证件·代办 (ID Guardian)',type:'upload',
+    content:{heading:'上传证件照片（监护人代为申请）',
+      text:'1. 需要上传被保险人和监护人双方的证件。\n2. 请确保照片清晰、完整、无遮挡。',
+      uploads:[
+        {label:'被保险人身份证正面',description:'有照片的一面'},
+        {label:'被保险人身份证反面',description:'有国徽的一面'},
+        {label:'监护人身份证正面',description:'有照片的一面'},
+        {label:'监护人身份证反面',description:'有国徽的一面'},
+        {label:'银行卡正面',description:'监护人的储蓄卡'},
+        {label:'关系证明',description:'出生证或户口本'}
+      ],
+      actions:[{label:'下一步：上传医疗材料',targetId:'documents_upload',variant:'primary'}]},
+    position:{x:730,y:640}},
+  {id:'documents_upload',code:'PU02',title:'上传理赔材料 (Doc Upload)',type:'upload',
+    content:{heading:'上传理赔材料',
+      text:'1. 请上传与本次理赔相关的单据和证明材料。\n2. 拍照时请确保文字清晰可读，建议在光线充足的地方拍摄。\n3. 暂时找不到的材料可以后续补充。',
+      uploadsByType:{
+        outpatient:[
+          {label:'门诊发票',description:'原件拍照；如已被医保/其他保险核销，上传复印件（加盖公章）+结算单'},
+          {label:'门诊病历',description:'电子或手写均可'},
+          {label:'费用明细清单',description:'发票上无明细时需提供，请向医院收费处申请'},
+          {label:'检查报告（如有）',description:'血液、影像等检查结果'},
+          {label:'意外事故证明（如为意外）',description:'交通/治安事故认定文件'},
+          {label:'医保结算单（如有）',description:'经过医保报销时需提供'}
+        ],
+        inpatient:[
+          {label:'住院发票',description:'原件拍照；如已被核销，上传复印件（加盖公章）+结算单'},
+          {label:'住院费用汇总清单',description:'请向医院住院收费处申请打印'},
+          {label:'出院小结/出院记录',description:'普通住院提供出院小结即可'},
+          {label:'完整住院病历（如有）',description:'病情复杂时需提供：入院记录、病案首页、手术记录等'},
+          {label:'意外事故证明（如为意外）',description:'交通/工伤/治安事故认定文件'},
+          {label:'医保结算单（如有）',description:'经过医保报销时需提供'}
+        ],
+        allowance:[
+          {label:'住院发票',description:'用于确认住院事实'},
+          {label:'住院费用汇总清单',description:'请向医院住院收费处申请打印'},
+          {label:'出院小结/出院记录',description:'需显示入院及出院日期'}
+        ],
+        critical:[
+          {label:'病历材料',description:'门诊/住院病历及相关检查报告'},
+          {label:'确诊病理报告',description:'如病理切片报告、基因检测报告等'},
+          {label:'相关检查报告',description:'影像学、血液等确诊依据'},
+          {label:'理赔申请书',description:'可向保险公司索取模板'}
+        ],
+        disability:[
+          {label:'病历材料',description:'门诊/住院病历及相关检查报告'},
+          {label:'伤残鉴定文件',description:'由医疗机构或司法鉴定机构出具'},
+          {label:'意外事故证明（如为意外致残）',description:'交通/工伤/治安事故认定文件'},
+          {label:'理赔申请书',description:'可向保险公司索取模板'}
+        ],
+        death:[
+          {label:'死亡证明',description:'医院出具《医学死亡证明书》或公安出具《法医学死亡证明书》'},
+          {label:'户籍注销证明',description:'由户口所在地派出所出具'},
+          {label:'丧葬证明',description:'火葬由殡仪馆出具；土葬由当地村/居委会出具'},
+          {label:'继承权利文件（如需）',description:'由公证机构出具'},
+          {label:'病历材料（如有）',description:'与身故原因相关的就医记录'},
+          {label:'意外事故证明（如为意外）',description:'交通/治安事故认定文件'},
+          {label:'理赔申请书',description:'可向保险公司索取模板'}
+        ]
+      },
+      actions:[{label:'材料上传完毕，去核对',targetId:'submit_review',variant:'primary'}]},
+    position:{x:500,y:490}},
+  {id:'submit_review',code:'RV11',title:'核对确认 (Review)',type:'modal',
+    content:{heading:'提交前请确认',
+      text:'1. 请从上到下检查您填写的信息：\n2. 【基本理赔信息】保险名称、发票金额、出险时间、是否经过医保报销\n3. 【被保险人信息】姓名、证件号码、与您的关系\n4. 【联系方式】称谓、手机号码\n5. 【收款账户】收款人身份\n6. 【证件照片】身份证、银行卡等\n7. 【医疗材料】发票、病历、清单等\n8. 温馨提示：资料齐全、责任明确的标准件，通常可在2个工作日内完成审核。',
+      actions:[{label:'确认无误，提交申请',targetId:'finish_success',variant:'primary'},{label:'返回修改',targetId:'documents_upload',variant:'secondary'}]},
+    position:{x:270,y:490}},
+  {id:'finish_success',code:'SC12',title:'提交成功 (Success)',type:'action',
+    content:{heading:'申请已提交成功！',
+      text:'1. 案件编号：CL-20240315-001\n2. 您的专属理赔顾问将在 1 个工作日内答复您。\n3. 审核周期通常为 2 个工作日内完成。\n4. 如有疑问，随时联系您的理赔顾问。',
+      actions:[{label:'查看理赔进度',targetId:'user_dashboard',variant:'primary'},{label:'添加理赔顾问微信',targetId:'wecom_contact',variant:'secondary'}]},
+    position:{x:40,y:490}},
+  {id:'wecom_contact',code:'WC13',title:'联系顾问 (WeCom)',type:'page',
+    content:{heading:'添加您的专属理赔顾问',
+      text:'1. 扫描或长按下方二维码，添加您的理赔顾问。\n2. 顾问可以帮您：解答理赔疑问、协助准备材料、跟进理赔进度。\n3. 服务时间：工作日 9:00-18:00，急件可留言。',showQR:true,
+      actions:[{label:'返回首页',targetId:'home',variant:'secondary'}]},
+    position:{x:40,y:640}}
+];
+
+// ============================================================
+//  STATE
+// ============================================================
+const STORAGE_KEY = 'yanyu_flow_v2';
+let flow = loadFlow();
+let currentId = 'home';
+let canvasScale = 0.7;
+let canvasX = 0, canvasY = 0;
+let isPanning = false, panStartX = 0, panStartY = 0;
+let dragNode = null, dragOffX = 0, dragOffY = 0;
+let ctxTargetNodeId = null;
+let ctxClickX = 0, ctxClickY = 0;
+let connectingFromId = null;
+let selectedNodeId = null;  // for keyboard shortcuts
+let claimPath = 'self';     // 'self' or 'guardian', set when user picks at CI02
+let claimType = 'outpatient'; // set when user picks at TY04
+let justDragged = false;    // prevent click after drag
+let dragMoved = false;      // true only if mouse actually moved during drag
+
+// Undo/Redo stacks
+const undoStack = [];
+const redoStack = [];
+const MAX_UNDO = 50;
+
+// ============================================================
+//  PERSISTENCE & UNDO/REDO
+// ============================================================
+function loadFlow() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) { const parsed = JSON.parse(saved); if (Array.isArray(parsed) && parsed.length) return parsed; }
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_FLOW));
+}
+
+function saveFlow() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(flow));
+  showSaveIndicator();
+}
+
+function pushUndo() {
+  undoStack.push(JSON.stringify(flow));
+  if (undoStack.length > MAX_UNDO) undoStack.shift();
+  redoStack.length = 0;  // clear redo on new action
+  updateUndoButtons();
+}
+
+function undo() {
+  if (!undoStack.length) return;
+  redoStack.push(JSON.stringify(flow));
+  flow = JSON.parse(undoStack.pop());
+  saveFlow();
+  if (!flow.find(n => n.id === currentId)) currentId = flow[0]?.id || 'home';
+  renderAll();
+  updateUndoButtons();
+  toast('已撤销');
+}
+
+function redo() {
+  if (!redoStack.length) return;
+  undoStack.push(JSON.stringify(flow));
+  flow = JSON.parse(redoStack.pop());
+  saveFlow();
+  if (!flow.find(n => n.id === currentId)) currentId = flow[0]?.id || 'home';
+  renderAll();
+  updateUndoButtons();
+  toast('已重做');
+}
+
+function updateUndoButtons() {
+  $('btn-undo').style.opacity = undoStack.length ? '1' : '0.4';
+  $('btn-redo').style.opacity = redoStack.length ? '1' : '0.4';
+}
+
+function showSaveIndicator() {
+  const el = $('save-ind');
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 1500);
+}
+
+// ============================================================
+//  DOM REFS
+// ============================================================
+const $ = id => document.getElementById(id);
+const canvas = $('canvas');
+const canvasSvg = $('canvas-svg');
+const canvasContainer = $('canvas-container');
+const phoneContent = $('phone-content');
+const contextMenu = $('context-menu');
+const modalContainer = $('modal-container');
+const leftPanel = $('left-panel');
+const divider = $('divider');
+const connectBanner = $('connect-banner');
+
+// ============================================================
+//  NODE TYPE HELPERS
+// ============================================================
+const TYPE_COLORS = {page:'#60a5fa',modal:'#a78bfa',action:'#4ade80',form:'#fb923c',upload:'#38bdf8'};
+const TYPE_ICONS = {page:'📄',modal:'💬',action:'✅',form:'📝',upload:'📸'};
+
+function getNodeIcon(node) {
+  const map = {home:'🏠',terms_agreement:'🛡️',user_dashboard:'📊',history_details:'📋',
+    select_type:'⚙️',claim_checklist_outpatient:'✅',claim_checklist_inpatient:'✅',claim_checklist_allowance:'✅',claim_checklist_critical:'✅',claim_checklist_disability:'✅',claim_checklist_death:'✅',claim_info_input:'📝',insured_info_input:'👤',
+    contact_info_input:'📞',payee_info_input:'💳',guardian_info_input:'👪',
+    documents_upload:'📄',submit_review:'📋',
+    finish_success:'✅',wecom_contact:'💬',declined_end:'❌'};
+  return map[node.id] || TYPE_ICONS[node.type] || '📄';
+}
+
+function getProgressStep(nodeId) {
+  // Total always 6. Guardian step (GI05) is shown as 2.5
+  const stepMap = {
+    'claim_info_input': 1,
+    'insured_info_input': 2,
+    'guardian_info_input': 2.5,  // half step — "just a quick extra"
+    'contact_info_input': 3,
+    'payee_info_input': 4,
+    'identity_upload_self': 5,
+    'identity_upload_guardian': 5,
+    'documents_upload': 6
+  };
+  const step = stepMap[nodeId];
+  if (step !== undefined) return {current: step, total: 6};
+  return null;
+}
+
+// ============================================================
+//  RENDER: Phone Mockup (XSS-safe via DOM API)
+// ============================================================
+function renderPhone() {
+  const node = flow.find(n => n.id === currentId);
+  if (!node) return;
+
+  $('phone-page-title').textContent = node.content.heading;
+  $('page-path').textContent = 'pages/' + node.id + '/' + node.id;
+
+  phoneContent.innerHTML = '';
+
+  // Progress bar
+  const progress = getProgressStep(node.id);
+  if (progress) {
+    const bar = document.createElement('div');
+    bar.className = 'progress-bar';
+    bar.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:8px';
+    const circle = document.createElement('div');
+    circle.style.cssText = 'width:28px;height:28px;border-radius:50%;background:#B20708;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700';
+    circle.textContent = progress.current;
+    bar.appendChild(circle);
+    const label = document.createElement('span');
+    label.style.cssText = 'font-size:11px;color:#64748b;font-weight:600';
+    label.textContent = '/ 共 ' + progress.total + ' 步';
+    bar.appendChild(label);
+    phoneContent.appendChild(bar);
+  }
+
+  // Page content
+  const page = document.createElement('div');
+  page.className = 'phone-page';
+
+  const iconBox = document.createElement('div');
+  iconBox.className = 'icon-box';
+  iconBox.textContent = getNodeIcon(node);
+  page.appendChild(iconBox);
+
+  const h2 = document.createElement('h2');
+  h2.appendChild(document.createTextNode(node.content.heading));
+  page.appendChild(h2);
+
+  const lines = (node.content.text || '').split('\n');
+  lines.forEach((line, i) => {
+    const div = document.createElement('div');
+    div.className = 'desc-line';
+    const num = document.createElement('span');
+    num.className = 'num';
+    num.textContent = (i + 1) + '.';
+    div.appendChild(num);
+    const txt = document.createElement('span');
+    txt.textContent = line.replace(/^\d+\.\s*/, '');
+    div.appendChild(txt);
+    page.appendChild(div);
+  });
+
+  // Checklist items with hints
+  if (node.content.items && node.content.items.length) {
+    const itemsList = document.createElement('div');
+    itemsList.style.cssText = 'margin-top:12px';
+    node.content.items.forEach((item, i) => {
+      const row = document.createElement('div');
+      row.style.cssText = 'margin-bottom:10px';
+      const name = document.createElement('div');
+      name.style.cssText = 'font-size:11px;font-weight:600;color:#1e293b';
+      name.textContent = (i + 1) + '. ' + item.name;
+      row.appendChild(name);
+      if (item.hint) {
+        const hint = document.createElement('div');
+        hint.style.cssText = 'font-size:9px;color:#94a3b8;margin-top:2px;padding-left:14px';
+        hint.textContent = item.hint;
+        row.appendChild(hint);
+      }
+      itemsList.appendChild(row);
+    });
+    page.appendChild(itemsList);
+  }
+
+  if (node.content.fields && node.content.fields.length) {
+    const group = document.createElement('div');
+    group.className = 'form-group';
+    node.content.fields.forEach(f => {
+      const field = document.createElement('div');
+      field.className = 'form-field';
+      const label = document.createElement('label');
+      label.textContent = f.label;
+      if (f.note) { const s = document.createElement('span'); s.style.cssText = 'color:#f59e0b;font-weight:500;margin-left:4px'; s.textContent = '*' + f.note; label.appendChild(s); }
+      field.appendChild(label);
+      const mock = document.createElement('div');
+      mock.className = 'input-mock';
+      if (f.type === 'select') {
+        mock.style.cssText += ';justify-content:space-between';
+        mock.textContent = f.placeholder;
+        const arrow = document.createElement('span');
+        arrow.textContent = '▼';
+        arrow.style.cssText = 'font-size:8px;color:#94a3b8';
+        mock.appendChild(arrow);
+      } else if (f.type === 'date') {
+        mock.style.cssText += ';justify-content:space-between';
+        mock.textContent = f.placeholder;
+        const cal = document.createElement('span');
+        cal.textContent = '📅';
+        cal.style.cssText = 'font-size:12px';
+        mock.appendChild(cal);
+      } else {
+        mock.textContent = f.placeholder;
+      }
+      field.appendChild(mock);
+      group.appendChild(field);
+    });
+    page.appendChild(group);
+  }
+
+  // support uploadsByType for dynamic content
+  const uploadsToShow = node.content.uploadsByType
+    ? (node.content.uploadsByType[claimType] || node.content.uploadsByType.outpatient)
+    : node.content.uploads;
+  if (uploadsToShow && uploadsToShow.length) {
+    const grid = document.createElement('div');
+    grid.className = 'upload-grid';
+    uploadsToShow.forEach(u => {
+      const slot = document.createElement('div');
+      slot.className = 'upload-slot';
+      const plus = document.createElement('div');
+      plus.className = 'plus';
+      plus.textContent = '+';
+      slot.appendChild(plus);
+      const name = document.createElement('div');
+      name.className = 'name';
+      name.textContent = u.label;
+      slot.appendChild(name);
+      if (u.description) { const note = document.createElement('div'); note.className = 'note'; note.textContent = u.description; slot.appendChild(note); }
+      grid.appendChild(slot);
+    });
+    page.appendChild(grid);
+  }
+
+  if (node.content.showQR) {
+    const area = document.createElement('div');
+    area.className = 'qr-area';
+    const box = document.createElement('div');
+    box.className = 'qr-box';
+    box.textContent = '企业微信二维码';
+    area.appendChild(box);
+    const lbl = document.createElement('div');
+    lbl.className = 'qr-label';
+    lbl.textContent = '扫码添加理赔顾问';
+    area.appendChild(lbl);
+    page.appendChild(area);
+  }
+
+  // Action buttons (XSS-safe: using addEventListener, not onclick string)
+  const actionsDiv = document.createElement('div');
+  actionsDiv.className = 'phone-actions';
+  node.content.actions.forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-' + (a.variant || 'primary');
+    const labelSpan = document.createElement('span');
+    labelSpan.textContent = a.label;
+    btn.appendChild(labelSpan);
+    const arrow = document.createElement('span');
+    arrow.className = 'arrow';
+    arrow.textContent = '›';
+    btn.appendChild(arrow);
+    btn.addEventListener('click', () => navigateTo(a.targetId));
+    actionsDiv.appendChild(btn);
+  });
+  page.appendChild(actionsDiv);
+
+  phoneContent.appendChild(page);
+}
+
+function navigateTo(id) {
+  if (!flow.find(n => n.id === id)) return;
+  // Detect claim type from TY04 checklist selection
+  const typeMap = {claim_checklist_outpatient:'outpatient',claim_checklist_inpatient:'inpatient',
+    claim_checklist_allowance:'allowance',claim_checklist_critical:'critical',
+    claim_checklist_disability:'disability',claim_checklist_death:'death'};
+  if (typeMap[id]) claimType = typeMap[id];
+  // Detect path choice at CI02
+  if (id === 'guardian_info_input') claimPath = 'guardian';
+  if (id === 'contact_info_input' && currentId === 'insured_info_input') claimPath = 'self';
+  // Reset path when starting over
+  if (id === 'home') { claimPath = 'self'; claimType = 'outpatient'; }
+  currentId = id;
+  selectedNodeId = id;
+  renderPhone();
+  renderFlowNodes();
+  renderConnections();
+}
+
+// ============================================================
+//  RENDER: Flow Chart
+// ============================================================
+function updateCanvasTransform() {
+  canvas.style.transform = 'translate(' + canvasX + 'px,' + canvasY + 'px) scale(' + canvasScale + ')';
+}
+
+function renderFlowNodes() {
+  canvas.querySelectorAll('.flow-node').forEach(el => el.remove());
+
+  flow.forEach(node => {
+    const isActive = node.id === currentId;
+    const isSelected = node.id === selectedNodeId;
+    const el = document.createElement('div');
+    el.className = 'flow-node' + (isActive ? ' active' : '');
+    el.dataset.nodeId = node.id;
+    el.style.left = node.position.x + 'px';
+    el.style.top = node.position.y + 'px';
+
+    const typeColor = TYPE_COLORS[node.type] || '#94a3b8';
+
+    // Build node content safely
+    const codeEl = document.createElement('div');
+    codeEl.className = 'node-code ' + (isActive ? 'active-code' : 'inactive-code');
+    codeEl.textContent = node.code;
+    el.appendChild(codeEl);
+
+    if (isActive) {
+      const dot = document.createElement('div');
+      dot.className = 'active-dot';
+      el.appendChild(dot);
+    }
+
+    const header = document.createElement('div');
+    header.className = 'node-header';
+    const left = document.createElement('div');
+    left.style.cssText = 'display:flex;align-items:center;gap:6px';
+    const typeDot = document.createElement('span');
+    typeDot.className = 'type-dot';
+    typeDot.style.background = typeColor;
+    left.appendChild(typeDot);
+    const typeLabel = document.createElement('span');
+    typeLabel.className = 'type-label';
+    typeLabel.textContent = node.type;
+    left.appendChild(typeLabel);
+    header.appendChild(left);
+    el.appendChild(header);
+
+    const title = document.createElement('div');
+    title.className = 'node-title' + (isActive ? ' active-title' : '');
+    title.textContent = node.title;
+    el.appendChild(title);
+
+    // Connection count badge
+    const connCount = node.content.actions.filter(a => a.targetId).length;
+    if (connCount > 0) {
+      const badge = document.createElement('div');
+      badge.className = 'conn-count';
+      badge.textContent = connCount + ' conn';
+      el.appendChild(badge);
+    }
+
+    // Click to navigate (skip if just finished dragging)
+    el.addEventListener('click', (e) => {
+      if (justDragged) { justDragged = false; return; }
+      if (connectingFromId) { addConnectionTo(node.id); return; }
+      selectedNodeId = node.id;
+      navigateTo(node.id);
+    });
+
+    // Double-click to edit
+    el.addEventListener('dblclick', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      openNodeEditor(node.id);
+    });
+
+    // Drag
+    el.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      if (connectingFromId) return;
+      dragNode = node;
+      dragMoved = false;
+      const rect = el.getBoundingClientRect();
+      dragOffX = e.clientX - rect.left;
+      dragOffY = e.clientY - rect.top;
+      el.classList.add('dragging');
+      selectedNodeId = node.id;
+      e.stopPropagation();
+    });
+
+    // Right click
+    el.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      selectedNodeId = node.id;
+      showContextMenu(e.clientX, e.clientY, node.id);
+    });
+
+    canvas.appendChild(el);
+  });
+}
+
+function renderConnections() {
+  let maxX = 0, maxY = 0;
+  flow.forEach(n => {
+    maxX = Math.max(maxX, n.position.x + 300);
+    maxY = Math.max(maxY, n.position.y + 200);
+  });
+  canvasSvg.setAttribute('width', maxX);
+  canvasSvg.setAttribute('height', maxY);
+  canvasSvg.style.width = maxX + 'px';
+  canvasSvg.style.height = maxY + 'px';
+
+  let svgContent = '<defs>' +
+    '<marker id="ah" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#cbd5e1"/></marker>' +
+    '<marker id="ah-active" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#B20708"/></marker>' +
+    '</defs>';
+
+  flow.forEach(node => {
+    node.content.actions.forEach((action, idx) => {
+      const target = flow.find(n => n.id === action.targetId);
+      if (!target) return;
+
+      const isActive = node.id === currentId;
+      const x1 = node.position.x + 90, y1 = node.position.y + 40;
+      const x2 = target.position.x + 90, y2 = target.position.y + 10;
+      const isReturn = x2 < x1;
+      const cy = (y1 + y2) / 2 - (isReturn ? 80 : 15);
+      const cx = (x1 + x2) / 2;
+
+      const pathId = 'path-' + node.id + '-' + idx;
+      svgContent += '<path id="' + pathId + '" d="M ' + x1 + ' ' + y1 + ' Q ' + cx + ' ' + cy + ' ' + x2 + ' ' + y2 + '" fill="none"' +
+        ' stroke="' + (isActive ? '#B20708' : '#cbd5e1') + '" stroke-width="' + (isActive ? 2.5 : 1.5) + '"' +
+        (isActive ? '' : ' stroke-dasharray="4 4"') +
+        ' marker-end="url(#' + (isActive ? 'ah-active' : 'ah') + ')"/>';
+
+      const labelX = cx, labelY = cy - 4;
+      svgContent += '<text x="' + labelX + '" y="' + labelY + '" class="conn-label" text-anchor="middle">' + escHtml(action.label) + '</text>';
+    });
+  });
+
+  canvasSvg.innerHTML = svgContent;
+}
+
+// ============================================================
+//  CANVAS PAN & ZOOM
+// ============================================================
+canvasContainer.addEventListener('mousedown', (e) => {
+  if (e.button === 1 || (e.button === 0 && !e.target.closest('.flow-node'))) {
+    isPanning = true;
+    panStartX = e.clientX - canvasX;
+    panStartY = e.clientY - canvasY;
+    canvasContainer.style.cursor = 'grabbing';
+    e.preventDefault();
+  }
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (isPanning) {
+    canvasX = e.clientX - panStartX;
+    canvasY = e.clientY - panStartY;
+    updateCanvasTransform();
+  }
+  if (dragNode) {
+    dragMoved = true;
+    const rect = canvasContainer.getBoundingClientRect();
+    const nx = (e.clientX - rect.left - canvasX - dragOffX) / canvasScale;
+    const ny = (e.clientY - rect.top - canvasY - dragOffY) / canvasScale;
+    dragNode.position.x = Math.round(Math.max(0, nx));
+    dragNode.position.y = Math.round(Math.max(0, ny));
+    const el = canvas.querySelector('[data-node-id="' + dragNode.id + '"]');
+    if (el) { el.style.left = dragNode.position.x + 'px'; el.style.top = dragNode.position.y + 'px'; }
+    renderConnections();
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  if (isPanning) { isPanning = false; canvasContainer.style.cursor = ''; }
+  if (dragNode) {
+    const el = canvas.querySelector('[data-node-id="' + dragNode.id + '"]');
+    if (el) el.classList.remove('dragging');
+    if (dragMoved) justDragged = true;  // only prevent click if actually moved
+    if (dragMoved) pushUndo();
+    dragNode = null;
+    saveFlow();
+  }
+});
+
+canvasContainer.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const delta = e.deltaY > 0 ? -0.05 : 0.05;
+  const newScale = Math.min(2, Math.max(0.2, canvasScale + delta));
+  const rect = canvasContainer.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  canvasX = mx - (mx - canvasX) * (newScale / canvasScale);
+  canvasY = my - (my - canvasY) * (newScale / canvasScale);
+  canvasScale = newScale;
+  updateCanvasTransform();
+}, {passive: false});
+
+$('btn-zoom-in').addEventListener('click', () => { canvasScale = Math.min(2, canvasScale + 0.1); updateCanvasTransform(); });
+$('btn-zoom-out').addEventListener('click', () => { canvasScale = Math.max(0.2, canvasScale - 0.1); updateCanvasTransform(); });
+$('btn-zoom-fit').addEventListener('click', fitCanvas);
+
+function fitCanvas() {
+  if (!flow.length) return;
+  let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+  flow.forEach(n => {
+    minX = Math.min(minX, n.position.x);
+    minY = Math.min(minY, n.position.y);
+    maxX = Math.max(maxX, n.position.x + 180);
+    maxY = Math.max(maxY, n.position.y + 80);
+  });
+  const rect = canvasContainer.getBoundingClientRect();
+  const fw = maxX - minX + 100, fh = maxY - minY + 100;
+  canvasScale = Math.min(rect.width / fw, rect.height / fh, 1);
+  canvasX = (rect.width - fw * canvasScale) / 2 - minX * canvasScale + 50 * canvasScale;
+  canvasY = (rect.height - fh * canvasScale) / 2 - minY * canvasScale + 50 * canvasScale;
+  updateCanvasTransform();
+}
+
+// ============================================================
+//  AUTO LAYOUT (Dagre hierarchical + snake fallback)
+// ============================================================
+function autoLayoutDagre() {
+  // Step 1: Use Dagre to compute topological rank (layer) for each node
+  const g = new dagre.graphlib.Graph();
+  g.setGraph({ rankdir: 'TB', nodesep: 30, ranksep: 50, marginx: 0, marginy: 0 });
+  g.setDefaultEdgeLabel(function() { return {}; });
+
+  flow.forEach(n => g.setNode(n.id, { width: 180, height: 70 }));
+  flow.forEach(n => {
+    n.content.actions.forEach(a => {
+      if (a.targetId && flow.some(t => t.id === a.targetId)) {
+        g.setEdge(n.id, a.targetId);
+      }
+    });
+  });
+  dagre.layout(g);
+
+  // Step 2: Extract rank (y-layer) from Dagre, group nodes by rank
+  const nodeRanks = [];
+  g.nodes().forEach(id => {
+    const pos = g.node(id);
+    if (pos) nodeRanks.push({ id, rank: pos.y, dagreX: pos.x });
+  });
+  // Sort by rank (y), then by dagreX within same rank
+  nodeRanks.sort((a, b) => a.rank - b.rank || a.dagreX - b.dagreX);
+
+  // Group by rank
+  const layers = [];
+  let lastRank = -Infinity;
+  nodeRanks.forEach(nr => {
+    if (nr.rank - lastRank > 10) { layers.push([]); lastRank = nr.rank; }
+    layers[layers.length - 1].push(nr.id);
+  });
+
+  // Step 3: Pack layers into a compact grid
+  // Flatten layers into a sequential order, then lay out in snake pattern
+  const COLS = Math.max(3, Math.min(5, Math.ceil(Math.sqrt(flow.length * 1.5))));
+  const CELL_W = 230;
+  const CELL_H = 140;
+  const PAD = 30;
+
+  // Flatten: walk layers in order, keeping Dagre's topological sort
+  const ordered = [];
+  layers.forEach(layer => layer.forEach(id => ordered.push(id)));
+  // Add any nodes not in Dagre output
+  flow.forEach(n => { if (!ordered.includes(n.id)) ordered.push(n.id); });
+
+  // Snake layout with Dagre's ordering
+  ordered.forEach((id, i) => {
+    const node = flow.find(n => n.id === id);
+    if (!node) return;
+    const row = Math.floor(i / COLS);
+    const colInRow = i % COLS;
+    const col = row % 2 === 0 ? colInRow : (COLS - 1 - colInRow);
+    node.position.x = PAD + col * CELL_W;
+    node.position.y = PAD + row * CELL_H;
+  });
+}
+
+function autoLayoutSnake() {
+  // Fallback: BFS + snake (when Dagre CDN not loaded)
+  const startId = flow.find(n => n.id === 'home') ? 'home' : flow[0].id;
+  const visited = new Set();
+  const order = [];
+  const queue = [startId];
+  visited.add(startId);
+  while (queue.length) {
+    const id = queue.shift();
+    const node = flow.find(n => n.id === id);
+    if (!node) continue;
+    order.push(node);
+    node.content.actions.forEach(a => {
+      if (a.targetId && !visited.has(a.targetId)) {
+        visited.add(a.targetId);
+        queue.push(a.targetId);
+      }
+    });
+  }
+  flow.forEach(n => { if (!visited.has(n.id)) order.push(n); });
+
+  const COLS = 4, CELL_W = 230, CELL_H = 150, PAD = 40;
+  order.forEach((node, i) => {
+    const row = Math.floor(i / COLS);
+    const col = i % COLS;
+    const c = row % 2 === 0 ? col : (COLS - 1 - col);
+    node.position.x = PAD + c * CELL_W;
+    node.position.y = PAD + row * CELL_H;
+  });
+}
+
+function autoLayout() {
+  if (!flow.length) return;
+  pushUndo();
+
+  if (typeof dagre !== 'undefined' && dagre.graphlib) {
+    autoLayoutDagre();
+    toast('已排列 (Dagre 分层算法, ' + flow.length + ' 节点)');
+  } else {
+    autoLayoutSnake();
+    toast('已排列 (蛇形排列, 离线模式)');
+  }
+
+  saveFlow();
+  renderAll();
+  fitCanvas();
+}
+
+$('btn-auto-layout').addEventListener('click', autoLayout);
+
+// ============================================================
+//  CONTEXT MENU
+// ============================================================
+canvasContainer.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+  const nodeEl = e.target.closest('.flow-node');
+  const nodeId = nodeEl ? nodeEl.dataset.nodeId : null;
+  const rect = canvasContainer.getBoundingClientRect();
+  ctxClickX = Math.round((e.clientX - rect.left - canvasX) / canvasScale);
+  ctxClickY = Math.round((e.clientY - rect.top - canvasY) / canvasScale);
+  showContextMenu(e.clientX, e.clientY, nodeId);
+});
+
+function showContextMenu(x, y, nodeId) {
+  ctxTargetNodeId = nodeId;
+  const has = !!nodeId;
+  const node = has ? flow.find(n => n.id === nodeId) : null;
+  const hasConns = node ? node.content.actions.some(a => a.targetId) : false;
+  $('ctx-edit').style.display = has ? '' : 'none';
+  $('ctx-dup').style.display = has ? '' : 'none';
+  $('ctx-conn').style.display = has ? '' : 'none';
+  $('ctx-manage').style.display = has && hasConns ? '' : 'none';
+  $('ctx-del').style.display = has ? '' : 'none';
+  $('ctx-sep1').style.display = has ? '' : 'none';
+  $('ctx-sep2').style.display = has ? '' : 'none';
+  contextMenu.style.display = 'block';
+  contextMenu.style.left = Math.min(x, window.innerWidth - 220) + 'px';
+  contextMenu.style.top = Math.min(y, window.innerHeight - 280) + 'px';
+}
+
+document.addEventListener('click', () => { contextMenu.style.display = 'none'; });
+
+contextMenu.addEventListener('click', (e) => {
+  const item = e.target.closest('.menu-item');
+  if (!item) return;
+  contextMenu.style.display = 'none';
+  switch(item.dataset.action) {
+    case 'add-node': openNodeEditor(null); break;
+    case 'edit-node': openNodeEditor(ctxTargetNodeId); break;
+    case 'duplicate-node': duplicateNode(ctxTargetNodeId); break;
+    case 'add-connection': startConnection(ctxTargetNodeId); break;
+    case 'manage-connections': openConnectionManager(ctxTargetNodeId); break;
+    case 'delete-node': deleteNode(ctxTargetNodeId); break;
+  }
+});
+
+// ============================================================
+//  NODE OPERATIONS
+// ============================================================
+function generateId() { return 'node_' + Date.now().toString(36) + Math.random().toString(36).substr(2,4); }
+
+function generateCode() {
+  const existing = new Set(flow.map(n => n.code));
+  for (let i = 1; i < 999; i++) {
+    const code = 'ND' + String(i).padStart(2,'0');
+    if (!existing.has(code)) return code;
+  }
+  return 'ND99';
+}
+
+function duplicateNode(nodeId) {
+  const src = flow.find(n => n.id === nodeId);
+  if (!src) return;
+  pushUndo();
+  const n = JSON.parse(JSON.stringify(src));
+  n.id = generateId();
+  n.code = generateCode();
+  n.title = src.title + ' (副本)';
+  n.position = { x: src.position.x + 30, y: src.position.y + 30 };
+  flow.push(n);
+  saveFlow();
+  renderAll();
+  toast('节点已复制');
+}
+
+function deleteNode(nodeId) {
+  if (!nodeId) return;
+  if (nodeId === 'home') { toast('首页节点不能删除'); return; }
+  if (!confirm('确定删除节点 "' + (flow.find(n=>n.id===nodeId)?.title||nodeId) + '"？\n所有指向它的连线也会被移除。')) return;
+  pushUndo();
+  flow.forEach(n => { n.content.actions = n.content.actions.filter(a => a.targetId !== nodeId); });
+  flow = flow.filter(n => n.id !== nodeId);
+  if (currentId === nodeId) currentId = 'home';
+  if (selectedNodeId === nodeId) selectedNodeId = null;
+  saveFlow();
+  renderAll();
+  toast('节点已删除');
+}
+
+// ============================================================
+//  CONNECTION MODE
+// ============================================================
+function startConnection(fromId) {
+  connectingFromId = fromId;
+  canvasContainer.classList.add('connecting');
+  connectBanner.style.display = 'block';
+}
+
+function addConnectionTo(toId) {
+  if (!connectingFromId || connectingFromId === toId) { cancelConnection(); return; }
+  const fromNode = flow.find(n => n.id === connectingFromId);
+  if (!fromNode) { cancelConnection(); return; }
+  if (fromNode.content.actions.some(a => a.targetId === toId)) {
+    toast('连线已存在');
+    cancelConnection();
+    return;
+  }
+  pushUndo();
+  const targetNode = flow.find(n => n.id === toId);
+  fromNode.content.actions.push({
+    label: '前往 ' + (targetNode ? targetNode.content.heading : toId),
+    targetId: toId,
+    variant: 'primary'
+  });
+  saveFlow();
+  cancelConnection();
+  renderAll();
+  toast('连线已添加');
+}
+
+function cancelConnection() {
+  connectingFromId = null;
+  canvasContainer.classList.remove('connecting');
+  connectBanner.style.display = 'none';
+}
+
+// ============================================================
+//  CONNECTION MANAGER MODAL
+// ============================================================
+function openConnectionManager(nodeId) {
+  const node = flow.find(n => n.id === nodeId);
+  if (!node) return;
+
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) { modalContainer.innerHTML = ''; } });
+
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+
+  const header = document.createElement('div');
+  header.className = 'modal-header';
+  const h3 = document.createElement('h3');
+  h3.textContent = '管理连线 — ' + node.title;
+  header.appendChild(h3);
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'close-btn';
+  closeBtn.textContent = '✕';
+  closeBtn.addEventListener('click', () => { modalContainer.innerHTML = ''; });
+  header.appendChild(closeBtn);
+  modal.appendChild(header);
+
+  const body = document.createElement('div');
+  body.className = 'modal-body';
+
+  if (!node.content.actions.length) {
+    const empty = document.createElement('div');
+    empty.style.cssText = 'color:#94a3b8;font-size:13px;padding:20px;text-align:center';
+    empty.textContent = '此节点没有任何连线';
+    body.appendChild(empty);
+  } else {
+    node.content.actions.forEach((action, i) => {
+      const target = flow.find(n => n.id === action.targetId);
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #f1f5f9;border-radius:8px;margin-bottom:8px';
+
+      const info = document.createElement('div');
+      info.style.cssText = 'flex:1';
+      const label = document.createElement('div');
+      label.style.cssText = 'font-size:13px;font-weight:600;color:#1e293b';
+      label.textContent = action.label;
+      info.appendChild(label);
+      const targetInfo = document.createElement('div');
+      targetInfo.style.cssText = 'font-size:11px;color:#94a3b8;margin-top:2px';
+      targetInfo.textContent = '→ ' + (target ? target.code + ' ' + target.title : '(不存在: ' + action.targetId + ')');
+      info.appendChild(targetInfo);
+      row.appendChild(info);
+
+      const variantBadge = document.createElement('span');
+      variantBadge.style.cssText = 'font-size:9px;padding:2px 6px;border-radius:4px;font-weight:700;' +
+        (action.variant === 'primary' ? 'background:#fef2f2;color:#B20708' : 'background:#f1f5f9;color:#64748b');
+      variantBadge.textContent = action.variant || 'primary';
+      row.appendChild(variantBadge);
+
+      const delBtn = document.createElement('button');
+      delBtn.style.cssText = 'width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#ef4444;font-size:14px';
+      delBtn.textContent = '✕';
+      delBtn.title = '删除此连线';
+      delBtn.addEventListener('mouseenter', () => { delBtn.style.background = '#fef2f2'; });
+      delBtn.addEventListener('mouseleave', () => { delBtn.style.background = ''; });
+      delBtn.addEventListener('click', () => {
+        pushUndo();
+        node.content.actions.splice(i, 1);
+        saveFlow();
+        renderAll();
+        // Re-open to refresh
+        modalContainer.innerHTML = '';
+        if (node.content.actions.length) openConnectionManager(nodeId);
+        else toast('所有连线已删除');
+      });
+      row.appendChild(delBtn);
+
+      body.appendChild(row);
+    });
+  }
+
+  modal.appendChild(body);
+  overlay.appendChild(modal);
+  modalContainer.innerHTML = '';
+  modalContainer.appendChild(overlay);
+}
+
+// ============================================================
+//  NODE EDITOR MODAL (XSS-safe)
+// ============================================================
+let modalData = null;
+
+function openNodeEditor(nodeId) {
+  const isNew = !nodeId;
+  modalData = isNew ? {
+    id: generateId(), code: generateCode(), title: '新节点', type: 'page',
+    content: { heading: '新页面', text: '1. 描述内容', fields: [], uploads: [], actions: [], showQR: false },
+    position: { x: ctxClickX || 200, y: ctxClickY || 200 }
+  } : JSON.parse(JSON.stringify(flow.find(n => n.id === nodeId)));
+
+  if (!modalData) return;
+  if (!modalData.content.fields) modalData.content.fields = [];
+  if (!modalData.content.uploads) modalData.content.uploads = [];
+  if (!modalData.content.actions) modalData.content.actions = [];
+
+  // Render HTML first
+  renderNodeEditorModal(isNew);
+
+  // Bind event listeners ONCE on modalContainer (not inside renderNodeEditorModal)
+  // Use a wrapper div to swap listeners cleanly
+  const mc = modalContainer;
+
+  // Create named handlers so we can reference them
+  function onFieldChange(e) {
+    const el = e.target;
+    if (el.dataset.arr && el.dataset.idx !== undefined && el.dataset.key) {
+      const arr = modalData.content[el.dataset.arr];
+      if (arr && arr[el.dataset.idx]) arr[el.dataset.idx][el.dataset.key] = el.value;
+    }
+  }
+  function onClick(e) {
+    const rmBtn = e.target.closest('[data-remove]');
+    if (rmBtn) {
+      modalData.content[rmBtn.dataset.remove].splice(parseInt(rmBtn.dataset.idx, 10), 1);
+      renderNodeEditorModal(isNew);
+      return;
+    }
+    const addBtn = e.target.closest('[data-add]');
+    if (addBtn) {
+      const arr = addBtn.dataset.add;
+      if (arr === 'fields') modalData.content.fields.push({label:'',placeholder:''});
+      else if (arr === 'uploads') modalData.content.uploads.push({label:'',description:''});
+      else if (arr === 'actions') modalData.content.actions.push({label:'新按钮',targetId:'',variant:'primary'});
+      renderNodeEditorModal(isNew);
+    }
+  }
+
+  // Remove any previously attached listeners (safety)
+  if (mc._edInput) mc.removeEventListener('input', mc._edInput);
+  if (mc._edChange) mc.removeEventListener('change', mc._edChange);
+  if (mc._edClick) mc.removeEventListener('click', mc._edClick);
+
+  mc.addEventListener('input', onFieldChange);
+  mc.addEventListener('change', onFieldChange);
+  mc.addEventListener('click', onClick);
+
+  // Store references for cleanup
+  mc._edInput = onFieldChange;
+  mc._edChange = onFieldChange;
+  mc._edClick = onClick;
+}
+
+function renderNodeEditorModal(isNew) {
+  const node = modalData;
+
+  // Build fields editor HTML
+  const fieldsHtml = node.content.fields.map((f, i) =>
+    '<div class="field-row">' +
+    '<input value="' + escAttr(f.label) + '" placeholder="字段名" data-arr="fields" data-idx="' + i + '" data-key="label">' +
+    '<input value="' + escAttr(f.placeholder) + '" placeholder="提示文字" data-arr="fields" data-idx="' + i + '" data-key="placeholder">' +
+    '<button class="remove-field" data-remove="fields" data-idx="' + i + '">×</button></div>'
+  ).join('') || '<div style="font-size:11px;color:#94a3b8;padding:4px">无字段</div>';
+
+  const uploadsHtml = node.content.uploads.map((u, i) =>
+    '<div class="field-row">' +
+    '<input value="' + escAttr(u.label) + '" placeholder="上传项" data-arr="uploads" data-idx="' + i + '" data-key="label">' +
+    '<input value="' + escAttr(u.description||'') + '" placeholder="说明" data-arr="uploads" data-idx="' + i + '" data-key="description">' +
+    '<button class="remove-field" data-remove="uploads" data-idx="' + i + '">×</button></div>'
+  ).join('') || '<div style="font-size:11px;color:#94a3b8;padding:4px">无上传项</div>';
+
+  const actionsHtml = node.content.actions.map((a, i) =>
+    '<div class="action-row">' +
+    '<input value="' + escAttr(a.label) + '" placeholder="按钮文字" data-arr="actions" data-idx="' + i + '" data-key="label">' +
+    '<select data-arr="actions" data-idx="' + i + '" data-key="targetId">' +
+    '<option value="">-- 目标 --</option>' + flow.map(n =>
+      '<option value="' + escAttr(n.id) + '"' + (a.targetId===n.id?' selected':'') + '>' + escHtml(n.code + ' - ' + n.title) + '</option>'
+    ).join('') + '</select>' +
+    '<select data-arr="actions" data-idx="' + i + '" data-key="variant">' +
+    '<option value="primary"' + (a.variant==='primary'?' selected':'') + '>主要</option>' +
+    '<option value="secondary"' + (a.variant==='secondary'?' selected':'') + '>次要</option></select>' +
+    '<button class="remove-field" data-remove="actions" data-idx="' + i + '">×</button></div>'
+  ).join('') || '<div style="font-size:11px;color:#94a3b8;padding:4px">无按钮</div>';
+
+  modalContainer.innerHTML =
+    '<div class="modal-overlay" id="editor-overlay">' +
+    '<div class="modal">' +
+    '<div class="modal-header"><h3>' + (isNew ? '➕ 新增节点' : '✏️ 编辑节点') + '</h3>' +
+    '<button class="close-btn" id="ed-close">✕</button></div>' +
+    '<div class="modal-body">' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
+    '<div class="form-row"><label>节点 ID</label><input id="ed-id" value="' + escAttr(node.id) + '"' + (isNew?'':' readonly style="background:#f8fafc;color:#94a3b8"') + '></div>' +
+    '<div class="form-row"><label>步骤代码</label><input id="ed-code" value="' + escAttr(node.code) + '"></div></div>' +
+    '<div class="form-row"><label>标题（流程图显示）</label><input id="ed-title" value="' + escAttr(node.title) + '"></div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
+    '<div class="form-row"><label>节点类型</label><select id="ed-type">' +
+    '<option value="page"' + (node.type==='page'?' selected':'') + '>Page 页面</option>' +
+    '<option value="form"' + (node.type==='form'?' selected':'') + '>Form 表单</option>' +
+    '<option value="upload"' + (node.type==='upload'?' selected':'') + '>Upload 上传</option>' +
+    '<option value="modal"' + (node.type==='modal'?' selected':'') + '>Modal 弹窗</option>' +
+    '<option value="action"' + (node.type==='action'?' selected':'') + '>Action 动作</option></select></div>' +
+    '<div class="form-row"><label>显示二维码</label><select id="ed-qr">' +
+    '<option value="false"' + (!node.content.showQR?' selected':'') + '>否</option>' +
+    '<option value="true"' + (node.content.showQR?' selected':'') + '>是</option></select></div></div>' +
+    '<div class="form-row"><label>页面标题（手机显示）</label><input id="ed-heading" value="' + escAttr(node.content.heading) + '"></div>' +
+    '<div class="form-row"><label>页面描述（每行一条）</label><textarea id="ed-text" rows="4">' + escHtml(node.content.text) + '</textarea></div>' +
+    '<div class="form-row"><label>表单字段 <button class="add-field-btn" data-add="fields">+ 添加</button></label>' +
+    '<div class="fields-editor" id="ed-fields">' + fieldsHtml + '</div></div>' +
+    '<div class="form-row"><label>上传项 <button class="add-field-btn" data-add="uploads">+ 添加</button></label>' +
+    '<div class="fields-editor" id="ed-uploads">' + uploadsHtml + '</div></div>' +
+    '<div class="form-row"><label>操作按钮 <button class="add-field-btn" data-add="actions">+ 添加</button></label>' +
+    '<div class="fields-editor" id="ed-actions">' + actionsHtml + '</div></div>' +
+    '</div>' +
+    '<div class="modal-footer"><button class="btn-cancel" id="ed-cancel">取消</button>' +
+    '<button class="btn-save" id="ed-save">保存</button></div></div></div>';
+
+  // Event delegation for modal (overlay/close/save — these are on NEW elements each render, so OK)
+  const overlay = $('editor-overlay');
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  $('ed-close').addEventListener('click', closeModal);
+  $('ed-cancel').addEventListener('click', closeModal);
+  $('ed-save').addEventListener('click', () => saveNodeEditor(isNew));
+  // NOTE: input/change/click delegation is bound ONCE in openNodeEditor(), not here
+}
+
+function saveNodeEditor(isNew) {
+  pushUndo();
+  const node = modalData;
+  node.code = $('ed-code').value.trim() || node.code;
+  node.title = $('ed-title').value.trim() || node.title;
+  node.type = $('ed-type').value;
+  node.content.heading = $('ed-heading').value.trim() || node.content.heading;
+  node.content.text = $('ed-text').value;
+  node.content.showQR = $('ed-qr').value === 'true';
+
+  if (isNew) {
+    node.id = $('ed-id').value.trim() || node.id;
+    if (flow.some(n => n.id === node.id)) { toast('ID 已存在'); return; }
+    flow.push(node);
+  } else {
+    const idx = flow.findIndex(n => n.id === node.id);
+    if (idx >= 0) flow[idx] = node;
+  }
+  node.content.actions = node.content.actions.filter(a => a.label.trim());
+  saveFlow();
+  closeModal();
+  renderAll();
+  toast(isNew ? '节点已添加' : '节点已保存');
+}
+
+function closeModal() {
+  // Clean up delegated listeners
+  const mc = modalContainer;
+  if (mc._edInput) { mc.removeEventListener('input', mc._edInput); mc._edInput = null; }
+  if (mc._edChange) { mc.removeEventListener('change', mc._edChange); mc._edChange = null; }
+  if (mc._edClick) { mc.removeEventListener('click', mc._edClick); mc._edClick = null; }
+  mc.innerHTML = '';
+  modalData = null;
+}
+
+// ============================================================
+//  KEYBOARD SHORTCUTS
+// ============================================================
+document.addEventListener('keydown', (e) => {
+  // Don't capture when typing in inputs
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+
+  if (e.key === 'Escape') {
+    cancelConnection();
+    contextMenu.style.display = 'none';
+    if (modalContainer.innerHTML) closeModal();
+  }
+  if (e.key === 'Delete' && selectedNodeId) {
+    deleteNode(selectedNodeId);
+  }
+  if (e.ctrlKey && e.key === 'z') { e.preventDefault(); undo(); }
+  if (e.ctrlKey && e.key === 'y') { e.preventDefault(); redo(); }
+});
+
+// ============================================================
+//  DIVIDER DRAG
+// ============================================================
+let divDragging = false;
+divider.addEventListener('mousedown', (e) => { divDragging = true; divider.classList.add('dragging'); e.preventDefault(); });
+document.addEventListener('mousemove', (e) => {
+  if (!divDragging) return;
+  const pct = (e.clientX / window.innerWidth) * 100;
+  if (pct > 20 && pct < 80) leftPanel.style.width = pct + '%';
+});
+document.addEventListener('mouseup', () => { if (divDragging) { divDragging = false; divider.classList.remove('dragging'); } });
+
+// ============================================================
+//  EXPORT / IMPORT / RESET
+// ============================================================
+$('btn-export').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(flow, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'flow_data_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('已匯出 JSON');
+});
+
+$('btn-import').addEventListener('click', () => $('file-input').click());
+$('file-input').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!Array.isArray(data) || !data[0]?.id) throw new Error('Invalid');
+      pushUndo();
+      flow = data;
+      saveFlow();
+      currentId = flow[0]?.id || 'home';
+      renderAll();
+      fitCanvas();
+      toast('已匯入 ' + flow.length + ' 个节点');
+    } catch(err) { toast('匯入失败：' + err.message); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+$('btn-reset').addEventListener('click', () => {
+  if (!confirm('确定重置？当前修改将丢失（可用 Ctrl+Z 撤销）。')) return;
+  pushUndo();
+  flow = JSON.parse(JSON.stringify(DEFAULT_FLOW));
+  saveFlow();
+  currentId = 'home';
+  renderAll();
+  fitCanvas();
+  toast('已重置');
+});
+
+$('btn-undo').addEventListener('click', undo);
+$('btn-redo').addEventListener('click', redo);
+
+// ============================================================
+//  TOAST
+// ============================================================
+function toast(msg) {
+  const el = $('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => el.classList.remove('show'), 2000);
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+function renderAll() {
+  renderPhone();
+  renderFlowNodes();
+  renderConnections();
+}
+
+renderAll();
+updateUndoButtons();
+requestAnimationFrame(fitCanvas);
+</script>
+</body>
+</html>
