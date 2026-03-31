@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岩育健康 — 顾问后台原型 Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:#f0f2f5;color:#333;font-size:13px}
+/* Layout */
+.layout{display:flex;height:100vh}
+.sidebar{width:200px;background:#001529;color:#fff;flex-shrink:0;display:flex;flex-direction:column}
+.sidebar .logo{padding:16px;font-size:16px;font-weight:700;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:8px}
+.sidebar .logo span{color:#CC0000}
+.sidebar nav{flex:1;padding:8px 0}
+.sidebar .nav-group{padding:8px 16px 4px;font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:1px}
+.sidebar .nav-item{padding:10px 16px 10px 24px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.65);font-size:13px}
+.sidebar .nav-item:hover{background:rgba(255,255,255,.05);color:#fff}
+.sidebar .nav-item.active{background:#CC0000;color:#fff;font-weight:600}
+.sidebar .nav-item .icon{width:18px;text-align:center}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:48px;background:#fff;border-bottom:1px solid #e8e8e8;display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0}
+.topbar .breadcrumb{font-size:13px;color:#999}
+.topbar .breadcrumb b{color:#333}
+.topbar .user{display:flex;align-items:center;gap:8px;font-size:13px}
+.topbar .avatar{width:28px;height:28px;background:#CC0000;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700}
+.content{flex:1;padding:20px;overflow-y:auto}
+/* Page container */
+.page{display:none}
+.page.active{display:block}
+/* Cards */
+.card{background:#fff;border-radius:8px;padding:16px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.card-title{font-size:14px;font-weight:600;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+/* Stats Row */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+.stat-card{background:#fff;border-radius:8px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.stat-card .num{font-size:28px;font-weight:800;color:#333}
+.stat-card .label{font-size:12px;color:#999;margin-top:4px}
+.stat-card .trend{font-size:11px;margin-top:6px}
+.stat-card .trend.up{color:#CC0000}
+.stat-card .trend.down{color:#f5222d}
+/* Table */
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:10px 12px;font-size:11px;color:#999;font-weight:600;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid #f0f0f0;background:#fafafa}
+td{padding:10px 12px;border-bottom:1px solid #f5f5f5;font-size:13px}
+tr:hover{background:#fafafa}
+tr{cursor:pointer}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.badge-green{background:#e6f7ee;color:#CC0000}
+.badge-orange{background:#fff7e6;color:#fa8c16}
+.badge-blue{background:#e6f0ff;color:#1890ff}
+.badge-red{background:#fff1f0;color:#f5222d}
+.badge-gray{background:#f5f5f5;color:#999}
+/* Progress bar */
+.progress-bar{height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px}
+/* Detail sections */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f5;font-size:13px}
+.info-row .label{color:#999}
+.info-row .value{color:#333;font-weight:500}
+.timeline{padding:0 0 0 20px;position:relative}
+.timeline::before{content:'';position:absolute;left:6px;top:4px;bottom:4px;width:2px;background:#e5e5e5}
+.tl-item{position:relative;padding-bottom:16px}
+.tl-dot{position:absolute;left:-18px;top:2px;width:10px;height:10px;border-radius:50%;background:#e5e5e5}
+.tl-dot.done{background:#CC0000}
+.tl-dot.active{background:#1890ff;box-shadow:0 0 0 3px rgba(24,144,255,.2)}
+.tl-title{font-size:13px;font-weight:600}
+.tl-desc{font-size:12px;color:#999;margin-top:2px}
+.tl-time{font-size:11px;color:#bbb;margin-top:1px}
+/* Buttons */
+.btn{padding:6px 14px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer}
+.btn-primary{background:#CC0000;color:#fff}
+.btn-ghost{background:#fff;border:1px solid #d9d9d9;color:#333}
+.btn-sm{padding:4px 10px;font-size:11px}
+/* Chart placeholder */
+.chart-placeholder{height:180px;background:#fafafa;border:1px dashed #d9d9d9;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#bbb;font-size:13px}
+/* Drug company report section */
+.report-highlight{padding:12px;background:#e6f7ee;border-radius:8px;border-left:4px solid #CC0000;margin-bottom:12px}
+.report-highlight .num{font-size:24px;font-weight:800;color:#CC0000}
+.report-highlight .desc{font-size:12px;color:#666;margin-top:2px}
+/* Action bar */
+.action-bar{display:flex;gap:8px;margin-bottom:16px}
+.search-input{height:32px;border:1px solid #d9d9d9;border-radius:6px;padding:0 10px;font-size:12px;width:240px;outline:none}
+.search-input:focus{border-color:#CC0000}
+.filter-select{height:32px;border:1px solid #d9d9d9;border-radius:6px;padding:0 8px;font-size:12px;background:#fff;outline:none}
+/* Tabs */
+.tabs{display:flex;border-bottom:2px solid #f0f0f0;margin-bottom:16px}
+.tab{padding:8px 16px;font-size:13px;cursor:pointer;color:#999;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s}
+.tab.active{color:#CC0000;border-bottom-color:#CC0000;font-weight:600}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo"><span>+</span> 岩育健康</div>
+    <nav>
+      <div class="nav-group">工作台</div>
+      <div class="nav-item active" onclick="showAdminPage('dashboard')"><span class="icon">&#128202;</span>数据看板</div>
+      <div class="nav-item" onclick="showAdminPage('cases')"><span class="icon">&#128203;</span>案件管理</div>
+      <div class="nav-item" onclick="showAdminPage('case_detail')"><span class="icon">&#128100;</span>案件详情</div>
+      <div class="nav-group" style="margin-top:12px">管理</div>
+      <div class="nav-item" onclick="showAdminPage('patients')"><span class="icon">&#128101;</span>患者档案</div>
+      <div class="nav-item" onclick="showAdminPage('messages')"><span class="icon">&#128172;</span>消息管理</div>
+      <div class="nav-item" onclick="showAdminPage('report')"><span class="icon">&#128200;</span>药企报告</div>
+      <div class="nav-group" style="margin-top:12px">设置</div>
+      <div class="nav-item" onclick="showAdminPage('architecture')"><span class="icon">&#128421;</span>系统架构</div>
+      <div class="nav-item"><span class="icon">&#9881;</span>系统设置</div>
+      <div class="nav-item"><span class="icon">&#128274;</span>权限管理</div>
+    </nav>
+    <div style="padding:12px 16px;border-top:1px solid rgba(255,255,255,.1);font-size:11px;color:rgba(255,255,255,.3)">岩育健康管理后台 v1.0</div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="topbar">
+      <div class="breadcrumb" id="breadcrumb">工作台 / <b>数据看板</b></div>
+      <div class="user">
+        <span>&#128276;</span>
+        <div class="avatar">少</div>
+        <span>少辰</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ===== PAGE: Dashboard ===== -->
+      <div class="page active" id="pg_dashboard">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="num">23</div>
+            <div class="label">总案件数</div>
+            <div class="trend up">&#9650; 本月 +5</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">8</div>
+            <div class="label">进行中</div>
+            <div class="trend">待评估 3 · 审核中 5</div>
+          </div>
+          <div class="stat-card">
+            <div class="num" style="color:#CC0000">78%</div>
+            <div class="label">理赔成功率</div>
+            <div class="trend up">&#9650; 较上月 +5%</div>
+          </div>
+          <div class="stat-card">
+            <div class="num">¥3.2M</div>
+            <div class="label">累计获赔金额</div>
+            <div class="trend up">&#9650; 本月 +¥820K</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px">
+          <div class="card">
+            <div class="card-title">案件趋势（近6个月）</div>
+            <div class="chart-placeholder">
+              <div style="text-align:center">
+                <div style="display:flex;align-items:flex-end;gap:12px;height:120px;justify-content:center">
+                  <div style="width:30px;background:#CC0000;border-radius:4px 4px 0 0;height:30%"></div>
+                  <div style="width:30px;background:#CC0000;border-radius:4px 4px 0 0;height:45%"></div>
+                  <div style="width:30px;background:#CC0000;border-radius:4px 4px 0 0;height:55%"></div>
+                  <div style="width:30px;background:#CC0000;border-radius:4px 4px 0 0;height:70%"></div>
+                  <div style="width:30px;background:#CC0000;border-radius:4px 4px 0 0;height:65%"></div>
+                  <div style="width:30px;background:#1890ff;border-radius:4px 4px 0 0;height:85%"></div>
+                </div>
+                <div style="font-size:10px;color:#bbb;margin-top:8px;display:flex;gap:12px;justify-content:center">
+                  <span>10月</span><span>11月</span><span>12月</span><span>1月</span><span>2月</span><span style="color:#1890ff;font-weight:600">3月</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">案件状态分布</div>
+            <div style="padding:12px 0">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                <span>待评估</span>
+                <span><b>3</b></span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:13%;background:#fa8c16"></div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0">
+                <span>评估中</span>
+                <span><b>2</b></span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:9%;background:#1890ff"></div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0">
+                <span>材料审核</span>
+                <span><b>3</b></span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:13%;background:#722ed1"></div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0">
+                <span>审核中</span>
+                <span><b>5</b></span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:22%;background:#13c2c2"></div></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0">
+                <span>已结案</span>
+                <span><b>10</b></span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:43%;background:#CC0000"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">待处理（需顾问操作）</div>
+          <table>
+            <tr><th>患者</th><th>案件</th><th>状态</th><th>待办</th><th>时限</th></tr>
+            <tr onclick="showAdminPage('case_detail')">
+              <td><b>王女士</b></td>
+              <td>乳腺癌靶向药理赔</td>
+              <td><span class="badge badge-orange">待评估</span></td>
+              <td>完成条款研究+出评估报告</td>
+              <td style="color:#f5222d;font-weight:600">今天到期</td>
+            </tr>
+            <tr>
+              <td><b>李先生</b></td>
+              <td>CAR-T 复查理赔</td>
+              <td><span class="badge badge-blue">材料预审</span></td>
+              <td>审核上传材料完整性</td>
+              <td>明天</td>
+            </tr>
+            <tr>
+              <td><b>陈女士</b></td>
+              <td>肺癌免疫疗法</td>
+              <td><span class="badge badge-orange">待评估</span></td>
+              <td>联系审查单位预沟通</td>
+              <td>后天</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: Cases List ===== -->
+      <div class="page" id="pg_cases">
+        <div class="action-bar">
+          <input class="search-input" placeholder="搜索患者姓名、案件编号...">
+          <select class="filter-select"><option>全部状态</option><option>待评估</option><option>评估中</option><option>材料审核</option><option>审核中</option><option>申诉中</option><option>已结案</option></select>
+          <select class="filter-select"><option>全部渠道</option><option>药企转介</option><option>医院物料</option><option>患者群</option></select>
+          <select class="filter-select"><option>全部项目</option><option>元瑞达 CAR-T</option><option>乳腺癌HER2</option><option>通用理赔</option></select>
+        </div>
+        <div class="card" style="padding:0">
+          <table>
+            <tr><th>编号</th><th>患者</th><th>病种</th><th>项目</th><th>阶段</th><th>预估金额</th><th>渠道</th><th>创建日期</th></tr>
+            <tr onclick="showAdminPage('case_detail')"><td>YY001</td><td><b>张先生</b></td><td>弥漫大B淋巴瘤</td><td><span class="badge badge-blue">元瑞达</span></td><td><span class="badge badge-orange">审核中</span></td><td style="color:#CC0000;font-weight:600">¥800,000</td><td>药企转介</td><td>2026-03-25</td></tr>
+            <tr><td>YY002</td><td><b>王女士</b></td><td>乳腺癌HER2+</td><td><span class="badge badge-blue">乳腺癌</span></td><td><span class="badge badge-orange">待评估</span></td><td>待定</td><td>医院物料</td><td>2026-03-29</td></tr>
+            <tr><td>YY003</td><td><b>李先生</b></td><td>弥漫大B淋巴瘤</td><td><span class="badge badge-blue">元瑞达</span></td><td><span class="badge badge-blue">材料预审</span></td><td>¥5,100</td><td>药企转介</td><td>2026-03-28</td></tr>
+            <tr><td>YY004</td><td><b>陈女士</b></td><td>非小细胞肺癌</td><td><span class="badge badge-gray">通用</span></td><td><span class="badge badge-orange">待评估</span></td><td>待定</td><td>患者群</td><td>2026-03-30</td></tr>
+            <tr><td>YY005</td><td><b>赵先生</b></td><td>急性淋巴白血病</td><td><span class="badge badge-blue">元瑞达</span></td><td><span class="badge badge-green">已结案</span></td><td style="color:#CC0000">¥920,000</td><td>药企转介</td><td>2026-02-10</td></tr>
+            <tr><td>YY006</td><td><b>刘女士</b></td><td>滤泡性淋巴瘤</td><td><span class="badge badge-blue">元瑞达</span></td><td><span class="badge badge-red">申诉中</span></td><td>¥1,000,000</td><td>药企转介</td><td>2026-01-15</td></tr>
+            <tr><td>YY007</td><td><b>黄先生</b></td><td>乳腺癌HER2低</td><td><span class="badge badge-blue">乳腺癌</span></td><td><span class="badge badge-green">已结案</span></td><td style="color:#CC0000">¥85,000</td><td>医院物料</td><td>2025-12-20</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: Case Detail ===== -->
+      <div class="page" id="pg_case_detail">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div>
+            <div style="font-size:18px;font-weight:700">张先生 · CAR-T 细胞疗法理赔</div>
+            <div style="font-size:12px;color:#999;margin-top:4px">YY001 · 弥漫大B细胞淋巴瘤 · 元瑞达项目 · 药企转介</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-ghost btn-sm">发送消息</button>
+            <button class="btn btn-primary btn-sm">更新状态</button>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" onclick="switchDetailTab('overview',this)">案件概览</div>
+          <div class="tab" onclick="switchDetailTab('patient_data',this)">患者资料</div>
+          <div class="tab" onclick="switchDetailTab('uploads',this)">上传材料</div>
+          <div class="tab" onclick="switchDetailTab('comms',this)">沟通记录</div>
+          <div class="tab" onclick="switchDetailTab('log',this)">操作日志</div>
+        </div>
+
+        <!-- Tab: 患者资料 (hidden by default) -->
+        <div id="dtab_patient_data" style="display:none">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="card">
+              <div class="card-title">理赔信息（CI01）</div>
+              <div class="info-row"><span class="label">保险名称</span><span class="value">烟台市民健康保2026 B款升级版</span></div>
+              <div class="info-row"><span class="label">发票金额</span><span class="value" style="font-weight:700">¥1,000,000</span></div>
+              <div class="info-row"><span class="label">出险时间</span><span class="value">2025-03-05</span></div>
+              <div class="info-row" style="border:none"><span class="label">出险经过</span><span class="value" style="max-width:200px;text-align:right">确诊弥漫大B细胞淋巴瘤，于毓璜顶医院接受CAR-T治疗（元瑞达/奥基仑赛）</span></div>
+            </div>
+            <div class="card">
+              <div class="card-title">被保人信息（CI02）</div>
+              <div class="info-row"><span class="label">姓名</span><span class="value">张某某</span></div>
+              <div class="info-row"><span class="label">证件类型</span><span class="value">身份证</span></div>
+              <div class="info-row"><span class="label">证件号码</span><span class="value">370602199X****1234</span></div>
+              <div class="info-row"><span class="label">性别</span><span class="value">男</span></div>
+              <div class="info-row" style="border:none"><span class="label">出生日期</span><span class="value">199X-XX-XX</span></div>
+            </div>
+            <div class="card">
+              <div class="card-title">联系信息（CI03）</div>
+              <div class="info-row"><span class="label">手机</span><span class="value">138****5678</span></div>
+              <div class="info-row"><span class="label">邮箱</span><span class="value">zhang***@163.com</span></div>
+              <div class="info-row" style="border:none"><span class="label">地址</span><span class="value">山东省烟台市芝罘区****</span></div>
+            </div>
+            <div class="card">
+              <div class="card-title">收款信息（CI04）</div>
+              <div class="info-row"><span class="label">收款人</span><span class="value">被保险人本人</span></div>
+              <div class="info-row"><span class="label">开户行</span><span class="value">中国工商银行烟台支行</span></div>
+              <div class="info-row" style="border:none"><span class="label">卡号</span><span class="value">6222****8901</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: 上传材料 (hidden by default) -->
+        <div id="dtab_uploads" style="display:none">
+          <div class="card">
+            <div class="card-title">身份证明（PU01）<span style="font-size:12px;color:#CC0000;font-weight:400;margin-left:8px">3/3 已审核</span></div>
+            <table>
+              <tr><th>文件</th><th>上传时间</th><th>大小</th><th>审核状态</th><th>操作</th></tr>
+              <tr><td>被保人身份证正反面.jpg</td><td>2026-03-30 13:20</td><td>1.2 MB</td><td><span class="badge badge-green">✓ 通过</span></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+              <tr><td>关系证明_户口簿.jpg</td><td>2026-03-30 13:22</td><td>890 KB</td><td><span class="badge badge-green">✓ 通过</span></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+              <tr><td>银行卡正反面.jpg</td><td>2026-03-30 13:25</td><td>750 KB</td><td><span class="badge badge-green">✓ 通过</span></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-title">医疗单据（PU02）<span style="font-size:12px;color:#CC0000;font-weight:400;margin-left:8px">4/4 已审核</span></div>
+            <table>
+              <tr><th>文件</th><th>上传时间</th><th>大小</th><th>审核状态</th><th>操作</th></tr>
+              <tr><td>医疗发票_100万.pdf</td><td>2026-03-30 13:30</td><td>2.1 MB</td><td><span class="badge badge-green">✓ 通过</span></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+              <tr><td>费用汇总清单.pdf</td><td>2026-03-30 13:32</td><td>1.5 MB</td><td><span class="badge badge-green">✓ 通过</span></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+              <tr><td>门急诊病历.pdf</td><td>2026-03-30 13:35</td><td>3.2 MB</td><td><span class="badge badge-green">✓ 通过</span></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+              <tr><td>出院小结.pdf</td><td>2026-03-30 13:36</td><td>980 KB</td><td><span class="badge badge-green">✓ 通过</span></td><td><button class="btn btn-ghost btn-sm">查看</button></td></tr>
+            </table>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn btn-primary btn-sm">全部通过</button>
+            <button class="btn btn-ghost btn-sm" style="color:#f5222d;border-color:#ffa39e">标记需补件</button>
+          </div>
+        </div>
+
+        <!-- Tab: 沟通记录 (hidden by default) -->
+        <div id="dtab_comms" style="display:none">
+          <div class="card">
+            <div style="margin-bottom:12px;padding:10px;background:#f6ffed;border-radius:6px;border-left:3px solid #CC0000">
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-bottom:4px"><span>顾问 → 患者</span><span>03-31 10:32</span></div>
+              <div style="font-size:13px">您的材料已通过预审，已提交审查单位。预计10~30个工作日内核定。</div>
+            </div>
+            <div style="margin-bottom:12px;padding:10px;background:#fff7e6;border-radius:6px;border-left:3px solid #fa8c16">
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-bottom:4px"><span>顾问 → 患者</span><span>03-30 16:45</span></div>
+              <div style="font-size:13px">材料预审完成，请补充「CAR-T治疗方案说明」。</div>
+            </div>
+            <div style="margin-bottom:12px;padding:10px;background:#e6f0ff;border-radius:6px;border-left:3px solid #1890ff">
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-bottom:4px"><span>患者 → 顾问</span><span>03-30 18:10</span></div>
+              <div style="font-size:13px">已经上传了治疗方案说明，麻烦帮我看看。</div>
+            </div>
+            <div style="padding:10px;background:#f6ffed;border-radius:6px;border-left:3px solid #CC0000">
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-bottom:4px"><span>顾问 → 患者</span><span>03-27 09:00</span></div>
+              <div style="font-size:13px">理赔评估报告已生成。经评估您的情况符合理赔条件，预估可报销约¥800,000。建议尽快准备材料。</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: 操作日志 (hidden by default) -->
+        <div id="dtab_log" style="display:none">
+          <div class="card">
+            <table>
+              <tr><th>时间</th><th>操作人</th><th>动作</th><th>备注</th></tr>
+              <tr><td>03-31 16:45</td><td>少辰</td><td>状态变更 → 审核中</td><td>材料已提交TPA</td></tr>
+              <tr><td>03-31 10:30</td><td>少辰</td><td>材料审核通过</td><td>7/7项全部通过</td></tr>
+              <tr><td>03-30 18:15</td><td>系统</td><td>患者补充材料</td><td>CAR-T治疗方案说明.pdf</td></tr>
+              <tr><td>03-30 16:45</td><td>少辰</td><td>发送补件通知</td><td>缺CAR-T治疗方案说明</td></tr>
+              <tr><td>03-30 14:00</td><td>系统</td><td>患者提交材料</td><td>6项材料</td></tr>
+              <tr><td>03-27 09:00</td><td>少辰</td><td>发送评估报告</td><td>可能性较高，预估¥800K</td></tr>
+              <tr><td>03-26 16:30</td><td>少辰</td><td>完成评估</td><td>TPA预沟通确认可行</td></tr>
+              <tr><td>03-25 10:15</td><td>系统</td><td>案件创建</td><td>药企转介，自动分配顾问</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab: 案件概览 (default visible) -->
+        <div id="dtab_overview">
+        <div class="detail-grid">
+          <div>
+            <div class="card">
+              <div class="card-title">案件状态</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <span class="badge badge-orange" style="font-size:14px;padding:4px 12px">审核中</span>
+                <span style="font-size:12px;color:#999">阶段 5/6 · 等待审查单位核定</span>
+              </div>
+              <div class="progress-bar" style="height:8px"><div class="progress-fill" style="width:65%;background:linear-gradient(90deg,#CC0000,#52c41a)"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:10px;color:#bbb;margin-top:4px">
+                <span>接入</span><span>评估</span><span>反馈</span><span>材料</span><span style="color:#CC0000;font-weight:600">审核</span><span>结案</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">关键信息</div>
+              <div class="info-row"><span class="label">保险产品</span><span class="value">烟台市民健康保 2026 B款升级版</span></div>
+              <div class="info-row"><span class="label">治疗方案</span><span class="value">CAR-T 细胞疗法（元瑞达 / 奥基仑赛）</span></div>
+              <div class="info-row"><span class="label">总医疗费用</span><span class="value">¥1,000,000</span></div>
+              <div class="info-row"><span class="label">预估可报销</span><span class="value" style="color:#CC0000;font-weight:700">¥800,000（80%）</span></div>
+              <div class="info-row"><span class="label">风险评估</span><span class="value"><span class="badge badge-green">低风险 · 条款明确匹配</span></span></div>
+              <div class="info-row"><span class="label">条款依据</span><span class="value">B款责任四·特药目录·CAR-T ✓</span></div>
+              <div class="info-row"><span class="label">审查单位</span><span class="value">镁信健康（TPA）</span></div>
+              <div class="info-row" style="border:none"><span class="label">预沟通结果</span><span class="value"><span class="badge badge-green">TPA 确认可行</span></span></div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">顾问备注</div>
+              <div style="background:#fafafa;border-radius:6px;padding:10px;font-size:12px;line-height:1.6;color:#666">
+                患者保单B款升级版，CAR-T在特药目录内，适应症完全匹配。已与TPA预沟通确认可行。材料完整，已于3/31提交。等待核定中，预计10个工作日内出结果。<br><br>
+                注意：患者同时持有平安e生保，后续复查费用可二次报销。已告知患者。
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <div class="card-title">处理时间线</div>
+              <div class="timeline">
+                <div class="tl-item"><div class="tl-dot done"></div><div class="tl-title">患者接入</div><div class="tl-desc">药企销售转介，已入组</div><div class="tl-time">03-25 10:15</div></div>
+                <div class="tl-item"><div class="tl-dot done"></div><div class="tl-title">完成评估</div><div class="tl-desc">条款研究+TPA预沟通</div><div class="tl-time">03-26 16:30 (D+1)</div></div>
+                <div class="tl-item"><div class="tl-dot done"></div><div class="tl-title">反馈患者</div><div class="tl-desc">告知可报80%，建议申请</div><div class="tl-time">03-27 09:00 (D+2)</div></div>
+                <div class="tl-item"><div class="tl-dot done"></div><div class="tl-title">材料收齐</div><div class="tl-desc">8项材料全部通过预审</div><div class="tl-time">03-30 14:00</div></div>
+                <div class="tl-item"><div class="tl-dot done"></div><div class="tl-title">提交审查单位</div><div class="tl-desc">通过TPA系统正式提交</div><div class="tl-time">03-31 16:45</div></div>
+                <div class="tl-item"><div class="tl-dot active"></div><div class="tl-title">等待核定</div><div class="tl-desc">预计 10 个工作日</div></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">SLA 监控</div>
+              <div class="info-row"><span class="label">D+2 反馈承诺</span><span class="value"><span class="badge badge-green">✓ 达标 (D+2)</span></span></div>
+              <div class="info-row"><span class="label">材料预审</span><span class="value"><span class="badge badge-green">✓ 一次通过</span></span></div>
+              <div class="info-row" style="border:none"><span class="label">审核等待天数</span><span class="value">1 天 / 30 天上限</span></div>
+            </div>
+          </div>
+        </div>
+        </div><!-- close dtab_overview -->
+      </div>
+
+      <!-- ===== PAGE: Patients ===== -->
+      <div class="page" id="pg_patients">
+        <div class="action-bar">
+          <input class="search-input" placeholder="搜索患者姓名、手机号...">
+          <select class="filter-select"><option>全部类型</option><option>Type 3 确诊用药</option><option>Type 4 被拒赔</option><option>Type 1/2 咨询</option></select>
+        </div>
+        <div class="card" style="padding:0">
+          <table>
+            <tr><th>姓名</th><th>类型</th><th>病种</th><th>保单数</th><th>理赔次数</th><th>累计获赔</th><th>跟踪时长</th><th>状态</th></tr>
+            <tr><td><b>张先生</b></td><td>Type 3</td><td>弥漫大B淋巴瘤</td><td>2</td><td>3</td><td style="color:#CC0000;font-weight:600">¥812,500</td><td>14个月</td><td><span class="badge badge-green">活跃</span></td></tr>
+            <tr><td><b>王女士</b></td><td>Type 3</td><td>乳腺癌HER2+</td><td>1</td><td>0</td><td>-</td><td>2天</td><td><span class="badge badge-orange">新患者</span></td></tr>
+            <tr><td><b>李先生</b></td><td>Type 3</td><td>弥漫大B淋巴瘤</td><td>1</td><td>1</td><td style="color:#CC0000">¥920,000</td><td>6个月</td><td><span class="badge badge-green">活跃</span></td></tr>
+            <tr><td><b>赵先生</b></td><td>Type 3</td><td>急性淋巴白血病</td><td>2</td><td>2</td><td style="color:#CC0000">¥1,050,000</td><td>10个月</td><td><span class="badge badge-green">活跃</span></td></tr>
+            <tr><td><b>刘女士</b></td><td>Type 4</td><td>滤泡性淋巴瘤</td><td>1</td><td>0</td><td><span style="color:#f5222d">拒赔申诉中</span></td><td>2.5个月</td><td><span class="badge badge-red">申诉</span></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: Messages ===== -->
+      <div class="page" id="pg_messages">
+        <div class="tabs">
+          <div class="tab active">待回复 (3)</div>
+          <div class="tab">已处理</div>
+          <div class="tab">系统通知</div>
+        </div>
+        <div class="card" style="border-left:4px solid #fa8c16">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div><b>张先生</b> · YY001</div>
+            <span style="font-size:11px;color:#bbb">今天 09:15</span>
+          </div>
+          <div style="font-size:13px;color:#666;margin-bottom:8px">顾问您好，请问我的理赔审核大概什么时候能出结果？我下周要复查了，想知道这笔钱什么时候到。</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary btn-sm">回复</button>
+            <button class="btn btn-ghost btn-sm">标记已读</button>
+          </div>
+        </div>
+        <div class="card" style="border-left:4px solid #fa8c16">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div><b>刘女士</b> · YY006</div>
+            <span style="font-size:11px;color:#bbb">今天 08:30</span>
+          </div>
+          <div style="font-size:13px;color:#666;margin-bottom:8px">保险公司又打电话来了，态度很强硬说就是不赔。我该怎么办？</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary btn-sm">回复</button>
+            <button class="btn btn-ghost btn-sm">升级到协商专家</button>
+          </div>
+        </div>
+        <div class="card" style="border-left:4px solid #1890ff">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div><b>王女士</b> · YY002</div>
+            <span style="font-size:11px;color:#bbb">昨天 20:10</span>
+          </div>
+          <div style="font-size:13px;color:#666;margin-bottom:8px">已经把保单和病历照片上传了，请帮我看看能不能报销。</div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary btn-sm">回复</button>
+            <button class="btn btn-ghost btn-sm">查看材料</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: Drug Company Report ===== -->
+      <div class="page" id="pg_report">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div style="font-size:16px;font-weight:700">药企合作报告 · 合源生物（元瑞达）</div>
+          <div style="display:flex;gap:8px">
+            <select class="filter-select"><option>2026年3月</option><option>2026年2月</option><option>2026年1月</option></select>
+            <button class="btn btn-ghost btn-sm">&#128190; 导出 PDF</button>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="report-highlight"><div class="num">12</div><div class="desc">本月转介患者</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="report-highlight"><div class="num">8</div><div class="desc">进入理赔流程</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="report-highlight"><div class="num">5</div><div class="desc">理赔成功（用药转化）</div></div>
+          </div>
+          <div class="stat-card">
+            <div class="report-highlight"><div class="num">¥4.2M</div><div class="desc">促成理赔总额</div></div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="card">
+            <div class="card-title">转化漏斗</div>
+            <div style="padding:8px 0">
+              <div style="margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>药企转介患者</span><b>12</b></div>
+                <div class="progress-bar" style="height:20px"><div class="progress-fill" style="width:100%;background:#1890ff;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:10px;color:#fff;font-weight:600">100%</div></div>
+              </div>
+              <div style="margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>通过筛选（有商保+适应症匹配）</span><b>10</b></div>
+                <div class="progress-bar" style="height:20px"><div class="progress-fill" style="width:83%;background:#1890ff;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:10px;color:#fff;font-weight:600">83%</div></div>
+              </div>
+              <div style="margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>评估可报销</span><b>8</b></div>
+                <div class="progress-bar" style="height:20px"><div class="progress-fill" style="width:67%;background:#CC0000;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:10px;color:#fff;font-weight:600">67%</div></div>
+              </div>
+              <div style="margin-bottom:12px">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span>提交理赔</span><b>7</b></div>
+                <div class="progress-bar" style="height:20px"><div class="progress-fill" style="width:58%;background:#CC0000;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:10px;color:#fff;font-weight:600">58%</div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-weight:700">理赔成功（用药转化）</span><b style="color:#CC0000">5</b></div>
+                <div class="progress-bar" style="height:20px"><div class="progress-fill" style="width:42%;background:#CC0000;border-radius:3px;display:flex;align-items:center;padding-left:8px;font-size:10px;color:#fff;font-weight:600">42%</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">关键指标</div>
+            <div class="info-row"><span class="label">转化率（转介→用药）</span><span class="value" style="color:#CC0000;font-weight:700">42%</span></div>
+            <div class="info-row"><span class="label">平均理赔金额</span><span class="value">¥840,000</span></div>
+            <div class="info-row"><span class="label">平均处理周期</span><span class="value">18 天</span></div>
+            <div class="info-row"><span class="label">D+2 反馈达标率</span><span class="value" style="color:#CC0000">100%</span></div>
+            <div class="info-row"><span class="label">一次通过率</span><span class="value">86%</span></div>
+            <div class="info-row" style="border:none"><span class="label">拒赔翻转成功率</span><span class="value">67%（2/3）</span></div>
+            <div style="margin-top:12px;padding:10px;background:#fffbe6;border-radius:6px;font-size:12px;color:#d48806">
+              &#128161; 本月评估「不建议用药」2 例（已如实告知患者及药企），避免了潜在纠纷风险。
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">案件明细</div>
+          <table>
+            <tr><th>患者</th><th>适应症</th><th>商保产品</th><th>金额</th><th>状态</th><th>渠道</th></tr>
+            <tr><td>张先生</td><td>弥漫大B</td><td>烟台市民健康保B款</td><td>¥800,000</td><td><span class="badge badge-orange">审核中</span></td><td>销售转介</td></tr>
+            <tr><td>赵先生</td><td>急性淋巴白血病</td><td>平安e生保</td><td>¥920,000</td><td><span class="badge badge-green">已理赔</span></td><td>销售转介</td></tr>
+            <tr><td>李先生</td><td>弥漫大B</td><td>烟台市民健康保A款</td><td>¥5,100</td><td><span class="badge badge-blue">材料预审</span></td><td>销售转介</td></tr>
+            <tr><td>刘女士</td><td>滤泡性淋巴瘤</td><td>惠琼保B款升级</td><td>¥1,000,000</td><td><span class="badge badge-red">申诉中</span></td><td>医院物料</td></tr>
+            <tr><td>孙先生</td><td>弥漫大B</td><td>太平洋金佑人生</td><td>¥850,000</td><td><span class="badge badge-green">已理赔</span></td><td>销售转介</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== PAGE: System Architecture ===== -->
+      <div class="page" id="pg_architecture">
+        <div style="font-size:16px;font-weight:700;margin-bottom:16px">系统架构总览</div>
+
+        <div class="card">
+          <div class="card-title">整体架构</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center">
+            <!-- Patient Layer -->
+            <div style="background:#e6f7ee;border-radius:8px;padding:14px;border:2px solid #CC0000">
+              <div style="font-size:20px;margin-bottom:6px">&#128241;</div>
+              <div style="font-weight:700;font-size:13px;color:#CC0000">患者端（C端）</div>
+              <div style="font-size:11px;color:#666;margin-top:6px;text-align:left;line-height:1.6">
+                · 微信小程序<br>
+                · 注册/入组<br>
+                · 理赔六阶段交互<br>
+                · 权益看板<br>
+                · 健康档案<br>
+                · 消息通知
+              </div>
+            </div>
+            <!-- Admin Layer -->
+            <div style="background:#e6f0ff;border-radius:8px;padding:14px;border:2px solid #1890ff">
+              <div style="font-size:20px;margin-bottom:6px">&#128187;</div>
+              <div style="font-weight:700;font-size:13px;color:#1890ff">顾问后台（B端）</div>
+              <div style="font-size:11px;color:#666;margin-top:6px;text-align:left;line-height:1.6">
+                · Web 管理系统<br>
+                · 案件管理/工作台<br>
+                · 患者档案<br>
+                · SLA 监控<br>
+                · 消息管理<br>
+                · 数据看板
+              </div>
+            </div>
+            <!-- External Layer -->
+            <div style="background:#fff7e6;border-radius:8px;padding:14px;border:2px solid #fa8c16">
+              <div style="font-size:20px;margin-bottom:6px">&#127973;</div>
+              <div style="font-weight:700;font-size:13px;color:#fa8c16">药企端（合作方）</div>
+              <div style="font-size:11px;color:#666;margin-top:6px;text-align:left;line-height:1.6">
+                · 月度报告查看<br>
+                · 转化漏斗数据<br>
+                · 案件明细（脱敏）<br>
+                · PDF 导出<br>
+                · 只读权限
+              </div>
+            </div>
+          </div>
+
+          <!-- Central API -->
+          <div style="text-align:center;margin:12px 0;font-size:20px;color:#999">&#8595; &#8595; &#8595;</div>
+          <div style="background:#f5f5f5;border-radius:8px;padding:14px;text-align:center;border:2px dashed #d9d9d9">
+            <div style="font-weight:700;font-size:13px;color:#333">&#9881; API 服务层（后端）</div>
+            <div style="font-size:11px;color:#666;margin-top:6px">Python/FastAPI · 案件状态机 · SLA 引擎 · 通知引擎 · 文档管理</div>
+          </div>
+          <div style="text-align:center;margin:12px 0;font-size:20px;color:#999">&#8595; &#8595; &#8595;</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center">
+            <div style="background:#fafafa;border-radius:8px;padding:10px;border:1px solid #e8e8e8">
+              <div style="font-size:16px">&#128451;</div>
+              <div style="font-size:11px;font-weight:600;margin-top:4px">PostgreSQL</div>
+              <div style="font-size:10px;color:#999">案件/患者/保单</div>
+            </div>
+            <div style="background:#fafafa;border-radius:8px;padding:10px;border:1px solid #e8e8e8">
+              <div style="font-size:16px">&#128193;</div>
+              <div style="font-size:11px;font-weight:600;margin-top:4px">云存储(OSS)</div>
+              <div style="font-size:10px;color:#999">病历/发票/保单PDF</div>
+            </div>
+            <div style="background:#fafafa;border-radius:8px;padding:10px;border:1px solid #e8e8e8">
+              <div style="font-size:16px">&#128213;</div>
+              <div style="font-size:11px;font-weight:600;margin-top:4px">知识库</div>
+              <div style="font-size:10px;color:#999">条款/案例/理赔knowhow</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- External Integrations -->
+        <div class="card">
+          <div class="card-title">外部系统集成</div>
+          <table>
+            <tr><th>系统</th><th>用途</th><th>对接方式</th><th>优先级</th></tr>
+            <tr><td><b>微信小程序</b></td><td>患者端界面</td><td>微信开放平台 API</td><td><span class="badge badge-red">P0 必须</span></td></tr>
+            <tr><td><b>企业微信</b></td><td>顾问与患者沟通</td><td>企微 API + Webhook</td><td><span class="badge badge-red">P0 必须</span></td></tr>
+            <tr><td><b>TPA 系统</b>（镁信健康）</td><td>惠民保审查单位对接</td><td>人工 → 后期 API</td><td><span class="badge badge-orange">P1 重要</span></td></tr>
+            <tr><td><b>保司审查系统</b></td><td>非惠民保审查对接</td><td>人工 → 后期 API</td><td><span class="badge badge-orange">P1 重要</span></td></tr>
+            <tr><td><b>OCR 服务</b></td><td>身份证/发票自动识别</td><td>腾讯云/阿里云 OCR</td><td><span class="badge badge-blue">P2 优化</span></td></tr>
+            <tr><td><b>短信/推送</b></td><td>SLA 预警、状态通知</td><td>阿里云短信 + 微信模板消息</td><td><span class="badge badge-orange">P1 重要</span></td></tr>
+          </table>
+        </div>
+
+        <!-- State Machine -->
+        <div class="card">
+          <div class="card-title">案件状态机</div>
+          <div style="font-size:12px;line-height:2;color:#333;font-family:monospace;background:#fafafa;padding:12px;border-radius:6px;overflow-x:auto;white-space:pre">待入组 ──→ 已入组 ──→ 待评估 ──→ 评估中 ──→ 已反馈
+                                                    ↓
+                                              材料准备中 ──→ 材料预审 ──→ 已提交
+                                                                            ↓
+                                                                        审核中
+                                                                       ↙     ↘
+                                                               理赔成功    拒赔
+                                                                  ↓         ↓
+                                                               结案     申诉准备 → 申诉中
+                                                                              ↙      ↘
+                                                                        申诉成功   协商中 → 转律所
+                                                                           ↓                  ↓
+                                                                         结案              结案</div>
+        </div>
+
+        <!-- Development Phases -->
+        <div class="card">
+          <div class="card-title">开发阶段规划</div>
+          <table>
+            <tr><th>阶段</th><th>内容</th><th>预估工期</th><th>预估费用</th></tr>
+            <tr><td><span class="badge badge-red">Phase 1</span></td><td>注册+入组+理赔六阶段（C端）+ 案件管理（B端）</td><td>2~3 周</td><td>¥30,000~50,000</td></tr>
+            <tr><td><span class="badge badge-orange">Phase 2</span></td><td>权益看板 + 健康档案 + 消息系统</td><td>1~2 周</td><td>¥15,000~25,000</td></tr>
+            <tr><td><span class="badge badge-blue">Phase 3</span></td><td>药企报告 + 数据看板 + OCR 自动化</td><td>1~2 周</td><td>¥10,000~20,000</td></tr>
+          </table>
+          <div style="margin-top:8px;font-size:12px;color:#999">* 以上为外包开发的估算。如自行使用 AI 辅助开发，成本可大幅降低。邢总建议先自行尝试 1~2 周。</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Floating Switch Button -->
+<div style="position:fixed;bottom:20px;right:20px;display:flex;gap:8px;z-index:999">
+  <div style="background:#CC0000;color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(7,193,96,.3);display:flex;align-items:center;gap:6px"
+    onclick="window.open('patient-demo.html','_blank')">
+    &#128241; 切换到患者端
+  </div>
+</div>
+
+<script>
+function switchDetailTab(tabId,el){
+  ['overview','patient_data','uploads','comms','log'].forEach(t=>{
+    const d=document.getElementById('dtab_'+t);if(d)d.style.display='none';
+  });
+  const target=document.getElementById('dtab_'+tabId);
+  if(target)target.style.display='block';
+  el.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function showAdminPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg = document.getElementById('pg_'+id);
+  if(pg) pg.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const titles = {dashboard:'数据看板',cases:'案件管理',case_detail:'案件详情',patients:'患者档案',messages:'消息管理',report:'药企报告',architecture:'系统架构'};
+  document.getElementById('breadcrumb').innerHTML = '工作台 / <b>'+(titles[id]||id)+'</b>';
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    if(n.textContent.trim().includes(titles[id]||'___')) n.classList.add('active');
+  });
+}
+</script>
+</body>
+</html>

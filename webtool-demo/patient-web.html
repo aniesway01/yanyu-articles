@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岩育健康 — 患者服务平台</title>
+<style>
+/* ========== Design Tokens ========== */
+:root{
+  --c-brand:#CC0000;--c-brand-dark:#A30000;--c-brand-light:#fce8e8;--c-brand-bg:#fef5f5;
+  --c-text:#333;--c-text-secondary:#666;--c-text-muted:#999;--c-text-hint:#bbb;
+  --c-bg:#f5f5f5;--c-surface:#fff;--c-border:#e8e8e8;--c-border-light:#f0f0f0;
+  --c-success:#389e0d;--c-success-bg:#f6ffed;--c-success-border:#b7eb8f;
+  --c-warning:#d48806;--c-warning-bg:#fffbe6;--c-warning-border:#ffe58f;
+  --c-info:#1890ff;--c-info-bg:#e6f0ff;
+  --c-danger:#f5222d;--c-danger-bg:#fff1f0;
+  --radius:8px;--radius-lg:12px;--shadow:0 1px 3px rgba(0,0,0,.06);--shadow-lg:0 4px 16px rgba(0,0,0,.1);
+  --font:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
+}
+/* ========== Reset ========== */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font);background:var(--c-bg);color:var(--c-text);font-size:14px;line-height:1.6}
+a{color:var(--c-brand);text-decoration:none}
+/* ========== Layout ========== */
+.topbar{background:var(--c-surface);border-bottom:1px solid var(--c-border);position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.topbar-inner{max-width:1200px;margin:0 auto;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;color:var(--c-text);cursor:pointer}
+.logo-icon{width:34px;height:34px;background:var(--c-brand);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:900}
+.nav{display:flex;gap:2px}
+.nav-item{padding:8px 18px;font-size:14px;color:var(--c-text-secondary);cursor:pointer;border-radius:6px;transition:.15s;font-weight:500;user-select:none}
+.nav-item:hover{background:var(--c-brand-bg);color:var(--c-text)}
+.nav-item.active{background:var(--c-brand-bg);color:var(--c-brand);font-weight:600}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.bell{position:relative;cursor:pointer;font-size:20px;line-height:1}
+.bell-badge{position:absolute;top:-4px;right:-6px;min-width:16px;height:16px;background:var(--c-danger);border-radius:8px;font-size:9px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;padding:0 4px}
+.user-pill{display:flex;align-items:center;gap:8px;cursor:pointer;padding:4px 12px 4px 4px;border-radius:20px;transition:.15s}
+.user-pill:hover{background:var(--c-bg)}
+.user-avatar{width:32px;height:32px;background:var(--c-brand);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:600}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+/* ========== Page Transitions ========== */
+.page{display:none}
+.page.active{display:block;animation:pageIn .25s ease}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* ========== Primitives ========== */
+.card{background:var(--c-surface);border-radius:var(--radius-lg);padding:20px;margin-bottom:16px;box-shadow:var(--shadow);transition:box-shadow .2s}
+.card:hover{box-shadow:var(--shadow-lg)}
+.card-flat{box-shadow:none;border:1px solid var(--c-border-light)}
+.card-flat:hover{box-shadow:none}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.card-title{font-size:15px;font-weight:700}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.g4{grid-template-columns:repeat(4,1fr)}
+.row{display:flex;gap:16px;align-items:stretch}
+.col{flex:1;min-width:0}
+.section-label{font-size:12px;font-weight:700;color:var(--c-text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+/* Stats */
+.stat{text-align:center;padding:20px}
+.stat-num{font-size:30px;font-weight:800;line-height:1.1}
+.stat-label{font-size:12px;color:var(--c-text-muted);margin-top:6px}
+/* Badge */
+.badge{display:inline-block;padding:2px 10px;border-radius:4px;font-size:11px;font-weight:600;line-height:1.6}
+.badge-brand{background:var(--c-brand-light);color:var(--c-brand)}
+.badge-success{background:var(--c-success-bg);color:var(--c-success)}
+.badge-warning{background:var(--c-warning-bg);color:var(--c-warning)}
+.badge-info{background:var(--c-info-bg);color:var(--c-info)}
+.badge-danger{background:var(--c-danger-bg);color:var(--c-danger)}
+.badge-muted{background:#f5f5f5;color:#999}
+/* Info rows */
+.info-list{list-style:none}
+.info-list li{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--c-border-light);font-size:14px}
+.info-list li:last-child{border-bottom:none}
+.info-list .k{color:var(--c-text-muted)}
+.info-list .v{font-weight:500;text-align:right;max-width:60%}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 24px;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;transition:.15s;font-family:var(--font)}
+.btn-brand{background:var(--c-brand);color:#fff}
+.btn-brand:hover{background:var(--c-brand-dark)}
+.btn-outline{background:var(--c-surface);color:var(--c-brand);border:1px solid var(--c-brand)}
+.btn-ghost{background:transparent;color:var(--c-text-muted);padding:8px 12px;font-size:13px}
+.btn-lg{padding:12px 32px;font-size:16px;border-radius:10px}
+/* Progress */
+.progress{height:6px;background:var(--c-border-light);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--c-brand),#e84040);transition:width .4s}
+.progress-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--c-text-hint);margin-top:4px}
+.progress-labels .current{color:var(--c-brand);font-weight:600}
+/* Timeline */
+.timeline{padding-left:24px;position:relative}
+.timeline::before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--c-border-light)}
+.tl-item{position:relative;padding-bottom:20px}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-21px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--c-border);border:2px solid var(--c-surface)}
+.tl-dot.done{background:var(--c-brand);border-color:var(--c-brand)}
+.tl-dot.active{background:var(--c-info);border-color:var(--c-info);box-shadow:0 0 0 4px rgba(24,144,255,.15)}
+.tl-title{font-size:14px;font-weight:600}
+.tl-meta{font-size:12px;color:var(--c-text-muted);margin-top:2px}
+.tl-sub{font-size:12px;color:var(--c-text-hint);margin-top:1px}
+/* Forms */
+.field{margin-bottom:16px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--c-text-secondary);margin-bottom:6px}
+.input{width:100%;height:42px;border:1px solid #d9d9d9;border-radius:var(--radius);padding:0 14px;font-size:14px;font-family:var(--font);outline:none;transition:.2s}
+.input:focus{border-color:var(--c-brand);box-shadow:0 0 0 3px rgba(204,0,0,.08)}
+.textarea{width:100%;min-height:100px;border:1px solid #d9d9d9;border-radius:var(--radius);padding:12px 14px;font-size:14px;font-family:var(--font);outline:none;resize:vertical}
+select.input{appearance:none;background:var(--c-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%23999' d='M5 6L0 0h10z'/%3E%3C/svg%3E") no-repeat right 14px center;padding-right:32px}
+/* Upload */
+.upload-zone{border:2px dashed #d9d9d9;border-radius:var(--radius-lg);padding:20px;text-align:center;cursor:pointer;transition:.2s;background:#fafafa}
+.upload-zone:hover{border-color:var(--c-brand);background:var(--c-brand-bg)}
+.upload-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.upload-slot{aspect-ratio:1.2;border:2px dashed #d9d9d9;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.2s;background:#fafafa}
+.upload-slot:hover{border-color:var(--c-brand)}
+.upload-slot .icon{font-size:24px;color:#bbb;margin-bottom:4px}
+.upload-slot .text{font-size:12px;color:var(--c-text-secondary)}
+/* Benefits */
+.benefit-row{display:flex;align-items:center;gap:14px;padding:14px;border-radius:var(--radius);transition:.15s;cursor:pointer}
+.benefit-row:hover{background:var(--c-bg)}
+.benefit-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.benefit-info{flex:1;min-width:0}
+.benefit-name{font-size:14px;font-weight:600}
+.benefit-desc{font-size:12px;color:var(--c-text-muted);margin-top:1px}
+.benefit-count{text-align:right;flex-shrink:0}
+.benefit-num{font-size:18px;font-weight:800;color:var(--c-brand)}
+.benefit-unit{font-size:10px;color:var(--c-text-hint)}
+/* Message card */
+.msg-card{padding:16px;border-left:4px solid var(--c-border);border-radius:0 var(--radius) var(--radius) 0;margin-bottom:12px;background:var(--c-surface);box-shadow:var(--shadow)}
+.msg-card.urgent{border-left-color:var(--c-brand)}
+.msg-card.info{border-left-color:var(--c-info)}
+.msg-card.system{border-left-color:var(--c-warning)}
+.msg-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.msg-from{font-weight:600;font-size:14px}
+.msg-time{font-size:12px;color:var(--c-text-hint)}
+.msg-body{font-size:13px;color:var(--c-text-secondary);line-height:1.6}
+/* Advisor bubble */
+.advisor-bubble{background:var(--c-brand);color:#fff;padding:14px 18px;border-radius:14px 14px 4px 14px;font-size:14px;line-height:1.7;max-width:80%}
+/* Checklist */
+.check-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--c-border-light);cursor:pointer;user-select:none}
+.check-row:last-child{border-bottom:none}
+.check-dot{width:22px;height:22px;border-radius:50%;border:2px solid #d9d9d9;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;transition:.2s;flex-shrink:0}
+.check-dot.on{background:var(--c-brand);border-color:var(--c-brand)}
+/* Quick link grid */
+.quick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.quick-item{text-align:center;padding:20px 12px;background:var(--c-surface);border-radius:var(--radius-lg);cursor:pointer;transition:.15s;box-shadow:var(--shadow)}
+.quick-item:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.quick-item .qi-icon{font-size:28px;margin-bottom:6px}
+.quick-item .qi-label{font-size:13px;font-weight:600}
+/* Floating tools */
+.float-tools{position:fixed;bottom:20px;right:20px;display:flex;gap:8px;z-index:999}
+.float-btn{padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:none;display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:.15s}
+.float-btn:hover{transform:translateY(-1px)}
+/* Empty state */
+.empty{text-align:center;padding:40px;color:var(--c-text-hint)}
+.empty-icon{font-size:48px;margin-bottom:8px}
+/* Responsive */
+@media(max-width:768px){.g2,.g3,.g4{grid-template-columns:1fr}.row{flex-direction:column}.upload-grid{grid-template-columns:1fr 1fr}.quick-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- ========== DATA LAYER ========== -->
+<script>
+const D = {
+  user: {name:'张先生',avatar:'张',phone:'138****5678',city:'烟台市'},
+  stats: {policies:2,active:1,totalClaimed:812500,months:14},
+  claims: [
+    {id:'YY20260331001',title:'CAR-T 细胞疗法理赔',disease:'弥漫大B细胞淋巴瘤',drug:'元瑞达',status:'审核中',statusType:'warning',amount:800000,date:'2026-03-31',progress:65,progressLabels:['已提交','材料审查','审核中','核定','到账'],progressCurrent:2},
+    {id:'YY20250420001',title:'CAR-T 回输治疗理赔',disease:'弥漫大B细胞淋巴瘤',drug:'元瑞达',status:'已结案',statusType:'success',amount:800000,date:'2025-04-20',done:true},
+    {id:'YY20240215001',title:'门诊费用报销',disease:'',drug:'',status:'已结案',statusType:'success',amount:12500,date:'2024-02-15',done:true},
+  ],
+  policies: [
+    {name:'烟台市民健康保 2026',type:'B款升级版',maxCover:3000000,premium:138,deductible:18000,expiry:'2026-12-31',insurer:'海保人寿+13家共保体',claimed:812500,features:['医保内自付 80%（上限100万）','医保内高额 超45万100%','医保外全部自费（上限100万）','115种特药 0免赔100%（上限100万）'],drugMatch:['CAR-T 疗法 ✓','元瑞达(奥基仑赛) ✓']},
+    {name:'平安 e 生保 2025',type:'百万医疗险',maxCover:4000000,premium:1200,deductible:10000,expiry:'2027-03-15',insurer:'平安健康保险',claimed:0,features:['一般医疗 200万','重疾医疗 400万（0免赔）'],drugMatch:['恶性肿瘤 → 0免赔 ✓','CAR-T 在保障范围 ✓']},
+  ],
+  benefits: [
+    {icon:'🦷',name:'口腔洁牙/儿童涂氟',desc:'二选一 · 提前1日预约到店',limit:'1',unit:'年限1次',cat:'就医'},
+    {icon:'👩‍⚕️',name:'家医咨询',desc:'执业医生1V1 · 15分钟 · 3分钟响应',limit:'∞',unit:'不限次',cat:'就医'},
+    {icon:'🙋',name:'安心陪诊',desc:'山东省 · 标准4小时 · 提前2日',limit:'1',unit:'年限1次',cat:'就医'},
+    {icon:'🏥',name:'专家门诊预约',desc:'三甲绿通 · 副主任以上 · 5-7日',limit:'2',unit:'年限2次',cat:'就医'},
+    {icon:'💊',name:'线上购药折扣',desc:'处方药+OTC · 5折起 · 全国包邮',limit:'5折起',unit:'不限次',cat:'就医'},
+    {icon:'🌱',name:'全球找特药',desc:'含海南先行区 · 重疾专属',limit:'1',unit:'年限1次',cat:'就医'},
+    {icon:'🧠',name:'阿尔茨海默症筛查',desc:'G3脑健康测试 · 3分钟',limit:'∞',unit:'不限次',cat:'早筛'},
+    {icon:'💉',name:'3大癌症风险评估',desc:'肝癌·肠癌·乳腺癌',limit:'∞',unit:'不限次',cat:'早筛'},
+    {icon:'💖',name:'青少年心理咨询',desc:'12-18岁 · 国家二级 · 50分钟',limit:'1',unit:'年限1次',cat:'身心'},
+    {icon:'⚖️',name:'体重管理',desc:'营养师1V1 · 个性化方案',limit:'1',unit:'年限1次',cat:'身心'},
+    {icon:'🌙',name:'睡眠管理',desc:'专业助眠音频 · 7×24',limit:'∞',unit:'不限次',cat:'身心'},
+  ],
+  healthTimeline: [
+    {title:'确诊',desc:'弥漫大B细胞淋巴瘤 · 毓璜顶医院',date:'2025-01-20',done:true},
+    {title:'CAR-T 细胞采集',desc:'元瑞达方案 · 白细胞分离术',date:'2025-02-10',done:true},
+    {title:'CAR-T 回输治疗',desc:'费用¥1,000,000 · 已理赔¥800,000',date:'2025-03-05',done:true},
+    {title:'第1次复查',desc:'血常规+骨穿 · ¥3,200 · 已理赔',date:'2025-04-05',done:true},
+    {title:'第2次复查',desc:'PET-CT · 完全缓解CR · ¥8,500 · 已理赔',date:'2025-06-10',done:true},
+    {title:'第3次复查',desc:'影像+血检 · ¥5,100 · 已理赔',date:'2025-09-15',done:true},
+    {title:'第4次复查（待预约）',desc:'建议2026-04-15 · 毓璜顶医院血液科',date:'',active:true},
+  ],
+  docs: [
+    {cat:'保单',items:[{name:'烟台市民健康保 2026',date:'2026-03-20',status:'已解析'},{name:'平安e生保 2025',date:'2026-03-20',status:'已解析'}]},
+    {cat:'病历资料',items:[{name:'确诊报告（病理）',date:'2025-01-20',status:'✓'},{name:'住院病历/出院小结',date:'2025-03-05',status:'✓'},{name:'CAR-T 治疗方案',date:'2025-02-10',status:'✓'},{name:'处方/用药记录',date:'2025-03-05',status:'✓'}]},
+    {cat:'理赔材料 YY001',items:[{name:'身份证正反面',date:'2026-03-30',status:'✓'},{name:'医疗发票 ¥1,000,000',date:'2026-03-30',status:'✓'},{name:'费用汇总清单',date:'2026-03-30',status:'✓'},{name:'银行卡正反面',date:'2026-03-30',status:'✓'}]},
+  ],
+  messages: [
+    {from:'理赔顾问',time:'今天 10:32',body:'您的 CAR-T 理赔材料已通过预审，已提交审查单位。预计 10~30 个工作日内核定。',type:'urgent',badge:'审核中',badgeType:'warning'},
+    {from:'理赔顾问',time:'昨天 16:45',body:'材料预审完成，有 1 项需补充：请补充「CAR-T 治疗方案说明」。',type:'info',badge:'需补件',badgeType:'info'},
+    {from:'理赔顾问',time:'03-29 14:20',body:'理赔评估报告已生成。经评估符合理赔条件，预估可报销约 ¥800,000。',type:'urgent',badge:'评估完成',badgeType:'success'},
+    {from:'系统提醒',time:'03-25',body:'口腔洁牙权益即将到期（2026-12-31），还有 1 次未使用。',type:'system'},
+    {from:'系统通知',time:'03-20',body:'欢迎加入岩育健康！专属理赔顾问已分配。',type:'info'},
+  ],
+  reminders: [
+    {icon:'!',color:'#fa8c16',title:'第4次复查（3个月复查）',desc:'建议：2026-04-15 · 毓璜顶医院血液科'},
+    {icon:'→',color:'var(--c-info)',title:'下次理赔材料预审',desc:'复查后将检查报告发给我们'},
+    {icon:'⚠',color:'var(--c-warning)',title:'烟台市民健康保续保',desc:'将于 2026-12-31 到期'},
+  ],
+};
+const fmt = n => '¥'+Number(n).toLocaleString();
+</script>
+
+<!-- ========== TOP BAR ========== -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo" onclick="go('home')"><div class="logo-icon">+</div>岩育健康</div>
+    <div class="nav" id="mainNav"></div>
+    <div class="topbar-right">
+      <div class="bell" onclick="go('messages')">🔔<div class="bell-badge" id="bellCount"></div></div>
+      <div class="user-pill" onclick="go('profile')"><div class="user-avatar" id="userAvatar"></div><span id="userName"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PAGES ========== -->
+<div class="container" id="app"></div>
+
+<!-- ========== FLOAT TOOLS ========== -->
+<div class="float-tools">
+  <button class="float-btn" style="background:var(--c-brand);color:#fff" onclick="window.open('patient-demo.html','_blank')">📱 手机版</button>
+  <button class="float-btn" style="background:#001529;color:#fff" onclick="window.open('admin-demo.html','_blank')">💻 顾问后台</button>
+</div>
+
+<!-- ========== RENDER LAYER ========== -->
+<script>
+// --- Router ---
+const PAGES = [
+  {id:'home',label:'首页'},
+  {id:'service',label:'理赔服务'},
+  {id:'benefits',label:'权益看板'},
+  {id:'health',label:'健康档案'},
+  {id:'docs',label:'我的资料'},
+];
+let currentPage = 'home';
+
+function go(id){
+  currentPage = id;
+  render();
+  window.scrollTo(0,0);
+}
+
+// --- Renderers ---
+function renderNav(){
+  document.getElementById('mainNav').innerHTML = PAGES.map(p =>
+    `<div class="nav-item ${currentPage===p.id?'active':''}" onclick="go('${p.id}')">${p.label}</div>`
+  ).join('');
+  document.getElementById('bellCount').textContent = D.messages.filter(m=>m.type==='urgent').length;
+  document.getElementById('userAvatar').textContent = D.user.avatar;
+  document.getElementById('userName').textContent = D.user.name;
+}
+
+function renderPage(){
+  const R = {
+    home: renderHome,
+    service: renderService,
+    benefits: renderBenefits,
+    health: renderHealth,
+    docs: renderDocs,
+    messages: renderMessages,
+    profile: renderProfile,
+    claim_start: renderClaimStart,
+    contact: renderContact,
+  };
+  return (R[currentPage]||renderHome)();
+}
+
+function render(){
+  renderNav();
+  document.getElementById('app').innerHTML = renderPage();
+}
+
+// --- Page: Home ---
+function renderHome(){
+  const s = D.stats;
+  const activeClaim = D.claims.find(c=>!c.done);
+  return `
+    <div class="grid g4" style="margin-bottom:24px">
+      <div class="card stat"><div class="stat-num" style="color:var(--c-brand)">${s.policies}</div><div class="stat-label">我的保单</div></div>
+      <div class="card stat"><div class="stat-num" style="color:var(--c-warning)">${s.active}</div><div class="stat-label">进行中</div></div>
+      <div class="card stat"><div class="stat-num" style="color:var(--c-brand)">${fmt(s.totalClaimed)}</div><div class="stat-label">累计获赔</div></div>
+      <div class="card stat"><div class="stat-num">${s.months}月</div><div class="stat-label">跟踪时长</div></div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="section-label">最近服务</div>
+        ${activeClaim ? renderClaimCard(activeClaim) : ''}
+        ${D.claims.filter(c=>c.done).slice(0,1).map(c=>`
+          <div class="card card-flat">
+            <div class="card-header"><span style="font-weight:600">${c.title}</span><span class="badge badge-success">${c.status} ${fmt(c.amount)}</span></div>
+            <div style="font-size:13px;color:var(--c-text-muted)">${c.disease||'烟台市民健康保'} · ${c.date}</div>
+          </div>
+        `).join('')}
+        <div class="card" style="text-align:center;border:2px dashed var(--c-brand);background:var(--c-brand-bg);cursor:pointer" onclick="go('claim_start')">
+          <div style="font-size:16px;font-weight:700;color:var(--c-brand)">+ 发起新理赔咨询</div>
+          <div style="font-size:13px;color:var(--c-text-muted);margin-top:4px">免费评估，专业团队全程协助</div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="section-label">健康提醒</div>
+        ${D.reminders.map(r=>`
+          <div class="card card-flat" style="border-left:4px solid ${r.color}">
+            <div style="font-weight:600;margin-bottom:2px">${r.title}</div>
+            <div style="font-size:13px;color:var(--c-text-muted)">${r.desc}</div>
+          </div>
+        `).join('')}
+        <div class="section-label" style="margin-top:20px">快捷入口</div>
+        <div class="quick-grid">
+          <div class="quick-item" onclick="go('benefits')"><div class="qi-icon">🎁</div><div class="qi-label">权益看板</div></div>
+          <div class="quick-item" onclick="go('health')"><div class="qi-icon">💙</div><div class="qi-label">健康档案</div></div>
+          <div class="quick-item" onclick="go('docs')"><div class="qi-icon">📂</div><div class="qi-label">我的资料</div></div>
+          <div class="quick-item" onclick="go('contact')"><div class="qi-icon">💬</div><div class="qi-label">联系顾问</div></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderClaimCard(c){
+  return `<div class="card" style="cursor:pointer" onclick="go('service')">
+    <div class="card-header"><span style="font-size:16px;font-weight:700">${c.title}</span><span class="badge badge-${c.statusType}">${c.status}</span></div>
+    <div style="font-size:13px;color:var(--c-text-muted)">${c.disease} · ${c.drug} · ${c.id}</div>
+    <div class="progress" style="margin-top:12px"><div class="progress-fill" style="width:${c.progress}%"></div></div>
+    <div class="progress-labels">${c.progressLabels.map((l,i)=>`<span${i===c.progressCurrent?' class="current"':''}>${l}</span>`).join('')}</div>
+  </div>`;
+}
+
+// --- Page: Service ---
+function renderService(){
+  const active = D.claims.filter(c=>!c.done);
+  const done = D.claims.filter(c=>c.done);
+  return `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2>理赔服务</h2>
+      <button class="btn btn-brand" onclick="go('claim_start')">+ 发起新理赔咨询</button>
+    </div>
+    ${active.length?`<div class="section-label">进行中</div>${active.map(renderClaimCard).join('')}`:''}
+    ${done.length?`<div class="section-label" style="margin-top:24px">已完成（${done.length}）</div>
+    <div class="grid g2">${done.map(c=>`
+      <div class="card card-flat">
+        <div class="card-header"><span style="font-weight:600">${c.title}</span><span class="badge badge-success">${c.status}</span></div>
+        <div style="font-size:13px;color:var(--c-text-muted)">获赔 ${fmt(c.amount)} · ${c.date}</div>
+      </div>
+    `).join('')}</div>`:''}`;
+}
+
+// --- Page: Claim Start ---
+function renderClaimStart(){
+  return `
+    <h2 style="margin-bottom:20px">发起理赔咨询</h2>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">基本情况</div>
+          <div class="field"><label>病种/诊断</label><select class="input"><option>请选择</option><option>弥漫大B细胞淋巴瘤</option><option>急性淋巴细胞白血病</option><option>乳腺癌</option><option>其他</option></select></div>
+          <div class="field"><label>就医状态</label><select class="input"><option>请选择</option><option>已确诊，用药中</option><option>已确诊，被拒赔</option><option>已就医，未确诊</option><option>未就医，纯咨询</option></select></div>
+          <div class="field"><label>就诊医院</label><input class="input" placeholder="如：烟台毓璜顶医院"></div>
+          <div class="field"><label>是否有商业保险</label><select class="input"><option>有，已上传保单</option><option>有，稍后上传</option><option>不确定</option></select></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-title" style="margin-bottom:16px">情况描述</div>
+          <div class="field"><label>请简述病情、治疗方案及理赔疑问</label><textarea class="textarea" style="min-height:140px" placeholder="例：2025年1月确诊弥漫大B细胞淋巴瘤，主治医生建议CAR-T（元瑞达），费用约100万。想确认能否报销。"></textarea></div>
+          <div class="card-title" style="margin-top:20px;margin-bottom:12px">上传病历（可选）</div>
+          <div class="upload-grid">
+            ${['确诊报告','住院病历','门诊病历','处方记录'].map(n=>`
+              <div class="upload-slot" onclick="this.style.borderColor='var(--c-brand)';this.querySelector('.icon').textContent='✓';this.querySelector('.icon').style.color='var(--c-brand)'">
+                <div class="icon">+</div><div class="text">${n}</div>
+              </div>
+            `).join('')}
+          </div>
+          <div style="margin-top:20px;text-align:right"><button class="btn btn-brand btn-lg">提交咨询（免费）</button></div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// --- Page: Benefits ---
+function renderBenefits(){
+  const cats = [...new Set(D.benefits.map(b=>b.cat))];
+  const catLabel = {就医:'就医服务',早筛:'早筛评估',身心:'身心健康'};
+  return `
+    <h2 style="margin-bottom:20px">保险权益看板</h2>
+    <div class="card" style="background:linear-gradient(135deg,var(--c-brand),var(--c-brand-dark));color:#fff;border:none;margin-bottom:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><div style="opacity:.8">基于已上传的 ${D.stats.policies} 份保单自动解析</div><div style="font-size:22px;font-weight:800;margin-top:8px">烟台市民健康保 2026 · 健康管理服务</div></div>
+        <div style="display:flex;gap:32px">
+          <div style="text-align:center"><div style="font-size:32px;font-weight:800">${D.benefits.length}</div><div style="font-size:12px;opacity:.7">总权益</div></div>
+          <div style="text-align:center"><div style="font-size:32px;font-weight:800">${D.benefits.filter(b=>b.limit==='∞').length}</div><div style="font-size:12px;opacity:.7">不限次</div></div>
+          <div style="text-align:center"><div style="font-size:32px;font-weight:800">${D.benefits.filter(b=>b.limit!=='∞'&&b.limit!=='5折起').length}</div><div style="font-size:12px;opacity:.7">限次待用</div></div>
+        </div>
+      </div>
+    </div>
+    ${cats.map(cat=>`
+      <div class="section-label">${catLabel[cat]||cat}</div>
+      <div class="grid g3" style="margin-bottom:24px">
+        ${D.benefits.filter(b=>b.cat===cat).map(b=>`
+          <div class="card card-flat" style="padding:0"><div class="benefit-row">
+            <div class="benefit-icon" style="background:var(--c-brand-light);font-size:24px">${b.icon}</div>
+            <div class="benefit-info"><div class="benefit-name">${b.name}</div><div class="benefit-desc">${b.desc}</div></div>
+            <div class="benefit-count"><div class="benefit-num">${b.limit}</div><div class="benefit-unit">${b.unit}</div></div>
+          </div></div>
+        `).join('')}
+      </div>
+    `).join('')}
+    <div class="card card-flat" style="background:var(--c-warning-bg);border-color:var(--c-warning-border)">
+      <div style="color:var(--c-warning)">⚠ 口腔洁牙/安心陪诊/心理咨询/体重管理 各剩 1 次，有效期至 2026-12-31</div>
+    </div>`;
+}
+
+// --- Page: Health ---
+function renderHealth(){
+  return `
+    <h2 style="margin-bottom:20px">健康档案</h2>
+    <div class="card" style="background:linear-gradient(135deg,#1890ff,#096dd9);color:#fff;border:none;margin-bottom:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-size:20px;font-weight:700">弥漫大B细胞淋巴瘤 · CAR-T 疗程</div><div style="font-size:13px;opacity:.7;margin-top:4px">基于理赔记录与疗程收据持续更新</div></div>
+        <div style="display:flex;gap:32px">
+          <div style="text-align:center"><div style="font-size:28px;font-weight:800">3</div><div style="font-size:11px;opacity:.7">已理赔</div></div>
+          <div style="text-align:center"><div style="font-size:28px;font-weight:800">14月</div><div style="font-size:11px;opacity:.7">跟踪</div></div>
+          <div style="text-align:center"><div style="font-size:28px;font-weight:800">稳定</div><div style="font-size:11px;opacity:.7">状态</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="card"><div class="card-title">🔔 近期提醒</div>
+          ${D.reminders.slice(0,2).map(r=>`<div class="check-row"><div class="check-dot on" style="background:${r.color};border-color:${r.color};font-size:9px">${r.icon}</div><div style="flex:1"><div style="font-weight:600">${r.title}</div><div style="font-size:12px;color:var(--c-text-muted)">${r.desc}</div></div></div>`).join('')}
+        </div>
+        <div class="card"><div class="card-title">理赔累计</div>
+          <ul class="info-list">
+            <li><span class="k">总理赔次数</span><span class="v">3 次</span></li>
+            <li><span class="k">总医疗费用</span><span class="v">¥1,016,800</span></li>
+            <li><span class="k">累计获赔</span><span class="v" style="color:var(--c-brand);font-weight:700">¥812,500</span></li>
+            <li><span class="k">报销比例</span><span class="v" style="color:var(--c-brand);font-weight:700">79.9%</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card"><div class="card-title">疗程时间线</div>
+          <div class="timeline">
+            ${D.healthTimeline.map(t=>`<div class="tl-item"><div class="tl-dot ${t.done?'done':t.active?'active':''}"></div><div class="tl-title">${t.title}</div>${t.desc?`<div class="tl-meta">${t.desc}</div>`:''}${t.date?`<div class="tl-sub">${t.date}</div>`:''}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card"><div class="card-title">💡 顾问健康提示</div>
+      <div class="advisor-bubble" style="max-width:100%">根据过去 3 次复查记录，各项指标持续改善，目前处于完全缓解状态。建议按时完成第 4 次复查；如出现不明原因发热或淋巴结肿大，请立即就医并联系我们；复查后将报告发给我们预审理赔材料。</div>
+    </div>`;
+}
+
+// --- Page: Docs ---
+function renderDocs(){
+  return `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h2>我的资料库</h2>
+      <button class="btn btn-outline">+ 上传新资料</button>
+    </div>
+    <div class="grid g3">
+      ${D.docs.map(g=>`
+        <div class="card">
+          <div class="card-title">${g.cat}（${g.items.length} 份）</div>
+          <ul class="info-list">
+            ${g.items.map(i=>`<li><span class="v" style="text-align:left;max-width:70%">${i.name}</span><span class="badge badge-success">${i.status}</span></li>`).join('')}
+          </ul>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+// --- Page: Messages ---
+function renderMessages(){
+  return `
+    <h2 style="margin-bottom:20px">消息中心</h2>
+    <div style="max-width:720px">
+      ${D.messages.map(m=>`
+        <div class="msg-card ${m.type}">
+          <div class="msg-head"><span class="msg-from">${m.from}</span><span class="msg-time">${m.time}</span></div>
+          <div class="msg-body">${m.body}</div>
+          ${m.badge?`<span class="badge badge-${m.badgeType}" style="margin-top:8px">${m.badge}</span>`:''}
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+// --- Page: Profile ---
+function renderProfile(){
+  return `
+    <h2 style="margin-bottom:20px">个人中心</h2>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+            <div class="user-avatar" style="width:56px;height:56px;font-size:24px">${D.user.avatar}</div>
+            <div><div style="font-size:18px;font-weight:700">${D.user.name}</div><div style="color:var(--c-text-muted);margin-top:2px">${D.user.phone} · ${D.user.city}</div></div>
+          </div>
+          <ul class="info-list">
+            <li><span class="k">理赔咨询</span><span class="v">3 次</span></li>
+            <li><span class="k">理赔成功</span><span class="v" style="color:var(--c-brand)">2 次</span></li>
+            <li><span class="k">累计获赔</span><span class="v" style="color:var(--c-brand);font-weight:700">${fmt(D.stats.totalClaimed)}</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="card-title">我的保单</div>
+          ${D.policies.map(p=>`
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--c-border-light)">
+              <div><div style="font-weight:600">${p.name}</div><div style="font-size:12px;color:var(--c-text-muted)">有效期至 ${p.expiry}</div></div>
+              <span class="badge badge-success">生效中</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>`;
+}
+
+// --- Page: Contact ---
+function renderContact(){
+  return `
+    <h2 style="margin-bottom:20px">联系顾问</h2>
+    <div class="grid g2">
+      <div class="card" style="text-align:center">
+        <div style="font-size:20px;font-weight:700;margin-bottom:8px">岩育健康 · 理赔服务部</div>
+        <div style="width:180px;height:180px;background:#f5f5f5;border-radius:12px;margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--c-text-muted);border:1px solid var(--c-border);flex-direction:column;gap:8px">
+          <div style="font-size:32px">📷</div>企业微信二维码
+        </div>
+        <div style="color:var(--c-text-muted)">长按识别添加专属理赔顾问<br>工作日 9:00-18:00 在线</div>
+      </div>
+      <div class="card">
+        <div class="card-title">💡 温馨提示</div>
+        <div style="color:var(--c-text-secondary);line-height:2">
+          · 下次理赔或换治疗方案前，请先联系我们<br>
+          · 提前预审材料可大幅提高通过率<br>
+          · 复查报告出来后第一时间发给我们<br>
+          · 有任何保险相关疑问随时咨询
+        </div>
+      </div>
+    </div>`;
+}
+
+// --- Init ---
+render();
+</script>
+</body>
+</html>

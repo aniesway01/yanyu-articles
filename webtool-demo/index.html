@@ -15,12 +15,19 @@ input,textarea,select{font-family:inherit;font-size:13px}
 
 /* ========== Layout ========== */
 #app{display:flex;height:100vh;position:relative}
-#left-panel{display:flex;flex-direction:column;border-right:1px solid #e2e8f0;background:#fff;overflow:hidden}
+#left-panel{display:flex;flex-direction:column;border-right:1px solid #e2e8f0;background:#fff;overflow:hidden;
+  transition:width .3s ease}
+#right-panel{transition:width .3s ease,flex .3s ease}
+#right-panel.collapsed{flex:0 !important;width:0 !important;min-width:0;overflow:hidden;border:none}
 #right-panel{display:flex;flex-direction:column;background:#fff;flex:1;overflow:hidden}
 #divider{width:6px;background:#f1f5f9;cursor:col-resize;flex-shrink:0;display:flex;align-items:center;justify-content:center;
   transition:background .2s}
 #divider:hover,#divider.dragging{background:#B20708}
 #divider::after{content:'⋮';color:#94a3b8;font-size:14px}
+#collapse-btn{position:absolute;width:20px;height:40px;background:#fff;border:1px solid #e2e8f0;
+  border-radius:4px;font-size:12px;color:#64748b;cursor:pointer;z-index:60;display:flex;
+  align-items:center;justify-content:center;padding:0;transition:all .15s}
+#collapse-btn:hover{background:#f8fafc;border-color:#B20708;color:#B20708}
 
 /* ========== Headers ========== */
 .panel-header{height:48px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;padding:0 16px;
@@ -244,7 +251,7 @@ input,textarea,select{font-family:inherit;font-size:13px}
   </div>
 
   <!-- Divider -->
-  <div id="divider"></div>
+  <div id="divider"><button id="collapse-btn" title="收起/展開流程圖">▶</button></div>
 
   <!-- Right Panel: Flowchart -->
   <div id="right-panel">
@@ -1657,9 +1664,39 @@ divider.addEventListener('mousedown', (e) => { divDragging = true; divider.class
 document.addEventListener('mousemove', (e) => {
   if (!divDragging) return;
   const pct = (e.clientX / window.innerWidth) * 100;
-  if (pct > 20 && pct < 80) leftPanel.style.width = pct + '%';
+  if (pct > 20 && pct < 80) {
+    if (rightCollapsed) {
+      rightPanel.classList.remove('collapsed');
+      collapseBtn.textContent = '▶';
+      rightCollapsed = false;
+    }
+    leftPanel.style.width = pct + '%';
+  }
 });
 document.addEventListener('mouseup', () => { if (divDragging) { divDragging = false; divider.classList.remove('dragging'); } });
+
+// ============================================================
+//  COLLAPSE TOGGLE
+// ============================================================
+const rightPanel = $('right-panel');
+const collapseBtn = $('collapse-btn');
+let rightCollapsed = false;
+let savedLeftWidth = null;
+collapseBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (rightCollapsed) {
+    rightPanel.classList.remove('collapsed');
+    if (savedLeftWidth) leftPanel.style.width = savedLeftWidth;
+    collapseBtn.textContent = '▶';
+    rightCollapsed = false;
+  } else {
+    savedLeftWidth = leftPanel.style.width || '40%';
+    rightPanel.classList.add('collapsed');
+    leftPanel.style.width = '100%';
+    collapseBtn.textContent = '◀';
+    rightCollapsed = true;
+  }
+});
 
 // ============================================================
 //  EXPORT / IMPORT / RESET

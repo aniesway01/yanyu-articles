@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岩育健康 — 患者端原型 Demo</title>
+<style>
+/* ===== Reset & Base ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif;
+  background:#f0f2f5;display:flex;align-items:center;justify-content:center;min-height:100vh;color:#333}
+
+/* ===== Phone Frame ===== */
+.phone-frame{width:375px;height:720px;background:#fff;border-radius:40px;border:8px solid #1a1a1a;
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 60px -15px rgba(0,0,0,.3);
+  position:relative;transition:all .3s ease}
+
+/* ===== Web Mode ===== */
+body.web-mode{background:#fff;align-items:stretch;min-height:100vh}
+body.web-mode .phone-frame{width:100%;max-width:480px;height:100vh;margin:0 auto;border:none;border-radius:0;
+  box-shadow:none;border-left:1px solid #e5e5e5;border-right:1px solid #e5e5e5}
+body.web-mode .status-bar{display:none}
+body.web-mode .nav-bar{height:50px;border-bottom:2px solid #CC0000}
+body.web-mode .nav-bar .title{font-size:18px}
+.status-bar{height:36px;background:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:600;color:#333;flex-shrink:0;padding-top:8px}
+.nav-bar{height:44px;background:#fff;display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;border-bottom:1px solid #f0f0f0;flex-shrink:0}
+.nav-bar .back{font-size:18px;color:#CC0000;cursor:pointer;width:40px;text-align:left}
+.nav-bar .title{font-size:17px;font-weight:600;color:#000;flex:1;text-align:center}
+.nav-bar .right{width:40px}
+.page-body{flex:1;overflow-y:auto;background:#f5f5f5;-webkit-overflow-scrolling:touch}
+.tab-bar{height:56px;background:#fff;border-top:1px solid #e5e5e5;display:flex;flex-shrink:0}
+.tab-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:color .2s;color:#999;font-size:10px;gap:2px}
+.tab-item.active{color:#CC0000}
+.tab-item .icon{font-size:22px;line-height:1}
+.tab-item .label{font-weight:500}
+
+/* ===== Page Container ===== */
+.page{display:none;min-height:100%;padding:16px;animation:fadeIn .25s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+
+/* ===== Common Components ===== */
+.card{background:#fff;border-radius:12px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card-title{font-size:15px;font-weight:600;color:#333;margin-bottom:8px}
+.card-desc{font-size:13px;color:#999;line-height:1.6}
+.hero-icon{width:64px;height:64px;background:linear-gradient(135deg,#CC0000,#A30000);border-radius:16px;
+  display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;margin:24px auto 16px;
+  box-shadow:0 8px 16px rgba(7,193,96,.3)}
+.hero-title{font-size:22px;font-weight:700;color:#333;text-align:center;margin-bottom:8px}
+.hero-subtitle{font-size:14px;color:#999;text-align:center;margin-bottom:24px;line-height:1.6}
+.btn{display:block;width:100%;height:44px;border:none;border-radius:8px;font-size:16px;font-weight:600;
+  cursor:pointer;transition:all .2s;margin-bottom:10px}
+.btn-primary{background:#CC0000;color:#fff}
+.btn-primary:active{background:#A30000}
+.btn-secondary{background:#fff;color:#CC0000;border:1px solid #CC0000}
+.btn-secondary:active{background:#fef5f5}
+.btn-ghost{background:transparent;color:#999;font-size:13px;height:36px}
+.form-group{margin-bottom:16px}
+.form-label{font-size:13px;font-weight:600;color:#666;margin-bottom:6px;display:block}
+.form-input{width:100%;height:40px;border:1px solid #e5e5e5;border-radius:8px;padding:0 12px;
+  font-size:14px;color:#333;background:#fafafa;outline:none;transition:border-color .2s}
+.form-input:focus{border-color:#CC0000}
+.form-textarea{width:100%;height:80px;border:1px solid #e5e5e5;border-radius:8px;padding:10px 12px;
+  font-size:14px;color:#333;background:#fafafa;outline:none;resize:none}
+.form-select{appearance:none;background:#fafafa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 12px center;
+  padding-right:30px}
+.upload-area{border:2px dashed #d9d9d9;border-radius:12px;padding:24px;text-align:center;
+  cursor:pointer;transition:border-color .2s;background:#fafafa;margin-bottom:8px}
+.upload-area:hover{border-color:#CC0000}
+.upload-icon{font-size:32px;color:#bbb;margin-bottom:8px}
+.upload-text{font-size:13px;color:#999}
+.upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.upload-slot{aspect-ratio:1;border:2px dashed #d9d9d9;border-radius:10px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;cursor:pointer;background:#fafafa;transition:border-color .2s}
+.upload-slot:hover{border-color:#CC0000}
+.upload-slot .plus{font-size:24px;color:#bbb;margin-bottom:4px}
+.upload-slot .name{font-size:11px;color:#666;font-weight:500;text-align:center;padding:0 4px}
+.checklist-item{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #f5f5f5}
+.checklist-item:last-child{border-bottom:none}
+.check-circle{width:22px;height:22px;border-radius:50%;border:2px solid #d9d9d9;display:flex;
+  align-items:center;justify-content:center;font-size:12px;color:#fff;cursor:pointer;transition:all .2s;flex-shrink:0}
+.check-circle.checked{background:#CC0000;border-color:#CC0000}
+.checklist-text{font-size:13px;color:#333;flex:1}
+.timeline{padding:0 0 0 24px;position:relative}
+.timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:#e5e5e5}
+.timeline-item{position:relative;padding-bottom:20px}
+.timeline-dot{position:absolute;left:-20px;top:2px;width:12px;height:12px;border-radius:50%;
+  background:#e5e5e5;border:2px solid #fff;box-shadow:0 0 0 2px #e5e5e5}
+.timeline-dot.active{background:#CC0000;box-shadow:0 0 0 2px #CC0000}
+.timeline-dot.done{background:#CC0000;box-shadow:0 0 0 2px #CC0000}
+.timeline-title{font-size:14px;font-weight:600;color:#333;margin-bottom:4px}
+.timeline-desc{font-size:12px;color:#999}
+.timeline-time{font-size:11px;color:#bbb;margin-top:2px}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600}
+.badge-green{background:#fce8e8;color:#CC0000}
+.badge-orange{background:#fff7e6;color:#fa8c16}
+.badge-blue{background:#e6f0ff;color:#1890ff}
+.badge-red{background:#fff1f0;color:#f5222d}
+.result-box{text-align:center;padding:24px 0}
+.result-icon{font-size:48px;margin-bottom:12px}
+.result-title{font-size:20px;font-weight:700;margin-bottom:8px}
+.result-desc{font-size:14px;color:#999;line-height:1.6;margin-bottom:20px}
+.benefits-card{background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;
+  display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:pointer;transition:transform .15s}
+.benefits-card:active{transform:scale(.98)}
+.benefits-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:22px;flex-shrink:0}
+.benefits-info{flex:1}
+.benefits-name{font-size:14px;font-weight:600;color:#333}
+.benefits-meta{font-size:12px;color:#999;margin-top:2px}
+.benefits-count{text-align:right}
+.benefits-remain{font-size:18px;font-weight:700;color:#CC0000}
+.benefits-total{font-size:11px;color:#bbb}
+.qr-placeholder{width:160px;height:160px;background:#f5f5f5;border-radius:12px;margin:16px auto;
+  display:flex;align-items:center;justify-content:center;font-size:14px;color:#999;
+  border:1px solid #e5e5e5;flex-direction:column;gap:8px}
+.section-title{font-size:13px;font-weight:600;color:#999;margin-bottom:10px;text-transform:uppercase;
+  letter-spacing:1px}
+.info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f5f5f5;
+  font-size:13px}
+.info-row .label{color:#999}
+.info-row .value{color:#333;font-weight:500}
+.stat-row{display:flex;gap:10px;margin-bottom:16px}
+.stat-box{flex:1;background:#fff;border-radius:10px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.stat-num{font-size:22px;font-weight:700;color:#CC0000}
+.stat-label{font-size:11px;color:#999;margin-top:2px}
+.msg-bubble{background:#CC0000;color:#fff;padding:10px 14px;border-radius:12px 12px 4px 12px;
+  font-size:13px;line-height:1.6;max-width:80%;margin-bottom:12px;position:relative}
+.msg-label{font-size:11px;color:#999;margin-bottom:4px}
+.divider{height:1px;background:#f0f0f0;margin:16px 0}
+.empty-state{text-align:center;padding:40px 20px;color:#ccc}
+.empty-state .icon{font-size:48px;margin-bottom:12px}
+.empty-state .text{font-size:14px}
+/* Step Progress Bar */
+.step-bar{display:flex;align-items:center;padding:12px 16px;background:#fff;margin-bottom:12px;border-radius:10px;
+  box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.step-bar .step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.step-bar .dot{width:20px;height:20px;border-radius:50%;background:#e5e5e5;display:flex;align-items:center;
+  justify-content:center;font-size:10px;color:#fff;font-weight:700;z-index:1}
+.step-bar .dot.done{background:#CC0000}
+.step-bar .dot.active{background:#CC0000;box-shadow:0 0 0 4px rgba(7,193,96,.2)}
+.step-bar .step-label{font-size:9px;color:#bbb;margin-top:4px;text-align:center;white-space:nowrap}
+.step-bar .step-label.active{color:#CC0000;font-weight:600}
+.step-bar .step-label.done{color:#CC0000}
+.step-bar .line{flex:1;height:2px;background:#e5e5e5;margin:0 -4px;margin-top:-18px;z-index:0}
+.step-bar .line.done{background:#CC0000}
+/* Dev Mode */
+.dev-tag{position:absolute;top:-2px;left:-2px;background:#f5222d;color:#fff;font-size:7px;font-weight:700;
+  padding:0px 3px;border-radius:2px;z-index:9999;line-height:1.2;pointer-events:none;white-space:nowrap;font-family:monospace}
+.dev-highlight{outline:1px dashed rgba(245,34,45,.4) !important}
+/* Need Matrix */
+.need-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.need-item{border-radius:12px;padding:14px 10px;text-align:center;cursor:pointer;transition:transform .15s;position:relative}
+.need-item:active{transform:scale(.96)}
+.need-item .ni-icon{font-size:26px;margin-bottom:6px}
+.need-item .ni-name{font-size:12px;font-weight:600;color:#333;line-height:1.3}
+.need-item .ni-source{font-size:9px;color:#fff;background:#1890ff;border-radius:3px;padding:1px 4px;margin-top:4px;display:inline-block}
+.need-item .ni-source.alt{background:#fa8c16}
+.need-item.covered{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08);border:1.5px solid #CC0000}
+.need-item.covered .ni-name{color:#333}
+.need-item.uncovered{background:#f5f5f5;border:1.5px dashed #d9d9d9}
+.need-item.uncovered .ni-icon{opacity:.4}
+.need-item.uncovered .ni-name{color:#bbb}
+.need-item .ni-badge{position:absolute;top:6px;right:6px;font-size:8px;color:#fff;background:#fa8c16;border-radius:3px;padding:1px 4px;font-weight:600}
+.dev-toggle{position:fixed;top:20px;left:20px;background:#f5222d;color:#fff;padding:8px 16px;border-radius:20px;
+  font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(245,34,45,.3);border:none;z-index:10000;
+  display:flex;align-items:center;gap:6px;font-family:inherit;transition:.15s}
+.dev-toggle:hover{background:#cf1322}
+.dev-toggle.on{background:#389e0d;box-shadow:0 4px 12px rgba(56,158,13,.3)}
+.dev-toggle.on:hover{background:#237804}
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <div class="status-bar">9:41</div>
+  <div class="nav-bar">
+    <div class="back" id="navBack" onclick="goBack()" style="visibility:hidden">&#8249;</div>
+    <div class="title" id="navTitle">岩育健康</div>
+    <div class="right" id="navRight" style="cursor:pointer;position:relative" onclick="go('p_messages')">
+      <span style="font-size:18px">&#128276;</span>
+      <span style="position:absolute;top:-2px;right:-4px;width:16px;height:16px;background:#f5222d;border-radius:50%;font-size:9px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700">3</span>
+    </div>
+  </div>
+  <div class="page-body" id="pageBody">
+
+    <!-- ===================== MODULE 1: Registration ===================== -->
+
+    <!-- 1-1 Welcome -->
+    <div class="page" id="p_welcome" data-title="岩育健康" data-tab="home" data-back="">
+      <div style="text-align:center;padding-top:32px">
+        <div class="hero-icon">+</div>
+        <div class="hero-title">岩育健康</div>
+        <div class="hero-subtitle">免费保险理赔咨询服务<br>让您安心治疗，放心理赔</div>
+      </div>
+      <div class="card">
+        <div class="card-desc" style="text-align:center">
+          我们帮您确认保险能否报销、能报多少，<br>全程免费，专业团队一对一服务
+        </div>
+      </div>
+      <div style="padding:0 8px;margin-top:16px">
+        <button class="btn btn-primary" onclick="go('p_agreement')">立即注册</button>
+        <button class="btn btn-secondary" onclick="go('p_about')">了解我们的服务</button>
+        <button class="btn btn-ghost" onclick="go('p_login')">已有账号？登录</button>
+      </div>
+    </div>
+
+    <!-- 1-0b About / Service Introduction -->
+    <div class="page" id="p_about" data-title="关于我们" data-tab="home" data-back="p_welcome">
+      <div class="card" style="text-align:center">
+        <div style="font-size:28px;margin-bottom:8px">&#128170;</div>
+        <div style="font-size:16px;font-weight:700;margin-bottom:4px">三大定位，全程守护</div>
+        <div class="card-desc">从理赔咨询到健康管理，一站式服务</div>
+      </div>
+
+      <!-- 3 Core Positions -->
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:36px;height:36px;background:#fce8e8;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px">&#128176;</div>
+          <div>
+            <div style="font-size:14px;font-weight:700">理赔咨询顾问</div>
+            <div style="font-size:11px;color:#999">最大化您的理赔成功率</div>
+          </div>
+        </div>
+        <div class="card-desc">在您申请理赔之前，帮您研究保单条款、评估可报项目和金额、预审材料，消除不确定性。</div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:36px;height:36px;background:#e6f0ff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px">&#128153;</div>
+          <div>
+            <div style="font-size:14px;font-weight:700">健康管理伙伴</div>
+            <div style="font-size:11px;color:#999">长期跟踪您的疗程与健康</div>
+          </div>
+        </div>
+        <div class="card-desc">通过每次理赔积累您的健康数据，主动提醒复查、跟进治疗进展，成为您值得信赖的长期伙伴。</div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <div style="width:36px;height:36px;background:#fff7e6;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px">&#127873;</div>
+          <div>
+            <div style="font-size:14px;font-weight:700">福利管家</div>
+            <div style="font-size:11px;color:#999">用好保单里的每一项权益</div>
+          </div>
+        </div>
+        <div class="card-desc">帮您发掘保单中沉睡的权益——洁牙、癌筛、问诊、陪诊等，主动提醒使用，不让权益白白浪费。</div>
+      </div>
+
+      <!-- 6 Stage Flow -->
+      <div class="card">
+        <div class="card-title">六阶段服务流程</div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-title">阶段一：接触与信息采集</div><div class="timeline-desc">分配专属顾问，收集保单和病历</div></div>
+          <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-title">阶段二：研究与评估</div><div class="timeline-desc">条款研究+审查单位预沟通（D+2 内反馈）</div></div>
+          <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-title">阶段三：反馈结果</div><div class="timeline-desc">告知能否赔、能赔多少、就医注意事项</div></div>
+          <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-title">阶段四：理赔执行支持</div><div class="timeline-desc">材料预审+提交指导，确保一次通过</div></div>
+          <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-title">阶段五：理赔后跟踪</div><div class="timeline-desc">进度追踪+结果解读+拒赔申诉</div></div>
+          <div class="timeline-item"><div class="timeline-dot done"></div><div class="timeline-title">阶段六：长期维护</div><div class="timeline-desc">健康管理+权益提醒+续保建议</div></div>
+        </div>
+      </div>
+
+      <!-- Triple Safety Net -->
+      <div class="card" style="background:#fce8e8;border:1px solid #b7eb8f">
+        <div class="card-title" style="color:#389e0d">&#128737; 三层兜底保障</div>
+        <div style="font-size:13px;color:#333;line-height:1.8">
+          <b>赔前</b>：帮您避坑，巩固理赔确定性<br>
+          <b>赔中</b>：如需补件，指导您补充正确材料<br>
+          <b>拒后</b>：分析拒赔原因、协助申诉、推荐合作律所<br><br>
+          <span style="color:#CC0000;font-weight:600">诉讼无忧：岩育承担律师费和法院受理费</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="go('p_agreement')">立即注册，免费使用</button>
+    </div>
+
+    <!-- 1-1b Service Agreement / 入组协议 -->
+    <div class="page" id="p_agreement" data-title="服务协议" data-tab="home" data-back="p_welcome">
+      <div class="card">
+        <div class="card-title">服务协议与授权</div>
+        <div class="card-desc" style="margin-bottom:12px">请仔细阅读以下协议，同意后方可使用服务</div>
+      </div>
+
+      <div class="card" style="max-height:200px;overflow-y:auto;font-size:12px;color:#666;line-height:1.8">
+        <div style="font-weight:700;color:#333;margin-bottom:8px">《岩育健康理赔咨询服务协议》</div>
+        <p>一、服务性质：岩育健康提供的是保险理赔咨询服务，非法律咨询、非保险销售、非医疗诊断服务。</p>
+        <p style="margin-top:6px">二、服务内容：包括但不限于保单条款解读、理赔可行性评估、材料预审指导、理赔进度跟踪、拒赔申诉建议等。</p>
+        <p style="margin-top:6px">三、费用说明：本服务对患者完全免费，不收取任何咨询费用。</p>
+        <p style="margin-top:6px">四、免责声明：岩育提供的评估结果为专业建议，最终理赔结果以保险公司/审查单位核定为准。岩育不对理赔结果做任何保证性承诺。</p>
+        <p style="margin-top:6px">五、隐私保护：您提供的所有个人信息、病历资料、保单信息仅用于理赔咨询相关用途，严格保密，不会向第三方泄露。</p>
+      </div>
+
+      <div class="card" style="max-height:160px;overflow-y:auto;font-size:12px;color:#666;line-height:1.8">
+        <div style="font-weight:700;color:#333;margin-bottom:8px">《个人信息处理授权书》</div>
+        <p>本人同意授权岩育健康在提供理赔咨询服务期间，收集、存储和使用以下个人信息：</p>
+        <p style="margin-top:6px">· 身份信息（姓名、证件号、联系方式）</p>
+        <p style="margin-top:6px">· 健康信息（病历、诊断报告、处方记录）</p>
+        <p style="margin-top:6px">· 保险信息（保单合同、理赔记录）</p>
+        <p style="margin-top:6px">上述信息仅用于理赔评估、材料预审和健康管理服务，岩育将依照相关法律法规妥善保管。</p>
+      </div>
+
+      <div class="card" style="display:flex;align-items:center;gap:10px;cursor:pointer" onclick="this.querySelector('.check-circle').classList.toggle('checked')">
+        <div class="check-circle" style="flex-shrink:0">&#10003;</div>
+        <div style="font-size:13px;color:#333">我已阅读并同意以上全部协议</div>
+      </div>
+
+      <button class="btn btn-primary" onclick="go('p_register')">同意并继续</button>
+      <button class="btn btn-ghost" onclick="go('p_welcome')">暂不同意</button>
+    </div>
+
+    <!-- 1-2 Register -->
+    <div class="page" id="p_register" data-title="注册" data-tab="home" data-back="p_agreement">
+      <div class="card">
+        <div class="card-title">创建您的账户</div>
+        <div class="form-group">
+          <label class="form-label">手机号码</label>
+          <input class="form-input" placeholder="请输入手机号码" type="tel">
+        </div>
+        <div class="form-group">
+          <label class="form-label">验证码</label>
+          <div style="display:flex;gap:10px">
+            <input class="form-input" placeholder="请输入验证码" style="flex:1">
+            <button class="btn btn-secondary" style="width:110px;height:40px;font-size:13px;margin:0">获取验证码</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">姓名</label>
+          <input class="form-input" placeholder="请输入真实姓名">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_basic_info')">下一步</button>
+    </div>
+
+    <!-- 1-2b Login (simplified) -->
+    <div class="page" id="p_login" data-title="登录" data-tab="home" data-back="p_welcome">
+      <div class="card">
+        <div class="card-title">欢迎回来</div>
+        <div class="form-group">
+          <label class="form-label">手机号码</label>
+          <input class="form-input" placeholder="请输入手机号码" type="tel">
+        </div>
+        <div class="form-group">
+          <label class="form-label">验证码</label>
+          <div style="display:flex;gap:10px">
+            <input class="form-input" placeholder="请输入验证码" style="flex:1">
+            <button class="btn btn-secondary" style="width:110px;height:40px;font-size:13px;margin:0">获取验证码</button>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_home')">登录</button>
+    </div>
+
+    <!-- 1-3 Basic Info -->
+    <div class="page" id="p_basic_info" data-title="完善信息" data-tab="home" data-back="p_register">
+      <div class="card">
+        <div class="card-title">基本信息</div>
+        <div class="card-desc" style="margin-bottom:12px">完善信息有助于我们提供更精准的服务</div>
+        <div class="form-group">
+          <label class="form-label">性别</label>
+          <select class="form-input form-select">
+            <option>请选择</option><option>男</option><option>女</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">出生日期</label>
+          <input class="form-input" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">所在城市</label>
+          <input class="form-input" placeholder="如：烟台市">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_upload_policy')">下一步：上传保单</button>
+      <button class="btn btn-ghost" onclick="go('p_home')">稍后再说</button>
+    </div>
+
+    <!-- 1-4 Upload Policy -->
+    <div class="page" id="p_upload_policy" data-title="上传保单" data-tab="home" data-back="p_basic_info">
+      <div class="card">
+        <div class="card-title">上传您的保单</div>
+        <div class="card-desc" style="margin-bottom:12px">请上传保险合同/电子保单，我们将为您扫描所有保障权益</div>
+        <div class="upload-area" onclick="this.style.borderColor='#CC0000';this.querySelector('.upload-icon').textContent='&#10003;';this.querySelector('.upload-text').textContent='已上传 1 份保单'">
+          <div class="upload-icon">&#128206;</div>
+          <div class="upload-text">点击上传保单照片/PDF</div>
+        </div>
+        <div class="upload-area" onclick="this.style.borderColor='#CC0000';this.querySelector('.upload-icon').textContent='&#10003;';this.querySelector('.upload-text').textContent='已上传 1 份保单'">
+          <div class="upload-icon">&#128206;</div>
+          <div class="upload-text">添加更多保单（可选）</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_home')">完成注册</button>
+    </div>
+
+    <!-- 1-5 Home (Dashboard) -->
+    <div class="page" id="p_home" data-title="岩育健康" data-tab="home" data-back="">
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">2</div>
+          <div class="stat-label">我的保单</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">1</div>
+          <div class="stat-label">进行中</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">1</div>
+          <div class="stat-label">已完成</div>
+        </div>
+      </div>
+
+      <div class="card" style="cursor:pointer" onclick="go('p_claim_start')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:44px;height:44px;background:linear-gradient(135deg,#CC0000,#A30000);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;flex-shrink:0">+</div>
+          <div>
+            <div class="card-title" style="margin:0">发起新理赔咨询</div>
+            <div class="card-desc">免费评估，专业团队协助</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">最近服务</div>
+      <div class="card" style="cursor:pointer" onclick="go('p_claim_progress')">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:14px;font-weight:600">CAR-T 细胞疗法理赔咨询</div>
+            <div style="font-size:12px;color:#999;margin-top:4px">弥漫大B细胞淋巴瘤 · 元瑞达</div>
+          </div>
+          <span class="badge badge-orange">评估中</span>
+        </div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:14px;font-weight:600">门诊费用报销</div>
+            <div style="font-size:12px;color:#999;margin-top:4px">烟台市民健康保 · 2024.01</div>
+          </div>
+          <span class="badge badge-green">已结案</span>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">保障提醒</div>
+      <div class="card">
+        <div style="font-size:13px;color:#fa8c16">&#9888; 您在「烟台市民健康保」的「口腔洁牙」权益将于 275 天后到期，建议尽快使用</div>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">健康管理</div>
+      <div class="card" style="cursor:pointer" onclick="go('p_health_mgmt')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:44px;height:44px;background:linear-gradient(135deg,#1890ff,#096dd9);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;flex-shrink:0">&#128153;</div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:600">我的健康档案</div>
+            <div style="font-size:12px;color:#999;margin-top:2px">基于 3 次理赔记录 · 顾问为您持续关注</div>
+          </div>
+          <span style="color:#ccc;font-size:16px">></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== Health Management ===================== -->
+
+    <!-- Health Management Main -->
+    <div class="page" id="p_health_mgmt" data-title="健康档案" data-tab="home" data-back="p_home">
+
+      <!-- Health Summary Card -->
+      <div class="card" style="background:linear-gradient(135deg,#1890ff,#096dd9);color:#fff;border:none">
+        <div style="font-size:13px;opacity:.8;margin-bottom:4px">张先生的健康档案</div>
+        <div style="font-size:18px;font-weight:700;margin-bottom:4px">弥漫大B细胞淋巴瘤 · CAR-T 疗程</div>
+        <div style="font-size:12px;opacity:.7">基于您的理赔记录与疗程收据，持续更新</div>
+        <div style="display:flex;gap:16px;margin-top:14px">
+          <div>
+            <div style="font-size:22px;font-weight:800">3</div>
+            <div style="font-size:10px;opacity:.7">已理赔次数</div>
+          </div>
+          <div>
+            <div style="font-size:22px;font-weight:800">14月</div>
+            <div style="font-size:10px;opacity:.7">跟踪时长</div>
+          </div>
+          <div>
+            <div style="font-size:22px;font-weight:800">稳定</div>
+            <div style="font-size:10px;opacity:.7">当前状态</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upcoming Reminders -->
+      <div class="card">
+        <div class="card-title">&#128276; 近期提醒</div>
+        <div class="checklist-item">
+          <div class="check-circle" style="background:#fa8c16;border-color:#fa8c16;font-size:10px">!</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:#333">第 4 次复查（3个月复查）</div>
+            <div style="font-size:11px;color:#999">建议日期：2026-04-15 · 毓璜顶医院血液科</div>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <div class="check-circle" style="background:#1890ff;border-color:#1890ff;font-size:10px">&#8594;</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:#333">下次理赔材料预审</div>
+            <div style="font-size:11px;color:#999">复查后请将检查报告发给我们预审</div>
+          </div>
+        </div>
+        <div class="checklist-item" style="border:none">
+          <div class="check-circle" style="background:#CC0000;border-color:#CC0000;font-size:10px">&#10003;</div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:#999">烟台市民健康保续保</div>
+            <div style="font-size:11px;color:#bbb">到期前30天提醒 · 2026-12-01</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Treatment Timeline -->
+      <div class="card">
+        <div class="card-title">疗程时间线</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">确诊</div>
+            <div class="timeline-desc">弥漫大B细胞淋巴瘤，毓璜顶医院</div>
+            <div class="timeline-time">2025-01-20</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">CAR-T 细胞采集</div>
+            <div class="timeline-desc">元瑞达方案 · 白细胞分离术</div>
+            <div class="timeline-time">2025-02-10</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">CAR-T 回输治疗</div>
+            <div class="timeline-desc">费用 ¥1,000,000 · <span style="color:#CC0000">已理赔 ¥800,000</span></div>
+            <div class="timeline-time">2025-03-05</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">第 1 次复查（1个月）</div>
+            <div class="timeline-desc">血常规+骨髓穿刺 · 费用 ¥3,200 · <span style="color:#CC0000">已理赔</span></div>
+            <div class="timeline-time">2025-04-05</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">第 2 次复查（3个月）</div>
+            <div class="timeline-desc">PET-CT · 完全缓解 CR · 费用 ¥8,500 · <span style="color:#CC0000">已理赔</span></div>
+            <div class="timeline-time">2025-06-10</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">第 3 次复查（6个月）</div>
+            <div class="timeline-desc">影像+血检 · 持续缓解 · 费用 ¥5,100 · <span style="color:#CC0000">已理赔</span></div>
+            <div class="timeline-time">2025-09-15</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-title">第 4 次复查（待预约）</div>
+            <div class="timeline-desc">建议 2026-04-15 · 岩育会提前提醒您准备材料</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Health Insights -->
+      <div class="card">
+        <div class="card-title">&#128161; 顾问健康提示</div>
+        <div class="msg-bubble">
+          根据您过去 3 次复查记录，各项指标持续改善，目前处于完全缓解状态。建议：<br><br>
+          1. 按时完成第 4 次复查（3个月间隔）<br>
+          2. 复查前无需特殊准备，正常饮食即可<br>
+          3. 如出现不明原因发热、淋巴结肿大，请立即就医并联系我们<br>
+          4. 复查后将检查报告发给我们，我们帮您预审理赔材料
+        </div>
+      </div>
+
+      <!-- Cumulative Claim Stats -->
+      <div class="card">
+        <div class="card-title">理赔累计</div>
+        <div class="info-row">
+          <span class="label">总理赔次数</span>
+          <span class="value">3 次</span>
+        </div>
+        <div class="info-row">
+          <span class="label">总医疗费用</span>
+          <span class="value">¥1,016,800</span>
+        </div>
+        <div class="info-row">
+          <span class="label">累计获赔</span>
+          <span class="value" style="color:#CC0000;font-weight:700">¥812,500</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">报销比例</span>
+          <span class="value" style="color:#CC0000;font-weight:700">79.9%</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="go('p_contact')">联系健康管理顾问</button>
+      <button class="btn btn-secondary" onclick="go('p_home')">返回首页</button>
+    </div>
+
+    <!-- ===================== MODULE 2: Claim Service ===================== -->
+
+    <!-- 2-0 Service Hub -->
+    <div class="page" id="p_service_hub" data-title="理赔服务" data-tab="claim" data-back="">
+      <div class="card" style="cursor:pointer" onclick="go('p_claim_start')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:44px;height:44px;background:linear-gradient(135deg,#CC0000,#A30000);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;flex-shrink:0">+</div>
+          <div>
+            <div class="card-title" style="margin:0">发起新理赔咨询</div>
+            <div class="card-desc">免费评估，专业团队全程协助</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title">进行中</div>
+      <div class="card" style="cursor:pointer" onclick="go('p_claim_progress')">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="font-size:14px;font-weight:600">CAR-T 细胞疗法理赔</div>
+          <span class="badge badge-orange">审核中</span>
+        </div>
+        <div style="font-size:12px;color:#999">弥漫大B细胞淋巴瘤 · 元瑞达</div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:12px">
+          <span style="color:#999">申请编号 YY20260331001</span>
+          <span style="color:#CC0000;font-weight:600">核销金额 ¥1,000,000</span>
+        </div>
+        <!-- Progress mini bar -->
+        <div style="margin-top:10px;background:#f5f5f5;border-radius:4px;height:6px;overflow:hidden">
+          <div style="width:60%;height:100%;background:linear-gradient(90deg,#CC0000,#52c41a);border-radius:4px"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:#bbb">
+          <span>已提交</span><span>材料审查</span><span style="color:#CC0000;font-weight:600">审核中</span><span>核定</span><span>到账</span>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">已完成</div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <div style="font-size:14px;font-weight:600">门诊费用报销</div>
+          <span class="badge badge-green">已结案</span>
+        </div>
+        <div style="font-size:12px;color:#999">烟台市民健康保 · 2024.01</div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:12px">
+          <span style="color:#999">获赔 ¥12,500</span>
+          <span style="color:#bbb">2024-02-15 结案</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <div style="font-size:14px;font-weight:600">CAR-T 回输治疗理赔</div>
+          <span class="badge badge-green">已结案</span>
+        </div>
+        <div style="font-size:12px;color:#999">烟台市民健康保 · 元瑞达</div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:12px">
+          <span style="color:#999">获赔 ¥800,000</span>
+          <span style="color:#bbb">2025-04-20 结案</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2-1 Start Claim -->
+    <div class="page" id="p_claim_start" data-title="发起咨询" data-tab="claim" data-back="p_service_hub">
+      <div class="card">
+        <div class="card-title">理赔咨询申请</div>
+        <div class="card-desc" style="margin-bottom:12px">请填写基本情况，我们将为您评估理赔可能性</div>
+        <div class="form-group">
+          <label class="form-label">病种/诊断</label>
+          <input class="form-input" placeholder="请输入您的病种或诊断名称">
+        </div>
+        <div class="form-group">
+          <label class="form-label">就医状态</label>
+          <select class="form-input form-select">
+            <option>请选择</option>
+            <option>未就医，纯咨询</option>
+            <option>已就医，未确诊</option>
+            <option>已确诊，用药中</option>
+            <option>已确诊，被拒赔</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">就诊医院</label>
+          <input class="form-input" placeholder="如：烟台毓璜顶医院">
+        </div>
+        <div class="form-group">
+          <label class="form-label">情况描述</label>
+          <textarea class="form-textarea" placeholder="请简要描述您的病情、治疗方案及理赔疑问"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">是否有商业保险</label>
+          <select class="form-input form-select">
+            <option>请选择</option>
+            <option>有，已上传保单</option>
+            <option>有，稍后上传</option>
+            <option>不确定</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_claim_upload')">下一步：上传病历</button>
+    </div>
+
+    <!-- 2-2 Upload Medical Records -->
+    <div class="page" id="p_claim_upload" data-title="上传病历" data-tab="claim" data-back="p_claim_start">
+      <div class="card">
+        <div class="card-title">上传病历资料</div>
+        <div class="card-desc" style="margin-bottom:12px">资料越完整，评估越准确。以下资料请尽量提供。</div>
+        <div class="upload-grid">
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'">
+            <div class="plus">+</div>
+            <div class="name">确诊报告</div>
+          </div>
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'">
+            <div class="plus">+</div>
+            <div class="name">住院病历</div>
+          </div>
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'">
+            <div class="plus">+</div>
+            <div class="name">门诊病历</div>
+          </div>
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'">
+            <div class="plus">+</div>
+            <div class="name">处方/用药记录</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-desc">&#128161; 提示：住院病历比单独确诊书更有用，请尽量提供完整材料</div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_claim_pending')">反馈</button>
+    </div>
+
+    <!-- 2-3 Pending Evaluation -->
+    <div class="page" id="p_claim_pending" data-title="评估中" data-tab="claim" data-back="p_home">
+      <div class="result-box">
+        <div class="result-icon">&#128270;</div>
+        <div class="result-title">正在评估中</div>
+        <div class="result-desc">理赔顾问正在研究您的保单条款<br>并与审查单位进行预沟通<br><br><strong>预计 2 个工作日内反馈结果</strong></div>
+      </div>
+      <div class="card">
+        <div class="card-title">评估进度</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">资料已接收</div>
+            <div class="timeline-time">今天 10:32</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-title">保单条款研究中</div>
+            <div class="timeline-desc">正在匹配适应症与可报销药物</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-title">审查单位预沟通</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-title">形成评估报告</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="background:#f6ffed;border:1px solid #b7eb8f;text-align:center;padding:10px">
+        <div style="font-size:12px;color:#389e0d">&#128276; 评估完成后会通过消息通知您，请留意消息中心</div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_home')">好的，返回首页</button>
+      <button class="btn btn-secondary" onclick="go('p_contact')">联系理赔顾问</button>
+    </div>
+
+    <!-- 2-4 Evaluation Result -->
+    <div class="page" id="p_claim_result" data-title="评估结果" data-tab="claim" data-back="p_home">
+      <div class="card" style="border-left:4px solid #CC0000">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div class="card-title" style="margin:0">理赔评估报告</div>
+          <span class="badge badge-green">可能性较高</span>
+        </div>
+        <div class="card-desc">经评估，您的情况符合理赔条件，建议申请。</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">评估详情</div>
+        <div class="info-row">
+          <span class="label">病种</span>
+          <span class="value">弥漫大B细胞淋巴瘤</span>
+        </div>
+        <div class="info-row">
+          <span class="label">推荐疗程</span>
+          <span class="value">CAR-T 细胞疗法（元瑞达）</span>
+        </div>
+        <div class="info-row">
+          <span class="label">条款匹配</span>
+          <span class="value" style="color:#CC0000">适应症符合 &#10003;</span>
+        </div>
+        <div class="info-row">
+          <span class="label">药品匹配</span>
+          <span class="value" style="color:#CC0000">在保障范围内 &#10003;</span>
+        </div>
+        <div class="info-row">
+          <span class="label">预估可报销</span>
+          <span class="value" style="color:#CC0000;font-weight:700;font-size:16px">约 ¥800,000</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">自付部分</span>
+          <span class="value">约 ¥200,000（含免赔额）</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">&#9888; 注意事项</div>
+        <div class="card-desc">
+          1. 最终以审查单位核定结果为准<br>
+          2. 需在二级及以上公立医院普通部就诊<br>
+          3. 建议尽快准备材料，避免错过理赔窗口<br>
+          4. 理赔提交后预计 10~30 日内核定
+        </div>
+      </div>
+
+      <div class="msg-label">理赔顾问建议</div>
+      <div class="msg-bubble">
+        您的保单条款与 CAR-T 疗程契合度很高。建议尽快准备理赔材料，我们会全程协助您。下一步请查看材料清单并逐项准备。
+      </div>
+
+      <div class="card" style="background:#e6f7ee;border:1px solid #b7eb8f;padding:10px 14px">
+        <div style="font-size:12px;color:#389e0d;line-height:1.6">&#128161; 以上是顾问的初步评估结果。如果您决定申请理赔，下一步将引导您准备完整材料并正式提交。</div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_select_type')">我要正式申请，开始准备材料</button>
+      <button class="btn btn-secondary" onclick="go('p_contact')">先跟顾问详细聊聊</button>
+    </div>
+
+    <!-- ===== Stage 4: Formal Claim Submission ===== -->
+
+    <!-- 4-1 Select Claim Type (TY04) -->
+    <div class="page" id="p_select_type" data-title="选择类型" data-tab="claim" data-back="p_claim_result">
+      <div class="card">
+        <div class="card-title">您需要哪种理赔？</div>
+        <div class="card-desc" style="margin-bottom:4px">请选择最符合您情况的理赔类型。不确定也没关系，顾问可以帮您判断。</div>
+      </div>
+      <div class="card" style="cursor:pointer;border:2px solid transparent;transition:border-color .2s;margin-bottom:8px" onclick="this.style.borderColor='#CC0000';go('p_checklist')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;background:#e6f0ff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">&#128203;</div>
+          <div><div style="font-size:14px;font-weight:700">门诊理赔</div><div style="font-size:11px;color:#999;margin-top:2px">门诊/急诊就医费用</div></div>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer;border:2px solid transparent;transition:border-color .2s;margin-bottom:8px" onclick="this.style.borderColor='#CC0000';go('p_checklist')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;background:#fce8e8;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">&#127973;</div>
+          <div><div style="font-size:14px;font-weight:700">住院理赔</div><div style="font-size:11px;color:#999;margin-top:2px">住院治疗产生的费用</div></div>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer;border:2px solid transparent;transition:border-color .2s;margin-bottom:8px" onclick="this.style.borderColor='#CC0000';go('p_checklist')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;background:#fff7e6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">&#128197;</div>
+          <div><div style="font-size:14px;font-weight:700">住院津贴</div><div style="font-size:11px;color:#999;margin-top:2px">按住院天数给付</div></div>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer;border:2px solid transparent;transition:border-color .2s;margin-bottom:8px" onclick="this.style.borderColor='#CC0000';go('p_checklist')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;background:#fff1f0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">&#128153;</div>
+          <div><div style="font-size:14px;font-weight:700">重大疾病</div><div style="font-size:11px;color:#999;margin-top:2px">确诊重疾后申请</div></div>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer;border:2px solid transparent;transition:border-color .2s;margin-bottom:8px" onclick="this.style.borderColor='#CC0000';go('p_checklist')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;background:#f0e6ff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">&#129656;</div>
+          <div><div style="font-size:14px;font-weight:700">残疾理赔</div><div style="font-size:11px;color:#999;margin-top:2px">因意外/疾病致残</div></div>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer;border:2px solid transparent;transition:border-color .2s;margin-bottom:8px" onclick="this.style.borderColor='#CC0000';go('p_checklist')">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:40px;height:40px;background:#f5f5f5;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">&#128694;</div>
+          <div><div style="font-size:14px;font-weight:700">身故理赔</div><div style="font-size:11px;color:#999;margin-top:2px">被保险人身故</div></div>
+        </div>
+      </div>
+      <button class="btn btn-secondary" onclick="go('p_contact')">不确定？联系顾问帮您判断</button>
+    </div>
+
+    <!-- 4-2 Material Checklist (CK05) -->
+    <div class="page" id="p_checklist" data-title="材料准备" data-tab="claim" data-back="p_select_type">
+      <div class="card">
+        <div class="card-title">住院理赔需要准备什么？</div>
+        <div class="card-desc" style="margin-bottom:8px">暂时找不到部分材料？没关系，可以先提交已有的，后续再补充。</div>
+
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-circle">&#10003;</div>
+          <div style="flex:1"><div class="checklist-text">被保险人身份证正反面</div><div style="font-size:11px;color:#bbb;margin-top:2px">少儿可提供户口页或出生证明</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-circle">&#10003;</div>
+          <div style="flex:1"><div class="checklist-text">银行储蓄卡正反面</div><div style="font-size:11px;color:#bbb;margin-top:2px">用于接收赔款，少儿需提供监护人银行卡</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-circle">&#10003;</div>
+          <div style="flex:1"><div class="checklist-text">住院发票原件</div><div style="font-size:11px;color:#bbb;margin-top:2px">如医保已核销，请提供：发票复印件（加盖公章）+ 医保结算单原件</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-circle">&#10003;</div>
+          <div style="flex:1"><div class="checklist-text">住院费用汇总清单</div><div style="font-size:11px;color:#bbb;margin-top:2px">请向医院住院收费处申请打印</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-circle">&#10003;</div>
+          <div style="flex:1"><div class="checklist-text">出院小结 / 出院记录</div><div style="font-size:11px;color:#bbb;margin-top:2px">请向医院病案室申请，普通住院提供出院小结即可</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-circle">&#10003;</div>
+          <div style="flex:1"><div class="checklist-text">完整住院病历（病情复杂时）</div><div style="font-size:11px;color:#bbb;margin-top:2px">含入院记录、病案首页、手术记录、医嘱单等，请向病案室申请复印</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-circle">&#10003;</div>
+          <div style="flex:1"><div class="checklist-text">监护人身份证 + 关系证明（少儿）</div><div style="font-size:11px;color:#bbb;margin-top:2px">少儿理赔必须提供监护人身份证及亲子关系证明（出生证/户口本）</div></div>
+        </div>
+        <div class="checklist-item" onclick="toggleCheck(this)">
+          <div class="check-circle">&#10003;</div>
+          <div style="flex:1"><div class="checklist-text">意外事故证明（如为意外）</div><div style="font-size:11px;color:#bbb;margin-top:2px">交通事故需交管部门认定书，工伤需单位证明，治安事故需公安证明</div></div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_claim_info')">已了解，开始填写</button>
+      <button class="btn btn-ghost" onclick="go('p_contact')">对材料有疑问？联系顾问</button>
+    </div>
+
+    <!-- 4-3 Claim Info (CI01) -->
+    <div class="page" id="p_claim_info" data-title="基本信息" data-tab="claim" data-back="p_checklist">
+      <div class="card">
+        <div class="card-title">第一步：基本理赔信息</div>
+        <div class="card-desc" style="margin-bottom:12px">请填写本次理赔的基础信息，带 * 的为必填项。</div>
+        <div class="form-group"><label class="form-label">保险产品名称 *</label><input class="form-input" placeholder="例如：烟台市民健康保2026 B款升级版"></div>
+        <div class="form-group"><label class="form-label">发票总金额 *</label><input class="form-input" placeholder="例如：8500.00（元）" type="number"></div>
+        <div class="form-group"><label class="form-label">出险时间 *</label><input class="form-input" type="date"></div>
+        <div class="form-group"><label class="form-label">出险经过 *</label><textarea class="form-textarea" placeholder="例如：因确诊弥漫大B细胞淋巴瘤，前往毓璜顶医院接受CAR-T治疗，住院治疗15天"></textarea></div>
+        <div class="form-group"><label class="form-label">是否已经过医保或其他保险报销 *</label>
+          <select class="form-input form-select"><option>请选择</option><option>否，首次报销</option><option>是，已经过医保报销</option><option>是，已经过其他商业保险报销</option></select>
+        </div>
+      </div>
+      <div class="card" style="background:#fffbe6;border:1px solid #ffe58f;padding:10px 14px">
+        <div class="card-desc" style="color:#d48806;font-size:12px">&#128161; 如果发票已被医保或其他保险收取原件，请准备好该发票的复印件（加盖公章）和结算单原件。</div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_insured_info')">下一步：谁需要理赔？</button>
+    </div>
+
+    <!-- 4-4 Insured Info (CI02) -->
+    <div class="page" id="p_insured_info" data-title="被保人" data-tab="claim" data-back="p_claim_info">
+      <div class="card">
+        <div class="card-title">第二步：谁需要理赔？</div>
+        <div class="card-desc" style="margin-bottom:12px">请填写被保险人（患者）的身份信息。</div>
+        <div class="form-group"><label class="form-label">姓名 *</label><input class="form-input" placeholder="请输入被保险人姓名"></div>
+        <div class="form-group"><label class="form-label">证件类型 *</label><select class="form-input form-select"><option>身份证</option><option>护照</option><option>港澳台通行证</option></select></div>
+        <div class="form-group"><label class="form-label">证件号码 *</label><input class="form-input" placeholder="请输入证件号码（请仔细核对）"></div>
+        <div class="form-group"><label class="form-label">性别</label><select class="form-input form-select"><option>请选择</option><option>男</option><option>女</option></select></div>
+        <div class="form-group"><label class="form-label">出生日期</label><input class="form-input" type="date"></div>
+        <div class="form-group"><label class="form-label">与被保险人的关系 *</label><select class="form-input form-select"><option>本人</option><option>监护人（未成年人代办）</option></select></div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_contact_info')">本人申请，下一步</button>
+      <button class="btn btn-secondary" onclick="go('p_guardian_info')">监护人代为申请</button>
+    </div>
+
+    <!-- 4-5 Contact Info (CI03) -->
+    <div class="page" id="p_contact_info" data-title="联系方式" data-tab="claim" data-back="p_insured_info">
+      <div class="card">
+        <div class="card-title">第三步：我们怎么联系您？</div>
+        <div class="card-desc" style="margin-bottom:12px">请填写有效的联系方式，以便我们通知您理赔进展。</div>
+        <div class="form-group"><label class="form-label">称谓 *</label><input class="form-input" placeholder="如何称呼您（例如：张先生、李女士）"></div>
+        <div class="form-group"><label class="form-label">手机号码 *</label><input class="form-input" placeholder="例如：138-0000-0000" type="tel"></div>
+        <div class="form-group"><label class="form-label">电子邮箱</label><input class="form-input" placeholder="例如：yourname@email.com（选填）" type="email"></div>
+        <div class="form-group"><label class="form-label">联系地址</label><input class="form-input" placeholder="用于邮寄理赔材料原件（如需要）"></div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_payee_info')">下一步：赔款打到哪里？</button>
+    </div>
+
+    <!-- 4-6 Payee Info (CI04) -->
+    <div class="page" id="p_payee_info" data-title="收款账户" data-tab="claim" data-back="p_contact_info">
+      <div class="card">
+        <div class="card-title">第四步：收款账户信息</div>
+        <div class="card-desc" style="margin-bottom:12px">请确认用于接收赔款的银行账户信息。</div>
+        <div class="form-group"><label class="form-label">收款人身份 *</label>
+          <select class="form-input form-select" id="payeeSelect">
+            <option value="self">被保险人本人</option>
+            <option value="guardian">监护人代收</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_identity_upload')">本人证件上传</button>
+      <button class="btn btn-secondary" onclick="go('p_guardian_info')">监护人 + 被保人证件上传</button>
+    </div>
+
+    <!-- 4-6b Guardian Info (GI05) -->
+    <div class="page" id="p_guardian_info" data-title="监护人信息" data-tab="claim" data-back="p_payee_info">
+      <div class="card">
+        <div class="card-title">录入类型 5：监护人信息</div>
+        <div class="form-group"><label class="form-label">监护人姓名</label><input class="form-input" placeholder="请输入姓名"></div>
+        <div class="form-group"><label class="form-label">证件类型</label><select class="form-input form-select"><option>身份证</option><option>护照</option></select></div>
+        <div class="form-group"><label class="form-label">证件号码</label><input class="form-input" placeholder="请输入证件号码"></div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_identity_upload')">下一步：上传身份证明</button>
+    </div>
+
+    <!-- 4-7 Identity Upload (PU01) -->
+    <div class="page" id="p_identity_upload" data-title="身份信息上传" data-tab="claim" data-back="p_payee_info">
+      <div class="card">
+        <div class="card-title">上传信息 1：身份证明</div>
+        <div class="card-desc" style="margin-bottom:12px">请上传相关人员的身份证明材料</div>
+        <div class="upload-grid">
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'"><div class="plus">+</div><div class="name">被保人身份证正反面</div></div>
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'"><div class="plus">+</div><div class="name">监护人身份证（如适用）</div></div>
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'"><div class="plus">+</div><div class="name">关系证明</div></div>
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'"><div class="plus">+</div><div class="name">银行卡正反面</div></div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_documents_upload')">下一步：上传医疗单据</button>
+    </div>
+
+    <!-- 4-8 Documents Upload (PU02) -->
+    <div class="page" id="p_documents_upload" data-title="上传材料" data-tab="claim" data-back="p_identity_upload">
+      <div class="card">
+        <div class="card-title">上传理赔材料</div>
+        <div class="card-desc" style="margin-bottom:12px">请上传与本次理赔相关的单据和证明材料。<br>拍照时请确保文字清晰可读。暂时找不到的材料可以后续补充。</div>
+        <div class="upload-grid">
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'">
+            <div class="plus">+</div><div class="name">住院发票</div><div style="font-size:9px;color:#bbb;margin-top:2px">已核销请上传复印件+结算单</div>
+          </div>
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'">
+            <div class="plus">+</div><div class="name">费用汇总清单</div><div style="font-size:9px;color:#bbb;margin-top:2px">向住院收费处申请</div>
+          </div>
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'">
+            <div class="plus">+</div><div class="name">出院小结</div><div style="font-size:9px;color:#bbb;margin-top:2px">向病案室申请</div>
+          </div>
+          <div class="upload-slot" onclick="this.style.borderColor='#CC0000';this.querySelector('.plus').textContent='&#10003;';this.querySelector('.plus').style.color='#CC0000'">
+            <div class="plus">+</div><div class="name">完整病历（如有）</div><div style="font-size:9px;color:#bbb;margin-top:2px">入院记录/手术记录/医嘱</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-desc" style="font-size:12px;color:#999">&#128161; 如发票已被医保核销，请上传发票复印件（加盖核销机构公章）+ 医保结算单/分割单原件</div>
+      </div>
+      <div class="card">
+        <div class="card-desc" style="font-size:12px;color:#999">&#128161; 意外事故需额外上传：交通事故认定书/工伤证明/治安事故证明</div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_submit_review')">材料上传完毕，去核对</button>
+    </div>
+
+    <!-- 4-9 Submit Review (RV11) -->
+    <div class="page" id="p_submit_review" data-title="核对确认" data-tab="claim" data-back="p_documents_upload">
+      <div class="card">
+        <div class="card-title">提交前请确认</div>
+        <div class="card-desc" style="margin-bottom:8px">请从上到下检查您填写的信息</div>
+        <div class="info-row"><span class="label">理赔类型</span><span class="value">住院理赔</span></div>
+        <div class="info-row"><span class="label">保险产品</span><span class="value">烟台市民健康保2026 B款</span></div>
+        <div class="info-row"><span class="label">被保人</span><span class="value">张先生</span></div>
+        <div class="info-row"><span class="label">病种</span><span class="value">弥漫大B细胞淋巴瘤</span></div>
+        <div class="info-row"><span class="label">疗程</span><span class="value">CAR-T（元瑞达）</span></div>
+        <div class="info-row"><span class="label">发票金额</span><span class="value">¥1,000,000</span></div>
+        <div class="info-row"><span class="label">收款人</span><span class="value">本人</span></div>
+        <div class="info-row"><span class="label">身份证明</span><span class="value" style="color:#CC0000">已上传 &#10003;</span></div>
+        <div class="info-row"><span class="label">医疗单据</span><span class="value" style="color:#CC0000">4 份已上传 &#10003;</span></div>
+        <div class="info-row" style="border:none"><span class="label">收款银行卡</span><span class="value" style="color:#CC0000">已上传 &#10003;</span></div>
+      </div>
+      <div class="card" style="background:#fffbe6;border:1px solid #ffe58f">
+        <div class="card-desc" style="color:#d48806">&#9888; 提交后，理赔顾问将对材料进行最终审查。如需补充，会通过企业微信通知您。</div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_submit_success')">确认并提交</button>
+      <button class="btn btn-secondary" onclick="go('p_documents_upload')">返回修改</button>
+    </div>
+
+    <!-- 4-10 Submit Success (SC12) -->
+    <div class="page" id="p_submit_success" data-title="提交成功" data-tab="claim" data-back="p_home">
+      <div class="result-box">
+        <div class="result-icon">&#127881;</div>
+        <div class="result-title">理赔申请已提交</div>
+        <div class="result-desc">申请编号：<strong>YY20260331001</strong><br><br>理赔顾问将尽快为您处理，<br>有任何进展会第一时间通知您</div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_claim_progress')">查看理赔进度</button>
+      <button class="btn btn-secondary" onclick="go('p_contact')">联系理赔顾问</button>
+    </div>
+
+    <!-- 2-8 Claim Progress -->
+    <div class="page" id="p_claim_progress" data-title="理赔进度" data-tab="claim" data-back="p_home">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div class="card-title" style="margin:0">CAR-T 理赔进度</div>
+          <span class="badge badge-orange">审核中</span>
+        </div>
+        <div class="info-row">
+          <span class="label">申请编号</span>
+          <span class="value">YY20260331001</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">核销金额</span>
+          <span class="value" style="color:#CC0000;font-weight:700">¥1,000,000</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">进度时间线</div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">申请已提交</div>
+            <div class="timeline-time">2026-03-31 14:20</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">顾问材料审查通过</div>
+            <div class="timeline-desc">材料完整，已提交审查单位</div>
+            <div class="timeline-time">2026-03-31 16:45</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-title">审查单位审核中</div>
+            <div class="timeline-desc">预计 10~30 个工作日内核定</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-title">核定结果</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-title">赔款到账</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">当前进度回报记录</div>
+        <div class="card-desc" style="margin-bottom:12px;color:#999">以下信息来自您的回报，非保司系统数据</div>
+        <div style="padding:10px;background:#f6ffed;border-radius:6px;border-left:3px solid #CC0000;margin-bottom:8px">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-bottom:4px"><span>您回报</span><span>03-31 16:50</span></div>
+          <div style="font-size:13px">材料已提交给审查单位，等待核定中</div>
+        </div>
+        <div style="padding:10px;background:#e6f0ff;border-radius:6px;border-left:3px solid #1890ff;margin-bottom:8px">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-bottom:4px"><span>您回报</span><span>03-30 18:10</span></div>
+          <div style="font-size:13px">已补充上传治疗方案说明</div>
+        </div>
+        <div style="padding:10px;background:#f5f5f5;border-radius:6px;border-left:3px solid #d9d9d9">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:#999;margin-bottom:4px"><span>您回报</span><span>03-30 14:00</span></div>
+          <div style="font-size:13px">理赔材料已提交</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="go('p_contact')">回报新进度</button>
+      <button class="btn btn-secondary" onclick="go('p_home')">返回首页</button>
+    </div>
+
+    <!-- 2-9a Rejection Analysis Report -->
+    <div class="page" id="p_claim_rejected" data-title="拒赔分析" data-tab="claim" data-back="p_claim_progress">
+      <!-- Small factual status, not dramatic -->
+      <div class="card" style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:13px;color:#999">理赔状态</div>
+        <span class="badge badge-red">已拒赔 · 2026-05-10</span>
+      </div>
+
+      <!-- HERO: Advisor's professional analysis -->
+      <div class="card" style="border-left:4px solid #1890ff">
+        <div class="card-title" style="color:#1890ff">&#128209; 顾问分析报告</div>
+        <div style="font-size:13px;line-height:1.8;color:#333">
+          <div style="margin-bottom:10px">
+            <div style="font-size:12px;font-weight:600;color:#999;margin-bottom:4px">保司拒赔理由</div>
+            <div style="background:#fafafa;padding:8px 10px;border-radius:6px;font-size:12px;color:#666;border-left:3px solid #d9d9d9">
+              「被保险人所患疾病不在本保险合同约定的保障范围内，不符合理赔条件。」
+            </div>
+          </div>
+          <div style="margin-bottom:10px">
+            <div style="font-size:12px;font-weight:600;color:#999;margin-bottom:4px">我们的判断</div>
+            <div style="color:#f5222d;font-weight:600">该拒赔理由不合理。</div>
+            <div style="margin-top:4px;color:#666;font-size:12px">
+              您的病种「弥漫大B细胞淋巴瘤」明确属于条款约定的「恶性肿瘤」范畴；CAR-T（元瑞达/奥基仑赛）已列入烟台市民健康保 B 款特药目录。保司以「不在保障范围内」为由拒赔，与条款事实不符。
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:600;color:#999;margin-bottom:4px">申诉可行性</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="width:100px;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden"><div style="width:80%;height:100%;background:#CC0000;border-radius:4px"></div></div>
+              <span style="font-size:13px;font-weight:700;color:#CC0000">较高</span>
+            </div>
+            <div style="margin-top:4px;color:#666;font-size:12px">基于条款明确匹配 + TPA 预沟通记录，我们判断通过补充材料申诉成功的概率较高。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recommended options -->
+      <div class="card">
+        <div class="card-title">建议方案</div>
+
+        <div style="border:2px solid #CC0000;border-radius:8px;padding:12px;margin-bottom:10px;background:#fef2f2">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <div style="font-size:14px;font-weight:700;color:#CC0000">方案 A：补充材料申诉（推荐）</div>
+            <span class="badge badge-green">推荐</span>
+          </div>
+          <div style="font-size:12px;color:#666;line-height:1.6">
+            补充病理报告中的适应症证明、医生情况说明书，向保司发起正式申诉。岩育全程协助撰写申诉函和材料整理，不额外收费。
+          </div>
+        </div>
+
+        <div style="border:1px solid #e5e5e5;border-radius:8px;padding:12px;margin-bottom:10px">
+          <div style="font-size:13px;font-weight:600;color:#333;margin-bottom:4px">方案 B：如申诉被驳回 → 专家协商</div>
+          <div style="font-size:12px;color:#999;line-height:1.6">
+            岩育协商专家网络介入（覆盖全国主要城市），制定协商策略，与保司面对面谈判。
+          </div>
+        </div>
+
+        <div style="border:1px solid #e5e5e5;border-radius:8px;padding:12px">
+          <div style="font-size:13px;font-weight:600;color:#333;margin-bottom:4px">方案 C：如协商失败 → 诉讼兜底</div>
+          <div style="font-size:12px;color:#999;line-height:1.6">
+            推荐专注保险纠纷的合作律所，一二审全程支持。
+          </div>
+          <div style="margin-top:8px;background:#fce8e8;border-radius:6px;padding:8px 10px;font-size:11px;color:#389e0d">
+            &#128170; 诉讼无忧承诺：岩育承担律师基础费+法院受理费，胜诉后理赔款全额归您，无需分成。
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="go('p_appeal_progress')">按顾问建议，开始申诉</button>
+      <button class="btn btn-secondary" onclick="go('p_contact')">先跟顾问详细聊聊</button>
+    </div>
+
+    <!-- 2-9b Appeal Progress -->
+    <div class="page" id="p_appeal_progress" data-title="申诉进度" data-tab="claim" data-back="p_claim_rejected">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div class="card-title" style="margin:0">申诉进度</div>
+          <span class="badge badge-blue">申诉中</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">拒赔通知收到</div>
+            <div class="timeline-time">2026-05-10</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">顾问分析拒赔理由</div>
+            <div class="timeline-desc">判定：拒赔理由不合理，建议申诉</div>
+            <div class="timeline-time">2026-05-10</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot done"></div>
+            <div class="timeline-title">补充材料准备完成</div>
+            <div class="timeline-desc">补充病理报告、医生情况说明书</div>
+            <div class="timeline-time">2026-05-12</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-title">正式申诉已提交</div>
+            <div class="timeline-desc">等待保险公司复核（预计15个工作日）</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-title">复核结果</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="msg-label">顾问跟进</div>
+      <div class="msg-bubble">
+        申诉材料已提交，我们会持续跟进审核进度。根据过往类似案例，补充材料后翻转成功率较高，请放心等待。有任何进展会第一时间通知您。
+      </div>
+
+      <button class="btn btn-secondary" onclick="go('p_contact')">联系顾问</button>
+    </div>
+
+    <!-- 2-9 Final Result -->
+    <div class="page" id="p_claim_result_final" data-title="理赔结果" data-tab="claim" data-back="p_claim_progress">
+      <div class="result-box">
+        <div class="result-icon">&#127881;</div>
+        <div class="result-title" style="color:#CC0000">理赔成功</div>
+        <div style="font-size:32px;font-weight:800;color:#CC0000;margin:8px 0">¥ 800,000.00</div>
+        <div class="result-desc">赔款将于 3 个工作日内到账</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">核定明细</div>
+        <div class="info-row">
+          <span class="label">总费用</span>
+          <span class="value">¥1,000,000</span>
+        </div>
+        <div class="info-row">
+          <span class="label">免赔额</span>
+          <span class="value">- ¥20,000</span>
+        </div>
+        <div class="info-row">
+          <span class="label">赔付比例</span>
+          <span class="value">80%</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">实际赔付</span>
+          <span class="value" style="color:#CC0000;font-weight:700">¥800,000</span>
+        </div>
+      </div>
+
+      <div class="msg-label">理赔顾问提醒</div>
+      <div class="msg-bubble">
+        恭喜您理赔成功！后续如有复查或用药需要报销，请提前联系我们预审材料，可以提高通过率。我们也会定期提醒您保单内的其他权益。
+      </div>
+
+      <button class="btn btn-primary" onclick="go('p_home')">返回首页</button>
+      <button class="btn btn-secondary" onclick="go('p_contact')">联系理赔顾问</button>
+    </div>
+
+    <!-- 2-10 Contact Advisor -->
+    <div class="page" id="p_contact" data-title="联系顾问" data-tab="claim" data-back="p_home">
+      <div class="card" style="text-align:center">
+        <div class="card-title">您的专属理赔顾问</div>
+        <div style="font-size:18px;font-weight:700;margin:8px 0">岩育健康 · 理赔服务部</div>
+        <div class="qr-placeholder">
+          <div style="font-size:32px">&#128247;</div>
+          <div>企业微信二维码</div>
+        </div>
+        <div class="card-desc">长按识别二维码，添加理赔顾问<br>工作日 9:00 - 18:00 在线服务</div>
+      </div>
+      <div class="card">
+        <div class="card-desc" style="text-align:center">
+          &#128161; <strong>温馨提示</strong><br>下次理赔或换治疗方案前，请先联系我们<br>提前预审材料可大幅提高通过率<br><br>&#128203; 如果您权益使用完，请通知我们，我们会为您记录。
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== MODULE 3: Benefits Dashboard ===================== -->
+
+    <!-- 3-1 Benefits Overview -->
+    <div class="page" id="p_benefits" data-title="健康管家" data-tab="benefits" data-back="">
+
+      <!-- 需求分析说明 -->
+      <div class="card" style="border-left:4px solid #CC0000;padding:12px 14px">
+        <div style="font-size:12px;color:#999;margin-bottom:2px">基于您的健康档案自动分析</div>
+        <div style="font-size:13px;color:#333;line-height:1.6">弥漫大B细胞淋巴瘤 · CAR-T 术后 14 个月 · 2 份保单</div>
+      </div>
+
+      <div class="section-title">您可能需要：</div>
+
+      <div class="need-grid">
+        <!-- 彩色 = 保单已覆盖 -->
+        <div class="need-item covered" onclick="go('p_benefit_detail_generic')">
+          <div class="ni-icon">&#128137;</div>
+          <div class="ni-name">癌症风险评估</div>
+          <div class="ni-source">烟台健康保</div>
+        </div>
+        <div class="need-item covered" onclick="go('p_benefit_detail_generic')">
+          <div class="ni-icon">&#127793;</div>
+          <div class="ni-name">全球找特药</div>
+          <div class="ni-source">烟台健康保</div>
+        </div>
+        <div class="need-item covered" onclick="go('p_benefit_detail_generic')">
+          <div class="ni-icon">&#127973;</div>
+          <div class="ni-name">专家门诊预约</div>
+          <div class="ni-source">烟台健康保</div>
+        </div>
+        <div class="need-item covered" onclick="go('p_benefit_family_doc')">
+          <div class="ni-icon">&#128105;&#8205;&#9877;&#65039;</div>
+          <div class="ni-name">家医咨询</div>
+          <div class="ni-source">烟台健康保</div>
+        </div>
+        <div class="need-item covered" onclick="go('p_benefit_oral')">
+          <div class="ni-icon">&#129463;</div>
+          <div class="ni-name">口腔洁牙</div>
+          <div class="ni-source">烟台健康保</div>
+        </div>
+        <div class="need-item covered" onclick="go('p_benefit_detail_generic')">
+          <div class="ni-icon">&#128138;</div>
+          <div class="ni-name">线上购药折扣</div>
+          <div class="ni-source">烟台健康保</div>
+        </div>
+        <div class="need-item covered" onclick="go('p_benefit_detail_generic')">
+          <div class="ni-icon">&#128587;</div>
+          <div class="ni-name">安心陪诊</div>
+          <div class="ni-source">烟台健康保</div>
+        </div>
+        <div class="need-item covered" onclick="go('p_benefit_detail_generic')">
+          <div class="ni-icon">&#128150;</div>
+          <div class="ni-name">心理咨询</div>
+          <div class="ni-source">烟台健康保</div>
+        </div>
+        <div class="need-item covered" onclick="go('p_benefit_detail_generic')">
+          <div class="ni-icon">&#127769;</div>
+          <div class="ni-name">睡眠管理</div>
+          <div class="ni-source">烟台健康保</div>
+        </div>
+        <div class="need-item covered" onclick="go('p_benefit_detail_generic')">
+          <div class="ni-icon">&#127973;</div>
+          <div class="ni-name">重疾二次诊疗</div>
+          <div class="ni-source alt">平安e生保</div>
+        </div>
+        <div class="need-item covered" onclick="go('p_benefit_detail_generic')">
+          <div class="ni-icon">&#127973;</div>
+          <div class="ni-name">住院绿通</div>
+          <div class="ni-source alt">平安e生保</div>
+        </div>
+
+        <!-- 灰色 = 保单未覆盖 -->
+        <div class="need-item uncovered" onclick="go('p_benefit_activate')">
+          <div class="ni-badge">去开通</div>
+          <div class="ni-icon">&#129367;</div>
+          <div class="ni-name">营养师指导</div>
+        </div>
+        <div class="need-item uncovered" onclick="go('p_benefit_activate')">
+          <div class="ni-badge">去开通</div>
+          <div class="ni-icon">&#127807;</div>
+          <div class="ni-name">中医调理</div>
+        </div>
+        <div class="need-item uncovered" onclick="go('p_benefit_activate')">
+          <div class="ni-badge">去开通</div>
+          <div class="ni-icon">&#129516;</div>
+          <div class="ni-name">基因检测</div>
+        </div>
+      </div>
+
+      <div class="card" style="background:#fafafa;border:1px dashed #d9d9d9;text-align:center;padding:12px;font-size:12px;color:#999">
+        灰色权益可通过岩育健康为您对接供应商开通
+      </div>
+
+      <div class="section-title" style="margin-top:16px">到期提醒</div>
+      <div class="card" style="background:#fffbe6;border:1px solid #ffe58f">
+        <div class="card-desc" style="color:#d48806">
+          &#9888; 您在「烟台市民健康保」的「口腔洁牙」权益将于 2026-12-31 到期，若未使用，建议尽快使用<br>
+          &#9888; 您在「烟台市民健康保」的「安心陪诊」权益将于 2026-12-31 到期，若未使用，建议尽快使用<br>
+          &#9888; 您在「烟台市民健康保」的「青少年心理咨询」权益将于 2026-12-31 到期，若未使用，建议尽快使用
+        </div>
+      </div>
+    </div>
+
+    <!-- 3-1b Benefit Detail (uncovered - 营养师指导) -->
+    <div class="page" id="p_benefit_activate" data-title="权益详情" data-tab="benefits" data-back="p_benefits">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="benefits-icon" style="background:#f5f5f5;font-size:28px;opacity:.5">&#129367;</div>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#999">营养师指导</div>
+            <span class="badge" style="background:#fff1f0;color:#f5222d;margin-top:4px">未覆盖</span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">权益介绍</div>
+        <div class="card-desc" style="line-height:1.8">
+          <b>服务内容：</b>专业营养师 1V1 线上咨询，根据您的病种、疗程阶段和体质，制定个性化膳食方案与营养补充建议。<br><br>
+          <b>适用人群：</b>CAR-T 术后恢复期患者、长期化疗/免疫治疗患者、需要营养支持的重症患者。<br><br>
+          <b>服务形式：</b>线上图文/语音咨询，首次 30 分钟，后续跟踪调整。<br><br>
+          <b>为什么推荐您：</b>您目前处于 CAR-T 术后恢复期（14 个月），合理的营养管理有助于免疫系统重建和长期康复。
+        </div>
+      </div>
+      <div class="card" style="background:#fffbe6;border:1px solid #ffe58f">
+        <div class="card-desc" style="color:#d48806">&#9888; 此权益未被您当前的保单覆盖。岩育可为您对接专业供应商，协助开通此服务。</div>
+      </div>
+      <button class="btn btn-primary" onclick="go('p_benefit_activate_qr')">申请开通</button>
+      <button class="btn btn-secondary" onclick="go('p_benefits')">返回健康管家</button>
+    </div>
+
+    <!-- 3-1c Benefit Activate QR (scan to contact) -->
+    <div class="page" id="p_benefit_activate_qr" data-title="申请开通" data-tab="benefits" data-back="p_benefit_activate">
+      <div class="card" style="text-align:center;padding:20px">
+        <div style="font-size:16px;font-weight:700;margin-bottom:4px">申请已提交</div>
+        <div class="card-desc" style="margin-bottom:16px">请扫码联系权益助手，我们将为您对接供应商</div>
+        <div class="qr-placeholder">
+          <div style="font-size:32px">&#128247;</div>
+          <div>权益助手二维码</div>
+        </div>
+        <div class="card-desc" style="margin-top:12px">
+          扫码添加岩育权益助手<br>
+          工作日 9:00-18:00 在线<br><br>
+          <span style="color:#CC0000;font-weight:600">助手将在 1 个工作日内联系您</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">开通流程</div>
+        <div class="card-desc">
+          1. 扫码添加权益助手（或截图保存后续扫码）<br>
+          2. 告知助手您想开通的权益<br>
+          3. 助手为您匹配供应商并报价<br>
+          4. 确认后即可使用该权益
+        </div>
+      </div>
+      <button class="btn btn-secondary" onclick="go('p_benefits')">返回健康管家</button>
+    </div>
+
+    <!-- 3-2a Benefit Detail: 口腔洁牙 (real data) -->
+    <div class="page" id="p_benefit_oral" data-title="口腔洁牙" data-tab="benefits" data-back="p_benefits">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="benefits-icon" style="background:#fce8e8;font-size:28px">&#129463;</div>
+          <div>
+            <div style="font-size:18px;font-weight:700">口腔洁牙 / 儿童涂氟</div>
+            <div style="font-size:12px;color:#999">来源保单：烟台市民健康保 2026</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="label">权益来源</span>
+          <span class="value"><span class="badge badge-blue" style="cursor:pointer" onclick="go('p_policy_yantai')">烟台市民健康保 2026 ></span></span>
+        </div>
+        <div class="info-row">
+          <span class="label">年度限额</span>
+          <span class="value">1 次（二选一）</span>
+        </div>
+        <div class="info-row">
+          <span class="label">使用回报</span>
+          <span class="value">今年您已回报过使用了 0 次</span>
+        </div>
+        <div class="info-row">
+          <span class="label">有效期至</span>
+          <span class="value">2026-12-31</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">服务商</span>
+          <span class="value">镁信健康（线上预约到店）</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">使用流程</div>
+        <div class="card-desc">
+          1. 服务号 → "健康服务" → "口腔福利"<br>
+          2. 线上选择门店 & 预约时间<br>
+          3. 等待门店客服回访确认<br>
+          4. 按预约时间到店，出示证明即可
+        </div>
+      </div>
+
+      <div class="card" style="background:#fffbe6;border:1px solid #ffe58f">
+        <div class="card-desc" style="color:#d48806">
+          &#9888; 需提前1个工作日预约<br>
+          &#9888; 核销后无法取消，超时需与门店重新安排<br>
+          &#9888; 不含任何捆绑销售项目
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="go('p_benefit_history')">查看使用记录</button>
+      <button class="btn btn-secondary" onclick="go('p_contact')">询问顾问如何预约</button>
+    </div>
+
+    <!-- 3-2b Benefit Detail: 家医咨询 (real data) -->
+    <div class="page" id="p_benefit_family_doc" data-title="家医咨询" data-tab="benefits" data-back="p_benefits">
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <div class="benefits-icon" style="background:#e6f0ff;font-size:28px">&#128105;&#8205;&#9877;&#65039;</div>
+          <div>
+            <div style="font-size:18px;font-weight:700">家医咨询</div>
+            <div style="font-size:12px;color:#999">来源保单：烟台市民健康保 2026</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="label">权益来源</span>
+          <span class="value"><span class="badge badge-blue" style="cursor:pointer" onclick="go('p_policy_yantai')">烟台市民健康保 2026 ></span></span>
+        </div>
+        <div class="info-row">
+          <span class="label">使用次数</span>
+          <span class="value" style="color:#CC0000;font-weight:700">不限次</span>
+        </div>
+        <div class="info-row">
+          <span class="label">使用回报</span>
+          <span class="value">今年您已回报过使用了 0 次</span>
+        </div>
+        <div class="info-row">
+          <span class="label">单次时长</span>
+          <span class="value">不超过 15 分钟</span>
+        </div>
+        <div class="info-row">
+          <span class="label">响应速度</span>
+          <span class="value">3 分钟内</span>
+        </div>
+        <div class="info-row">
+          <span class="label">服务时间</span>
+          <span class="value">10:00 - 19:00</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">服务范围</span>
+          <span class="value">线上健康咨询、饮食运动指导</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">使用流程</div>
+        <div class="card-desc">
+          1. 服务号 → "健康服务" → "家医咨询"<br>
+          2. 发起咨询，提出具体问题<br>
+          3. 医生 3 分钟内接单回复<br>
+          4. 完成咨询（暂不支持购药）
+        </div>
+      </div>
+
+      <button class="btn btn-secondary" onclick="go('p_contact')">询问顾问如何预约</button>
+    </div>
+
+    <!-- 3-2c Generic Benefit Detail -->
+    <div class="page" id="p_benefit_detail_generic" data-title="权益详情" data-tab="benefits" data-back="p_benefits">
+      <div class="card" style="text-align:center;padding:32px">
+        <div style="font-size:48px;margin-bottom:12px">&#128203;</div>
+        <div style="font-size:16px;font-weight:600;margin-bottom:8px">权益详情</div>
+        <div class="card-desc">点击上方各权益卡片可查看详细使用说明。<br>目前已展开：口腔洁牙、家医咨询。<br><br>其余权益的详情页将在正式开发中完善。</div>
+      </div>
+      <button class="btn btn-secondary" onclick="go('p_benefits')">返回权益看板</button>
+      <button class="btn btn-secondary" onclick="go('p_contact')">联系顾问咨询</button>
+    </div>
+
+    <!-- 3-3 Benefit Usage History -->
+    <div class="page" id="p_benefit_history" data-title="使用记录" data-tab="benefits" data-back="p_benefits">
+      <div class="card">
+        <div class="card-title">使用记录</div>
+        <div class="empty-state">
+          <div class="icon">&#128196;</div>
+          <div class="text">暂无使用记录<br><span style="font-size:12px;color:#bbb">使用权益后将自动记录</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== MODULE 4: My Profile ===================== -->
+
+    <!-- 4-1 Profile -->
+    <div class="page" id="p_profile" data-title="我的" data-tab="profile" data-back="">
+      <div class="card" style="display:flex;align-items:center;gap:14px">
+        <div style="width:56px;height:56px;background:#CC0000;border-radius:50%;display:flex;align-items:center;
+          justify-content:center;font-size:24px;color:#fff;flex-shrink:0">&#128100;</div>
+        <div>
+          <div style="font-size:17px;font-weight:700">张先生</div>
+          <div style="font-size:12px;color:#999;margin-top:2px">手机：138****5678 · 烟台市</div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">我的保单</div>
+      <div class="card" style="cursor:pointer" onclick="go('p_policy_yantai')">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:14px;font-weight:600">烟台市民健康保 2026</div>
+            <div style="font-size:12px;color:#999;margin-top:2px">有效期至 2026-12-31</div>
+          </div>
+          <span class="badge badge-green">生效中 ></span>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="go('p_policy_pingan')">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:14px;font-weight:600">平安 e 生保 2025</div>
+            <div style="font-size:12px;color:#999;margin-top:2px">有效期至 2027-03-15</div>
+          </div>
+          <span class="badge badge-green">生效中 ></span>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">服务记录</div>
+      <div class="card">
+        <div class="info-row">
+          <span class="label">理赔咨询</span>
+          <span class="value">2 次</span>
+        </div>
+        <div class="info-row">
+          <span class="label">理赔成功</span>
+          <span class="value" style="color:#CC0000">1 次</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">累计获赔</span>
+          <span class="value" style="color:#CC0000;font-weight:700">¥812,500</span>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">资料管理</div>
+      <div class="card" style="cursor:pointer" onclick="go('p_my_docs')">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:20px">&#128194;</span>
+            <div>
+              <div style="font-size:14px;font-weight:600">我的资料库</div>
+              <div style="font-size:12px;color:#999">保单、病历、理赔材料</div>
+            </div>
+          </div>
+          <span style="color:#ccc">></span>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">设置</div>
+      <div class="card">
+        <div class="info-row" style="cursor:pointer">
+          <span class="value">上传新保单</span>
+          <span class="label">></span>
+        </div>
+        <div class="info-row" style="cursor:pointer">
+          <span class="value">修改个人信息</span>
+          <span class="label">></span>
+        </div>
+        <div class="info-row" style="cursor:pointer;border:none">
+          <span class="value">联系客服</span>
+          <span class="label">></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Documents -->
+    <div class="page" id="p_my_docs" data-title="我的资料库" data-tab="profile" data-back="p_profile">
+      <div class="section-title">保单（2 份）</div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">&#128196;</span>
+            <div>
+              <div style="font-size:13px;font-weight:600">烟台市民健康保 2026</div>
+              <div style="font-size:11px;color:#999">上传于 2026-03-20 · PDF</div>
+            </div>
+          </div>
+          <span class="badge badge-green">已解析</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">&#128196;</span>
+            <div>
+              <div style="font-size:13px;font-weight:600">平安 e 生保 2025</div>
+              <div style="font-size:11px;color:#999">上传于 2026-03-20 · 照片</div>
+            </div>
+          </div>
+          <span class="badge badge-green">已解析</span>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:12px">病历资料（4 份）</div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f5f5f5">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">&#127973;</span>
+            <div>
+              <div style="font-size:13px;font-weight:600">确诊报告（病理）</div>
+              <div style="font-size:11px;color:#999">毓璜顶医院 · 2025-01-20</div>
+            </div>
+          </div>
+          <span class="badge badge-green">&#10003;</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f5f5f5">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">&#127973;</span>
+            <div>
+              <div style="font-size:13px;font-weight:600">住院病历 / 出院小结</div>
+              <div style="font-size:11px;color:#999">毓璜顶医院 · 2025-03-05</div>
+            </div>
+          </div>
+          <span class="badge badge-green">&#10003;</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f5f5f5">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">&#127973;</span>
+            <div>
+              <div style="font-size:13px;font-weight:600">CAR-T 治疗方案说明</div>
+              <div style="font-size:11px;color:#999">毓璜顶医院 · 2025-02-10</div>
+            </div>
+          </div>
+          <span class="badge badge-green">&#10003;</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">&#128138;</span>
+            <div>
+              <div style="font-size:13px;font-weight:600">处方/用药记录</div>
+              <div style="font-size:11px;color:#999">毓璜顶医院 · 2025-03-05</div>
+            </div>
+          </div>
+          <span class="badge badge-green">&#10003;</span>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:12px">理赔材料（YY20260331001）</div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f5f5f5">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">&#128179;</span>
+            <div>
+              <div style="font-size:13px;font-weight:600">身份证正反面</div>
+              <div style="font-size:11px;color:#999">上传于 2026-03-30</div>
+            </div>
+          </div>
+          <span class="badge badge-green">&#10003;</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f5f5f5">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">&#129534;</span>
+            <div>
+              <div style="font-size:13px;font-weight:600">医疗费用发票</div>
+              <div style="font-size:11px;color:#999">¥1,000,000 · 2026-03-30</div>
+            </div>
+          </div>
+          <span class="badge badge-green">&#10003;</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f5f5f5">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">&#128203;</span>
+            <div>
+              <div style="font-size:13px;font-weight:600">费用汇总清单</div>
+              <div style="font-size:11px;color:#999">上传于 2026-03-30</div>
+            </div>
+          </div>
+          <span class="badge badge-green">&#10003;</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:18px">&#128179;</span>
+            <div>
+              <div style="font-size:13px;font-weight:600">银行卡正反面</div>
+              <div style="font-size:11px;color:#999">上传于 2026-03-30</div>
+            </div>
+          </div>
+          <span class="badge badge-green">&#10003;</span>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <button class="btn btn-secondary" onclick="go('p_upload_policy')">上传新资料</button>
+      </div>
+    </div>
+
+    <!-- ===================== Message Center ===================== -->
+
+    <div class="page" id="p_messages" data-title="消息中心" data-tab="" data-back="p_home">
+      <div class="section-title">今天</div>
+
+      <div class="card" style="cursor:pointer" onclick="go('p_claim_progress')">
+        <div style="display:flex;gap:10px">
+          <div style="width:36px;height:36px;background:#CC0000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0">&#128100;</div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-size:13px;font-weight:600">理赔顾问</div>
+              <div style="font-size:11px;color:#bbb">10:32</div>
+            </div>
+            <div style="font-size:12px;color:#666;margin-top:4px;line-height:1.5">您的 CAR-T 理赔材料已通过预审，已提交审查单位。预计 10~30 个工作日内核定，有进展会第一时间通知您。</div>
+            <span class="badge badge-orange" style="margin-top:6px">审核中</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">昨天</div>
+
+      <div class="card" style="cursor:pointer" onclick="go('p_checklist')">
+        <div style="display:flex;gap:10px">
+          <div style="width:36px;height:36px;background:#CC0000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0">&#128100;</div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-size:13px;font-weight:600">理赔顾问</div>
+              <div style="font-size:11px;color:#bbb">昨天 16:45</div>
+            </div>
+            <div style="font-size:12px;color:#666;margin-top:4px;line-height:1.5">材料预审完成，有 1 项需要补充：请补充「CAR-T 治疗方案说明」。点击查看清单。</div>
+            <span class="badge badge-blue" style="margin-top:6px">需补件</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-title" style="margin-top:16px">更早</div>
+
+      <div class="card" style="cursor:pointer" onclick="go('p_claim_result')">
+        <div style="display:flex;gap:10px">
+          <div style="width:36px;height:36px;background:#CC0000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0">&#128100;</div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-size:13px;font-weight:600">理赔顾问</div>
+              <div style="font-size:11px;color:#bbb">03-29 14:20</div>
+            </div>
+            <div style="font-size:12px;color:#666;margin-top:4px;line-height:1.5">您好张先生，理赔评估报告已生成。经评估您的情况符合理赔条件，预估可报销约 ¥800,000。点击查看详情。</div>
+            <span class="badge badge-green" style="margin-top:6px">评估完成</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;gap:10px">
+          <div style="width:36px;height:36px;background:#fa8c16;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0">&#128276;</div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-size:13px;font-weight:600">系统提醒</div>
+              <div style="font-size:11px;color:#bbb">03-25</div>
+            </div>
+            <div style="font-size:12px;color:#666;margin-top:4px;line-height:1.5">您的「烟台市民健康保」口腔洁牙权益即将到期（2026-12-31），还有 1 次未使用，建议尽早预约。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;gap:10px">
+          <div style="width:36px;height:36px;background:#1890ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;flex-shrink:0">&#127881;</div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-size:13px;font-weight:600">系统通知</div>
+              <div style="font-size:11px;color:#bbb">03-20</div>
+            </div>
+            <div style="font-size:12px;color:#666;margin-top:4px;line-height:1.5">欢迎加入岩育健康！您的账户已创建成功，专属理赔顾问已分配，有任何问题随时联系我们。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== Policy Detail Pages ===================== -->
+
+    <!-- Policy: 烟台市民健康保 -->
+    <div class="page" id="p_policy_yantai" data-title="保单详情" data-tab="profile" data-back="p_profile">
+      <div class="card" style="background:linear-gradient(135deg,#1890ff,#096dd9);color:#fff;border:none">
+        <div style="font-size:18px;font-weight:700">烟台市民健康保 2026</div>
+        <div style="font-size:12px;opacity:.7;margin-top:4px">B款升级版 · 惠民型商业健康保险</div>
+        <div style="display:flex;gap:16px;margin-top:14px">
+          <div>
+            <div style="font-size:22px;font-weight:800">300万</div>
+            <div style="font-size:10px;opacity:.7">最高保额</div>
+          </div>
+          <div>
+            <div style="font-size:22px;font-weight:800">138元</div>
+            <div style="font-size:10px;opacity:.7">年保费</div>
+          </div>
+          <div>
+            <div style="font-size:22px;font-weight:800">1.8万</div>
+            <div style="font-size:10px;opacity:.7">免赔额</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">保障责任</div>
+        <div class="info-row">
+          <span class="label">责任一</span>
+          <span class="value">医保内自付（80%，上限100万）</span>
+        </div>
+        <div class="info-row">
+          <span class="label">责任二</span>
+          <span class="value">医保内高额（超45万部分100%）</span>
+        </div>
+        <div class="info-row">
+          <span class="label">责任三</span>
+          <span class="value">医保外全部自费（上限100万）</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">责任四</span>
+          <span class="value">115种特药（0免赔，100%，上限100万）</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">特药覆盖（与您相关）</div>
+        <div class="info-row">
+          <span class="label">CAR-T 疗法</span>
+          <span class="value" style="color:#CC0000;font-weight:700">&#10003; 在目录内</span>
+        </div>
+        <div class="info-row">
+          <span class="label">元瑞达（奥基仑赛）</span>
+          <span class="value" style="color:#CC0000;font-weight:700">&#10003; 在目录内</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">特药总数</span>
+          <span class="value">50种国内 + 65种国外</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">理赔使用情况</div>
+        <div class="info-row">
+          <span class="label">已理赔金额</span>
+          <span class="value" style="color:#CC0000;font-weight:700">¥812,500</span>
+        </div>
+        <div class="info-row">
+          <span class="label">剩余保额</span>
+          <span class="value">约 ¥2,187,500</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">健管服务</span>
+          <span class="value"><span class="badge badge-blue" style="cursor:pointer" onclick="go('p_benefits')">11项 查看 ></span></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">基本信息</div>
+        <div class="info-row">
+          <span class="label">投保日期</span>
+          <span class="value">2025-11-15</span>
+        </div>
+        <div class="info-row">
+          <span class="label">保障期</span>
+          <span class="value">2026-01-01 至 2026-12-31</span>
+        </div>
+        <div class="info-row">
+          <span class="label">主承保</span>
+          <span class="value">海保人寿 + 13家共保体</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">可带病投保</span>
+          <span class="value" style="color:#CC0000">&#10003; 是</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Policy: 平安e生保 -->
+    <div class="page" id="p_policy_pingan" data-title="保单详情" data-tab="profile" data-back="p_profile">
+      <div class="card" style="background:linear-gradient(135deg,#fa8c16,#d46b08);color:#fff;border:none">
+        <div style="font-size:18px;font-weight:700">平安 e 生保 2025</div>
+        <div style="font-size:12px;opacity:.7;margin-top:4px">百万医疗险 · 平安健康保险</div>
+        <div style="display:flex;gap:16px;margin-top:14px">
+          <div>
+            <div style="font-size:22px;font-weight:800">400万</div>
+            <div style="font-size:10px;opacity:.7">最高保额</div>
+          </div>
+          <div>
+            <div style="font-size:22px;font-weight:800">1,200元</div>
+            <div style="font-size:10px;opacity:.7">年保费</div>
+          </div>
+          <div>
+            <div style="font-size:22px;font-weight:800">1万</div>
+            <div style="font-size:10px;opacity:.7">免赔额</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">保障责任</div>
+        <div class="info-row">
+          <span class="label">一般医疗</span>
+          <span class="value">200万（含住院+门诊手术）</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">重疾医疗</span>
+          <span class="value">400万（0免赔）</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">与您相关</div>
+        <div class="info-row">
+          <span class="label">恶性肿瘤</span>
+          <span class="value" style="color:#CC0000;font-weight:700">&#10003; 属于重疾，0免赔</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">CAR-T 疗法</span>
+          <span class="value" style="color:#CC0000;font-weight:700">&#10003; 在保障范围内</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">理赔使用情况</div>
+        <div class="info-row">
+          <span class="label">已理赔</span>
+          <span class="value">¥0（尚未使用）</span>
+        </div>
+        <div class="info-row" style="border:none">
+          <span class="label">剩余保额</span>
+          <span class="value">¥4,000,000</span>
+        </div>
+      </div>
+
+      <div class="card" style="background:#fffbe6;border:1px solid #ffe58f">
+        <div class="card-desc" style="color:#d48806">
+          &#128161; <strong>顾问建议</strong>：您的平安e生保与烟台市民健康保可叠加理赔。建议下次复查费用先申请烟台市民健康保报销，超出部分再申请平安e生保二次报销，最大化您的权益。
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar">
+    <div class="tab-item active" data-tab="home" onclick="switchTab('home')">
+      <div class="icon">&#127968;</div>
+      <div class="label">首页</div>
+    </div>
+    <div class="tab-item" data-tab="claim" onclick="switchTab('claim')">
+      <div class="icon">&#128203;</div>
+      <div class="label">理赔服务</div>
+    </div>
+    <div class="tab-item" data-tab="benefits" onclick="switchTab('benefits')">
+      <div class="icon">&#127873;</div>
+      <div class="label">健康管家</div>
+    </div>
+    <div class="tab-item" data-tab="profile" onclick="switchTab('profile')">
+      <div class="icon">&#128100;</div>
+      <div class="label">我的</div>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Switch Button (outside phone frame) -->
+<div style="position:fixed;bottom:20px;left:20px;display:flex;gap:8px;z-index:999;flex-wrap:wrap">
+  <div style="background:#1890ff;color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(24,144,255,.3);display:flex;align-items:center;gap:6px"
+    onclick="document.body.classList.toggle('web-mode');this.querySelector('span').textContent=document.body.classList.contains('web-mode')?'手机模式':'网页模式'">
+    &#128241; <span>网页模式</span>
+  </div>
+  <div style="background:#001529;color:#fff;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3);display:flex;align-items:center;gap:6px"
+    onclick="window.open('admin-demo.html','_blank')">
+    &#128187; 顾问后台
+  </div>
+  <div style="background:#fff;color:#333;padding:8px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);border:1px solid #e5e5e5;display:flex;align-items:center;gap:6px"
+    onclick="go('p_welcome')">
+    &#128257; 重置
+  </div>
+</div>
+
+<button class="dev-toggle" id="devToggle" onclick="toggleDevMode()">&#127991; 開發模式</button>
+
+<script>
+// ===== Navigation State =====
+const history = ['p_home'];
+const TAB_HOME = {home:'p_home', claim:'p_service_hub', benefits:'p_benefits', profile:'p_profile'};
+
+function go(pageId) {
+  history.push(pageId);
+  showPage(pageId);
+}
+
+function goBack() {
+  if (history.length > 1) {
+    history.pop();
+    showPage(history[history.length - 1]);
+  }
+}
+
+function switchTab(tab) {
+  const pageId = TAB_HOME[tab];
+  history.length = 0;
+  history.push(pageId);
+  showPage(pageId);
+  document.querySelectorAll('.tab-item').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+}
+
+function showPage(pageId) {
+  const pages = document.querySelectorAll('.page');
+  pages.forEach(p => p.classList.remove('active'));
+  const page = document.getElementById(pageId);
+  if (!page) return;
+  page.classList.add('active');
+
+  // Update nav
+  const title = page.dataset.title || '';
+  document.getElementById('navTitle').textContent = title;
+  const backPage = page.dataset.back;
+  document.getElementById('navBack').style.visibility = backPage ? 'visible' : 'hidden';
+
+  // Update tab highlight
+  const tab = page.dataset.tab;
+  if (tab) {
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  }
+
+  // Scroll to top
+  document.getElementById('pageBody').scrollTop = 0;
+}
+
+function toggleCheck(el) {
+  const circle = el.querySelector('.check-circle');
+  circle.classList.toggle('checked');
+}
+
+// ===== Step Progress Bar Auto-Injection =====
+const CLAIM_STEPS = [
+  {pages:['p_claim_start','p_claim_upload'], label:'咨询', idx:0},
+  {pages:['p_claim_pending'], label:'评估', idx:1},
+  {pages:['p_claim_result'], label:'结果', idx:2},
+  {pages:['p_select_type','p_checklist'], label:'选类型', idx:3},
+  {pages:['p_claim_info','p_insured_info','p_contact_info','p_payee_info','p_guardian_info'], label:'填信息', idx:4},
+  {pages:['p_identity_upload','p_documents_upload'], label:'传材料', idx:5},
+  {pages:['p_submit_review','p_submit_success'], label:'提交', idx:6},
+];
+const STEP_LABELS = CLAIM_STEPS.map(s=>s.label);
+function getStepIndex(pageId){for(const s of CLAIM_STEPS){if(s.pages.includes(pageId))return s.idx}return -1}
+function renderStepBar(activeIdx){
+  if(activeIdx<0)return '';
+  let h='<div class="step-bar">';
+  STEP_LABELS.forEach((l,i)=>{
+    const cls=i<activeIdx?'done':i===activeIdx?'active':'';
+    const lc=i<activeIdx?'done':i===activeIdx?'active':'';
+    if(i>0)h+=`<div class="line ${i<=activeIdx?'done':''}"></div>`;
+    h+=`<div class="step"><div class="dot ${cls}">${i<activeIdx?'✓':i+1}</div><div class="step-label ${lc}">${l}</div></div>`;
+  });
+  return h+'</div>';
+}
+
+// Patch showPage to inject step bar
+const _origShowPage = showPage;
+showPage = function(pageId){
+  _origShowPage(pageId);
+  // Remove old step bars
+  document.querySelectorAll('.step-bar').forEach(el=>el.remove());
+  // Inject if this page is in claim flow
+  const idx = getStepIndex(pageId);
+  if(idx >= 0){
+    const page = document.getElementById(pageId);
+    if(page) page.insertAdjacentHTML('afterbegin', renderStepBar(idx));
+  }
+};
+
+// ===== Dev Mode =====
+let devModeOn = false;
+
+// Page ID → 3-letter prefix mapping
+const PAGE_PREFIX = {
+  p_welcome:'WEL', p_about:'ABT', p_agreement:'AGR', p_register:'REG',
+  p_login:'LGN', p_basic_info:'BSI', p_upload_policy:'UPL', p_home:'HOM',
+  p_health_mgmt:'HLT', p_service_hub:'SVC', p_claim_start:'CLS',
+  p_claim_upload:'CLU', p_claim_pending:'CLP', p_claim_result:'CLR',
+  p_select_type:'STY', p_checklist:'CHK', p_claim_info:'CLI',
+  p_insured_info:'INS', p_contact_info:'CON', p_payee_info:'PAY',
+  p_guardian_info:'GRD', p_identity_upload:'IDU', p_documents_upload:'DCU',
+  p_submit_review:'SRV', p_submit_success:'SSC', p_claim_progress:'CPR',
+  p_claim_rejected:'CRJ', p_appeal_progress:'APL', p_claim_result_final:'CRF',
+  p_contact:'CTC', p_benefits:'BEN', p_benefit_oral:'BOR',
+  p_benefit_family_doc:'BFD', p_benefit_detail_generic:'BDG',
+  p_benefit_history:'BHI', p_profile:'PRF', p_my_docs:'DOC',
+  p_messages:'MSG', p_policy_yantai:'PYT', p_policy_pingan:'PPA',
+};
+function getPrefix(pageId){
+  if(PAGE_PREFIX[pageId]) return PAGE_PREFIX[pageId];
+  const parts = pageId.replace('p_','').split('_');
+  let p = parts.map(s=>s[0]||'').join('').toUpperCase();
+  while(p.length<3) p+='X';
+  return p.substring(0,3);
+}
+
+// Check if element has direct text content (not just from children)
+function hasOwnText(el){
+  for(const n of el.childNodes){
+    if(n.nodeType===3 && n.textContent.trim()) return true;
+  }
+  return false;
+}
+
+// Check if element is a meaningful content/UI element worth tagging
+function isTaggable(el){
+  if(el.classList.contains('dev-tag')||el.classList.contains('dev-toggle')) return false;
+  if(el.tagName==='SCRIPT'||el.tagName==='STYLE') return false;
+  // Always tag interactive elements
+  if(el.matches('button,input,select,textarea,label,a')) return true;
+  if(el.hasAttribute('onclick')) return true;
+  // Always tag elements with recognized UI classes
+  if(el.matches('.card,.btn,.badge,.form-group,.form-input,.form-textarea,.form-select,.info-row,.checklist-item,.timeline-item,.upload-slot,.upload-area,.stat-box,.benefits-card,.msg-bubble,.section-title,.card-title,.card-desc,.hero-title,.hero-subtitle,.hero-icon,.result-box,.result-title,.result-desc,.benefits-icon,.benefits-name,.benefits-meta,.benefits-remain,.benefits-total,.benefits-count,.benefits-info,.check-circle,.timeline-dot,.progress-bar,.progress-fill,.step-bar,.qr-placeholder,.divider,.empty-state,.msg-label,.stat-num,.stat-label,.stat-row')) return true;
+  // Tag divs/spans that have direct text content
+  if(hasOwnText(el)) return true;
+  // Tag divs with visual styling (background, border) that act as visual containers
+  if(el.style.background||el.style.backgroundColor||el.style.borderLeft||el.style.borderColor) return true;
+  if(el.matches('[style*="background"]')) return true;
+  return false;
+}
+
+function addTag(el, code){
+  const cs = getComputedStyle(el);
+  if(cs.position==='static') el.style.position='relative';
+  el.classList.add('dev-highlight');
+  const tag = document.createElement('span');
+  tag.className='dev-tag';
+  tag.textContent=code;
+  el.prepend(tag);
+}
+
+function applyDevTags(){
+  clearDevTags();
+  const activePage = document.querySelector('.page.active');
+  if(!activePage) return;
+  const pageId = activePage.id||'_unknown';
+  const prefix = getPrefix(pageId);
+  // Walk ALL descendant elements in DOM order
+  const allEls = activePage.querySelectorAll('*');
+  const tagged = new Set();
+  let n = 1;
+  allEls.forEach(el=>{
+    if(tagged.has(el)) return;
+    if(!isTaggable(el)) return;
+    // Skip invisible elements
+    if(el.offsetWidth===0&&el.offsetHeight===0) return;
+    tagged.add(el);
+    addTag(el, prefix+String(n).padStart(3,'0'));
+    n++;
+  });
+  // Also tag chrome: nav-bar, status-bar, tab-bar, tab-items
+  document.querySelectorAll('.status-bar,.nav-bar,.nav-bar .back,.nav-bar .title,.nav-bar .right,.tab-bar,.tab-item').forEach(el=>{
+    if(tagged.has(el)) return;
+    tagged.add(el);
+    addTag(el,'NAV'+String(n).padStart(3,'0'));
+    n++;
+  });
+}
+
+function clearDevTags(){
+  document.querySelectorAll('.dev-tag').forEach(t => t.remove());
+  document.querySelectorAll('.dev-highlight').forEach(el => el.classList.remove('dev-highlight'));
+}
+
+function toggleDevMode(){
+  devModeOn = !devModeOn;
+  const btn = document.getElementById('devToggle');
+  if(devModeOn){
+    btn.classList.add('on');
+    btn.innerHTML = '&#9989; 開發模式 ON';
+    applyDevTags();
+  } else {
+    btn.classList.remove('on');
+    btn.innerHTML = '&#127991; 開發模式';
+    clearDevTags();
+  }
+}
+
+// Patch showPage to refresh dev tags on page change
+const _origShowPage2 = showPage;
+showPage = function(pageId){
+  _origShowPage2(pageId);
+  if(devModeOn) setTimeout(applyDevTags, 50);
+};
+
+// Init
+showPage('p_welcome');
+</script>
+
+</body>
+</html>
