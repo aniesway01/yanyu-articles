@@ -932,7 +932,7 @@ const CUSTOM_NODES = {
       {name:'其他支持材料', note:'✅ 已上传 · 已通过'},
       {name:'补充材料（可选）', note:'点击上传额外材料'}
     ],
-    buttons: [{text:'提交审核', goto:'CK18BK'}, {text:'确认以上材料无误', primary:true, goto:'DB05PL'}, {text:'返回我的看板', goto:'DB03PL'}]
+    buttons: [{text:'补充上传并重新审核', goto:'CK18BK'}, {text:'确认以上材料无误', primary:true, goto:'DB05PL'}, {text:'返回我的看板', goto:'DB03PL'}]
   },
   NT18WC: {
     type: 'page', title: '管家通知材料审核通过', icon: '\u2705', iconColor: '#3B7DED',
@@ -1120,7 +1120,7 @@ const CUSTOM_NODES = {
       {name:'申诉理由说明', note:'\u2705 已上传 · 已通过'},
       {name:'补充材料（可选）', note:'点击上传额外材料'}
     ],
-    buttons: [{text:'提交审核', goto:'CK29BK'}, {text:'确认以上材料无误', primary:true, goto:'DB07PL'}, {text:'返回我的看板', goto:'DB08PL'}]
+    buttons: [{text:'补充上传并重新审核', goto:'CK29BK'}, {text:'确认以上材料无误', primary:true, goto:'DB07PL'}, {text:'返回我的看板', goto:'DB08PL'}]
   },
   DB07PL: {
     type: 'dashboard',
@@ -1234,7 +1234,7 @@ const CUSTOM_NODES = {
     desc: [
       '申诉结论已上传。请选择后续操作：'
     ],
-    buttons: [{text:'我认可并接受', primary:true, goto:'OK01BK'}, {text:'继续申诉', goto:'AP28PL'}, {text:'升级 → 寻求外部支持', goto:'EX40WC'}]
+    buttons: [{text:'我认可并接受', primary:true, goto:'OK01BK'}, {text:'继续申诉', goto:'AP28PL'}, {text:'申请外部协助', goto:'EX40WC'}]
   },
   EX40WC: {
     type: 'page', title: '是否寻求外部资源', icon: '\uD83E\uDD1D', iconColor: '#3B7DED',
@@ -1479,12 +1479,16 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
   },
   DB00PL: {
-    type: 'dashboard',
+    type: 'dashboard-timeline',
     title: '我的看板',
-    projects: [
-      {name:'源瑞达患者关爱计划', status:'评估进行中', statusColor:'#2f81f7', goto:'PV02PL', date:'2024-01-15 申请'},
-      {name:'源瑞达患者关爱计划', status:'保障分析已完成', statusColor:'#238636', goto:'PV03PL', date:'2024-01-17 完成'},
-      {name:'源瑞达患者关爱计划', status:'理赔跟进中', statusColor:'#d29922', goto:'FU22PL', date:'2024-02-01 提交'}
+    project: {name:'源瑞达患者关爱计划', status:'保障分析已完成', statusColor:'#238636', goto:'PV03PL'},
+    timeline: [
+      {label:'入组申请', date:'01-15', done:true},
+      {label:'入组通过', date:'01-15', done:true},
+      {label:'保障分析中', date:'01-16', done:true},
+      {label:'分析已完成', date:'01-17', done:true, current:true},
+      {label:'理赔申请', date:'', done:false},
+      {label:'理赔跟进', date:'', done:false}
     ]
   },
   DB01PL: {
@@ -1540,7 +1544,7 @@ const CUSTOM_NODES = {
     type: 'dashboard',
     title: '我的看板',
     projects: [
-      {name:'源瑞达患者关爱计划', status:'材料已确认·待提交保司', statusColor:'#d29922', goto:'DB05DPL', date:'材料已锁定'}
+      {name:'源瑞达患者关爱计划', status:'材料已确认·待提交保司', statusColor:'#d29922', goto:'LK20PL', date:'材料已锁定'}
     ]
   },
   LK20PL: {
@@ -1659,6 +1663,42 @@ function renderCustom(nodeId) {
       '<div style="padding:8px 12px 12px;flex-shrink:0"><div onclick="showNodeUI(\'IN02PL\')" class="btn btn-secondary" style="cursor:pointer;width:100%;padding:8px;border-radius:8px;font-size:11px;font-weight:600;text-align:center;background:#fff;border:1px solid #e2e8f0;color:#475569">返回首页</div></div>' +
       '</div></div>';
     return db;
+  }
+  if (c.type === 'dashboard-timeline') {
+    var p=c.project;
+    var dt='<div class="phone-frame"><div style="display:flex;flex-direction:column;height:100%;background:#f8fafc">'+
+      '<div style="height:44px;background:#fff;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:center;flex-shrink:0">'+
+      '<span style="font-size:14px;font-weight:700;color:#1e293b">我的看板</span></div>'+
+      '<div style="flex:1;overflow-y:auto;padding:12px">'+
+      '<div onclick="showNodeUI(\''+p.goto+'\')" style="cursor:pointer;background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;border:1px solid #f1f5f9;box-shadow:0 1px 3px rgba(0,0,0,.05)">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">'+
+      '<span style="font-size:11px;font-weight:700;color:#1e293b">'+p.name+'</span>'+
+      '<span style="font-size:14px;color:#94a3b8">\u203A</span></div>'+
+      '<div style="display:flex;justify-content:space-between;align-items:center">'+
+      '<span style="font-size:9px;font-weight:600;color:'+p.statusColor+';background:'+p.statusColor+'15;padding:2px 8px;border-radius:10px">'+p.status+'</span></div></div>'+
+      '<div style="background:#fff;border-radius:12px;padding:14px;border:1px solid #f1f5f9">';
+    dt+='<div style="font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">进度时间轴</div>';
+    c.timeline.forEach(function(t,i){
+      var color=t.done?'#238636':'#d1d5db';
+      var textColor=t.done?'#1e293b':'#94a3b8';
+      var dotSize=t.current?'10px':'6px';
+      var dotBorder=t.current?'2px solid #238636':'none';
+      var dotBg=t.done?(t.current?'#fff':'#238636'):'#e5e7eb';
+      var isLast=i===c.timeline.length-1;
+      dt+='<div style="display:flex;gap:10px;min-height:28px">'+
+        '<div style="display:flex;flex-direction:column;align-items:center;width:12px;flex-shrink:0">'+
+        '<div style="width:'+dotSize+';height:'+dotSize+';border-radius:50%;background:'+dotBg+';border:'+dotBorder+';flex-shrink:0"></div>'+
+        (isLast?'':'<div style="width:1.5px;flex:1;background:'+(t.done?'#238636':'#e5e7eb')+'"></div>')+
+        '</div>'+
+        '<div style="display:flex;justify-content:space-between;flex:1;padding-bottom:8px">'+
+        '<span style="font-size:10px;color:'+textColor+';font-weight:'+(t.current?'700':'400')+'">'+t.label+'</span>'+
+        (t.date?'<span style="font-size:8px;color:#94a3b8">'+t.date+'</span>':'')+
+        '</div></div>';
+    });
+    dt+='</div></div>'+
+      '<div style="padding:8px 12px 12px;flex-shrink:0"><div onclick="showNodeUI(\'IN02PL\')" class="btn btn-secondary" style="cursor:pointer;width:100%;padding:8px;border-radius:8px;font-size:11px;font-weight:600;text-align:center;background:#fff;border:1px solid #e2e8f0;color:#475569">返回首页</div></div>'+
+      '</div></div>';
+    return dt;
   }
   // All other types render inside phone frame
   var isChat = !!c.chat;
