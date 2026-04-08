@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>岩育理赔流程 Demo</title>
 <script src="mermaid.min.js"></script>
+<script src="html2canvas.min.js"></script>
 <style>
 /* ========== Reset & Base (GitHub Dark) ========== */
 *{margin:0;padding:0;box-sizing:border-box}
@@ -26,7 +27,10 @@ textarea{resize:vertical}
 #left-panel.collapsed .panel-header{display:none}
 
 /* Center: Flowchart */
-#center-panel{display:flex;flex-direction:column;background:#0d1117;overflow:hidden;min-width:200px;flex:1}
+#center-panel{display:flex;flex-direction:column;background:#0d1117;overflow:hidden;min-width:200px;flex:1;transition:all .3s ease}
+#center-panel.collapsed{min-width:0;flex:0;overflow:hidden;width:0 !important}
+#center-panel.collapsed #preview-area,
+#center-panel.collapsed .panel-header{display:none}
 
 /* Right: UI Preview — phone 292px * 1.2 = 350px */
 #right-panel{display:flex;flex-direction:column;border-left:1px solid #21262d;background:#161b22;overflow:hidden;
@@ -126,6 +130,10 @@ textarea{resize:vertical}
   border-radius:4px;margin-right:6px}
 .phone-page h2{font-size:16px;font-weight:700;color:#1e293b;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .phone-page .desc-line{font-size:10px;color:#64748b;line-height:1.6;margin-bottom:2px;display:flex;gap:6px}
+.phone-page .form-group{margin-top:16px}
+.phone-page .form-field{margin-bottom:10px}
+.phone-page .form-field label{display:block;font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.phone-page .form-field .input-mock{height:32px;background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px;padding:0 10px;font-size:10px;color:#cbd5e1;font-style:italic;display:flex;align-items:center}
 .phone-actions{margin-top:auto;padding-top:12px}
 .phone-actions .btn{width:100%;padding:10px;border-radius:8px;font-size:12px;font-weight:700;margin-bottom:6px;
   display:flex;align-items:center;justify-content:space-between;transition:all .15s;color:#fff}
@@ -211,6 +219,33 @@ textarea{resize:vertical}
   border-radius:6px;transition:all .15s;background:#161b22}
 .ui-nav button:hover{background:#21262d;color:#e6edf3;border-color:#8b949e}
 .ui-nav button:disabled{opacity:.3;cursor:default}
+
+/* Fullscreen UI: nav moves to side */
+.ui-main{display:flex;flex-direction:column;align-items:center}
+#ui-preview-area.fullscreen #ui-content{display:flex !important;flex-direction:row;align-items:flex-start;justify-content:center;gap:24px;flex-wrap:nowrap}
+#ui-preview-area.fullscreen .ui-nav{width:220px;margin-top:0;flex-direction:column;flex-shrink:0;position:sticky;top:16px}
+#ui-preview-area.fullscreen .ui-nav>div{flex-direction:column !important;width:100%}
+#ui-preview-area.fullscreen .ui-nav button{min-width:100% !important;flex:none !important}
+
+/* ========== Edit Modal ========== */
+#edit-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:999;display:none;align-items:center;justify-content:center}
+#edit-modal{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:20px;width:520px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#edit-modal h3{font-size:13px;color:#e6edf3;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+#edit-modal h3 span{font-size:10px;color:#6e7681;font-weight:400}
+#edit-textarea{flex:1;min-height:300px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:6px;padding:12px;font-family:'Cascadia Code','Fira Code','Consolas',monospace;font-size:11px;line-height:1.6;resize:vertical}
+#edit-textarea:focus{border-color:#2f81f7;outline:none}
+#edit-btns{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+#edit-btns button{padding:6px 16px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer}
+#edit-btns .save{background:#238636;color:#fff;border:1px solid #238636}
+#edit-btns .save:hover{background:#2ea043}
+#edit-btns .cancel{background:none;color:#8b949e;border:1px solid #30363d}
+#edit-btns .cancel:hover{background:#21262d;color:#e6edf3}
+#edit-error{color:#ff7b72;font-size:10px;margin-top:6px;display:none}
+
+/* ========== Context Menu ========== */
+#ctx-menu{position:fixed;z-index:1000;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:4px;box-shadow:0 8px 24px rgba(0,0,0,.4);display:none}
+#ctx-menu button{display:block;width:100%;text-align:left;padding:6px 12px;font-size:11px;color:#e6edf3;border:none;background:none;border-radius:4px;cursor:pointer;white-space:nowrap}
+#ctx-menu button:hover{background:#21262d}
 </style>
 </head>
 <body>
@@ -263,11 +298,54 @@ textarea{resize:vertical}
     BK16WC[BK16WC 管家告知回面板点申请理赔指引]
 
     %% ===== Flow Connections (chronological) =====
+    EV01PL[EV01PL 入组评估中\n请耐心等候]
+    CS00PL[CS00PL 联系客服]
+    DB00PL[DB00PL 我的看板\n总览]
+    DB01PL[DB01PL 看板：入组评估中]
+    DB02PL[DB02PL 看板：保障分析中]
+    DB03PL[DB03PL 看板：分析已完成]
+    DB04PL[DB04PL 看板：理赔跟进中]
+
     %% Phase 1: 入组
-    EN01PL --> IN02PL --> RG04PL --> AP03PL --> MT05BK
+    EN01PL --> IN02PL --> RG04PL --> AP03PL --> EV01PL --> MT05BK
+    EV01PL -->|联系客服| CS00PL
+    CS00PL --> IN02PL
+    IN02PL -->|查看进度| EV01PL
+    MT05PL --> DB00PL
+    DB00PL -->|评估中| PV02PL
+    DB00PL -->|分析完成| PV03PL
+    DB00PL -->|理赔跟进| FU22PL
+    EV01PL -->|返回看板| DB01PL
+    DB01PL --> PV02PL
+    PV02PL -->|返回看板| DB02PL
+    DB02PL --> PV02PL
+    PV03PL -->|返回看板| DB03PL
+    DB03PL --> PV03PL
+    FU22PL -->|返回看板| DB04PL
+    DB04PL --> FU22PL
     MT05BK -->|审查通过| AU05BK --> MT05PL
+    MT05BK -->|审核中| EV01PL
     MT05BK -->|审查不通过| RJ99PL
     RJ99PL --> RG04PL
+
+    %% Agreements (from RG04PL)
+    RG04PL -->|隐私政策| AG01PL[AG01PL 隐私政策]
+    RG04PL -->|服务协议| AG02PL[AG02PL 平台服务协议]
+    RG04PL -->|注册协议| AG03PL[AG03PL 注册协议]
+    RG04PL -->|授权同意| AG04PL[AG04PL 监护人授权同意书]
+    AG01PL --> RG04PL
+    AG02PL --> RG04PL
+    AG03PL --> RG04PL
+    AG04PL --> RG04PL
+
+    %% Agreements (from AP03PL)
+    AP03PL -->|服务条款| AG05PL[AG05PL 用户服务条款]
+    AP03PL -->|信息授权| AG06PL[AG06PL 个人信息处理授权书]
+    AP03PL -->|委托协议| AG07PL[AG07PL 理赔咨询委托协议]
+    AG05PL --> AP03PL
+    AG06PL --> AP03PL
+    AG07PL --> AP03PL
+
     MT05PL --> WC07CK
     WC07CK -->|已扫码| WC07WC --> NF06WC
     WC07CK -->|未扫码| WC07BK
@@ -276,8 +354,9 @@ textarea{resize:vertical}
 
     %% Backend review chain (runs in parallel)
     AU05BK --> PV02PL
-    EX08BK --> TP09BK --> RP11BK --> RP10PL
-    NF06WC --> PV03PL
+    EX08BK --> TP09BK --> RP11BK --> NF07WC[NF07WC 管家通知\n报告已完成]
+    NF07WC --> PV03PL
+    NF06WC --> PV02PL
 
     %% Phase 1.5: Report completion
     PV03PL --> RP10PL
@@ -294,19 +373,23 @@ textarea{resize:vertical}
 
     %% Phase 1.7: Upload & Review & Submit (steps 17-21)
     UL17PL --> CK18BK{CK18BK 后台检查\n材料是否合格？}
-    CK18BK -->|没问题| LK19PL[LK19PL 确认提交完成\n上传界面锁住]
-    LK19PL --> SB20OF[SB20OF 患者线下\n去保司提交理赔]
+    CK18BK -->|没问题| NT18WC[NT18WC 管家通知\n材料审核通过] --> UL17BPL[UL17BPL 上传理赔单据\n审核通过·可提交]
+    UL17BPL -->|确认材料无误| DB05PL[DB05PL 看板：材料已确认]
+    DB05PL --> LK20PL[LK20PL 材料清单·已锁定]
+    LK20PL -->|返回看板| DB05PL
+    UL17BPL -->|补充材料| CK18BK
+    LK20PL --> SB20OF[SB20OF 患者线下\n去保司提交理赔]
     SB20OF --> CF21WC[CF21WC 患者企微通知\n已提交理赔材料]
-    CF21WC --> BK21WC[BK21WC 管家告知\n回系统点「我已提交」]
-
-    %% Phase 1.8: Follow-up & Review Result (steps 22-27) & Review Result (steps 22-27)
-    BK21WC --> FU22PL[FU22PL 系统状态\n理赔跟进中]
+    %% Phase 1.8: Follow-up & Review Result (steps 22-27)
+    CF21WC --> CM21PL[CM21PL 确认已提交\n理赔材料]
+    CM21PL --> DB06PL[DB06PL 看板：已提交理赔]
+    DB06PL --> CF22WC[CF22WC 患者告知\n已在系统确认]
+    CF22WC --> FU22PL[FU22PL 系统状态\n理赔跟进中]
     FU22PL --> CK22PL{CK22PL 患者是否已收到\n保司审核结论？}
     CK22PL -->|否| RM23WC
     RM23WC --> FU22PL
     CK22PL -->|是| RC24OF --> CF25WC[CF25WC 患者企微告知\n收到审核结论]
-    CF25WC --> BK26WC[BK26WC 管家告知\n回系统上传审核结论]
-    BK26WC --> UP27PL[UP27PL 上传审核结论]
+    CF25WC --> UP27PL[UP27PL 上传审核结论]
     UP27PL --> RV27PL[RV27PL 审核结论已上传\n「我认可并接受」/「我不认可，我要申诉」]
 
     %% Phase 1.9a: Accept -> follow up payment -> close
@@ -318,29 +401,33 @@ textarea{resize:vertical}
 
     RV27PL -->|我不认可，我要申诉| GD29WC[GD29WC 企微引导\n申诉材料准备] --> AP28PL
 
-    %% Phase 1.9b: Appeal flow (steps 28-32)
+    %% Phase 1.9b: Appeal flow (mirroring claims flow)
     AP28PL --> CK29BK
-    CK29BK -->|通过| LK30PL
+    CK29BK -->|通过| NT29WC[NT29WC 管家通知\n申诉材料审核通过]
+    NT29WC --> AP28BPL[AP28BPL 上传申诉单据\n审核通过·可提交]
+    AP28BPL -->|补充材料| CK29BK
     CK29BK -->|有问题| GD29WC
-    LK30PL --> SB31OF[SB31OF 患者线下\n去保司提交申诉]
+    AP28BPL -->|确认材料无误| DB07PL[DB07PL 看板：申诉材料已确认]
+    DB07PL --> LK31PL[LK31PL 申诉材料清单·已锁定]
+    LK31PL -->|返回看板| DB07PL
+    LK31PL --> SB31OF[SB31OF 患者线下\n去保司提交申诉]
     SB31OF --> CF32WC[CF32WC 患者企微通知\n已提交申诉材料]
-    CF32WC --> BK32WC[BK32WC 管家告知\n回系统点「我已提交申诉」]
-
-    %% Phase 2a: Appeal follow-up loop (steps 33-38, same as 22-27)
-    BK32WC --> FU33PL[FU33PL 系统状态\n申诉跟进中]
+    CF32WC --> CM32PL[CM32PL 申诉材料清单·已锁定]
+    CM32PL -->|确认已提交| DB08PL[DB08PL 看板：已提交申诉]
+    CM32PL -->|返回看板| DB07PL
+    DB08PL --> CF33WC[CF33WC 患者告知\n已在系统确认]
+    CF33WC --> FU33PL[FU33PL 系统状态\n申诉跟进中]
     FU33PL --> CK33PL{CK33PL 患者是否已收到\n申诉审核结论？}
     CK33PL -->|否| RM34WC
     RM34WC --> FU33PL
     CK33PL -->|是| RC35OF --> CF36WC[CF36WC 患者企微告知\n收到申诉结论]
-    CF36WC --> BK37WC[BK37WC 管家告知\n回系统上传申诉结论]
-    BK37WC --> UP38PL[UP38PL 上传申诉结论]
+    CF36WC --> UP38PL[UP38PL 上传申诉结论]
     UP38PL --> RV38PL[RV38PL 申诉结论已上传\n选择后续操作]
     RV38PL -->|我认可并接受| OK01BK
     RV38PL -->|继续申诉| AP28PL
     RV38PL -->|升级外部支持| EX40WC[EX40WC 管家询问\n是否寻求外部资源]
 
     %% Phase 2b: External support (steps 40-44)
-    EX40WC -->|否，继续申诉| AP28PL
     EX40WC -->|是，寻求外部| CH41PL
     CH41PL -->|协赔专家| RC42PL
     CH41PL -->|律师事务所| LW42PL[LW42PL 推荐律师事务所\n名称+简介]
@@ -350,7 +437,7 @@ textarea{resize:vertical}
     LW42PL -->|都不满意| EX44PL
     DL43PL --> HD43BK[HD43BK 后台一键转发\n资料给合作机构]
     HD43BK --> ED02PL[ED02PL 已委托外部机构\n等待后续]
-    EX44PL --> ED03PL[ED03PL 资料已导出\n返回理赔看板]
+    EX44PL --> ED03PL[ED03PL 资料已导出\n返回我的看板]
 
     classDef sys fill:#0d2137,stroke:#2f81f7,color:#79c0ff,stroke-width:1.5px
     classDef wechat fill:#0d2615,stroke:#2ea043,color:#56d364,stroke-width:1.5px
@@ -360,8 +447,8 @@ textarea{resize:vertical}
     classDef offline fill:#2d2d0f,stroke:#a3a300,color:#e6e600,stroke-width:1.5px
     classDef terminated fill:#2d0f0f,stroke:#da3633,color:#ff7b72,stroke-width:2px
 
-    class IN02PL,ED00PL,PV03PL,RP10PL,SY16PL,UL17PL,LK19PL,FU22PL,UP27PL,RV27PL,PD01PL,ED01PL,AP28PL,LK30PL,FU33PL,UP38PL,RV38PL,CH41PL,RC42PL,LW42PL,DL43PL,EX44PL,ED02PL,ED03PL,AP03PL,RG04PL,MT05PL,PV02PL,RJ99PL,PV03PL sys
-    class NF06WC,WC07WC wechat
+    class IN02PL,ED00PL,PV03PL,RP10PL,SY16PL,UL17PL,LK19PL,FU22PL,UP27PL,RV27PL,PD01PL,ED01PL,AP28PL,FU33PL,UP38PL,RV38PL,CH41PL,RC42PL,LW42PL,DL43PL,EX44PL,ED02PL,ED03PL,AP03PL,RG04PL,MT05PL,PV02PL,RJ99PL,PV03PL,AG01PL,AG02PL,AG03PL,AG04PL,AG05PL,AG06PL,AG07PL,EV01PL,CS00PL,DB00PL,DB01PL,DB02PL,DB03PL,DB04PL,DB05PL,DB06PL,UL17BPL,LK20PL,CM21PL,AP28BPL,DB07PL,DB08PL,LK31PL,CM32PL sys
+    class NF06WC,NF07WC,NT18WC,CF22WC,WC07WC,CS11WC,CS12WC,CS13WC,CF15WC,BK16WC,GD17WC,CF21WC,RM23WC,CF25WC,FP01WC,OK02WC,GD29WC,CF32WC,RM34WC,CF36WC,EX40WC,NT29WC,CF33WC wechat
     class MT05BK,AU05BK,CK22PL,CK33PL,TP09BK,CK18BK,OK01BK,CK29BK,HD43BK,WC07CK,WC07BK,EX08BK,RP11BK backend
     class ED01PL success
     class CT01OF,DC14OF,SB20OF,RC24OF,SB31OF,RC35OF offline
@@ -386,6 +473,7 @@ textarea{resize:vertical}
     <div class="panel-header">
       <span class="title">Flow</span>
       <div class="zoom-controls">
+        <button onclick="toggleCenter()" id="collapse-center" style="font-size:10px;width:auto;padding:0 6px" title="收起流程图">◀</button>
         <button onclick="zoomOut()">-</button>
         <span class="zoom-level" id="zoom-label">100%</span>
         <button onclick="zoomIn()">+</button>
@@ -406,8 +494,12 @@ textarea{resize:vertical}
   <!-- Right: UI Preview -->
   <div id="right-panel">
     <div class="panel-header">
+      <button id="expand-center" onclick="toggleCenter()" style="display:none;font-size:10px;color:#8b949e;padding:4px 10px;border:1px solid #30363d;border-radius:5px;font-weight:600;cursor:pointer;background:none" title="展开流程图">▶ Flow</button>
       <span class="title">UI Preview</span>
       <span class="title" id="ui-lane-label" style="color:#6e7681"></span>
+      <div class="header-btns">
+        <button onclick="screenshotUI()" title="截图导出">Export</button>
+      </div>
     </div>
     <div id="ui-preview-area">
       <div id="ui-empty">
@@ -417,6 +509,15 @@ textarea{resize:vertical}
       <div id="ui-content" style="display:none"></div>
     </div>
   </div>
+</div>
+
+<!-- Context Menu -->
+<div id="ctx-menu"></div>
+
+<!-- Color Picker Popup -->
+<div id="color-picker-popup" style="position:fixed;z-index:1001;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.4);display:none">
+  <input type="color" id="color-input" style="width:40px;height:30px;border:none;cursor:pointer">
+  <button onclick="applyColor()" style="margin-left:4px;padding:4px 8px;font-size:10px;background:#238636;color:#fff;border:none;border-radius:4px;cursor:pointer">OK</button>
 </div>
 
 <script>
@@ -483,6 +584,24 @@ function buildGraph(){
 let currentNodeId=null;
 
 // ========== Show UI ==========
+function showAgreement(name){
+  var AGREEMENT_NODES={'隐私政策':'AG01PL','平台服务协议':'AG02PL','注册协议':'AG03PL','监护人授权同意书':'AG04PL',
+    '用户服务条款':'AG05PL','个人信息处理授权书':'AG06PL','理赔咨询委托协议':'AG07PL'};
+  if(AGREEMENT_NODES[name]&&CUSTOM_NODES[AGREEMENT_NODES[name]]){ showNodeUI(AGREEMENT_NODES[name]); return; }
+  // Fallback: inline display
+  var container=document.getElementById('ui-content');
+  var html='<div class="phone-frame"><div style="display:flex;flex-direction:column;height:100%;background:#fff">' +
+    '<div style="height:40px;background:#fff;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;padding:0 12px;flex-shrink:0">' +
+    '<span style="font-size:16px;color:#999;cursor:pointer" onclick="showNodeUI(currentNodeId)">‹</span>' +
+    '<span style="flex:1;text-align:center;font-size:13px;font-weight:600;color:#1e293b">'+name+'</span>' +
+    '<span style="width:16px"></span></div>' +
+    '<div style="flex:1;overflow-y:auto;padding:16px;font-size:10px;color:#64748b;line-height:1.8">' +
+    '<p style="font-weight:700;color:#1e293b;font-size:12px;margin-bottom:12px">《'+name+'》</p>' +
+    '<p style="margin-bottom:8px">协议内容正在完善中，敬请期待。</p>' +
+    '</div></div></div>';
+  container.innerHTML=html;
+}
+
 function showNodeUI(nodeId){
   currentNodeId=nodeId;
   const lane=getNodeLane(nodeId);
@@ -495,7 +614,7 @@ function showNodeUI(nodeId){
   laneLabel.textContent=meta.icon+' '+meta.label;
   laneLabel.style.color=meta.color;
 
-  let html='<div class="node-badge" style="background:'+meta.color+'18;color:'+meta.color+';border:1px solid '+meta.color+'44">'+meta.icon+' '+nodeId+'</div>';
+  let html='<div class="ui-main"><div class="node-badge" style="background:'+meta.color+'18;color:'+meta.color+';border:1px solid '+meta.color+'44">'+meta.icon+' '+nodeId+'</div>';
 
   // Custom node UI (data-driven) or generic
   if(CUSTOM_NODES[nodeId]) html+=renderCustom(nodeId);
@@ -503,15 +622,22 @@ function showNodeUI(nodeId){
   else if(lane==='platform') html+=buildPhoneUI(nodeId,info);
   else html+=buildBackendUI(nodeId,info,lane);
 
+  html+='</div>'; // close ui-main
+
   // Nav buttons from graph edges
+  function navLabel(id){
+    if(CUSTOM_NODES[id]&&CUSTOM_NODES[id].title) return CUSTOM_NODES[id].title;
+    var t=getNodeText(id); return t.heading||id;
+  }
   const parents=graphParents[nodeId]||[];
   const children=graphChildren[nodeId]||[];
   html+='<div class="ui-nav" style="flex-direction:column;width:280px">';
   if(parents.length){
-    html+='<div style="display:flex;gap:4px;width:100%">';
+    html+='<div style="display:flex;gap:4px;width:100%;flex-wrap:wrap">';
     parents.forEach(function(p){
       const lbl=graphEdgeLabels[p+'->'+nodeId];
-      html+='<button style="flex:1" onclick="showNodeUI(\''+p+'\')">&#9664; '+p+(lbl?' ('+lbl+')':'')+'</button>';
+      var lane=getNodeLane(p);var m=LANE_META[lane]||LANE_META.platform;
+      html+='<button style="flex:1;min-width:45%;padding:8px 6px;line-height:1.4" onclick="showNodeUI(\''+p+'\')">&#9664; '+m.icon+' '+(lbl||navLabel(p))+'<br><span style="font-size:8px;opacity:.6">'+p+'</span></button>';
     });
     html+='</div>';
   }
@@ -519,7 +645,8 @@ function showNodeUI(nodeId){
     html+='<div style="display:flex;gap:4px;width:100%;flex-wrap:wrap">';
     children.forEach(function(c){
       const lbl=graphEdgeLabels[nodeId+'->'+c];
-      html+='<button style="flex:1;min-width:45%" onclick="showNodeUI(\''+c+'\')">'+c+(lbl?' ('+lbl+')':'')+' &#9654;</button>';
+      var lane=getNodeLane(c);var m=LANE_META[lane]||LANE_META.platform;
+      html+='<button style="flex:1;min-width:45%;padding:8px 6px;line-height:1.4" onclick="showNodeUI(\''+c+'\')">'+(lbl||navLabel(c))+' '+m.icon+' &#9654;<br><span style="font-size:8px;opacity:.6">'+c+'</span></button>';
     });
     html+='</div>';
   }
@@ -578,18 +705,18 @@ const CUSTOM_NODES = {
       '源瑞达是一款面向患者的创新药物，在疗效与安全性方面经严格临床验证，为有需要的患者提供更优质的治疗选择。',
       '为切实减轻患者用药经济负担，岩育健康联合河源生物推出「源瑞达患者关爱计划」，符合条件的患者可享受以下专属权益：',
       '· 全过程保险理赔一站式协助，提升赔付成功率',
-      '· 专属顾问一对一支持，全程陪伴无忧'
+      '· 专属管家一对一支持，全程陪伴无忧'
     ],
-    buttons: [{text:'立即申请入组', primary:true}]
+    buttons: [{text:'立即申请入组', primary:true, goto:'RG04PL'}, {text:'查看我的申请进度', goto:'EV01PL'}]
   },
   RG04PL: {
     type: 'form', title: '注册平台账号', icon: '📝',
     fields: [
       {label:'手机号码', placeholder:'请输入手机号码'},
-      {label:'验证码', placeholder:'请输入6位验证码'}
+      {label:'验证码', placeholder:'请输入6位验证码', note:'*点击发送'}
     ],
     agreement: '我已阅读并同意《隐私政策》《平台服务协议》《注册协议》《监护人授权同意书》',
-    buttons: [{text:'注册并登录', primary:true}]
+    buttons: [{text:'注册并登录', primary:true, goto:'AP03PL'}]
   },
   AP03PL: {
     type: 'upload', title: '提交保险与病历资料', icon: '📎',
@@ -603,53 +730,61 @@ const CUSTOM_NODES = {
       {name:'主治医师治疗建议书', note:'医生出具的 CAR-T 治疗建议'}
     ],
     agreement: '我已阅读并同意《用户服务条款》《个人信息处理授权书》《理赔咨询委托协议》',
-    buttons: [{text:'提交材料，等待专家评估', primary:true}, {text:'暂时跳过'}]
+    buttons: [{text:'提交材料', primary:true, goto:'EV01PL'}, {text:'暂时跳过'}]
   },
   MT05PL: {
-    type: 'page', title: '入组成功', icon: '✓', iconColor: '#238636',
+    type: 'page', title: '入组成功', icon: '\u2713', iconColor: '#238636',
     desc: [
       '恭喜您，入组申请已通过！',
-      '您的专属理赔顾问已分配，请扫描下方二维码添加企业微信，后续沟通将通过企微进行。'
+      '您的专属管家已分配，长按下方二维码添加企业微信，后续沟通将通过企微进行。'
     ],
     qr: true,
-    qrLabel: '扫码添加专属管家企微',
-    buttons: [{text:'进入我的理赔看板', primary:true}, {text:'稍后添加'}]
+    qrLabel: '长按识别添加专属管家',
+    buttons: [{text:'进入我的看板', primary:true, goto:'DB02PL'}]
   },
   MT05BK: {
     type: 'page', title: '后台审查入组资料', icon: '⚙️', iconColor: '#8957e5',
     desc: [
       '后台已收到患者提交的保险资料与病历材料。',
-      '顾问正在核查：保单条款是否覆盖 CAR-T、病种是否符合入组条件。'
+      '管家正在核查：保单条款是否覆盖 CAR-T、病种是否符合入组条件。'
     ],
-    buttons: [{text:'审查通过 → 入组成功', primary:true}, {text:'审查不通过 → 终止服务'}]
+    buttons: [{text:'审查通过 → 入组成功', primary:true, goto:'AU05BK'}, {text:'审核中 → 用户等待页', goto:'EV01PL'}, {text:'审查不通过 → 终止服务', goto:'RJ99PL'}]
   },
   AU05BK: {
-    type: 'page', title: '审查成功', icon: '✓', iconColor: '#238636',
+    type: 'page', title: '审查成功', icon: '\u2713', iconColor: '#238636',
     desc: [
       '入组资料审查通过！',
       '患者保单条款覆盖 CAR-T，病种符合入组条件。',
-      '系统将通知患者入组成功并引导添加专属管家。'
+      '',
+      '点击下方按钮将患者状态变更为「入组成功」，系统自动推送通知。'
     ],
-    buttons: [{text:'通知患者', primary:true}]
+    buttons: [{text:'变更患者状态 → 入组成功', primary:true, goto:'MT05PL'}]
   },
   WC07WC: {
-    type: 'page', title: '告知报告预期时间', icon: '\u23F0', iconColor: '#3B7DED',
-    desc: [
-      '您好，感谢您添加企微！',
-      '您的保障分析报告预计将在 3-5 个工作日内完成。',
-      '届时我会第一时间通知您查看，请耐心等候。',
-      '如有紧急情况，可随时联系我。'
-    ],
-    buttons: [{text:'好的，收到', primary:true}]
+    type: 'page', title: '患者已添加企微', icon: '\u23F0', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'您好！我是您的专属管家。\n已经看到您的入组信息，后续理赔流程全程由我协助您。'},
+      {from:'patient', text:'你好，谢谢！'},
+      {from:'advisor', text:'接下来我们会为您做一份保障分析报告，预计需要2个工作日内完成。\n完成后我会第一时间通知您。'}
+    ]
   },
   NF06WC: {
-    type: 'page', title: '通知报告已完成', icon: '\u2709', iconColor: '#3B7DED',
-    desc: [
-      '您好，您的保障分析报告已经出来了！',
-      '请登录小程序查看完整报告内容。',
-      '如有任何疑问，可以预约专属解读服务。'
-    ],
-    buttons: [{text:'立即查看', primary:true}]
+    type: 'page', title: '管家告知报告预期时间', icon: '\u2709', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'您好！我是您的专属管家。'},
+      {from:'advisor', text:'您的入组已通过，接下来我们会为您做一份保障分析报告，预计2个工作日内完成。'},
+      {from:'patient', text:'好的，谢谢！'},
+      {from:'advisor', text:'完成后我会第一时间通知您，请留意消息。\n有任何问题随时联系我。'}
+    ]
+  },
+  NF07WC: {
+    type: 'page', title: '管家通知报告已完成', icon: '\u2709', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'您好，您的保障分析报告已经完成了！'},
+      {from:'advisor', text:'报告包含：\n1. 保单保障范围分析\n2. 可理赔项目清单\n3. 预估理赔金额\n4. 需要注意的条款要点'},
+      {from:'patient', text:'太好了！我在哪里查看？'},
+      {from:'advisor', text:'请回到小程序，在看板中点击您的项目即可查看完整报告。'}
+    ]
   },
   PV03PL: {
     type: 'page', title: '保障条款分析完成', icon: '\u2705', iconColor: '#238636',
@@ -657,7 +792,7 @@ const CUSTOM_NODES = {
       '您的保障分析报告已完成！',
       '专家已完成对您保单条款的详细分析，请点击下方按钮查看完整报告。'
     ],
-    buttons: [{text:'点击查看报告', primary:true}, {text:'返回我的看板'}]
+    buttons: [{text:'点击查看报告', primary:true, goto:'RP10PL'}, {text:'返回我的看板', goto:'DB03PL'}]
   },
 
   RP10PL: {
@@ -665,21 +800,27 @@ const CUSTOM_NODES = {
     sections: [
       {heading:'适应症确认', lines:[
         '您所患弥漫大B细胞淋巴瘤(DLBCL)属于保单第12页「恶性肿瘤」保障范围。',
-        '条款原文：「被保险人经二级及以上医院确诊为恶性肿瘤(ICD-10:C83.3)，保险人按基本保额给付保险金。」'
+        '条款原文：「被保险人经二级及以上医院确诊为恶性肿瘤，保险人按基本保额给付保险金。」'
       ]},
-      {heading:'赔付分析（初步估算）', lines:[
-        '1. 基本保额：\u00A51,200,000',
-        '2. 免赔额：\u00A510,000（已满足）',
-        '3. CAR-T治疗费用预计在保障范围内',
-        '4. 住院期间检查、用药、护理费用在保障范围内',
-        '5. 条款第15页：「恶性肿瘤治疗相关费用，包括但不限于手术、放化疗、靶向治疗、免疫细胞治疗等」'
+      {heading:'各疗程保障分析', lines:[
+        '▸ CAR-T细胞治疗 — 条款第15页「免疫细胞治疗」✅ 符合',
+        '▸ 化疗方案 — 条款第12页「恶性肿瘤治疗」✅ 符合',
+        '▸ 靶向药物 — 条款第14页「靶向治疗」✅ 符合',
+        '▸ 住院费用 — 条款第8页「住院医疗」✅ 符合',
+        '▸ 放射治疗 — 条款第13页「放射治疗」⚠️ 需确认具体方案'
       ]},
-      {heading:'综合评定（初步意见）', lines:[
-        '适应症：初步符合',
-        '医疗行为：CAR-T细胞治疗属于保单保障范围，建议进入正式理赔流程'
+      {heading:'赔付初步估算', lines:[
+        '基本保额：¥1,200,000',
+        '免赔额：¥10,000（已满足）',
+        '具体赔付金额视实际选择的疗程及费用而定'
+      ]},
+      {heading:'综合评定', lines:[
+        '适应症：初步符合保单保障范围',
+        '多个疗程方案均在条款覆盖范围内',
+        '建议与主治医生确认疗程后，进入正式理赔流程'
       ]}
     ],
-    buttons: [{text:'预约专属解读', primary:true}, {text:'返回我的看板'}]
+    buttons: [{text:'预约专属解读', primary:true, goto:'CS11WC'}, {text:'返回我的看板', goto:'DB03PL'}]
   },
   CT01OF: {
     type: 'page', title: '主动联系患者', icon: '\uD83D\uDCDE', iconColor: '#a3a300',
@@ -688,12 +829,12 @@ const CUSTOM_NODES = {
       '报告已出具，通过电话或其他方式主动联系患者。',
       '引导患者添加专属管家企业微信。'
     ],
-    buttons: [{text:'已联系成功', primary:true}, {text:'联系失败，稍后重试'}]
+    buttons: [{text:'已联系成功', primary:true, goto:'NF06WC'}, {text:'联系失败，稍后重试', goto:'WC07CK'}]
   },
   CS11WC: {
     type: 'page', title: '预约专属解读', icon: '\uD83D\uDCC5', iconColor: '#3B7DED',
     chat: [
-      {from:'advisor', text:'您好，看到您预约了专属解读服务。\n我是您的专属理赔顾问，现在方便为您解读吗？'},
+      {from:'advisor', text:'您好，看到您预约了专属解读服务。\n我是您的专属管家，现在方便为您解读吗？'},
       {from:'patient', text:'方便的，现在就可以。'},
       {from:'advisor', text:'好的，我们现在开始解读您的保障分析报告。'}
     ]
@@ -721,7 +862,7 @@ const CUSTOM_NODES = {
       '患者在医院完成疗程选择并付款。',
       '（此步骤在线下完成，平台等待患者反馈）'
     ],
-    buttons: [{text:'患者已反馈', primary:true}]
+    buttons: [{text:'患者已反馈', primary:true, goto:'CF15WC'}]
   },
   CF15WC: {
     type: 'page', title: '患者告知已决定疗程', icon: '\u2705', iconColor: '#3B7DED',
@@ -745,7 +886,7 @@ const CUSTOM_NODES = {
       '您已完成疗程选择并付款。',
       '接下来可以申请理赔指引，我们将全程协助您准备理赔材料。'
     ],
-    buttons: [{text:'我已支付疗程，申请理赔指引', primary:true}, {text:'返回我的理赔看板'}]
+    buttons: [{text:'我已支付疗程，申请理赔指引', primary:true, goto:'GD17WC'}, {text:'返回我的看板', goto:'DB03PL'}]
   },
   GD17WC: {
     type: 'page', title: '引导上传理赔单据', icon: '\uD83D\uDCDD', iconColor: '#3B7DED',
@@ -765,10 +906,10 @@ const CUSTOM_NODES = {
     uploads: [
       {name:'医疗费用发票', note:'原件扫描或拍照，需清晰可读'},
       {name:'出院小结 / 诊断证明', note:'医院出具，需盖章'},
-      {name:'用药清单 / 处方', note:'包含 CAR-T 相关费用明细'},
+      {name:'用药清单 / 处方', note:'包含治疗相关费用明细'},
       {name:'其他支持材料', note:'如检查报告、住院记录等'}
     ],
-    buttons: [{text:'提交审核', primary:true}]
+    buttons: [{text:'提交审核', primary:true, goto:'CK18BK'}, {text:'确认以上材料无误', disabled:true}, {text:'返回我的看板', goto:'DB03PL'}]
   },
   CK18BK: {
     type: 'page', title: '后台审核上传材料', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
@@ -776,16 +917,31 @@ const CUSTOM_NODES = {
       '正在审核患者上传的理赔单据。',
       '检查项：发票完整性、盖章合规、费用明细匹配、诊断一致性。'
     ],
-    buttons: [{text:'审核通过', primary:true}, {text:'需要补件'}]
+    buttons: [{text:'审核通过', primary:true, goto:'NT18WC'}, {text:'需要补件', goto:'GD17WC'}]
   },
-  LK19PL: {
-    type: 'page', title: '确认提交完成', icon: '\uD83D\uDD12', iconColor: '#238636',
+  UL17BPL: {
+    type: 'upload', title: '上传理赔单据', icon: '\uD83D\uDCC4', iconColor: '#238636',
     desc: [
-      '您的理赔材料已通过预审核！',
-      '点击下方按钮确认提交，提交后上传界面将锁定。',
-      '锁定后无法再修改，请确保材料无误。'
+      '材料已通过预审核 ✅',
+      '如需补充材料请继续上传，确认无误后点击「确认提交」。提交后将无法修改。'
     ],
-    buttons: [{text:'确认提交完成', primary:true}, {text:'我再检查一下'}]
+    uploads: [
+      {name:'医疗费用发票', note:'✅ 已上传 · 已通过'},
+      {name:'出院小结 / 诊断证明', note:'✅ 已上传 · 已通过'},
+      {name:'用药清单 / 处方', note:'✅ 已上传 · 已通过'},
+      {name:'其他支持材料', note:'✅ 已上传 · 已通过'},
+      {name:'补充材料（可选）', note:'点击上传额外材料'}
+    ],
+    buttons: [{text:'提交审核', goto:'CK18BK'}, {text:'确认以上材料无误', primary:true, goto:'DB05PL'}, {text:'返回我的看板', goto:'DB03PL'}]
+  },
+  NT18WC: {
+    type: 'page', title: '管家通知材料审核通过', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'好消息！您上传的理赔材料已经全部审核通过，没有问题。'},
+      {from:'patient', text:'太好了！接下来怎么做？'},
+      {from:'advisor', text:'请回到小程序，在理赔页面点击「确认提交」按钮。\n提交后上传界面会锁定，之后就可以去保司提交了。'},
+      {from:'patient', text:'好的，马上去。'}
+    ]
   },
   SB20OF: {
     type: 'page', title: '患者线下提交理赔', icon: '\uD83C\uDFE2', iconColor: '#a3a300',
@@ -796,45 +952,42 @@ const CUSTOM_NODES = {
       '3. 提交完成后请截图保存受理编号',
       '提交后请通过企微告知管家。'
     ],
-    buttons: [{text:'我已提交', primary:true}]
+    buttons: [{text:'我已提交', primary:true, goto:'CF21WC'}]
   },
   CF21WC: {
     type: 'page', title: '患者通知已提交理赔', icon: '\u2705', iconColor: '#3B7DED',
-    desc: [
-      '管家您好，我已经在保司提交了理赔申请。',
-      '受理编号：CLAIM-2026-XXXXX',
-      '请问接下来还需要做什么吗？'
-    ],
-    buttons: [{text:'好的，收到', primary:true}]
+    chat: [
+      {from:'patient', text:'管家您好，理赔材料我已经提交给保司了。'},
+      {from:'advisor', text:'好的，收到！'},
+      {from:'advisor', text:'请您回到小程序，点击「我已提交理赔材料」按钮，系统会更新您的案件状态。'}
+    ]
   },
-  BK21WC: {
-    type: 'page', title: '引导确认提交状态', icon: '\uD83D\uDC49', iconColor: '#3B7DED',
-    desc: [
-      '收到！请您回到小程序面板，',
-      '点击「我已提交理赔材料」按钮。',
-      '这样我们系统才能同步跟踪您的理赔进度。',
-      '后续保司有任何反馈我会第一时间通知您。'
-    ],
-    buttons: [{text:'好的，马上去', primary:true}]
+  CF22WC: {
+    type: 'page', title: '患者告知已在系统确认', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'管家，我已经在系统上点了确认提交了。'},
+      {from:'advisor', text:'好的，收到！我这边已经看到您的状态更新了。'},
+      {from:'advisor', text:'接下来我会协助您跟进保司的审核进度，有任何消息我会第一时间通知您。'},
+      {from:'patient', text:'好的，辛苦了，谢谢！'}
+    ]
   },
   FU22PL: {
-    type: 'page', title: '理赔结论尚未反馈', icon: '\u23F3', iconColor: '#2f81f7',
+    type: 'page', title: '理赔跟进中', icon: '\u23F3', iconColor: '#2f81f7',
     desc: [
-      '理赔审核结论尚未反馈。',
+      '您的理赔材料已提交至保险公司。',
+      '',
       '如已收到保司审核结论，请点击上传。',
-      '如未收到，建议主动联系保司查询进度。'
+      '如未收到，请耐心等候或联系管家咨询进度。'
     ],
-    buttons: [{text:'上传审核结论', primary:true}, {text:'联系顾问'}, {text:'查看案件详情'}]
+    buttons: [{text:'我已收到审核结论，上传', primary:true, goto:'UP27PL'}, {text:'联系管家', goto:'RM23WC'}, {text:'返回我的看板', goto:'DB06PL'}]
   },
   RM23WC: {
     type: 'page', title: '定期跟进提醒', icon: '\uD83D\uDD14', iconColor: '#3B7DED',
-    desc: [
-      '您好，温馨提醒：',
-      '建议您主动联系保司客服查询理赔进度。',
-      '保司客服电话：95511（平安）',
-      '如需协助沟通，可随时联系我。'
-    ],
-    buttons: [{text:'好的，我去查', primary:true}]
+    chat: [
+      {from:'advisor', text:'您好，跟您更新一下理赔进度。\n目前保司仍在审核中，预计还需要5-7个工作日。'},
+      {from:'patient', text:'好的，有结果第一时间告诉我。'},
+      {from:'advisor', text:'放心，一有消息我会立刻通知您。\n如果超过预期时间我会主动帮您催促。'}
+    ]
   },
   RC24OF: {
     type: 'page', title: '保司审核结论', icon: '\uD83D\uDCE8', iconColor: '#a3a300',
@@ -843,25 +996,16 @@ const CUSTOM_NODES = {
       '患者收到书面审核意见材料。',
       '（此步骤在线下发生，等待患者反馈）'
     ],
-    buttons: [{text:'患者已反馈', primary:true}]
+    buttons: [{text:'患者已反馈', primary:true, goto:'CF25WC'}]
   },
   CF25WC: {
     type: 'page', title: '患者告知收到结论', icon: '\uD83D\uDCE9', iconColor: '#3B7DED',
-    desc: [
-      '管家您好，我收到保司的审核结论了。',
-      '（附图/截图）'
-    ],
-    buttons: [{text:'好的，收到', primary:true}]
-  },
-  BK26WC: {
-    type: 'page', title: '引导上传审核结论', icon: '\uD83D\uDC49', iconColor: '#3B7DED',
-    desc: [
-      '好的！请您回到小程序面板：',
-      '点击「上传审核结论」按钮，',
-      '将保司的审核意见书拍照上传。',
-      '上传后我们会协助您分析结论内容。'
-    ],
-    buttons: [{text:'好的，马上去', primary:true}]
+    chat: [
+      {from:'patient', text:'管家，我收到保司的审核结论了。'},
+      {from:'advisor', text:'好的！请问结果是通过还是有其他情况？'},
+      {from:'patient', text:'通过了，但是金额跟预期有些差距。'},
+      {from:'advisor', text:'了解。请您回到小程序面板，将审核结论拍照上传。\n我来帮您详细分析。'}
+    ]
   },
   UP27PL: {
     type: 'upload', title: '上传审核结论', icon: '\uD83D\uDCC4',
@@ -871,7 +1015,7 @@ const CUSTOM_NODES = {
     uploads: [
       {name:'审核结论 / 理赔决定书', note:'保司出具的正式审核意见'}
     ],
-    buttons: [{text:'上传审核结论', primary:true}, {text:'联系顾问'}, {text:'查看案件详情'}]
+    buttons: [{text:'上传审核结论', primary:true, goto:'RV27PL'}, {text:'返回我的看板', goto:'DB06PL'}]
   },
   RV27PL: {
     type: 'page', title: '审核结论已上传', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
@@ -879,7 +1023,7 @@ const CUSTOM_NODES = {
       '审核结论已成功上传。',
       '请仔细阅读保司的审核意见，选择后续操作：'
     ],
-    buttons: [{text:'我认可并接受', primary:true}, {text:'我不认可，我要申诉'}]
+    buttons: [{text:'我认可并接受', primary:true, goto:'OK01BK'}, {text:'我不认可，我要申诉', goto:'GD29WC'}]
   },
   OK01BK: {
     type: 'page', title: '理赔认可 - 后台标记', icon: '\u2705', iconColor: '#8957e5',
@@ -887,17 +1031,16 @@ const CUSTOM_NODES = {
       '患者已认可保司审核结论。',
       '后台标记理赔认可，进入赔付跟进阶段。'
     ],
-    buttons: [{text:'开始跟进赔付', primary:true}]
+    buttons: [{text:'开始跟进赔付', primary:true, goto:'FP01WC'}]
   },
   FP01WC: {
     type: 'page', title: '协助跟进赔付', icon: '\uD83D\uDCB0', iconColor: '#3B7DED',
-    desc: [
-      '您好，您的理赔已获认可！',
-      '接下来等待保司完成赔付流程。',
-      '赔付通常在 5-15 个工作日内到账。',
-      '如有延迟我会协助催办。'
-    ],
-    buttons: [{text:'好的，等待中', primary:true}]
+    chat: [
+      {from:'advisor', text:'恭喜您，理赔已经获批！\n我来协助您跟进后续赔付流程。'},
+      {from:'advisor', text:'赔付款项预计15个工作日内到账。\n请确认以下信息：\n1. 收款账户是否正确\n2. 是否需要开具理赔证明'},
+      {from:'patient', text:'账户没问题，请帮我开一份理赔证明。'},
+      {from:'advisor', text:'好的，理赔证明我这边申请，办好后会通知您。'}
+    ]
   },
   PD01PL: {
     type: 'page', title: '等待保司赔付', icon: '\u23F3', iconColor: '#2f81f7',
@@ -905,15 +1048,15 @@ const CUSTOM_NODES = {
       '理赔审核已通过，等待保司赔付。',
       '预计 5-15 个工作日内到账。'
     ],
-    buttons: [{text:'联系顾问', primary:true}, {text:'查看案件详情'}]
+    buttons: [{text:'联系管家', primary:true, goto:'FP01WC'}, {text:'返回我的看板', goto:'DB06PL'}]
   },
   OK02WC: {
     type: 'page', title: '确认收到理赔款', icon: '\uD83D\uDCB5', iconColor: '#3B7DED',
-    desc: [
-      '管家您好，理赔款已经到账了！',
-      '非常感谢您的帮助！'
-    ],
-    buttons: [{text:'恭喜您！项目即将结案', primary:true}]
+    chat: [
+      {from:'patient', text:'管家，理赔款已经到账了！谢谢你全程协助。'},
+      {from:'advisor', text:'太好了！恭喜您，整个理赔流程顺利完成。'},
+      {from:'advisor', text:'后续如有任何保险相关问题，随时联系我。\n祝您早日康复！\uD83D\uDE4F'}
+    ]
   },
   ED01PL: {
     type: 'page', title: '理赔成功结案', icon: '\uD83C\uDF89', iconColor: '#238636',
@@ -923,7 +1066,7 @@ const CUSTOM_NODES = {
       '感谢您选择岩育健康理赔协助服务。',
       '如有其他需要，随时联系我们。'
     ],
-    buttons: [{text:'返回首页'}]
+    buttons: [{text:'返回首页', primary:true, goto:'IN02PL'}]
   },
   GD29WC: {
     type: 'page', title: '申诉材料指导', icon: '\uD83D\uDCDD', iconColor: '#3B7DED',
@@ -945,34 +1088,88 @@ const CUSTOM_NODES = {
       {name:'补充医疗证明', note:'支持申诉理由的医疗材料'},
       {name:'申诉理由说明', note:'可手写或打印'}
     ],
-    buttons: [{text:'提交审核', primary:true}]
+    buttons: [{text:'提交审核', primary:true, goto:'CK29BK'}, {text:'确认以上材料无误', disabled:true}, {text:'返回我的看板', goto:'DB06PL'}]
   },
-  GD29WC: {
-    type: 'page', title: '申诉材料指导', icon: '\uD83D\uDCDD', iconColor: '#3B7DED',
-    desc: [
-      '关于申诉材料，请注意：',
-      '1. 需要保司的正式审核结论原件',
-      '2. 补充能支持申诉理由的医疗材料',
-      '3. 如有条款理解争议，我会协助整理申诉要点',
-      '如有缺件我会具体告知。'
-    ],
-    buttons: [{text:'好的，我去准备', primary:true}]
-  },
+
   CK29BK: {
     type: 'page', title: '后台审核申诉材料', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
     desc: [
       '正在审核患者上传的申诉材料。',
       '检查项：拒赔通知书完整性、补充材料充分性、申诉理由合理性。'
     ],
-    buttons: [{text:'审核通过', primary:true}, {text:'需要补件'}]
+    buttons: [{text:'审核通过', primary:true, goto:'NT29WC'}, {text:'需要补件', goto:'GD29WC'}]
   },
-  LK30PL: {
-    type: 'page', title: '申诉材料确认提交', icon: '\uD83D\uDD12', iconColor: '#238636',
+  NT29WC: {
+    type: 'page', title: '管家通知申诉材料审核通过', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'好消息！您上传的申诉材料已经全部审核通过，没有问题。'},
+      {from:'patient', text:'太好了！接下来怎么做？'},
+      {from:'advisor', text:'请回到小程序，在申诉页面点击「确认提交」按钮。\n提交后上传界面会锁定，之后就可以去保司提交了。'},
+      {from:'patient', text:'好的，马上去。'}
+    ]
+  },
+  AP28BPL: {
+    type: 'upload', title: '上传申诉单据', icon: '\u270D', iconColor: '#238636',
     desc: [
-      '您的申诉材料已通过预审核！',
-      '点击下方按钮确认提交，提交后上传界面将锁定。'
+      '材料已通过预审核 \u2705',
+      '如需补充材料请继续上传，确认无误后点击「确认以上材料无误」。提交后将无法修改。'
     ],
-    buttons: [{text:'确认提交完成', primary:true}, {text:'我再检查一下'}]
+    uploads: [
+      {name:'保司审核结论/拒赔通知书', note:'\u2705 已上传 · 已通过'},
+      {name:'补充医疗证明', note:'\u2705 已上传 · 已通过'},
+      {name:'申诉理由说明', note:'\u2705 已上传 · 已通过'},
+      {name:'补充材料（可选）', note:'点击上传额外材料'}
+    ],
+    buttons: [{text:'提交审核', goto:'CK29BK'}, {text:'确认以上材料无误', primary:true, goto:'DB07PL'}, {text:'返回我的看板', goto:'DB08PL'}]
+  },
+  DB07PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'申诉材料已确认·待提交保司', statusColor:'#d29922', goto:'LK31PL', date:'材料已锁定'}
+    ]
+  },
+  LK31PL: {
+    type: 'page', title: '申诉材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
+    desc: [
+      '您的申诉材料已确认并锁定，无法修改。',
+      '请携带材料前往保险公司提交申诉申请。'
+    ],
+    materialList: [
+      {name:'保司审核结论/拒赔通知书', status:'\uD83D\uDD12 已锁定', note:'保司出具的正式文件'},
+      {name:'补充医疗证明', status:'\uD83D\uDD12 已锁定', note:'支持申诉理由的医疗材料'},
+      {name:'申诉理由说明', status:'\uD83D\uDD12 已锁定', note:'已提交'}
+    ],
+    buttons: [{text:'我已向保险公司提交申诉材料', primary:true, goto:'SB31OF'}, {text:'返回我的看板', goto:'DB07PL'}]
+  },
+  CM32PL: {
+    type: 'page', title: '申诉材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
+    desc: [
+      '您的申诉材料已确认并锁定，无法修改。',
+      '请携带材料前往保险公司提交申诉申请。'
+    ],
+    materialList: [
+      {name:'保司审核结论/拒赔通知书', status:'\uD83D\uDD12 已锁定', note:'保司出具的正式文件'},
+      {name:'补充医疗证明', status:'\uD83D\uDD12 已锁定', note:'支持申诉理由的医疗材料'},
+      {name:'申诉理由说明', status:'\uD83D\uDD12 已锁定', note:'已提交'}
+    ],
+    buttons: [{text:'我已向保险公司提交申诉材料', primary:true, goto:'SB31OF'}, {text:'确认：我已提交申诉', goto:'DB08PL'}, {text:'返回我的看板', goto:'DB07PL'}]
+  },
+  DB08PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'已提交申诉·跟进中', statusColor:'#d29922', goto:'FU33PL', date:'已提交保司'}
+    ]
+  },
+  CF33WC: {
+    type: 'page', title: '患者告知已在系统确认', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'管家，我已经在系统上点了确认提交了。'},
+      {from:'advisor', text:'好的，收到！我这边已经看到您的状态更新了。'},
+      {from:'advisor', text:'接下来我会协助您跟进保司的申诉审核进度，有任何消息我会第一时间通知您。'},
+      {from:'patient', text:'好的，辛苦了，谢谢！'}
+    ]
   },
   SB31OF: {
     type: 'page', title: '患者线下提交申诉', icon: '\uD83C\uDFE2', iconColor: '#a3a300',
@@ -981,24 +1178,15 @@ const CUSTOM_NODES = {
       '提交后请截图保存受理编号。',
       '提交后请通过企微告知管家。'
     ],
-    buttons: [{text:'我已提交', primary:true}]
+    buttons: [{text:'我已提交', primary:true, goto:'CF32WC'}]
   },
   CF32WC: {
     type: 'page', title: '患者通知已提交申诉', icon: '\u2705', iconColor: '#3B7DED',
-    desc: [
-      '管家您好，我已经在保司提交了申诉。',
-      '受理编号：APPEAL-2026-XXXXX'
-    ],
-    buttons: [{text:'好的，收到', primary:true}]
-  },
-  BK32WC: {
-    type: 'page', title: '引导确认申诉提交', icon: '\uD83D\uDC49', iconColor: '#3B7DED',
-    desc: [
-      '收到！请您回到小程序面板，',
-      '点击「我已提交申诉材料」按钮。',
-      '后续我会跟进申诉进度。'
-    ],
-    buttons: [{text:'好的，马上去', primary:true}]
+    chat: [
+      {from:'patient', text:'管家您好，申诉材料我已经提交给保司了。'},
+      {from:'advisor', text:'好的，收到！'},
+      {from:'advisor', text:'请您回到小程序，点击「确认已提交」按钮，系统会更新您的案件状态。'}
+    ]
   },
   FU33PL: {
     type: 'page', title: '申诉跟进中', icon: '\u23F3', iconColor: '#2f81f7',
@@ -1006,15 +1194,15 @@ const CUSTOM_NODES = {
       '您的申诉已提交至保险公司。',
       '我们会持续跟进申诉进度。'
     ],
-    buttons: [{text:'联系顾问', primary:true}, {text:'查看案件详情'}]
+    buttons: [{text:'我已收到申诉结论，上传', primary:true, goto:'UP38PL'}, {text:'联系管家', goto:'RM34WC'}, {text:'返回我的看板', goto:'DB08PL'}]
   },
   RM34WC: {
     type: 'page', title: '定期跟进申诉', icon: '\uD83D\uDD14', iconColor: '#3B7DED',
-    desc: [
-      '温馨提醒：建议您主动联系保司查询申诉进度。',
-      '如需协助沟通，可随时联系我。'
-    ],
-    buttons: [{text:'好的，我去查', primary:true}]
+    chat: [
+      {from:'advisor', text:'您好，更新一下申诉审核进度。\n目前保司申诉部门正在复审中，预计还需要7-10个工作日。'},
+      {from:'patient', text:'这次应该能通过吧？'},
+      {from:'advisor', text:'根据我们补充的材料，申诉理由是充分的。\n一有结果我会立刻通知您。'}
+    ]
   },
   RC35OF: {
     type: 'page', title: '保司申诉结论', icon: '\uD83D\uDCE8', iconColor: '#a3a300',
@@ -1022,23 +1210,16 @@ const CUSTOM_NODES = {
       '保险公司申诉审核已完成。',
       '患者收到书面申诉审核意见。'
     ],
-    buttons: [{text:'患者已反馈', primary:true}]
+    buttons: [{text:'患者已反馈', primary:true, goto:'CF36WC'}]
   },
   CF36WC: {
     type: 'page', title: '患者告知收到申诉结论', icon: '\uD83D\uDCE9', iconColor: '#3B7DED',
-    desc: [
-      '管家您好，保司的申诉结论出来了。',
-      '（附图/截图）'
-    ],
-    buttons: [{text:'好的，收到', primary:true}]
-  },
-  BK37WC: {
-    type: 'page', title: '引导上传申诉结论', icon: '\uD83D\uDC49', iconColor: '#3B7DED',
-    desc: [
-      '请您回到小程序面板，',
-      '点击「上传申诉结论」按钮。'
-    ],
-    buttons: [{text:'好的，马上去', primary:true}]
+    chat: [
+      {from:'patient', text:'管家，申诉结论出来了！'},
+      {from:'advisor', text:'好的！结果怎么样？'},
+      {from:'patient', text:'通过了，保司同意理赔了。'},
+      {from:'advisor', text:'太棒了！请您回到小程序面板，上传申诉结论文件。\n我来帮您启动后续赔付流程。'}
+    ]
   },
   UP38PL: {
     type: 'upload', title: '上传申诉结论', icon: '\uD83D\uDCC4',
@@ -1046,32 +1227,30 @@ const CUSTOM_NODES = {
     uploads: [
       {name:'申诉审核结论', note:'保司出具的正式申诉审核意见'}
     ],
-    buttons: [{text:'上传', primary:true}, {text:'联系顾问'}, {text:'查看案件详情'}]
+    buttons: [{text:'上传申诉结论', primary:true, goto:'RV38PL'}, {text:'返回我的看板', goto:'DB08PL'}]
   },
   RV38PL: {
     type: 'page', title: '申诉结论已上传', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
     desc: [
       '申诉结论已上传。请选择后续操作：'
     ],
-    buttons: [{text:'我认可并接受', primary:true}, {text:'继续申诉'}, {text:'升级 → 寻求外部支持'}]
+    buttons: [{text:'我认可并接受', primary:true, goto:'OK01BK'}, {text:'继续申诉', goto:'AP28PL'}, {text:'升级 → 寻求外部支持', goto:'EX40WC'}]
   },
   EX40WC: {
     type: 'page', title: '是否寻求外部资源', icon: '\uD83E\uDD1D', iconColor: '#3B7DED',
-    desc: [
-      '经过多次申诉，保司仍未改变结论。',
-      '建议您可以考虑寻求外部专业资源协助：',
-      '1. 协赔专家（不走诉讼，专业协商）',
-      '2. 律师事务所（法庭诉讼）',
-      '我们可以为您推荐合作机构。'
-    ],
-    buttons: [{text:'好的，帮我推荐', primary:true}]
+    chat: [
+      {from:'advisor', text:'目前的情况我了解了。\n您有两个选择：'},
+      {from:'advisor', text:'1. 继续申诉 — 我们重新准备申诉材料\n2. 寻求外部专业支持 — 可以对接协赔专家或律师'},
+      {from:'patient', text:'外部专业支持具体是什么？'},
+      {from:'advisor', text:'我们合作的协赔专家和律师事务所，有丰富的保险理赔经验。\n如果您感兴趣，回到小程序面板可以查看详情。'}
+    ]
   },
   CH41PL: {
     type: 'page', title: '选择外部支持类型', icon: '\u2696', iconColor: '#2f81f7',
     desc: [
       '请选择您希望的外部支持方式：'
     ],
-    buttons: [{text:'协赔专家（专业协商，不走诉讼）', primary:true}, {text:'律师事务所（法庭诉讼）'}]
+    buttons: [{text:'协赔专家（专业协商，不走诉讼）', primary:true, goto:'RC42PL'}, {text:'律师事务所（法庭诉讼）', goto:'LW42PL'}]
   },
   RC42PL: {
     type: 'page', title: '推荐合作机构', icon: '\uD83C\uDFE2', iconColor: '#2f81f7',
@@ -1083,7 +1262,7 @@ const CUSTOM_NODES = {
       '成功案例：处理过 200+ 例 CAR-T 相关理赔',
       '服务费用：按结果收费，前期咨询免费'
     ],
-    buttons: [{text:'我同意此机构作为代理对象', primary:true}, {text:'都不接受，另行寻找'}]
+    buttons: [{text:'我同意此机构作为代理对象', primary:true, goto:'DL43PL'}, {text:'都不接受，另行寻找', goto:'EX44PL'}]
   },
   DL43PL: {
     type: 'page', title: '委托确认', icon: '\uD83D\uDCDD', iconColor: '#238636',
@@ -1098,7 +1277,7 @@ const CUSTOM_NODES = {
       '',
       '我们会将您的案件资料安全移交给该机构。'
     ],
-    buttons: [{text:'预约时间进行案件咨询', primary:true}, {text:'返回我的理赔看板'}]
+    buttons: [{text:'预约时间进行案件咨询', primary:true, goto:'HD43BK'}, {text:'返回我的看板', goto:'DB08PL'}]
   },
   HD43BK: {
     type: 'page', title: '资料移交合作机构', icon: '\uD83D\uDCE4', iconColor: '#8957e5',
@@ -1107,7 +1286,7 @@ const CUSTOM_NODES = {
       '包含：保单信息、病历、理赔材料、审核结论、申诉记录。',
       '交接完成后通知合作机构主动联系患者。'
     ],
-    buttons: [{text:'已完成交接', primary:true}]
+    buttons: [{text:'已完成交接', primary:true, goto:'ED02PL'}]
   },
   ED02PL: {
     type: 'page', title: '已委托外部机构', icon: '\uD83E\uDD1D', iconColor: '#238636',
@@ -1116,7 +1295,7 @@ const CUSTOM_NODES = {
       '机构将在 1-2 个工作日内主动联系您。',
       '岩育健康将持续关注您的案件进展。'
     ],
-    buttons: [{text:'返回我的理赔看板', primary:true}]
+    buttons: [{text:'返回我的看板', primary:true, goto:'DB08PL'}]
   },
   EX44PL: {
     type: 'page', title: '一键导出资料', icon: '\uD83D\uDCE5', iconColor: '#2f81f7',
@@ -1125,7 +1304,7 @@ const CUSTOM_NODES = {
       '点击下方按钮可一键导出所有案件资料：',
       '包含：保单、病历、理赔材料、审核结论、申诉记录等。'
     ],
-    buttons: [{text:'导出全部资料', primary:true}, {text:'返回我的理赔看板'}]
+    buttons: [{text:'导出全部资料', primary:true, goto:'ED03PL'}, {text:'返回我的看板', goto:'DB08PL'}]
   },
   ED03PL: {
     type: 'page', title: '资料已导出', icon: '\u2705', iconColor: '#2f81f7',
@@ -1133,16 +1312,24 @@ const CUSTOM_NODES = {
       '资料已导出至您的设备。',
       '祝您一切顺利，如需帮助随时联系我们。'
     ],
-    buttons: [{text:'返回我的理赔看板', primary:true}]
+    buttons: [{text:'返回我的看板', primary:true, goto:'DB08PL'}]
   },
   RP11BK: {
     type: 'page', title: '出具保障条款分析报告', icon: '\uD83D\uDCCA', iconColor: '#8957e5',
     desc: [
       '保障条款分析报告已出具。',
-      '专家与TPA确认：保单覆盖CAR-T治疗。',
-      '报告将推送至患者端。'
+      '专家与TPA确认保单保障范围及赔付可能性。',
+      '报告将推送至患者端并通知管家。'
     ],
-    buttons: [{text:'推送报告', primary:true}]
+    buttons: [{text:'推送报告', primary:true, goto:'PV03PL'}]
+  },
+  EX08BK: {
+    type: 'page', title: '专家评估', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
+    desc: [
+      '专家正在评估患者的保单条款与病历资料。',
+      '评估内容：保障范围、适应症匹配、赔付可能性。'
+    ],
+    buttons: [{text:'评估完成，提交TPA审查', primary:true, goto:'TP09BK'}]
   },
   TP09BK: {
     type: 'page', title: 'TPA审查', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
@@ -1150,28 +1337,48 @@ const CUSTOM_NODES = {
       'TPA（第三方理赔管理机构）审查中。',
       '核实保单条款覆盖范围与赔付可能性。'
     ],
-    buttons: [{text:'审查通过', primary:true}]
+    buttons: [{text:'审查通过', primary:true, goto:'RP11BK'}]
   },
   PV02PL: {
     type: 'page', title: '评估进行中', icon: '\u23F3', iconColor: '#2f81f7',
     desc: [
       '您的保障条款正在分析中。',
       '专家团队正在审查您的保单，请耐心等候。',
-      '如尚未添加专属管家，请扫描下方二维码。'
+      '',
+      '如尚未添加专属管家，请长按下方二维码添加。'
     ],
     qr: true,
-    qrLabel: '扫码添加专属管家企微',
-    buttons: [{text:'联系顾问', primary:true}, {text:'查看案件详情'}]
+    qrClickable: true,
+    qrLabel: '长按识别添加专属管家',
+    buttons: [{text:'我已扫码', primary:true, goto:'WC07WC'}]
+  },
+  WC07BK: {
+    type: 'page', title: '后台标记待联系', icon: '\uD83D\uDCCB', iconColor: '#8957e5',
+    desc: [
+      '患者尚未扫码添加企微。',
+      '已标记为待联系状态，需主动联系患者引导添加。'
+    ],
+    buttons: [{text:'主动联系', primary:true, goto:'CT01OF'}]
+  },
+  WC07CK: {
+    type: 'page', title: '患者是否扫码？', icon: '\u2753', iconColor: '#8957e5',
+    desc: [
+      '检查患者是否已扫码添加专属管家企业微信。'
+    ],
+    buttons: [{text:'已扫码', primary:true, goto:'WC07WC'}, {text:'未扫码', goto:'WC07BK'}]
   },
   CK22PL: {
-    type: 'page', title: '是否收到审核结论', icon: '\u2753', iconColor: '#8957e5',
-    desc: ['患者是否已收到保司的审核结论？'],
-    buttons: [{text:'是，已收到', primary:true}, {text:'否，继续等待'}]
+    type: 'page', title: '后台确认：是否收到审核结论', icon: '\u2753', iconColor: '#8957e5',
+    desc: [
+      '检查患者是否已收到保司的审核结论。',
+      '如未收到，通过企微提醒患者跟进。'
+    ],
+    buttons: [{text:'是，已收到', primary:true, goto:'RC24OF'}, {text:'否，企微提醒患者', goto:'RM23WC'}]
   },
   CK33PL: {
-    type: 'page', title: '是否收到申诉结论', icon: '\u2753', iconColor: '#8957e5',
-    desc: ['患者是否已收到保司的申诉审核结论？'],
-    buttons: [{text:'是，已收到', primary:true}, {text:'否，继续等待'}]
+    type: 'page', title: '后台确认：是否收到申诉结论', icon: '\u2753', iconColor: '#8957e5',
+    desc: ['检查患者是否已收到保司的申诉审核结论。', '如未收到，通过企微提醒患者跟进。'],
+    buttons: [{text:'是，已收到', primary:true, goto:'RC35OF'}, {text:'否，企微提醒患者', goto:'RM34WC'}]
   },
   LW42PL: {
     type: 'page', title: '推荐律师事务所', icon: '\u2696', iconColor: '#2f81f7',
@@ -1183,24 +1390,243 @@ const CUSTOM_NODES = {
       '胜诉率：85%+',
       '服务费用：按结果收费'
     ],
-    buttons: [{text:'我同意此机构作为代理对象', primary:true}, {text:'都不满意，另行寻找'}]
+    buttons: [{text:'我同意此机构作为代理对象', primary:true, goto:'DL43PL'}, {text:'都不满意，另行寻找', goto:'EX44PL'}]
   },
   ED00PL: {
-    type: 'page', title: '视同结案', icon: '\uD83D\uDCCB', iconColor: '#6e7681',
+    type: 'page', title: '项目已完成', icon: '\uD83D\uDCCB', iconColor: '#6e7681',
     desc: [
-      '本案件已视同结案。',
-      '如有后续需要，请联系客服重新发起。'
+      '您的项目服务已完成。',
+      '感谢您使用岩育健康理赔协助服务。',
+      '',
+      '如有其他需要，欢迎随时联系我们。'
     ],
-    buttons: [{text:'返回首页'}]
+    buttons: [{text:'返回首页', primary:true, goto:'IN02PL'}, {text:'联系客服', goto:'CS00PL'}]
   },
   RJ99PL: {
     type: 'page', title: '审核不通过', icon: '\u2717', iconColor: '#da3633',
     desc: [
-      '很抱歉，您提交的入组资料未通过审核。',
-      '可能原因：保单条款不覆盖 CAR-T 或病种不符合入组条件。',
-      '如有疑问，请联系客服咨询。'
+      '很抱歉，您提交的资料未通过审核。',
+      '',
+      '可能原因：',
+      '· 提交的材料不完整或不清晰',
+      '· 材料信息与填写内容不一致',
+      '· 其他不符合入组条件的情况',
+      '',
+      '您可以重新提交材料，或联系客服了解详情。'
     ],
-    buttons: [{text:'返回首页，重新提交', primary:true}]
+    buttons: [{text:'重新提交', primary:true, goto:'AP03PL'}, {text:'联系客服', goto:'CS00PL'}]
+  },
+  AG01PL: {
+    type: 'page', title: '隐私政策', icon: '\uD83D\uDD12', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 总则</b>',
+      '本隐私政策适用于岩育健康平台提供的所有服务。我们重视您的隐私保护，承诺依法保护您的个人信息安全。',
+      '',
+      '<b>第二条 信息收集</b>',
+      '我们可能收集以下信息：姓名、手机号码、身份证号、保单信息、病历资料等。',
+      '',
+      '<b>第三条 信息使用</b>',
+      '（内容完善中）',
+      '',
+      '<b>第四条 信息保护</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
+  },
+  AG02PL: {
+    type: 'page', title: '平台服务协议', icon: '\uD83D\uDCDD', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 服务内容</b>',
+      '岩育健康平台为符合条件的患者提供保险理赔咨询、材料预审、专家分析等一站式协助服务。',
+      '',
+      '<b>第二条 用户权利与义务</b>',
+      '用户应如实提供个人信息及保险、医疗相关材料。',
+      '',
+      '<b>第三条 平台责任</b>',
+      '（内容完善中）',
+      '',
+      '<b>第四条 免责条款</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
+  },
+  AG03PL: {
+    type: 'page', title: '注册协议', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 账号注册</b>',
+      '用户使用手机号码注册平台账号，一个手机号仅可注册一个账号。',
+      '',
+      '<b>第二条 账号安全</b>',
+      '用户应妥善保管账号及验证码，因用户原因导致的账号安全问题由用户承担。',
+      '',
+      '<b>第三条 账号注销</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
+  },
+  AG04PL: {
+    type: 'page', title: '监护人授权同意书', icon: '\uD83D\uDC64', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 适用范围</b>',
+      '当患者为未成年人或无民事行为能力人时，需由其法定监护人签署本授权同意书。',
+      '',
+      '<b>第二条 授权内容</b>',
+      '监护人同意代为提交保险及医疗相关材料，并授权平台进行保障分析服务。',
+      '',
+      '<b>第三条 监护人责任</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
+  },
+  DB00PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'评估进行中', statusColor:'#2f81f7', goto:'PV02PL', date:'2024-01-15 申请'},
+      {name:'源瑞达患者关爱计划', status:'保障分析已完成', statusColor:'#238636', goto:'PV03PL', date:'2024-01-17 完成'},
+      {name:'源瑞达患者关爱计划', status:'理赔跟进中', statusColor:'#d29922', goto:'FU22PL', date:'2024-02-01 提交'}
+    ]
+  },
+  DB01PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'入组评估中', statusColor:'#d29922', goto:'EV01PL', date:'提交于今天'}
+    ]
+  },
+  DB02PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'保障分析中', statusColor:'#2f81f7', goto:'PV02PL', date:'入组于今天'}
+    ]
+  },
+  DB03PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'保障分析已完成', statusColor:'#238636', goto:'PV03PL', date:'报告已出具'}
+    ]
+  },
+  DB04PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'理赔跟进中', statusColor:'#d29922', goto:'FU22PL', date:'已提交理赔'}
+    ]
+  },
+  CM21PL: {
+    type: 'page', title: '材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
+    desc: [
+      '您的理赔材料已确认并锁定，无法修改。',
+      '请携带材料前往保险公司提交理赔申请。'
+    ],
+    materialList: [
+      {name:'医疗费用发票', status:'\uD83D\uDD12 已锁定', note:'共3张，金额合计 ¥XXX,XXX'},
+      {name:'出院小结 / 诊断证明', status:'\uD83D\uDD12 已锁定', note:'XX医院出具，已盖章'},
+      {name:'用��清单 / 处方', status:'\uD83D\uDD12 已锁定', note:'包含治疗相关费用明细'},
+      {name:'其他支持材料', status:'\uD83D\uDD12 已锁定', note:'检查报告2份'}
+    ],
+    buttons: [{text:'���已向保险公司提交理��材料', primary:true, goto:'SB20OF'}, {text:'确认：我已提交理赔', goto:'DB06PL'}, {text:'返回我的看板', goto:'DB05PL'}]
+  },
+  DB06PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'已提交理赔·跟进中', statusColor:'#d29922', goto:'FU22PL', date:'已提交保司'}
+    ]
+  },
+  DB05PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'材料已确认·待提交保司', statusColor:'#d29922', goto:'DB05DPL', date:'材料已锁定'}
+    ]
+  },
+  LK20PL: {
+    type: 'page', title: '材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
+    desc: [
+      '您的理赔材料已确认并锁定，无法修改。',
+      '请携带材料前往保险公司提交理赔申请。'
+    ],
+    materialList: [
+      {name:'医疗费用发票', status:'\uD83D\uDD12 已锁定', note:'共3张，金额合计 ¥XXX,XXX'},
+      {name:'出院小结 / 诊断证明', status:'\uD83D\uDD12 已锁定', note:'XX医院出具，已盖章'},
+      {name:'用药清单 / 处方', status:'\uD83D\uDD12 已锁定', note:'包含治疗相关费用明细'},
+      {name:'其他支持材料', status:'\uD83D\uDD12 已锁定', note:'检查报告2份'}
+    ],
+    buttons: [{text:'我已向保险公司提交理赔材料', primary:true, goto:'SB20OF'}, {text:'返回我的看板', goto:'DB05PL'}]
+  },
+  CS00PL: {
+    type: 'page', title: '联系客服', icon: '\uD83D\uDCDE', iconColor: '#2f81f7',
+    desc: [
+      '如有任何疑问，请通过以下方式联系我们：',
+      '',
+      '<b>客服热线</b>',
+      '400-XXX-XXXX',
+      '工作时间：周一至周五 9:00-18:00',
+      '',
+      '<b>在线客服</b>',
+      '扫描下方二维码添加在线客服微信'
+    ],
+    qr: true,
+    qrLabel: '扫码添加在线客服',
+    buttons: [{text:'回到首页', primary:true, goto:'IN02PL'}]
+  },
+  EV01PL: {
+    type: 'page', title: '入组评估中', icon: '\u23F3', iconColor: '#2f81f7',
+    desc: [
+      '您的入组申请已提交成功！',
+      '',
+      '我们的专家团队正在审核您的保险与病历资料，评估是否符合入组条件。',
+      '',
+      '预计审核时间：1-2 个工作日',
+      '',
+      '审核完成后将通过短信通知您，届时请回到小程序查看结果。'
+    ],
+    buttons: [{text:'返回看板', goto:'DB01PL'}, {text:'联系客服', goto:'CS00PL'}]
+  },
+  AG05PL: {
+    type: 'page', title: '用户服务条款', icon: '\uD83D\uDCDD', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 服务说明</b>',
+      '本平台提供保险理赔咨询协助服务，包括但不限于：材料预审、保障分析、理赔指导等。',
+      '',
+      '<b>第二条 服务范围</b>',
+      '本服务仅为咨询协助性质，不构成保险代理或法律服务。',
+      '',
+      '<b>第三条 费用说明</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'AP03PL'}]
+  },
+  AG06PL: {
+    type: 'page', title: '个人信息处理授权书', icon: '\uD83D\uDD12', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 授权范围</b>',
+      '您授权本平台收集、存储、使用您提供的个人信息及医疗保险相关材料，用于保障分析及理赔协助服务。',
+      '',
+      '<b>第二条 信息安全</b>',
+      '我们采用加密存储、访问控制等措施保护您的个人信息安全。',
+      '',
+      '<b>第三条 撤回授权</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'AP03PL'}]
+  },
+  AG07PL: {
+    type: 'page', title: '理赔咨询委托协议', icon: '\u2696', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 委托内容</b>',
+      '您委托本平台就您的保险理赔事宜提供专业咨询及协助服务。',
+      '',
+      '<b>第二条 双方权利义务</b>',
+      '委托人应如实提供相关材料；受托方应尽职提供专业意见。',
+      '',
+      '<b>第三条 委托期限</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'AP03PL'}]
   }
 };
 
@@ -1214,20 +1640,44 @@ function renderCustom(nodeId) {
       (c.caption ? '<div style="margin-top:12px;font-size:11px;color:#8b949e;line-height:1.6">' + c.caption + '</div>' : '') +
       '</div>';
   }
+  if (c.type === 'dashboard') {
+    var db = '<div class="phone-frame"><div style="display:flex;flex-direction:column;height:100%;background:#f8fafc">' +
+      '<div style="height:44px;background:#fff;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:center;flex-shrink:0">' +
+      '<span style="font-size:14px;font-weight:700;color:#1e293b">我的看板</span></div>' +
+      '<div style="flex:1;overflow-y:auto;padding:12px">';
+    c.projects.forEach(function(p) {
+      db += '<div onclick="showNodeUI(\'' + p.goto + '\')" style="cursor:pointer;background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid #f1f5f9;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:all .15s"' +
+        ' onmouseover="this.style.borderColor=\'#e2e8f0\';this.style.boxShadow=\'0 4px 6px rgba(0,0,0,.08)\'" onmouseout="this.style.borderColor=\'#f1f5f9\';this.style.boxShadow=\'0 1px 3px rgba(0,0,0,.05)\'">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+        '<span style="font-size:11px;font-weight:700;color:#1e293b">' + p.name + '</span>' +
+        '<span style="font-size:14px;color:#94a3b8">\u203A</span></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center">' +
+        '<span style="font-size:9px;font-weight:600;color:' + p.statusColor + ';background:' + p.statusColor + '15;padding:2px 8px;border-radius:10px">' + p.status + '</span>' +
+        '<span style="font-size:8px;color:#94a3b8">' + p.date + '</span></div></div>';
+    });
+    db += '</div>' +
+      '<div style="padding:8px 12px 12px;flex-shrink:0"><div onclick="showNodeUI(\'IN02PL\')" class="btn btn-secondary" style="cursor:pointer;width:100%;padding:8px;border-radius:8px;font-size:11px;font-weight:600;text-align:center;background:#fff;border:1px solid #e2e8f0;color:#475569">返回首页</div></div>' +
+      '</div></div>';
+    return db;
+  }
   // All other types render inside phone frame
+  var isChat = !!c.chat;
   let body = '';
-  // Icon + badge + heading
-  body += '<div class="icon-box" style="background:' + (c.iconColor || '#B20708') + '">' + (c.icon || '📋') + '</div>';
-  body += '<span class="code-badge">' + nodeId + '</span>';
-  body += '<h2>' + c.title + '</h2>';
+  // Icon + badge + heading (skip for chat/WeChat nodes - they simulate real UI)
+  if (!isChat) {
+    body += '<div class="icon-box" style="background:' + (c.iconColor || '#B20708') + '">' + (c.icon || '📋') + '</div>';
+    body += '<span class="code-badge">' + nodeId + '</span>';
+    body += '<h2>' + c.title + '</h2>';
+  }
   // Chat messages (WeChat style)
-  if (c.chat) {
-    body += '<div style="margin-top:8px">';
+  if (isChat) {
+    body += '<div class="wc-ts">今天 14:00</div>';
+    body += '<div style="margin-top:4px">';
     c.chat.forEach(function(msg) {
       var isP = msg.from === 'patient';
       body += '<div class="wc-row ' + (isP ? 'right' : 'left') + '" style="margin-bottom:6px">' +
         '<div class="wc-av ' + (isP ? 'patient' : 'advisor') + '">' + (isP ? '我' : '岩') + '</div>' +
-        '<div class="wc-body">' + (isP ? '' : '<div class="wc-sender">岩育理赔顾问</div>') +
+        '<div class="wc-body">' + (isP ? '' : '<div class="wc-sender">专属管家</div>') +
         '<div class="wc-bbl ' + (isP ? 'right' : 'left') + '">' + msg.text.replace(/\\n/g,'<br>') + '</div></div></div>';
     });
     body += '</div>';
@@ -1238,7 +1688,10 @@ function renderCustom(nodeId) {
   if (c.fields) {
     body += '<div class="form-group">';
     c.fields.forEach(function(f) {
-      body += '<div class="form-field"><label>' + f.label + '</label><div class="input-mock">' + f.placeholder + '</div></div>';
+      var noteHtml = f.note ? '<span style="color:#f59e0b;font-weight:500;margin-left:4px;text-transform:none">' + f.note + '</span>' : '';
+      var selectStyle = f.select ? ';justify-content:space-between' : '';
+      var selectArrow = f.select ? '<span style="font-size:8px;color:#94a3b8">\u25BC</span>' : '';
+      body += '<div class="form-field"><label>' + f.label + noteHtml + '</label><div class="input-mock" style="' + selectStyle + '">' + f.placeholder + selectArrow + '</div></div>';
     });
     body += '</div>';
   }
@@ -1252,9 +1705,23 @@ function renderCustom(nodeId) {
     });
     body += '</div>';
   }
+  // Material review list
+  if (c.materialList) {
+    body += '<div style="margin-top:12px">';
+    c.materialList.forEach(function(m) {
+      body += '<div style="background:#fff;border:1px solid #f1f5f9;border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor=\'#e2e8f0\'" onmouseout="this.style.borderColor=\'#f1f5f9\'">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center">' +
+        '<span style="font-size:10px;font-weight:700;color:#1e293b">' + m.name + '</span>' +
+        '<span style="font-size:9px;color:#238636;font-weight:600">' + m.status + '</span></div>' +
+        '<div style="font-size:8px;color:#94a3b8;margin-top:3px">' + m.note + '</div>' +
+        '<div style="font-size:8px;color:#2f81f7;margin-top:4px;cursor:pointer">点击查看详情 ›</div></div>';
+    });
+    body += '</div>';
+  }
   // QR code
   if (c.qr) {
-    body += '<div class="qr-area"><div class="qr-box">QR Code</div>' +
+    var qrClick = c.qrClickable ? ' onclick="showNodeUI(\'WC07WC\')" style="cursor:pointer;border-color:#2ea043"' : '';
+    body += '<div class="qr-area"><div class="qr-box"' + qrClick + '><img src="qrcode_wechat.png" style="width:100%;height:100%;object-fit:contain;border-radius:10px"></div>' +
       (c.qrLabel ? '<div class="qr-label">' + c.qrLabel + '</div>' : '') + '</div>';
   }
   // Report sections
@@ -1270,16 +1737,22 @@ function renderCustom(nodeId) {
   }
   // Agreement checkbox
   if (c.agreement) {
+    var agreeHtml = c.agreement.replace(/《([^》]+)》/g, '<span style="color:#B20708;cursor:pointer;text-decoration:underline" onclick="event.stopPropagation();showAgreement(\'$1\')">《$1》</span>');
     body += '<div style="margin-top:14px;padding:10px;background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px">' +
       '<div style="display:flex;align-items:flex-start;gap:6px">' +
       '<div style="width:14px;height:14px;border:1.5px solid #B20708;border-radius:3px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#B20708">\u2713</div>' +
-      '<div style="font-size:9px;color:#64748b;line-height:1.5">' + c.agreement + '</div></div></div>';
+      '<div style="font-size:9px;color:#64748b;line-height:1.5">' + agreeHtml + '</div></div></div>';
   }
   // Buttons
   if (c.buttons) {
     body += '<div class="phone-actions">';
     c.buttons.forEach(function(b) {
-      body += '<div class="btn ' + (b.primary ? 'btn-primary' : 'btn-secondary') + '" style="justify-content:center">' + b.text + '</div>';
+      if (b.disabled) {
+        body += '<div class="btn btn-secondary" style="cursor:not-allowed;opacity:.4;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0"><span>' + b.text + '</span><span style="font-size:14px;opacity:.3">\u203A</span></div>';
+        return;
+      }
+      var clickAttr = b.goto ? ' onclick="showNodeUI(\'' + b.goto + '\')"' : '';
+      body += '<div class="btn ' + (b.primary ? 'btn-primary' : 'btn-secondary') + '"' + clickAttr + ' style="cursor:pointer"><span>' + b.text + '</span><span style="font-size:14px;opacity:.5">\u203A</span></div>';
     });
     body += '</div>';
   }
@@ -1300,7 +1773,7 @@ function renderCustom(nodeId) {
   if (lane === 'wechat') {
     // WeChat chat frame
     return '<div class="phone-frame"><div class="wc-phone">' +
-      '<div class="wc-topbar"><span class="wc-back">‹</span><span class="wc-topbar-title">岩育健康理赔顾问</span><span class="wc-more">···</span></div>' +
+      '<div class="wc-topbar"><span class="wc-back">‹</span><span class="wc-topbar-title">专属管家</span><span class="wc-more">···</span></div>' +
       '<div class="wc-msgs" style="padding:12px"><div class="phone-page" style="min-height:auto">' + body + '</div></div>' +
       '<div class="wc-inputbar"><span style="font-size:16px;color:#555">🎙</span><div class="wc-input-fake"></div><span style="font-size:16px;color:#555">😊</span><span style="font-size:18px;color:#555">⊕</span></div>' +
       '</div></div>';
@@ -1359,10 +1832,10 @@ function buildWechatUI(nodeId,info){
   let chat='<div class="wc-ts">今天 14:00</div>';
   msgs.forEach(m=>{
     const isP=m.from==='patient';
-    chat+='<div class="wc-row '+(isP?'right':'left')+'"><div class="wc-av '+(isP?'patient':'advisor')+'">'+(isP?'我':'岩')+'</div><div class="wc-body">'+(isP?'':'<div class="wc-sender">岩育理赔顾问</div>')+'<div class="wc-bbl '+(isP?'right':'left')+'">'+m.text+'</div></div></div>';
+    chat+='<div class="wc-row '+(isP?'right':'left')+'"><div class="wc-av '+(isP?'patient':'advisor')+'">'+(isP?'我':'岩')+'</div><div class="wc-body">'+(isP?'':'<div class="wc-sender">专属管家</div>')+'<div class="wc-bbl '+(isP?'right':'left')+'">'+m.text+'</div></div></div>';
   });
 
-  return '<div class="phone-frame"><div class="wc-phone"><div class="wc-topbar"><span class="wc-back">‹</span><span class="wc-topbar-title">岩育健康理赔顾问</span><span class="wc-more">···</span></div><div class="wc-msgs">'+chat+'</div><div class="wc-inputbar"><span style="font-size:16px;color:#555">🎙</span><div class="wc-input-fake"></div><span style="font-size:16px;color:#555">😊</span><span style="font-size:18px;color:#555">⊕</span></div></div></div>';
+  return '<div class="phone-frame"><div class="wc-phone"><div class="wc-topbar"><span class="wc-back">‹</span><span class="wc-topbar-title">专属管家</span><span class="wc-more">···</span></div><div class="wc-msgs">'+chat+'</div><div class="wc-inputbar"><span style="font-size:16px;color:#555">🎙</span><div class="wc-input-fake"></div><span style="font-size:16px;color:#555">😊</span><span style="font-size:18px;color:#555">⊕</span></div></div></div>';
 }
 
 // ========== Backend UI ==========
@@ -1424,7 +1897,22 @@ document.getElementById('mermaid-input').addEventListener('keydown',e=>{
 renderDiagram();
 
 // ========== Collapse ==========
-let leftCollapsed=true, rightCollapsed=false;
+let leftCollapsed=true, rightCollapsed=false, centerCollapsed=false;
+function toggleCenter(){
+  centerCollapsed=!centerCollapsed;
+  document.getElementById('center-panel').classList.toggle('collapsed',centerCollapsed);
+  document.getElementById('divider-left').style.display=centerCollapsed?'none':'';
+  document.getElementById('divider-right').style.display=centerCollapsed?'none':'';
+  document.getElementById('expand-center').style.display=centerCollapsed?'':'none';
+  document.getElementById('ui-preview-area').classList.toggle('fullscreen',centerCollapsed);
+  if(centerCollapsed){
+    document.getElementById('right-panel').style.width='100%';
+    document.getElementById('right-panel').style.flex='1';
+  } else {
+    document.getElementById('right-panel').style.width='350px';
+    document.getElementById('right-panel').style.flex='';
+  }
+}
 function toggleLeft(){
   leftCollapsed=!leftCollapsed;
   document.getElementById('left-panel').classList.toggle('collapsed',leftCollapsed);
@@ -1504,6 +1992,154 @@ document.addEventListener('keydown',e=>{
   // Arrow keys: down = first child, up = first parent
   if(e.key==='ArrowDown'&&currentNodeId){e.preventDefault();const c=(graphChildren[currentNodeId]||[]); if(c.length) showNodeUI(c[0]);}
   if(e.key==='ArrowUp'&&currentNodeId){e.preventDefault();const p=(graphParents[currentNodeId]||[]); if(p.length) showNodeUI(p[0]);}
+});
+
+// ========== Screenshot Export (PNG via html2canvas) ==========
+function screenshotUI(){
+  var content=document.getElementById('ui-content');
+  if(!content||content.style.display==='none'){alert('请先选择一个节点');return;}
+  // Hide nav buttons and badge temporarily
+  var navs=content.querySelectorAll('.ui-nav,.node-badge');
+  navs.forEach(function(n){n.style.display='none';});
+  html2canvas(content,{backgroundColor:'#0d1117',scale:2,useCORS:true}).then(function(canvas){
+    navs.forEach(function(n){n.style.display='';});
+    canvas.toBlob(function(blob){
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download=(currentNodeId||'screenshot')+'.png';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    },'image/png');
+  }).catch(function(){
+    navs.forEach(function(n){n.style.display='';});
+    alert('导出失败');
+  });
+}
+
+// ========== Context-Aware Right-Click Edit ==========
+var ctxTarget=null, colorTarget=null;
+
+function buildCtxMenu(el){
+  var items=[];
+  // Detect element type
+  var btn=el.closest('.btn');
+  var desc=el.closest('.desc-line');
+  var bbl=el.closest('.wc-bbl');
+  var heading=el.closest('h2');
+  var label=el.closest('label');
+  var inputMock=el.closest('.input-mock');
+  var uploadName=el.closest('.upload-slot .name, [style*="font-weight:700"]');
+  var iconBox=el.closest('.icon-box');
+  var phoneTitle=el.closest('.phone-nav .page-title,.wc-topbar-title,.admin-logo');
+
+  if(btn){
+    items.push({label:'✏️ 编辑按钮文字', action:function(){makeEditable(btn.querySelector('span')||btn);}});
+    items.push({label:'🎨 按钮颜色', action:function(){showColorPicker(btn,'background');}});
+  } else if(bbl){
+    items.push({label:'✏️ 编辑对话内容', action:function(){makeEditable(bbl);}});
+  } else if(heading){
+    items.push({label:'✏️ 编辑标题', action:function(){makeEditable(heading);}});
+  } else if(desc){
+    items.push({label:'✏️ 编辑描述', action:function(){makeEditable(desc);}});
+  } else if(label){
+    items.push({label:'✏️ 编辑标签', action:function(){makeEditable(label);}});
+  } else if(inputMock){
+    items.push({label:'✏️ 编辑占位文字', action:function(){makeEditable(inputMock);}});
+  } else if(iconBox){
+    items.push({label:'🎨 图标颜色', action:function(){showColorPicker(iconBox,'background');}});
+  } else {
+    // Generic: find closest text-bearing element
+    var textEl=el.closest('div,span,p');
+    if(textEl&&textEl.textContent.trim()){
+      items.push({label:'✏️ 编辑文字', action:function(){makeEditable(textEl);}});
+    }
+  }
+  // Color option for any element
+  var styledEl=btn||iconBox||el.closest('.phone-frame,.admin-frame,.wc-topbar');
+  if(styledEl&&!btn&&!iconBox){
+    items.push({label:'🎨 背景颜色', action:function(){showColorPicker(styledEl,'background');}});
+  }
+  if(styledEl){
+    items.push({label:'🎨 文字颜色', action:function(){showColorPicker(el.closest('div,span')||el,'color');}});
+  }
+  // Always show screenshot
+  items.push({label:'📷 截图导出 PNG', action:screenshotUI});
+  return items;
+}
+
+function makeEditable(el){
+  if(!el) return;
+  el.contentEditable='true';
+  el.focus();
+  el.style.outline='2px solid #2f81f7';
+  el.style.borderRadius='3px';
+  el.style.minWidth='20px';
+  // Select all text
+  var range=document.createRange();
+  range.selectNodeContents(el);
+  var sel=window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  function done(){
+    el.contentEditable='false';
+    el.style.outline='';
+    el.removeEventListener('blur',done);
+    el.removeEventListener('keydown',onKey);
+  }
+  function onKey(e){
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();el.blur();}
+    if(e.key==='Escape'){el.blur();}
+  }
+  el.addEventListener('blur',done);
+  el.addEventListener('keydown',onKey);
+}
+
+function showColorPicker(el,prop){
+  colorTarget={el:el,prop:prop};
+  var picker=document.getElementById('color-picker-popup');
+  var input=document.getElementById('color-input');
+  var current=window.getComputedStyle(el)[prop==='background'?'backgroundColor':'color'];
+  // Convert rgb to hex
+  var m=current.match(/(\d+)/g);
+  if(m&&m.length>=3) input.value='#'+m.slice(0,3).map(function(v){return ('0'+parseInt(v).toString(16)).slice(-2);}).join('');
+  var rect=el.getBoundingClientRect();
+  picker.style.left=rect.right+8+'px';
+  picker.style.top=rect.top+'px';
+  picker.style.display='block';
+}
+function applyColor(){
+  if(!colorTarget) return;
+  var val=document.getElementById('color-input').value;
+  if(colorTarget.prop==='background'){
+    colorTarget.el.style.background=val;
+  } else {
+    colorTarget.el.style.color=val;
+  }
+  document.getElementById('color-picker-popup').style.display='none';
+  colorTarget=null;
+}
+
+document.getElementById('ui-preview-area').addEventListener('contextmenu',function(e){
+  if(!currentNodeId) return;
+  e.preventDefault();
+  var menu=document.getElementById('ctx-menu');
+  var items=buildCtxMenu(e.target);
+  menu.innerHTML='';
+  items.forEach(function(item){
+    var b=document.createElement('button');
+    b.textContent=item.label;
+    b.onclick=function(){menu.style.display='none';item.action();};
+    menu.appendChild(b);
+  });
+  menu.style.display='block';
+  menu.style.left=Math.min(e.clientX,window.innerWidth-180)+'px';
+  menu.style.top=Math.min(e.clientY,window.innerHeight-items.length*32-10)+'px';
+});
+document.addEventListener('click',function(e){
+  var menu=document.getElementById('ctx-menu');
+  if(!menu.contains(e.target)) menu.style.display='none';
+  var picker=document.getElementById('color-picker-popup');
+  if(!picker.contains(e.target)&&e.target!==document.getElementById('color-input')) picker.style.display='none';
 });
 </script>
 </body>
