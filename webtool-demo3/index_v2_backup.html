@@ -213,6 +213,12 @@ textarea{resize:vertical}
 .backend-card .status-box .label{font-size:9px;color:#94a3b8;font-weight:600}
 .backend-card .status-box .value{font-size:12px;color:#1e293b;font-weight:700;margin-top:3px}
 
+/* ========== AI Context Note ========== */
+.ai-context-note{width:280px;background:#1c2128;border:1px solid #444c56;border-radius:8px;padding:12px;margin-bottom:16px;font-size:10px;color:#8b949e;line-height:1.5}
+.ai-context-note .title{font-weight:600;color:#e6edf3;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.ai-context-note .title::before{content:'💡';font-size:12px}
+#ui-preview-area.fullscreen .ai-context-note{width:220px;margin-top:0;margin-bottom:0;flex-shrink:0;position:sticky;top:16px;height:fit-content}
+
 /* ========== Nav buttons in UI panel ========== */
 .ui-nav{display:flex;gap:6px;margin-top:12px;width:280px;justify-content:center}
 .ui-nav button{flex:1;padding:6px;font-size:10px;font-weight:600;color:#8b949e;border:1px solid #30363d;
@@ -275,7 +281,6 @@ textarea{resize:vertical}
     PV02PL[PV02PL 看板：评估进行中]
     PV03PL[PV03PL 保障条款分析完成\n点击查看]
     RP10PL[RP10PL 查看保障分析报告]
-    PV03PL[PV03PL 材料已确认\n理赔申请书编制中]
 
     %% subgraph WC [企微]
     NF06WC[NF06WC 管家告知\n报告预期时间]
@@ -306,8 +311,12 @@ textarea{resize:vertical}
     DB03PL[DB03PL 看板：分析已完成]
     DB04PL[DB04PL 看板：理赔跟进中]
 
-    %% Phase 1: 入组
-    EN01PL --> IN02PL --> RG04PL --> AP03PL --> EV01PL --> MT05BK
+    %% Phase 1: 入组与静默鉴权分发
+    EN01PL -.->|获取OpenID| CK00BK{CK00BK 静默身份鉴权}
+    CK00BK -->|已有在途理赔单| DB00PL
+    CK00BK -->|已注册但无提单| AP03PL
+    CK00BK -->|查无名下账号| IN02PL
+    IN02PL --> RG04PL --> AP03PL --> EV01PL --> MT05BK
     EV01PL -->|联系客服| CS00PL
     CS00PL --> IN02PL
     IN02PL -->|查看进度| EV01PL
@@ -390,7 +399,7 @@ textarea{resize:vertical}
     RM23WC --> FU22PL
     CK22PL -->|是| RC24OF --> CF25WC[CF25WC 患者企微告知\n收到审核结论]
     CF25WC --> UP27PL[UP27PL 上传审核结论]
-    UP27PL --> RV27PL[RV27PL 审核结论已上传\n「我认可并接受」/「我不认可，我要申诉」]
+    UP27PL --> RV27PL[RV27PL 审核结论已上传\n「我认可并接受」/「对结论有异议，发起申诉」]
 
     %% Phase 1.9a: Accept -> follow up payment -> close
     RV27PL -->|我认可并接受| OK01BK[OK01BK 后台标记\n理赔认可]
@@ -449,7 +458,7 @@ textarea{resize:vertical}
 
     class IN02PL,ED00PL,PV03PL,RP10PL,SY16PL,UL17PL,LK19PL,FU22PL,UP27PL,RV27PL,PD01PL,ED01PL,AP28PL,FU33PL,UP38PL,RV38PL,CH41PL,RC42PL,LW42PL,DL43PL,EX44PL,ED02PL,ED03PL,AP03PL,RG04PL,MT05PL,PV02PL,RJ99PL,PV03PL,AG01PL,AG02PL,AG03PL,AG04PL,AG05PL,AG06PL,AG07PL,EV01PL,CS00PL,DB00PL,DB01PL,DB02PL,DB03PL,DB04PL,DB05PL,DB06PL,UL17BPL,LK20PL,CM21PL,AP28BPL,DB07PL,DB08PL,LK31PL,CM32PL sys
     class NF06WC,NF07WC,NT18WC,CF22WC,WC07WC,CS11WC,CS12WC,CS13WC,CF15WC,BK16WC,GD17WC,CF21WC,RM23WC,CF25WC,FP01WC,OK02WC,GD29WC,CF32WC,RM34WC,CF36WC,EX40WC,NT29WC,CF33WC wechat
-    class MT05BK,AU05BK,CK22PL,CK33PL,TP09BK,CK18BK,OK01BK,CK29BK,HD43BK,WC07CK,WC07BK,EX08BK,RP11BK backend
+    class MT05BK,AU05BK,CK22PL,CK33PL,TP09BK,CK18BK,OK01BK,CK29BK,HD43BK,WC07CK,WC07BK,EX08BK,RP11BK,CK00BK backend
     class ED01PL success
     class CT01OF,DC14OF,SB20OF,RC24OF,SB31OF,RC35OF offline
     class EN01PL external
@@ -614,7 +623,12 @@ function showNodeUI(nodeId){
   laneLabel.textContent=meta.icon+' '+meta.label;
   laneLabel.style.color=meta.color;
 
-  let html='<div class="ui-main"><div class="node-badge" style="background:'+meta.color+'18;color:'+meta.color+';border:1px solid '+meta.color+'44">'+meta.icon+' '+nodeId+'</div>';
+  let html = '';
+  if(CUSTOM_NODES[nodeId] && CUSTOM_NODES[nodeId].note) {
+    html+='<div class="ai-context-note"><div class="title">上下文笔记 (AI Context)</div>'+CUSTOM_NODES[nodeId].note+'</div>';
+  }
+
+  html+='<div class="ui-main"><div class="node-badge" style="background:'+meta.color+'18;color:'+meta.color+';border:1px solid '+meta.color+'44">'+meta.icon+' '+nodeId+'</div>';
 
   // Custom node UI (data-driven) or generic
   if(CUSTOM_NODES[nodeId]) html+=renderCustom(nodeId);
@@ -694,12 +708,24 @@ function highlightNode(nodeId){
 // ========== Custom Node Config (data-driven) ==========
 const CUSTOM_NODES = {
   EN01PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(当前，EN01PL 患者扫码进入)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 患者扫描线下物料二维码，获取并触发理赔协助服务的线上程序入口。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 无。全新会话与数据起点。</div>',
     type: 'photo',
     title: '患者扫码进入',
     img: '物料二维码.png',
     caption: '医院放置实体二维码立牌<br>患者扫码进入理赔咨询服务'
   },
+  CK00BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(当前，CK00BK 静默身份鉴权)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 后台网关隐形拦截层。系统根据 OpenID 查数据库做全局路由分流发牌，决定患者接下来究竟走向哪一条主干（防止重复建档与重复看广告）。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 纯后端跳转控制器，无实体 UI。</div>',
+    type: 'server', title: '静默身份鉴权', icon: '🔀', iconColor: '#a371f7',
+    desc: [
+      '系统后台根据获取到的微信 OpenID 查库碰撞：',
+      '1. 查询不到账号：新进用户大盘，放行去 IN02PL（看项目介绍）。',
+      '2. 查到账号，但没发起过入组：已流失的用户，跳过验证码直接发配去 AP03PL。',
+      '3. 查到已在途数据：直接折跃跳转（Teleport）到 DB00 系列对应进度的日常看板。'
+    ]
+  },
   IN02PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `IN02PL(当前，IN02PL 项目介绍页)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 展示“源瑞达患者关爱计划”的规则及服务细则，提供“立即申请入组”等核心转化操作入口。<br><strong>【核心路由守卫】</strong>：具备静默分流机制。若识别为已有在途单据的老用户，强制跳跃本节点及注册节点，直达与其生命周期对应的系统看板（DB系列）；若识别为已注册但无提单的用户，跳过注册验证直达 `AP03PL`。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 标准化静态展示页面，无历史数据继承要求。</div>',
     type: 'page', title: '岩育、河源项目介绍', icon: '📋',
     desc: [
       '源瑞达是一款面向患者的创新药物，在疗效与安全性方面经严格临床验证，为有需要的患者提供更优质的治疗选择。',
@@ -710,6 +736,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'立即申请入组', primary:true, goto:'RG04PL'}, {text:'查看我的申请进度', goto:'EV01PL'}]
   },
   RG04PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `IN02PL(IN02PL 项目介绍页)` -> `RG04PL(当前，RG04PL 注册并登录)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行用户系统身份创建。要求输入手机号码并发起端侧短信验证；同步收集《隐私政策》等多项法定授权协议的签署记录。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 标准数据输入表单。安全起见，因验证码具备即时失效性，如发生页面中断或刷新，【不得】继承历史输入，强制要求清空页面重新获取验证码。</div>',
     type: 'form', title: '注册平台账号', icon: '📝',
     fields: [
       {label:'手机号码', placeholder:'请输入手机号码'},
@@ -719,6 +746,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'注册并登录', primary:true, goto:'AP03PL'}]
   },
   AP03PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(当前，AP03PL 提交保险与病历资料)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行入组资料的首次采集。系统要求上传流转所需的保单明细、病理报告及治疗建议书，作为判断是否准入的数据依据。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 文件上传组件。若患者发生中断后重新进入此节点，页面组件需向服务器拉取并渲染此前已暂存的文件缩略图或数据清单。</div>',
     type: 'upload', title: '提交保险与病历资料', icon: '📎',
     desc: [
       '1. 请上传以下材料，专家将据此为您进行保障分析，评估 CAR-T 治疗能否通过保险理赔。',
@@ -730,9 +758,10 @@ const CUSTOM_NODES = {
       {name:'主治医师治疗建议书', note:'医生出具的 CAR-T 治疗建议'}
     ],
     agreement: '我已阅读并同意《用户服务条款》《个人信息处理授权书》《理赔咨询委托协议》',
-    buttons: [{text:'提交材料', primary:true, goto:'EV01PL'}, {text:'暂时跳过'}]
+    buttons: [{text:'提交材料', primary:true, goto:'EV01PL'}, {text:'暂不提交', goto:'IN02PL'}]
   },
   MT05PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `MT05BK(MT05BK 后台审查入组资料)` -> `AU05BK(AU05BK 审查成功)` -> `MT05PL(当前，MT05PL 入组成功 显示专属管家企微二维码)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 宣告前置入组评审通过，并执行管家服务绑定机制。通过企业微信关联二维码，实施从公域向私域人工服务介入的导流操作。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> UI聚焦于动态加载的企微管家二维码图元。下方的“进入看板”等组件在此节点须作弱化设计处理。</div>',
     type: 'page', title: '入组成功', icon: '\u2713', iconColor: '#238636',
     desc: [
       '恭喜您，入组申请已通过！',
@@ -743,6 +772,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'进入我的看板', primary:true, goto:'DB02PL'}]
   },
   MT05BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `MT05BK(当前，MT05BK 后台审查入组资料)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 运营专员执行人工入组初筛。核心判断逻辑为：核对患者病历与诊断类型是否符合“合源生物 CAR-T 项目”的入组标准，兼辅检查保单上传是否完整。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 后台管理工作台界面。需提供分屏或弹窗布局：加载患者在 `AP03PL` 上传的病案凭证，并提供入参包含“通过”与“驳回/打回原因”的决策数据表单。</div>',
     type: 'page', title: '后台审查入组资料', icon: '⚙️', iconColor: '#8957e5',
     desc: [
       '后台已收到患者提交的保险资料与病历材料。',
@@ -751,6 +781,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'审查通过 → 入组成功', primary:true, goto:'AU05BK'}, {text:'审核中 → 用户等待页', goto:'EV01PL'}, {text:'审查不通过 → 终止服务', goto:'RJ99PL'}]
   },
   AU05BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `MT05BK(MT05BK 后台审查入组资料)` -> `AU05BK(当前，AU05BK 审查成功)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 系统在数据库侧将患者生命周期状态扭转为“入组成功”，并经由微信网关接口向患者端下发标准模板通知。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 后台操作成功指令反馈，系统主动将该工单移出待办列表库。</div>',
     type: 'page', title: '审查成功', icon: '\u2713', iconColor: '#238636',
     desc: [
       '入组资料审查通过！',
@@ -761,6 +792,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'变更患者状态 → 入组成功', primary:true, goto:'MT05PL'}]
   },
   WC07WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `MT05BK(MT05BK 后台审查入组资料)` -> `AU05BK(AU05BK 审查成功)` -> `MT05PL(MT05PL 入组成功 显示专属管家企微二维码)` -> `WC07CK(WC07CK 患者是否扫码？)` -> `WC07WC(当前，WC07WC 患者已添加企微)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 企微对话初始化。系统通过企业微信欢迎语接口自动下发破冰问候，并在此节点直接向患者设定初步业务预期（明确告知：从提交保单与病历之日起算，保障分析报告预计将于 2 个工作日内完成）。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微聊天视窗。当前展示首次问候及时间预期设定。**强制要求**：后续所有的企微会话组件，必须支持原生聊天界面的向上滑动检视操作（通过滑鼠滚轮向上滚动获取历史文本），以确保对话的连续性追溯。</div>',
     type: 'page', title: '患者已添加企微', icon: '\u23F0', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'您好！我是您的专属管家。\n已经看到您的入组信息，后续理赔流程全程由我协助您。'},
@@ -769,6 +801,7 @@ const CUSTOM_NODES = {
     ]
   },
   NF06WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `MT05BK(MT05BK 后台审查入组资料)` -> `AU05BK(AU05BK 审查成功)` -> `MT05PL(MT05PL 入组成功 显示专属管家企微二维码)` -> `WC07CK(WC07CK 患者是否扫码？)` -> `WC07WC(WC07WC 患者已添加企微)` -> `NF06WC(当前，NF06WC 管家告知 报告预期时间)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 建立患者预期管理体系。管家向患者同步保障分析进入实质性操作阶段，并在聊天中设定标准交付时效（如：2个工作日）。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 聊天气泡堆叠渲染。UI 必须调取并呈现 `WC07WC` 中的历史破冰交互内容，不可孤立显示当前发言。</div>',
     type: 'page', title: '管家告知报告预期时间', icon: '\u2709', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'您好！我是您的专属管家。'},
@@ -778,6 +811,7 @@ const CUSTOM_NODES = {
     ]
   },
   NF07WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV02PL(PV02PL 看板：评估进行中)` -> `EX08BK(EX08BK 专家评估)` -> `TP09BK(TP09BK)` -> `RP11BK(RP11BK 出具保障条款分析报告)` -> `NF07WC(当前，NF07WC 管家通知 报告已完成)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 企微事件通知触达。管家接收系统 Webhook 后，告知患者分析已完毕，将患者导流回小程序端看板。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 聊天气泡渲染。除了本条通知内容，由于距离上次 `NF06WC` 会话可能有 1~2 天断层，UI面板必须完整加载前续全部的对话记录树底稿。</div>',
     type: 'page', title: '管家通知报告已完成', icon: '\u2709', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'您好，您的保障分析报告已经完成了！'},
@@ -787,6 +821,7 @@ const CUSTOM_NODES = {
     ]
   },
   PV03PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(当前，PV03PL 保障条款分析完成 点击查看)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 核心阶段性成果闭环通知页。状态机扭转为分析完成态，明确释出“查看保障分析报告”为主干操作路径。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 进度里程碑页面替换。界面提示文案由 `PV02PL` 的“处理中”动态置换为“已完成”，主按钮置亮。</div>',
     type: 'page', title: '保障条款分析完成', icon: '\u2705', iconColor: '#238636',
     desc: [
       '您的保障分析报告已完成！',
@@ -796,6 +831,7 @@ const CUSTOM_NODES = {
   },
 
   RP10PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(当前，RP10PL 查看保障分析报告)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行复杂结构化内容的释读。将原本晦涩繁杂的保单条款，映射为针对 CAR-T / 化疗等具体医疗项目的矩阵判断表（符合预判、例外项预警）。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 复杂报告数据渲染。要求系统在此级页面获取由 `RP11BK` 生成的全部 JSON/树状业务表单，依结构转化为报告阅读视图。不可编辑仅做展示。</div>',
     type: 'report', title: '保障条款分析报告', icon: '\uD83D\uDCCA',
     sections: [
       {heading:'适应症确认', lines:[
@@ -823,6 +859,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'预约专属解读', primary:true, goto:'CS11WC'}, {text:'返回我的看板', goto:'DB03PL'}]
   },
   CT01OF: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `MT05BK(MT05BK 后台审查入组资料)` -> `AU05BK(AU05BK 审查成功)` -> `MT05PL(MT05PL 入组成功 显示专属管家企微二维码)` -> `WC07CK(WC07CK 患者是否扫码？)` -> `WC07BK(WC07BK 后台标记待联系)` -> `CT01OF(当前，CT01OF 主动联系患者 加企业微信)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 专属管家调取注册时获取的手机号码，通过电话呼叫干预，引导患者在线下完成企微添加。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 后台坐席电话外呼记录面板，需支持录入“外呼结果备注”。</div>',
     type: 'page', title: '主动联系患者', icon: '\uD83D\uDCDE', iconColor: '#a3a300',
     desc: [
       '患者未扫码添加企微。',
@@ -832,6 +869,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'已联系成功', primary:true, goto:'NF06WC'}, {text:'联系失败，稍后重试', goto:'WC07CK'}]
   },
   CS11WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(当前，CS11WC 企微预约专属解读服务)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 产生交互操作。患者基于对报告的阅读，向管家发起一对一的业务解读请求。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微通讯界面更新。系统需向该界面调取并堆叠自入组激活以来所有的历史交互数据，维持消息轴的连贯性。</div>',
     type: 'page', title: '预约专属解读', icon: '\uD83D\uDCC5', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'您好，看到您预约了专属解读服务。\n我是您的专属管家，现在方便为您解读吗？'},
@@ -840,6 +878,7 @@ const CUSTOM_NODES = {
     ]
   },
   CS12WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(当前，CS12WC 管家告知医疗行为合规要点)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 管家执行理赔防错宣导策略。向患者明确界定理赔核心红线（如发票章印收据硬性标准、文本遣词限制），以此控制后续退单风险。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微通讯界面更新。新增对应的内容段落，保留过往通讯记录的滑动检视能力。</div>',
     type: 'page', title: '医疗行为合规要点', icon: '\u2696', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'根据您的保单条款，以下几点请务必注意：'},
@@ -848,6 +887,7 @@ const CUSTOM_NODES = {
     ]
   },
   CS13WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(当前，CS13WC 管家告知各疗程条款对应)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 管家协助患者拆解不同临床方案与保单标的的适配吻合率，提供明确的数据辅助决策参数。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微通讯界面更新，同上。</div>',
     type: 'page', title: '各疗程条款对应', icon: '\uD83D\uDCCB', iconColor: '#3B7DED',
     chat: [
       {from:'patient', text:'医生给了我几个治疗方案，想知道保险能不能报。'},
@@ -856,6 +896,7 @@ const CUSTOM_NODES = {
     ]
   },
   DC14OF: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(当前，DC14OF 患者线下决定疗程并付款)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 记录患者的物理世界动作：在临床单位与主治医师落定诊疗方案选项，并交割完毕医疗相关开支。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 无前端系统干预视图。全局架构呈现挂起监听位点。</div>',
     type: 'page', title: '患者线下决定疗程', icon: '\uD83C\uDFE5', iconColor: '#a3a300',
     desc: [
       '患者与主治医生沟通后，线下决定治疗方案。',
@@ -865,6 +906,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'患者已反馈', primary:true, goto:'CF15WC'}]
   },
   CF15WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(当前，CF15WC 患者企微告知已决定疗程)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 患者基于外部确认，自主跨端向企微抛出事件处理完结反馈信号。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微通讯视图层再次发生事件更新叠加。</div>',
     type: 'page', title: '患者告知已决定疗程', icon: '\u2705', iconColor: '#3B7DED',
     chat: [
       {from:'patient', text:'管家您好，我已经决定好治疗方案了。'},
@@ -873,6 +915,7 @@ const CUSTOM_NODES = {
     ]
   },
   BK16WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(当前，BK16WC 管家告知回面板点申请理赔指引)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行操作网关转接。管家人为捕获信号后，经由该节点切分流程，强制导流患者返回至主干小程序载体发起次级链路。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微通讯界面连贯渲染下发。</div>',
     type: 'page', title: '引导申请理赔指引', icon: '\uD83D\uDC49', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'恭喜您确定了治疗方案！\n接下来我们将协助您进行理赔申请。'},
@@ -881,6 +924,7 @@ const CUSTOM_NODES = {
     ]
   },
   SY16PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(当前，SY16PL 我已支付疗程 申请理赔指引)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 连接“报告研判评估”向“切实执行理赔归档”两大系统的物理过渡桥梁节点。要求患者输入触发该动作指令。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 标准前台操作确认按钮呈现。无跨段落特长继承。</div>',
     type: 'page', title: '申请理赔指引', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
     desc: [
       '您已完成疗程选择并付款。',
@@ -889,6 +933,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已支付疗程，申请理赔指引', primary:true, goto:'GD17WC'}, {text:'返回我的看板', goto:'DB03PL'}]
   },
   GD17WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(当前，GD17WC)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行数据入参规则分发。管家基于业务接口下发一份标配完整的表单影印件标准资料手册给患者。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微通讯记录流做最终该段落呈现积累。</div>',
     type: 'page', title: '引导上传理赔单据', icon: '\uD83D\uDCDD', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'好的，现在进入理赔材料准备阶段。'},
@@ -898,6 +943,7 @@ const CUSTOM_NODES = {
     ]
   },
   UL17PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(当前，UL17PL)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 患者端执行核心事实证据库建档提交活动。通过 UI 上下行传输接口分批录入出院记事板与医疗回执账单等凭据。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 表单数据容器构建。包含断流缓存取回机制（在会话断开并二次连接时自动挂载此前已传递且上传完毕的文件切片缩略预览图）。</div>',
     type: 'upload', title: '上传理赔单据', icon: '\uD83D\uDCC4',
     desc: [
       '请按以下清单上传理赔所需单据。',
@@ -912,6 +958,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'提交审核', primary:true, goto:'CK18BK'}, {text:'确认以上材料无误', disabled:true}, {text:'返回我的看板', goto:'DB03PL'}]
   },
   CK18BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(UL17PL)` -> `CK18BK(当前，CK18BK 后台检查 材料是否合格？)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 后端执行初阶逻辑判别。审查专员依据标定要求对数据样本规格执行粗放型校对（仅作证伪过滤及影像残损检查，此动作不等同核准保金的最终审批权）。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 复合调度台界面呈现。系统需要把在 `UL17PL` 生成所有影像组渲染并排列于判定表盘的一侧以用作交互对比。</div>',
     type: 'page', title: '后台审核上传材料', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
     desc: [
       '正在审核患者上传的理赔单据。',
@@ -920,6 +967,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'审核通过', primary:true, goto:'NT18WC'}, {text:'需要补件', goto:'GD17WC'}]
   },
   UL17BPL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(UL17PL)` -> `CK18BK(CK18BK 后台检查 材料是否合格？)` -> `NT18WC(NT18WC 管家通知 材料审核通过)` -> `UL17BPL(当前，UL17BPL 上传理赔单据 审核通过·可提交)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 患者端的上传界面变为“已锁定/复核通过”状态。由可编辑过渡为只读。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 理赔单据确认视图。对已通过预审的单据渲染绿色“已核验”标签，并锁定不可修改；对需补件条目提供高亮交互入口。</div>',
     type: 'upload', title: '上传理赔单据', icon: '\uD83D\uDCC4', iconColor: '#238636',
     desc: [
       '材料已通过预审核 ✅',
@@ -935,15 +983,17 @@ const CUSTOM_NODES = {
     buttons: [{text:'补充上传并重新审核', goto:'CK18BK'}, {text:'确认以上材料无误', primary:true, goto:'DB05PL'}, {text:'返回我的看板', goto:'DB03PL'}]
   },
   NT18WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(UL17PL)` -> `CK18BK(CK18BK 后台检查 材料是否合格？)` -> `NT18WC(当前，NT18WC 管家通知 材料审核通过)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 通知专员初检结验无硬伤，下行推送核验完毕消息并催动患者落签提交。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微通讯链信息积累展示，呈现出连贯的操作节点时间轴。</div>',
     type: 'page', title: '管家通知材料审核通过', icon: '\u2705', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'好消息！您上传的理赔材料已经全部审核通过，没有问题。'},
       {from:'patient', text:'太好了！接下来怎么做？'},
-      {from:'advisor', text:'请回到小程序，在理赔页面点击「确认提交」按钮。\n提交后上传界面会锁定，之后就可以去保司提交了。'},
+      {from:'advisor', text:'请回到小程序，在理赔页面点击「确认以上材料无误」按钮。\n提交后上传界面会锁定文档作为凭证，之后就可以带着线下材料去保司提交了。'},
       {from:'patient', text:'好的，马上去。'}
     ]
   },
   SB20OF: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(UL17PL)` -> `CK18BK(CK18BK 后台检查 材料是否合格？)` -> `NT18WC(NT18WC 管家通知 材料审核通过)` -> `UL17BPL(UL17BPL 上传理赔单据 审核通过·可提交)` -> `DB05PL(DB05PL 看板：材料已确认)` -> `LK20PL(LK20PL 材料清单·已锁定)` -> `SB20OF(当前，SB20OF 患者线下 去保司提交理赔)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 记录患者脱机物理位点动作：携带经平台审核整理的复印凭证库，前往合作保司理赔中心或专属 APP 渠道递交官方申请。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 无直接前端交互呈现。平台底层维系后台流转追踪。</div>',
     type: 'page', title: '患者线下提交理赔', icon: '\uD83C\uDFE2', iconColor: '#a3a300',
     desc: [
       '请前往保险公司官方渠道提交理赔申请：',
@@ -955,6 +1005,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已提交', primary:true, goto:'CF21WC'}]
   },
   CF21WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(UL17PL)` -> `CK18BK(CK18BK 后台检查 材料是否合格？)` -> `NT18WC(NT18WC 管家通知 材料审核通过)` -> `UL17BPL(UL17BPL 上传理赔单据 审核通过·可提交)` -> `DB05PL(DB05PL 看板：材料已确认)` -> `LK20PL(LK20PL 材料清单·已锁定)` -> `SB20OF(SB20OF 患者线下 去保司提交理赔)` -> `CF21WC(当前，CF21WC 患者企微通知 已提交理赔材料)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 数据闭环确认。患者双跨端验证：通过企微文字以及在小程序确认签到宣告自身完结提交动作，管家予以收到回执。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微通讯面板动态更新。叠加呈现管家回执消息，支持滑鼠滚轮向上平滑访问系统历史所有信息文本。</div>',
     type: 'page', title: '患者通知已提交理赔', icon: '\u2705', iconColor: '#3B7DED',
     chat: [
       {from:'patient', text:'管家您好，理赔材料我已经提交给保司了。'},
@@ -963,6 +1014,7 @@ const CUSTOM_NODES = {
     ]
   },
   CF22WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(UL17PL)` -> `CK18BK(CK18BK 后台检查 材料是否合格？)` -> `NT18WC(NT18WC 管家通知 材料审核通过)` -> `UL17BPL(UL17BPL 上传理赔单据 审核通过·可提交)` -> `DB05PL(DB05PL 看板：材料已确认)` -> `LK20PL(LK20PL 材料清单·已锁定)` -> `SB20OF(SB20OF 患者线下 去保司提交理赔)` -> `CF21WC(CF21WC 患者企微通知 已提交理赔材料)` -> `CM21PL(CM21PL 确认已提交 理赔材料)` -> `DB06PL(DB06PL 看板：已提交理赔)` -> `CF22WC(当前，CF22WC 患者告知 已在系统确认)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 数据闭环确认。患者双跨端验证：通过企微文字以及在小程序确认签到宣告自身完结提交动作，管家予以收到回执。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微通讯面板动态更新。叠加呈现管家回执消息，支持滑鼠滚轮向上平滑访问系统历史所有信息文本。</div>',
     type: 'page', title: '患者告知已在系统确认', icon: '\u2705', iconColor: '#3B7DED',
     chat: [
       {from:'patient', text:'管家，我已经在系统上点了确认提交了。'},
@@ -972,6 +1024,7 @@ const CUSTOM_NODES = {
     ]
   },
   FU22PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(当前，FU22PL 系统状态 理赔跟进中)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 应对长期沉淀期的挂起等待设计。面对可能持续达 1 个月的保司审查，向频频打开小程序的用户呈现标准进度静止说明，拦截焦虑情绪。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 看板底层逻辑的持续展示页。需展示明确的联系人工触点入口。</div>',
     type: 'page', title: '理赔跟进中', icon: '\u23F3', iconColor: '#2f81f7',
     desc: [
       '您的理赔材料已提交至保险公司。',
@@ -982,6 +1035,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已收到审核结论，上传', primary:true, goto:'UP27PL'}, {text:'联系管家', goto:'RM23WC'}, {text:'返回我的看板', goto:'DB06PL'}]
   },
   RM23WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RM23WC(当前，RM23WC)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 在漫长的等待期中，管家定期安抚患者情绪的标准化话术。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微对话持久化视图。继承所有理赔跟进互动记录，管家话术应体现出对保司审核周期的阶段性把控。</div>',
     type: 'page', title: '定期跟进提醒', icon: '\uD83D\uDD14', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'您好，跟您更新一下理赔进度。\n目前保司仍在审核中，预计还需要5-7个工作日。'},
@@ -990,6 +1044,7 @@ const CUSTOM_NODES = {
     ]
   },
   RC24OF: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(当前，RC24OF)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 产生实体决定流转。保险公司将最核心的审批裁定文件直接发往下游业务参与个体（患者）。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 不涉及本系统的 UI 设计展示。</div>',
     type: 'page', title: '保司审核结论', icon: '\uD83D\uDCE8', iconColor: '#a3a300',
     desc: [
       '保险公司审核已完成。',
@@ -999,6 +1054,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'患者已反馈', primary:true, goto:'CF25WC'}]
   },
   CF25WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(当前，CF25WC 患者企微告知 收到审核结论)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 患者基于外部事件流输入，自主跨端向企微回抛核心结账凭证信号。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微通讯视图动态迭代更新。</div>',
     type: 'page', title: '患者告知收到结论', icon: '\uD83D\uDCE9', iconColor: '#3B7DED',
     chat: [
       {from:'patient', text:'管家，我收到保司的审核结论了。'},
@@ -1008,6 +1064,7 @@ const CUSTOM_NODES = {
     ]
   },
   UP27PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(当前，UP27PL 上传审核结论)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行核心归档录入活动，要求患者将外部环境捕获到的合法凭证结构化归集至本系统底层内存档备查。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 专用上传组件呈现。若意外刷新页面或后退重进必须取回暂存缩略截屏件。</div>',
     type: 'upload', title: '上传审核结论', icon: '\uD83D\uDCC4',
     desc: [
       '请上传保司审核结论材料'
@@ -1018,14 +1075,16 @@ const CUSTOM_NODES = {
     buttons: [{text:'上传审核结论', primary:true, goto:'RV27PL'}, {text:'返回我的看板', goto:'DB06PL'}]
   },
   RV27PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(当前，RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 最高等级生命周期分支分流器。接收玩家的二元对立输入指令：执行接纳保司账面理算标准（胜利分支），抑或发起抗辩裁决程序（陷入痛苦循环分支）。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 排他性互斥按钮逻辑交互呈现组。此节点无跨阶段上游数据关联拖累要求。</div>',
     type: 'page', title: '审核结论已上传', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
     desc: [
       '审核结论已成功上传。',
       '请仔细阅读保司的审核意见，选择后续操作：'
     ],
-    buttons: [{text:'我认可并接受', primary:true, goto:'OK01BK'}, {text:'我不认可，我要申诉', goto:'GD29WC'}]
+    buttons: [{text:'我认可并接受', primary:true, goto:'OK01BK'}, {text:'对结论有异议，发起申诉', goto:'GD29WC'}]
   },
   OK01BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `OK01BK(当前，OK01BK 后台标记 理赔认可)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 后台接收端点。后端程序强制对本档案记录附加“未发生争议”与“入袋核实期”安全标记池。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 后端判定管理板交互界限。</div>',
     type: 'page', title: '理赔认可 - 后台标记', icon: '\u2705', iconColor: '#8957e5',
     desc: [
       '患者已认可保司审核结论。',
@@ -1034,6 +1093,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'开始跟进赔付', primary:true, goto:'FP01WC'}]
   },
   FP01WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `OK01BK(OK01BK 后台标记 理赔认可)` -> `FP01WC(当前，FP01WC 企微协助 跟进赔付进度)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 收尾阶段患者期许管理。管家下达资金结算打款期预警等待指标，提供收款信息查询核对手段，并同步小程序末段等候看板指示。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微消息层累计堆栈与看板末级进度标定逻辑显示联动。此阶段必须确保聊天纪录往上拉能见到早期项目入组承诺及整个指导经过。</div>',
     type: 'page', title: '协助跟进赔付', icon: '\uD83D\uDCB0', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'恭喜您，理赔已经获批！\n我来协助您跟进后续赔付流程。'},
@@ -1043,6 +1103,7 @@ const CUSTOM_NODES = {
     ]
   },
   PD01PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `OK01BK(OK01BK 后台标记 理赔认可)` -> `FP01WC(FP01WC 企微协助 跟进赔付进度)` -> `PD01PL(当前，PD01PL 系统状态 等待保司赔付)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 收尾阶段患者期许管理。管家下达资金结算打款期预警等待指标，提供收款信息查询核对手段，并同步小程序末段等候看板指示。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微消息层累计堆栈与看板末级进度标定逻辑显示联动。此阶段必须确保聊天纪录往上拉能见到早期项目入组承诺及整个指导经过。</div>',
     type: 'page', title: '等待保司赔付', icon: '\u23F3', iconColor: '#2f81f7',
     desc: [
       '理赔审核已通过，等待保司赔付。',
@@ -1051,6 +1112,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'联系管家', primary:true, goto:'FP01WC'}, {text:'返回我的看板', goto:'DB06PL'}]
   },
   OK02WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `OK01BK(OK01BK 后台标记 理赔认可)` -> `FP01WC(FP01WC 企微协助 跟进赔付进度)` -> `PD01PL(PD01PL 系统状态 等待保司赔付)` -> `OK02WC(当前，OK02WC 患者确认 已收到理赔款项)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 财务对账落子完结标志。患者自主向端点释放“真金白银结转实际达成”信号，系统准备触发销户结转程序。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 最后一次有效的企微消息积累视图迭代添加点。</div>',
     type: 'page', title: '确认收到理赔款', icon: '\uD83D\uDCB5', iconColor: '#3B7DED',
     chat: [
       {from:'patient', text:'管家，理赔款已经到账了！谢谢你全程协助。'},
@@ -1059,6 +1121,7 @@ const CUSTOM_NODES = {
     ]
   },
   ED01PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `OK01BK(OK01BK 后台标记 理赔认可)` -> `FP01WC(FP01WC 企微协助 跟进赔付进度)` -> `PD01PL(PD01PL 系统状态 等待保司赔付)` -> `OK02WC(OK02WC 患者确认 已收到理赔款项)` -> `ED01PL(当前，ED01PL 项目完成 理赔成功结案)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 释放资源挂起监听进程。全面终止服务周期流出，弹出全局最终静态结算导览告知框。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 非交互只读特化的胜利图腾页渲染，彻底割裂此前数据录入关联交互通道。</div>',
     type: 'page', title: '理赔成功结案', icon: '\uD83C\uDF89', iconColor: '#238636',
     desc: [
       '恭喜您，理赔已成功完成！',
@@ -1069,6 +1132,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'返回首页', primary:true, goto:'IN02PL'}]
   },
   GD29WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(当前，GD29WC 企微引导 申诉材料准备)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行高维度的强对抗举证动作。此阶段的逻辑严苛度大于一审，管家的核心焦点转为指导获取特定的“推翻性医学证明补充”以突破保司红线；后台专员对二次申诉证据实行靶向预审判决。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> **具有强历史叠加属性**。在前端所有的申诉单据上传模块中（如 `AP28PL`），UI 组件绝不可将患者一审时已入档的基底卷宗隔离丢弃，而是必须联动展开（或默认折叠挂载）一审材料记录视图。向患者传递此刻是“在稳固的旧底案之上追加新核销凭证”的心智状态。企微通讯端同理叠加。</div>',
     type: 'page', title: '申诉材料指导', icon: '\uD83D\uDCDD', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'收到，您选择对审核结论提出申诉。\n我来指导您准备申诉材料。'},
@@ -1077,6 +1141,7 @@ const CUSTOM_NODES = {
     ]
   },
   AP28PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(当前，AP28PL)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行高维度的强对抗举证动作。此阶段的逻辑严苛度大于一审，管家的核心焦点转为指导获取特定的“推翻性医学证明补充”以突破保司红线；后台专员对二次申诉证据实行靶向预审判决。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> **具有强历史叠加属性**。在前端所有的申诉单据上传模块中（如 `AP28PL`），UI 组件绝不可将患者一审时已入档的基底卷宗隔离丢弃，而是必须联动展开（或默认折叠挂载）一审材料记录视图。向患者传递此刻是“在稳固的旧底案之上追加新核销凭证”的心智状态。企微通讯端同理叠加。</div>',
     type: 'upload', title: '申诉指引 - 上传单据', icon: '\u270D',
     desc: [
       '您选择对审核结论提出申诉。',
@@ -1092,6 +1157,7 @@ const CUSTOM_NODES = {
   },
 
   CK29BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(当前，CK29BK)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> (后台视角) 专家审核这些用于申诉的材料是否充分。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 后台专家抗辩审核台。提供申诉材料与一审拒赔理由的同屏对照视图，高亮显示新补充的推翻性证据。</div>',
     type: 'page', title: '后台审核申诉材料', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
     desc: [
       '正在审核患者上传的申诉材料。',
@@ -1100,15 +1166,17 @@ const CUSTOM_NODES = {
     buttons: [{text:'审核通过', primary:true, goto:'NT29WC'}, {text:'需要补件', goto:'GD29WC'}]
   },
   NT29WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(当前，NT29WC 管家通知 申诉材料审核通过)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 确认申诉材料可用，管家通知患者。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微服务窗口。消息记录需继承该案件从材料准备到预审通过的全过程，确保患者复核信息时路径连贯。</div>',
     type: 'page', title: '管家通知申诉材料审核通过', icon: '\u2705', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'好消息！您上传的申诉材料已经全部审核通过，没有问题。'},
       {from:'patient', text:'太好了！接下来怎么做？'},
-      {from:'advisor', text:'请回到小程序，在申诉页面点击「确认提交」按钮。\n提交后上传界面会锁定，之后就可以去保司提交了。'},
+      {from:'advisor', text:'请回到小程序，在申诉页面点击「确认以上材料无误」按钮。\n提交后上传界面会锁定文档作为凭证，之后就可以带着线下材料去保司提交了。'},
       {from:'patient', text:'好的，马上去。'}
     ]
   },
   AP28BPL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(当前，AP28BPL 上传申诉单据 审核通过·可提交)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 申诉材料锁定前夕的最后核对。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 申诉件封卷指引。单据列表执行“半锁定”策略，仅允许浏览预审通过的附件，屏蔽删除指令。</div>',
     type: 'upload', title: '上传申诉单据', icon: '\u270D', iconColor: '#238636',
     desc: [
       '材料已通过预审核 \u2705',
@@ -1123,6 +1191,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'补充上传并重新审核', goto:'CK29BK'}, {text:'确认以上材料无误', primary:true, goto:'DB07PL'}, {text:'返回我的看板', goto:'DB08PL'}]
   },
   DB07PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(当前，DB07PL 看板：申诉材料已确认)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 进入申诉阶段后的当前卷宗锁定状态。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 申诉阶段专属看板。进度条锚定至“材料已锁定”，卡片状态色切换为“待提交（黄色预警）”。</div>',
     type: 'dashboard',
     title: '我的看板',
     projects: [
@@ -1130,6 +1199,7 @@ const CUSTOM_NODES = {
     ]
   },
   LK31PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(当前，LK31PL 申诉材料清单·已锁定)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 申诉电子卷宗封卷，患者准备向保司再度出击。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 电子卷宗清单。UI 层面需模拟“档案袋封装”视觉，对每一条目附加不可撤回的数字时间戳标记。</div>',
     type: 'page', title: '申诉材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
     desc: [
       '您的申诉材料已确认并锁定，无法修改。',
@@ -1140,9 +1210,10 @@ const CUSTOM_NODES = {
       {name:'补充医疗证明', status:'\uD83D\uDD12 已锁定', note:'支持申诉理由的医疗材料'},
       {name:'申诉理由说明', status:'\uD83D\uDD12 已锁定', note:'已提交'}
     ],
-    buttons: [{text:'我已向保险公司提交申诉材料', primary:true, goto:'SB31OF'}, {text:'返回我的看板', goto:'DB07PL'}]
+    buttons: [{text:'去保险公司提交', primary:true, goto:'SB31OF'}, {text:'返回我的看板', goto:'DB07PL'}]
   },
   CM32PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(当前，CM32PL 申诉材料清单·已锁定)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 患者在系统中点击了申诉提交里程碑。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 动作确认反馈。按钮交互需触达后端状态机完成“线下提交成功”的二元信号同步。</div>',
     type: 'page', title: '申诉材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
     desc: [
       '您的申诉材料已确认并锁定，无法修改。',
@@ -1153,9 +1224,10 @@ const CUSTOM_NODES = {
       {name:'补充医疗证明', status:'\uD83D\uDD12 已锁定', note:'支持申诉理由的医疗材料'},
       {name:'申诉理由说明', status:'\uD83D\uDD12 已锁定', note:'已提交'}
     ],
-    buttons: [{text:'我已向保险公司提交申诉材料', primary:true, goto:'SB31OF'}, {text:'确认：我已提交申诉', goto:'DB08PL'}, {text:'返回我的看板', goto:'DB07PL'}]
+    buttons: [{text:'确认：我已提交申诉', primary:true, goto:'DB08PL'}, {text:'返回我的看板', goto:'DB07PL'}]
   },
   DB08PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(当前，DB08PL 看板：已提交申诉)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 作为法务底座承托整个平台的运营规则说明；作为主控总线为各类子集阶段提供业务进度的宏观数据展现与路由锚点。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 看板 UI (`DB`系列) 必须配载高度敏捷的后端状态侦听器，通过读取用户当前的唯一 `status` 字段，精准点亮其复杂时序流转树中的当期锚位坐标图元。</div>',
     type: 'dashboard',
     title: '我的看板',
     projects: [
@@ -1163,6 +1235,7 @@ const CUSTOM_NODES = {
     ]
   },
   CF33WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(当前，CF33WC 患者告知 已在系统确认)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 系统确认的沟通互动。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微确认交互。消息气泡需包含对患者小程序操作行为的实时反馈确认词。</div>',
     type: 'page', title: '患者告知已在系统确认', icon: '\u2705', iconColor: '#3B7DED',
     chat: [
       {from:'patient', text:'管家，我已经在系统上点了确认提交了。'},
@@ -1172,6 +1245,7 @@ const CUSTOM_NODES = {
     ]
   },
   SB31OF: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(当前，SB31OF 患者线下 去保司提交申诉)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 患者将补充好的抗辩材料提交给保司审查。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 线下行动导引。以醒目色块展示保司办公时间及受理地址（模拟），并保留“联系管家”浮动窗口。</div>',
     type: 'page', title: '患者线下提交申诉', icon: '\uD83C\uDFE2', iconColor: '#a3a300',
     desc: [
       '请前往保险公司官方渠道提交申诉申请。',
@@ -1181,6 +1255,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已提交', primary:true, goto:'CF32WC'}]
   },
   CF32WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(当前，CF32WC 患者企微通知 已提交申诉材料)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 患者告知管家申诉材料已提交。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微告知视图。作为申诉线下件递交后的第一个事实节点，对话框需继承所有前序抗辩准备文案。</div>',
     type: 'page', title: '患者通知已提交申诉', icon: '\u2705', iconColor: '#3B7DED',
     chat: [
       {from:'patient', text:'管家您好，申诉材料我已经提交给保司了。'},
@@ -1189,6 +1264,7 @@ const CUSTOM_NODES = {
     ]
   },
   FU33PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(当前，FU33PL 系统状态 申诉跟进中)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 漫长的申诉审核等待期看板。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 申诉进度观测看板。需动态展示申诉受理编号及预计复核时长，拦截患者的高频低效询问。</div>',
     type: 'page', title: '申诉跟进中', icon: '\u23F3', iconColor: '#2f81f7',
     desc: [
       '您的申诉已提交至保险公司。',
@@ -1197,6 +1273,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已收到申诉结论，上传', primary:true, goto:'UP38PL'}, {text:'联系管家', goto:'RM34WC'}, {text:'返回我的看板', goto:'DB08PL'}]
   },
   RM34WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RM34WC(当前，RM34WC)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 安抚等待申诉结果的患者。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 申诉维护窗口。继承前置所有的申诉提交记录，消息模版采用高信度专业跟进话术组件。</div>',
     type: 'page', title: '定期跟进申诉', icon: '\uD83D\uDD14', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'您好，更新一下申诉审核进度。\n目前保司申诉部门正在复审中，预计还需要7-10个工作日。'},
@@ -1205,6 +1282,7 @@ const CUSTOM_NODES = {
     ]
   },
   RC35OF: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(当前，RC35OF)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 申诉战的最终裁定落下。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 信息接收状态标定，无前端直接 UI 设计（线下动作），其状态由后续 CF36WC 激活。</div>',
     type: 'page', title: '保司申诉结论', icon: '\uD83D\uDCE8', iconColor: '#a3a300',
     desc: [
       '保险公司申诉审核已完成。',
@@ -1213,6 +1291,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'患者已反馈', primary:true, goto:'CF36WC'}]
   },
   CF36WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(当前，CF36WC 患者企微告知 收到申诉结论)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 告知管家申诉结果。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 企微反馈录入。消息中应包含跳转至结论上传模块的专属 DeepLink 磁贴卡片。</div>',
     type: 'page', title: '患者告知收到申诉结论', icon: '\uD83D\uDCE9', iconColor: '#3B7DED',
     chat: [
       {from:'patient', text:'管家，申诉结论出来了！'},
@@ -1222,6 +1301,7 @@ const CUSTOM_NODES = {
     ]
   },
   UP38PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(当前，UP38PL 上传申诉结论)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 患者将二次裁决的结论文件上传。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 二次结论上传组件。需严格区分于一审件，上传框需渲染“二次申诉结果”特定占位符。</div>',
     type: 'upload', title: '上传申诉结论', icon: '\uD83D\uDCC4',
     desc: ['请上传保司申诉审核结论'],
     uploads: [
@@ -1230,6 +1310,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'上传申诉结论', primary:true, goto:'RV38PL'}, {text:'返回我的看板', goto:'DB08PL'}]
   },
   RV38PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(当前，RV38PL 申诉结论已上传 选择后续操作)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行高维度的强对抗举证动作。此阶段的逻辑严苛度大于一审，管家的核心焦点转为指导获取特定的“推翻性医学证明补充”以突破保司红线；后台专员对二次申诉证据实行靶向预审判决。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> **具有强历史叠加属性**。在前端所有的申诉单据上传模块中（如 `AP28PL`），UI 组件绝不可将患者一审时已入档的基底卷宗隔离丢弃，而是必须联动展开（或默认折叠挂载）一审材料记录视图。向患者传递此刻是“在稳固的旧底案之上追加新核销凭证”的心智状态。企微通讯端同理叠加。</div>',
     type: 'page', title: '申诉结论已上传', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
     desc: [
       '申诉结论已上传。请选择后续操作：'
@@ -1237,6 +1318,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我认可并接受', primary:true, goto:'OK01BK'}, {text:'继续申诉', goto:'AP28PL'}, {text:'申请外部协助', goto:'EX40WC'}]
   },
   EX40WC: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(RV38PL 申诉结论已上传 选择后续操作)` -> `EX40WC(当前，EX40WC 管家询问 是否寻求外部资源)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行法定权限与隐私的隔离交割作业。平台端集中呈现外部特种援助军火库（专业协赔顾问及法务诉讼律所）的资质背书，在获得患者显性授权委托（`DL43PL`）的先决条件下，解冻隐私限制，实施核心病历包向指定第三方的定向输送。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 在跳转至机构选择与资历背书视图层时，UI 切换为高信度只读展示范式，并于底层切断患者对原主干数据上传通道的编辑权。</div>',
     type: 'page', title: '是否寻求外部资源', icon: '\uD83E\uDD1D', iconColor: '#3B7DED',
     chat: [
       {from:'advisor', text:'目前的情况我了解了。\n您有两个选择：'},
@@ -1246,6 +1328,7 @@ const CUSTOM_NODES = {
     ]
   },
   CH41PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(RV38PL 申诉结论已上传 选择后续操作)` -> `EX40WC(EX40WC 管家询问 是否寻求外部资源)` -> `CH41PL(当前，CH41PL)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行法定权限与隐私的隔离交割作业。平台端集中呈现外部特种援助军火库（专业协赔顾问及法务诉讼律所）的资质背书，在获得患者显性授权委托（`DL43PL`）的先决条件下，解冻隐私限制，实施核心病历包向指定第三方的定向输送。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 在跳转至机构选择与资历背书视图层时，UI 切换为高信度只读展示范式，并于底层切断患者对原主干数据上传通道的编辑权。</div>',
     type: 'page', title: '选择外部支持类型', icon: '\u2696', iconColor: '#2f81f7',
     desc: [
       '请选择您希望的外部支持方式：'
@@ -1253,6 +1336,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'协赔专家（专业协商，不走诉讼）', primary:true, goto:'RC42PL'}, {text:'律师事务所（法庭诉讼）', goto:'LW42PL'}]
   },
   RC42PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(RV38PL 申诉结论已上传 选择后续操作)` -> `EX40WC(EX40WC 管家询问 是否寻求外部资源)` -> `CH41PL(CH41PL)` -> `RC42PL(当前，RC42PL)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行法定权限与隐私的隔离交割作业。平台端集中呈现外部特种援助军火库（专业协赔顾问及法务诉讼律所）的资质背书，在获得患者显性授权委托（`DL43PL`）的先决条件下，解冻隐私限制，实施核心病历包向指定第三方的定向输送。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 在跳转至机构选择与资历背书视图层时，UI 切换为高信度只读展示范式，并于底层切断患者对原主干数据上传通道的编辑权。</div>',
     type: 'page', title: '推荐合作机构', icon: '\uD83C\uDFE2', iconColor: '#2f81f7',
     desc: [
       '为您推荐以下合作机构：',
@@ -1262,9 +1346,10 @@ const CUSTOM_NODES = {
       '成功案例：处理过 200+ 例 CAR-T 相关理赔',
       '服务费用：按结果收费，前期咨询免费'
     ],
-    buttons: [{text:'我同意此机构作为代理对象', primary:true, goto:'DL43PL'}, {text:'都不接受，另行寻找', goto:'EX44PL'}]
+    buttons: [{text:'我同意此机构作为代理对象', primary:true, goto:'DL43PL'}, {text:'不需要推荐，自行寻找协助', goto:'EX44PL'}]
   },
   DL43PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(RV38PL 申诉结论已上传 选择后续操作)` -> `EX40WC(EX40WC 管家询问 是否寻求外部资源)` -> `CH41PL(CH41PL)` -> `RC42PL(RC42PL)` -> `DL43PL(当前，DL43PL)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行法定权限与隐私的隔离交割作业。平台端集中呈现外部特种援助军火库（专业协赔顾问及法务诉讼律所）的资质背书，在获得患者显性授权委托（`DL43PL`）的先决条件下，解冻隐私限制，实施核心病历包向指定第三方的定向输送。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 在跳转至机构选择与资历背书视图层时，UI 切换为高信度只读展示范式，并于底层切断患者对原主干数据上传通道的编辑权。</div>',
     type: 'page', title: '委托确认', icon: '\uD83D\uDCDD', iconColor: '#238636',
     desc: [
       '您已选择委托 XXX 机构。',
@@ -1280,6 +1365,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'预约时间进行案件咨询', primary:true, goto:'HD43BK'}, {text:'返回我的看板', goto:'DB08PL'}]
   },
   HD43BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(RV38PL 申诉结论已上传 选择后续操作)` -> `EX40WC(EX40WC 管家询问 是否寻求外部资源)` -> `CH41PL(CH41PL)` -> `RC42PL(RC42PL)` -> `DL43PL(DL43PL)` -> `HD43BK(当前，HD43BK 后台一键转发 资料给合作机构)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行法定权限与隐私的隔离交割作业。平台端集中呈现外部特种援助军火库（专业协赔顾问及法务诉讼律所）的资质背书，在获得患者显性授权委托（`DL43PL`）的先决条件下，解冻隐私限制，实施核心病历包向指定第三方的定向输送。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 在跳转至机构选择与资历背书视图层时，UI 切换为高信度只读展示范式，并于底层切断患者对原主干数据上传通道的编辑权。</div>',
     type: 'page', title: '资料移交合作机构', icon: '\uD83D\uDCE4', iconColor: '#8957e5',
     desc: [
       '正在将患者资料一键转发给合作机构。',
@@ -1289,6 +1375,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'已完成交接', primary:true, goto:'ED02PL'}]
   },
   ED02PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(RV38PL 申诉结论已上传 选择后续操作)` -> `EX40WC(EX40WC 管家询问 是否寻求外部资源)` -> `CH41PL(CH41PL)` -> `RC42PL(RC42PL)` -> `DL43PL(DL43PL)` -> `HD43BK(HD43BK 后台一键转发 资料给合作机构)` -> `ED02PL(当前，ED02PL 已委托外部机构 等待后续)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 强制切断所有进行中的挂起监听反馈，直接执行全案卷的实体输出打包分发或封版销毁归档作业。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 极简配置的静态反馈页。页面须彻底执行“熔断锁定”，物理截断该账号在本次理赔生命周期地图内的一切编辑修改入口，仅保留最基础的安全退回通道。</div>',
     type: 'page', title: '已委托外部机构', icon: '\uD83E\uDD1D', iconColor: '#238636',
     desc: [
       '您的案件已移交至 XXX 机构。',
@@ -1298,6 +1385,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'返回我的看板', primary:true, goto:'DB08PL'}]
   },
   EX44PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(RV38PL 申诉结论已上传 选择后续操作)` -> `EX40WC(EX40WC 管家询问 是否寻求外部资源)` -> `CH41PL(CH41PL)` -> `RC42PL(RC42PL)` -> `EX44PL(当前，EX44PL)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 强制切断所有进行中的挂起监听反馈，直接执行全案卷的实体输出打包分发或封版销毁归档作业。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 极简配置的静态反馈页。页面须彻底执行“熔断锁定”，物理截断该账号在本次理赔生命周期地图内的一切编辑修改入口，仅保留最基础的安全退回通道。</div>',
     type: 'page', title: '一键导出资料', icon: '\uD83D\uDCE5', iconColor: '#2f81f7',
     desc: [
       '您选择自行寻找外部支持。',
@@ -1307,6 +1395,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'导出全部资料', primary:true, goto:'ED03PL'}, {text:'返回我的看板', goto:'DB08PL'}]
   },
   ED03PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(RV38PL 申诉结论已上传 选择后续操作)` -> `EX40WC(EX40WC 管家询问 是否寻求外部资源)` -> `CH41PL(CH41PL)` -> `RC42PL(RC42PL)` -> `EX44PL(EX44PL)` -> `ED03PL(当前，ED03PL 资料已导出 返回我的看板)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 强制切断所有进行中的挂起监听反馈，直接执行全案卷的实体输出打包分发或封版销毁归档作业。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 极简配置的静态反馈页。页面须彻底执行“熔断锁定”，物理截断该账号在本次理赔生命周期地图内的一切编辑修改入口，仅保留最基础的安全退回通道。</div>',
     type: 'page', title: '资料已导出', icon: '\u2705', iconColor: '#2f81f7',
     desc: [
       '资料已导出至您的设备。',
@@ -1315,6 +1404,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'返回我的看板', primary:true, goto:'DB08PL'}]
   },
   RP11BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV02PL(PV02PL 看板：评估进行中)` -> `EX08BK(EX08BK 专家评估)` -> `TP09BK(TP09BK)` -> `RP11BK(当前，RP11BK 出具保障条款分析报告)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 结案文件生成动作。后台系统将内外部评估数据封装打包，正式签发数字化的《保障条款分析报告》并持久化。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 后台报表签发系统操作界面。</div>',
     type: 'page', title: '出具保障条款分析报告', icon: '\uD83D\uDCCA', iconColor: '#8957e5',
     desc: [
       '保障条款分析报告已出具。',
@@ -1324,6 +1414,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'推送报告', primary:true, goto:'PV03PL'}]
   },
   EX08BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV02PL(PV02PL 看板：评估进行中)` -> `EX08BK(当前，EX08BK 专家评估)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 医疗/理赔专家核心业务活动。基于保单详细条款与诊疗凭证，进行专业深度的适配性矩阵比对。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 专家级审查台。需同屏并排查阅多份患者影像附件档案，以及专业录入模块。</div>',
     type: 'page', title: '专家评估', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
     desc: [
       '专家正在评估患者的保单条款与病历资料。',
@@ -1332,6 +1423,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'评估完成，提交TPA审查', primary:true, goto:'TP09BK'}]
   },
   TP09BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV02PL(PV02PL 看板：评估进行中)` -> `EX08BK(EX08BK 专家评估)` -> `TP09BK(当前，TP09BK)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 第三方复核机制。引入 TPA（第三方理赔管理机构）数据评估通道作为交叉校验基准。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 审核流转台。系统在展示患者原始资料外，需额外追加并渲染在 `EX08BK` 中由内部专家生成的初步结论记录供 TPA 调阅参考。</div>',
     type: 'page', title: 'TPA审查', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
     desc: [
       'TPA（第三方理赔管理机构）审查中。',
@@ -1340,6 +1432,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'审查通过', primary:true, goto:'RP11BK'}]
   },
   PV02PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV02PL(当前，PV02PL 看板：评估进行中)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 响应用户主动进度查询。明确提示当前处于专家条款剖析的真空期，安抚焦虑情绪。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 项目看板。进度链条呈处理中高亮，同时**继续保留暴露企微二维码组件**。患者若已添加，重复扫码由微信底层自然接管拉起已有对话框，系统侧无需做隐藏强干预。</div>',
     type: 'page', title: '评估进行中', icon: '\u23F3', iconColor: '#2f81f7',
     desc: [
       '您的保障条款正在分析中。',
@@ -1353,6 +1446,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已扫码', primary:true, goto:'WC07WC'}]
   },
   WC07BK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `MT05BK(MT05BK 后台审查入组资料)` -> `AU05BK(AU05BK 审查成功)` -> `MT05PL(MT05PL 入组成功 显示专属管家企微二维码)` -> `WC07CK(WC07CK 患者是否扫码？)` -> `WC07BK(当前，WC07BK 后台标记待联系)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 异常业务追踪流转。系统将迟迟未添加企微的患者记录提取至逾期预警池，生成主动回访工单。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 后台预警面板。以标红形式高亮展示逾期待回访工单记录。</div>',
     type: 'page', title: '后台标记待联系', icon: '\uD83D\uDCCB', iconColor: '#8957e5',
     desc: [
       '患者尚未扫码添加企微。',
@@ -1361,6 +1455,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'主动联系', primary:true, goto:'CT01OF'}]
   },
   WC07CK: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `MT05BK(MT05BK 后台审查入组资料)` -> `AU05BK(AU05BK 审查成功)` -> `MT05PL(MT05PL 入组成功 显示专属管家企微二维码)` -> `WC07CK(当前，WC07CK 患者是否扫码？)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 后端轮询验证机制。系统通过企业微信开放平台接口，校验患者是否已实际完成与管家账号的添加动作。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 无前端 UI。纯后端数据流转节点。</div>',
     type: 'page', title: '患者是否扫码？', icon: '\u2753', iconColor: '#8957e5',
     desc: [
       '检查患者是否已扫码添加专属管家企业微信。'
@@ -1368,6 +1463,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'已扫码', primary:true, goto:'WC07WC'}, {text:'未扫码', goto:'WC07BK'}]
   },
   CK22PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(当前，CK22PL 患者是否已收到 保司审核结论？)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 后台定期追踪申诉出结果没有。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 【文案待补充】</div>',
     type: 'page', title: '后台确认：是否收到审核结论', icon: '\u2753', iconColor: '#8957e5',
     desc: [
       '检查患者是否已收到保司的审核结论。',
@@ -1376,11 +1472,13 @@ const CUSTOM_NODES = {
     buttons: [{text:'是，已收到', primary:true, goto:'RC24OF'}, {text:'否，企微提醒患者', goto:'RM23WC'}]
   },
   CK33PL: {
+    note: '',
     type: 'page', title: '后台确认：是否收到申诉结论', icon: '\u2753', iconColor: '#8957e5',
     desc: ['检查患者是否已收到保司的申诉审核结论。', '如未收到，通过企微提醒患者跟进。'],
     buttons: [{text:'是，已收到', primary:true, goto:'RC35OF'}, {text:'否，企微提醒患者', goto:'RM34WC'}]
   },
   LW42PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(RV38PL 申诉结论已上传 选择后续操作)` -> `EX40WC(EX40WC 管家询问 是否寻求外部资源)` -> `CH41PL(CH41PL)` -> `LW42PL(当前，LW42PL 推荐律师事务所 名称+简介)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 展示合作律所的诉讼胜率等背书信息。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 机构资质展示页。需继承合作律所的胜诉率、专业排名等高纬度背书数据。</div>',
     type: 'page', title: '推荐律师事务所', icon: '\u2696', iconColor: '#2f81f7',
     desc: [
       '为您推荐以下合作律师事务所：',
@@ -1390,9 +1488,10 @@ const CUSTOM_NODES = {
       '胜诉率：85%+',
       '服务费用：按结果收费'
     ],
-    buttons: [{text:'我同意此机构作为代理对象', primary:true, goto:'DL43PL'}, {text:'都不满意，另行寻找', goto:'EX44PL'}]
+    buttons: [{text:'我同意此机构作为代理对象', primary:true, goto:'DL43PL'}, {text:'不需要推荐，自行寻找协助', goto:'EX44PL'}]
   },
   ED00PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `CK22PL(CK22PL 患者是否已收到 保司审核结论？)` -> `RC24OF(RC24OF)` -> `CF25WC(CF25WC 患者企微告知 收到审核结论)` -> `UP27PL(UP27PL 上传审核结论)` -> `RV27PL(RV27PL 审核结论已上传 「我认可并接受」/「对结论有异议，发起申诉」)` -> `GD29WC(GD29WC 企微引导 申诉材料准备)` -> `AP28PL(AP28PL)` -> `CK29BK(CK29BK)` -> `NT29WC(NT29WC 管家通知 申诉材料审核通过)` -> `AP28BPL(AP28BPL 上传申诉单据 审核通过·可提交)` -> `DB07PL(DB07PL 看板：申诉材料已确认)` -> `LK31PL(LK31PL 申诉材料清单·已锁定)` -> `SB31OF(SB31OF 患者线下 去保司提交申诉)` -> `CF32WC(CF32WC 患者企微通知 已提交申诉材料)` -> `CM32PL(CM32PL 申诉材料清单·已锁定)` -> `DB08PL(DB08PL 看板：已提交申诉)` -> `CF33WC(CF33WC 患者告知 已在系统确认)` -> `FU33PL(FU33PL 系统状态 申诉跟进中)` -> `CK33PL(CK33PL 患者是否已收到 申诉审核结论？)` -> `RC35OF(RC35OF)` -> `CF36WC(CF36WC 患者企微告知 收到申诉结论)` -> `UP38PL(UP38PL 上传申诉结论)` -> `RV38PL(RV38PL 申诉结论已上传 选择后续操作)` -> `EX40WC(EX40WC 管家询问 是否寻求外部资源)` -> `CH41PL(CH41PL)` -> `RC42PL(RC42PL)` -> `EX44PL(EX44PL)` -> `ED03PL(ED03PL 资料已导出 返回我的看板)` -> `ED00PL(当前，ED00PL)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 强制切断所有进行中的挂起监听反馈，直接执行全案卷的实体输出打包分发或封版销毁归档作业。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 极简配置的静态反馈页。页面须彻底执行“熔断锁定”，物理截断该账号在本次理赔生命周期地图内的一切编辑修改入口，仅保留最基础的安全退回通道。</div>',
     type: 'page', title: '项目已完成', icon: '\uD83D\uDCCB', iconColor: '#6e7681',
     desc: [
       '您的项目服务已完成。',
@@ -1403,6 +1502,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'返回首页', primary:true, goto:'IN02PL'}, {text:'联系客服', goto:'CS00PL'}]
   },
   RJ99PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `MT05BK(MT05BK 后台审查入组资料)` -> `RJ99PL(当前，RJ99PL 审核不通过 返回首页)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 患者端接收并展示负向阻断结果，向用户释明不准入原因，中止正常业务评价流转。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 异常流程终止页。呈现数据库记录下的具体驳回退因，UI应渲染重新提审入口或提供“联系客服”的跳转组件。</div>',
     type: 'page', title: '审核不通过', icon: '\u2717', iconColor: '#da3633',
     desc: [
       '很抱歉，您提交的资料未通过审核。',
@@ -1417,6 +1517,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'重新提交', primary:true, goto:'AP03PL'}, {text:'联系客服', goto:'CS00PL'}]
   },
   AG01PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `IN02PL(IN02PL 项目介绍页)` -> `RG04PL(RG04PL 注册并登录)` -> `AG01PL(当前，AG01PL 隐私政策)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 作为法务底座承托整个平台的运营规则说明；作为主控总线为各类子集阶段提供业务进度的宏观数据展现与路由锚点。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 看板 UI (`DB`系列) 必须配载高度敏捷的后端状态侦听器，通过读取用户当前的唯一 `status` 字段，精准点亮其复杂时序流转树中的当期锚位坐标图元。</div>',
     type: 'page', title: '隐私政策', icon: '\uD83D\uDD12', iconColor: '#2f81f7',
     desc: [
       '<b>第一条 总则</b>',
@@ -1434,6 +1535,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
   },
   AG02PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `IN02PL(IN02PL 项目介绍页)` -> `RG04PL(RG04PL 注册并登录)` -> `AG02PL(当前，AG02PL 平台服务协议)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 平台核心服务协议内容。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 协议只读滚动视图。需实现“滚到底部才可点同意”的交互逻辑限制，确保法务合规闭环。</div>',
     type: 'page', title: '平台服务协议', icon: '\uD83D\uDCDD', iconColor: '#2f81f7',
     desc: [
       '<b>第一条 服务内容</b>',
@@ -1451,6 +1553,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
   },
   AG03PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `IN02PL(IN02PL 项目介绍页)` -> `RG04PL(RG04PL 注册并登录)` -> `AG03PL(当前，AG03PL 注册协议)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 会员及账号体系相关的注册协议。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 协议只读滚动视图。需实现“滚到底部才可点同意”的交互逻辑限制，确保法务合规闭环。</div>',
     type: 'page', title: '注册协议', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
     desc: [
       '<b>第一条 账号注册</b>',
@@ -1465,6 +1568,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
   },
   AG04PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `IN02PL(IN02PL 项目介绍页)` -> `RG04PL(RG04PL 注册并登录)` -> `AG04PL(当前，AG04PL 监护人授权同意书)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 处理特殊群体的监护人授权要求。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 协议只读滚动视图。需实现“滚到底部才可点同意”的交互逻辑限制，确保法务合规闭环。</div>',
     type: 'page', title: '监护人授权同意书', icon: '\uD83D\uDC64', iconColor: '#2f81f7',
     desc: [
       '<b>第一条 适用范围</b>',
@@ -1479,6 +1583,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
   },
   DB00PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(当前，DB00PL 我的看板 总览)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 作为法务底座承托整个平台的运营规则说明；作为主控总线为各类子集阶段提供业务进度的宏观数据展现与路由锚点。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 看板 UI (`DB`系列) 必须配载高度敏捷的后端状态侦听器，通过读取用户当前的唯一 `status` 字段，精准点亮其复杂时序流转树中的当期锚位坐标图元。</div>',
     type: 'dashboard-timeline',
     title: '我的看板',
     project: {name:'源瑞达患者关爱计划', status:'保障分析已完成', statusColor:'#238636', goto:'PV03PL'},
@@ -1492,6 +1597,7 @@ const CUSTOM_NODES = {
     ]
   },
   DB01PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `DB01PL(当前，DB01PL 看板：入组评估中)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 主控台面板提供患者级生命周期的业务阶段状态回显。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 全局业务进度链路图。系统需校验判断阶段赋值：“入组申请”环节呈现已完结的高亮激活态，“理赔评估”环节呈现流转中状态，后续业务时序节点执行灰置冻结渲染。</div>',
     type: 'dashboard',
     title: '我的看板',
     projects: [
@@ -1499,6 +1605,7 @@ const CUSTOM_NODES = {
     ]
   },
   DB02PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV02PL(PV02PL 看板：评估进行中)` -> `DB02PL(当前，DB02PL 看板：保障分析中)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 等待保障出具的主面板。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 保障分析阶段看板。进度条高亮“条款剖析中”，卡片背景渲染为柔和的分析中蓝色动效。</div>',
     type: 'dashboard',
     title: '我的看板',
     projects: [
@@ -1506,6 +1613,7 @@ const CUSTOM_NODES = {
     ]
   },
   DB03PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `DB03PL(当前，DB03PL 看板：分析已完成)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 生命周期全局进度追踪。呈现第一大阶段已结案，即将进入理赔跟进阶段。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 全局业务进度链路图更新。点亮第二颗进度节点，渲染为完成绿灯状态，并高亮下一步流程图元。</div>',
     type: 'dashboard',
     title: '我的看板',
     projects: [
@@ -1513,6 +1621,7 @@ const CUSTOM_NODES = {
     ]
   },
   DB04PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `FU22PL(FU22PL 系统状态 理赔跟进中)` -> `DB04PL(当前，DB04PL 看板：理赔跟进中)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 理赔处理期的主面板。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 理赔处理阶段看板。进度条高亮“理赔审查中”，卡片状态标注为“已递交保司，等待裁定”。</div>',
     type: 'dashboard',
     title: '我的看板',
     projects: [
@@ -1520,6 +1629,7 @@ const CUSTOM_NODES = {
     ]
   },
   CM21PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(UL17PL)` -> `CK18BK(CK18BK 后台检查 材料是否合格？)` -> `NT18WC(NT18WC 管家通知 材料审核通过)` -> `UL17BPL(UL17BPL 上传理赔单据 审核通过·可提交)` -> `DB05PL(DB05PL 看板：材料已确认)` -> `LK20PL(LK20PL 材料清单·已锁定)` -> `SB20OF(SB20OF 患者线下 去保司提交理赔)` -> `CF21WC(CF21WC 患者企微通知 已提交理赔材料)` -> `CM21PL(当前，CM21PL 确认已提交 理赔材料)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 执行数据库物理状态迁移。前端收集患者“我已递交保司”按钮指令。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 单一状态指令收集按钮渲染结构。</div>',
     type: 'page', title: '材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
     desc: [
       '您的理赔材料已确认并锁定，无法修改。',
@@ -1534,6 +1644,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已向保险公司提交理赔材料', primary:true, goto:'DB06PL'}, {text:'返回我的看板', goto:'DB05PL'}]
   },
   DB06PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(UL17PL)` -> `CK18BK(CK18BK 后台检查 材料是否合格？)` -> `NT18WC(NT18WC 管家通知 材料审核通过)` -> `UL17BPL(UL17BPL 上传理赔单据 审核通过·可提交)` -> `DB05PL(DB05PL 看板：材料已确认)` -> `LK20PL(LK20PL 材料清单·已锁定)` -> `SB20OF(SB20OF 患者线下 去保司提交理赔)` -> `CF21WC(CF21WC 患者企微通知 已提交理赔材料)` -> `CM21PL(CM21PL 确认已提交 理赔材料)` -> `DB06PL(当前，DB06PL 看板：已提交理赔)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 等待理赔落锤时的日常界面。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 理赔处理阶段看板。进度条高亮“理赔审查中”，卡片状态标注为“已递交保司，等待裁定”。</div>',
     type: 'dashboard',
     title: '我的看板',
     projects: [
@@ -1541,6 +1652,7 @@ const CUSTOM_NODES = {
     ]
   },
   DB05PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(UL17PL)` -> `CK18BK(CK18BK 后台检查 材料是否合格？)` -> `NT18WC(NT18WC 管家通知 材料审核通过)` -> `UL17BPL(UL17BPL 上传理赔单据 审核通过·可提交)` -> `DB05PL(当前，DB05PL 看板：材料已确认)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 向前端输出当前项目执行阶段变迁标识，标定当前已完成资料准备向着向物理实体理赔动作偏移的进程。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 进度流节点链UI亮灯呈现跳变；第三区段（材料整理预审组）置为达成封板常亮绿状态，开启指示下设流程区块点。</div>',
     type: 'dashboard',
     title: '我的看板',
     projects: [
@@ -1548,6 +1660,7 @@ const CUSTOM_NODES = {
     ]
   },
   LK20PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `DB00PL(DB00PL 我的看板 总览)` -> `PV03PL(PV03PL 保障条款分析完成 点击查看)` -> `RP10PL(RP10PL 查看保障分析报告)` -> `CS11WC(CS11WC 企微预约专属解读服务)` -> `CS12WC(CS12WC 管家告知医疗行为合规要点)` -> `CS13WC(CS13WC 管家告知各疗程条款对应)` -> `DC14OF(DC14OF 患者线下决定疗程并付款)` -> `CF15WC(CF15WC 患者企微告知已决定疗程)` -> `BK16WC(BK16WC 管家告知回面板点申请理赔指引)` -> `SY16PL(SY16PL 我已支付疗程 申请理赔指引)` -> `GD17WC(GD17WC)` -> `UL17PL(UL17PL)` -> `CK18BK(CK18BK 后台检查 材料是否合格？)` -> `NT18WC(NT18WC 管家通知 材料审核通过)` -> `UL17BPL(UL17BPL 上传理赔单据 审核通过·可提交)` -> `DB05PL(DB05PL 看板：材料已确认)` -> `LK20PL(当前，LK20PL 材料清单·已锁定)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 系统宣告当前所有录入记录构成定型电子卷宗，指示要求患者依照此固定列表携带凭证进行线下转移递交。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 数据表强锁定视界排布。组件强制接管所有由 `UL17PL` 传录的内容，附加只读锁定徽标。</div>',
     type: 'page', title: '材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
     desc: [
       '您的理赔材料已确认并锁定，无法修改。',
@@ -1559,9 +1672,10 @@ const CUSTOM_NODES = {
       {name:'用药清单 / 处方', status:'\uD83D\uDD12 已锁定', note:'包含治疗相关费用明细'},
       {name:'其他支持材料', status:'\uD83D\uDD12 已锁定', note:'检查报告2份'}
     ],
-    buttons: [{text:'我已向保险公司提交理赔材料', primary:true, goto:'SB20OF'}, {text:'返回我的看板', goto:'DB05PL'}]
+    buttons: [{text:'去保险公司提交', primary:true, goto:'SB20OF'}, {text:'返回我的看板', goto:'DB05PL'}]
   },
   CS00PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(EV01PL 入组评估中 请耐心等候)` -> `CS00PL(当前，CS00PL 联系客服)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 作为法务底座承托整个平台的运营规则说明；作为主控总线为各类子集阶段提供业务进度的宏观数据展现与路由锚点。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 看板 UI (`DB`系列) 必须配载高度敏捷的后端状态侦听器，通过读取用户当前的唯一 `status` 字段，精准点亮其复杂时序流转树中的当期锚位坐标图元。</div>',
     type: 'page', title: '联系客服', icon: '\uD83D\uDCDE', iconColor: '#2f81f7',
     desc: [
       '如有任何疑问，请通过以下方式联系我们：',
@@ -1578,6 +1692,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'回到首页', primary:true, goto:'IN02PL'}]
   },
   EV01PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `EV01PL(当前，EV01PL 入组评估中 请耐心等候)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 个人信息与健康档案的合规脱敏处理授权。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 【文案待补充】</div>',
     type: 'page', title: '入组评估中', icon: '\u23F3', iconColor: '#2f81f7',
     desc: [
       '您的入组申请已提交成功！',
@@ -1591,6 +1706,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'返回看板', goto:'DB01PL'}, {text:'联系客服', goto:'CS00PL'}]
   },
   AG05PL: {
+    note: '',
     type: 'page', title: '用户服务条款', icon: '\uD83D\uDCDD', iconColor: '#2f81f7',
     desc: [
       '<b>第一条 服务说明</b>',
@@ -1605,6 +1721,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已阅读', primary:true, goto:'AP03PL'}]
   },
   AG06PL: {
+    note: '',
     type: 'page', title: '个人信息处理授权书', icon: '\uD83D\uDD12', iconColor: '#2f81f7',
     desc: [
       '<b>第一条 授权范围</b>',
@@ -1619,6 +1736,7 @@ const CUSTOM_NODES = {
     buttons: [{text:'我已阅读', primary:true, goto:'AP03PL'}]
   },
   AG07PL: {
+    note: '<div style=\'margin-bottom:8px;\'><span style=\'color:#3fb950;font-weight:bold;\'>【历史脉络】</span> `EN01PL(EN01PL 患者扫码进入)` -> `CK00BK(CK00BK 静默身份鉴权)` -> `AP03PL(AP03PL 提交保险与病历资料)` -> `AG07PL(当前，AG07PL 理赔咨询委托协议)`。</div><div style=\'margin-bottom:8px;\'><span style=\'color:#58a6ff;font-weight:bold;\'>【当前焦点】</span> 作为法务底座承托整个平台的运营规则说明；作为主控总线为各类子集阶段提供业务进度的宏观数据展现与路由锚点。</div><div><span style=\'color:#d2a8ff;font-weight:bold;\'>【UI表现继承】</span> 看板 UI (`DB`系列) 必须配载高度敏捷的后端状态侦听器，通过读取用户当前的唯一 `status` 字段，精准点亮其复杂时序流转树中的当期锚位坐标图元。</div>',
     type: 'page', title: '理赔咨询委托协议', icon: '\u2696', iconColor: '#2f81f7',
     desc: [
       '<b>第一条 委托内容</b>',
