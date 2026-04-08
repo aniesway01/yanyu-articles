@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>岩育理赔流程 Demo</title>
+<script src="mermaid.min.js"></script>
+<script src="html2canvas.min.js"></script>
+<style>
+/* ========== Reset & Base (GitHub Dark) ========== */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  background:#0d1117;color:#e6edf3;overflow:hidden;height:100vh}
+button{cursor:pointer;border:none;background:none;font-family:inherit;color:#e6edf3}
+input,textarea,select{font-family:inherit;font-size:13px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;
+  border-radius:6px;padding:6px 10px}
+textarea{resize:vertical}
+
+/* ========== 3-Panel Layout ========== */
+#app{display:flex;height:100vh;position:relative}
+
+/* Left: Editor */
+#left-panel{display:flex;flex-direction:column;border-right:1px solid #21262d;background:#161b22;overflow:hidden;
+  width:30%;min-width:0;transition:width .3s ease}
+#left-panel.collapsed{width:0 !important;border:none}
+#left-panel.collapsed #editor-area,
+#left-panel.collapsed .panel-header{display:none}
+
+/* Center: Flowchart */
+#center-panel{display:flex;flex-direction:column;background:#0d1117;overflow:hidden;min-width:200px;flex:1;transition:all .3s ease}
+#center-panel.collapsed{min-width:0;flex:0;overflow:hidden;width:0 !important}
+#center-panel.collapsed #preview-area,
+#center-panel.collapsed .panel-header{display:none}
+
+/* Right: UI Preview — phone 292px * 1.2 = 350px */
+#right-panel{display:flex;flex-direction:column;border-left:1px solid #21262d;background:#161b22;overflow:hidden;
+  width:350px;flex-shrink:0;min-width:0;transition:all .3s ease}
+#right-panel.collapsed{width:0 !important;border:none}
+#right-panel.collapsed #ui-preview-area,
+#right-panel.collapsed .panel-header{display:none}
+
+/* Dividers */
+.divider{width:5px;background:#21262d;cursor:col-resize;flex-shrink:0;display:flex;align-items:center;
+  justify-content:center;transition:background .2s;position:relative}
+.divider:hover{background:#2f81f7}
+.divider::after{content:'⋮';color:#6e7681;font-size:14px}
+
+/* Collapse buttons on dividers */
+.collapse-btn{position:absolute;width:14px;height:36px;background:#21262d;border:1px solid #30363d;
+  font-size:9px;color:#8b949e;display:flex;align-items:center;justify-content:center;z-index:50;
+  transition:all .15s;padding:0;border-radius:4px}
+.collapse-btn:hover{background:#30363d;color:#e6edf3}
+#collapse-left{left:-14px;top:50%;transform:translateY(-50%);border-right:none;border-radius:4px 0 0 4px}
+#collapse-right{right:-14px;top:50%;transform:translateY(-50%);border-left:none;border-radius:0 4px 4px 0}
+
+/* ========== Headers ========== */
+.panel-header{height:42px;border-bottom:1px solid #21262d;display:flex;align-items:center;padding:0 12px;
+  justify-content:space-between;flex-shrink:0;gap:6px}
+.panel-header .title{font-weight:600;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;color:#8b949e;white-space:nowrap}
+.header-btns{display:flex;gap:4px;align-items:center}
+.header-btns button{font-size:10px;color:#8b949e;padding:4px 10px;border:1px solid #30363d;border-radius:5px;
+  font-weight:600;transition:all .15s}
+.header-btns button:hover{background:#21262d;border-color:#8b949e;color:#e6edf3}
+.header-btns .btn-primary{background:#238636;color:#fff;border-color:#238636}
+.header-btns .btn-primary:hover{background:#2ea043}
+
+/* ========== Editor ========== */
+#editor-area{flex:1;display:flex;flex-direction:column;padding:8px;gap:6px;overflow:hidden}
+#mermaid-input{flex:1;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:6px;padding:10px;
+  font-family:'Cascadia Code','Fira Code','Consolas',monospace;font-size:11.5px;line-height:1.6;
+  tab-size:2;outline:none;resize:none}
+#mermaid-input:focus{border-color:#2f81f7;box-shadow:0 0 0 2px rgba(47,129,247,.15)}
+#editor-hint{font-size:9px;color:#6e7681;text-align:right}
+
+/* ========== Flowchart Preview ========== */
+#preview-area{flex:1;overflow:auto;padding:16px;cursor:grab}
+#preview-area.panning{cursor:grabbing;user-select:none}
+#mermaid-output{background:#161b22;border:1px solid #21262d;border-radius:8px;padding:24px;
+  display:inline-block;min-width:100%}
+#mermaid-output svg{height:auto}
+#error-msg{color:#ff7b72;font-size:12px;padding:16px;display:none}
+
+/* Zoom */
+.zoom-controls{display:flex;align-items:center;gap:3px}
+.zoom-controls button{width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#8b949e;border:1px solid #30363d;border-radius:5px;background:none;
+  transition:all .15s}
+.zoom-controls button:hover{background:#21262d;color:#e6edf3;border-color:#8b949e}
+.zoom-level{font-size:10px;color:#6e7681;min-width:36px;text-align:center;font-family:monospace}
+
+/* Clickable nodes */
+#mermaid-output .node{cursor:pointer}
+#mermaid-output .node:hover rect,
+#mermaid-output .node:hover polygon{filter:brightness(1.3);transition:filter .15s}
+
+/* Mermaid overrides */
+#mermaid-output .nodeLabel{font-family:'PingFang SC','Microsoft YaHei',sans-serif !important;font-size:14px !important;line-height:1.4 !important}
+#mermaid-output .edgePath .path{stroke:#4d5566 !important;stroke-width:1.5px !important}
+#mermaid-output .edgeLabel{background:#0d1117 !important;color:#8b949e !important;font-size:12px !important}
+#mermaid-output .cluster rect{rx:8 !important;ry:8 !important}
+#mermaid-output .cluster span{font-size:15px !important;font-weight:600 !important}
+
+/* ========== UI Preview Panel ========== */
+#ui-preview-area{flex:1;overflow-y:auto;display:flex;flex-direction:column;align-items:center;
+  padding:16px 12px;background:#0d1117}
+#ui-empty{color:#6e7681;font-size:12px;text-align:center;margin-top:40%;line-height:1.8}
+#ui-empty .arrow{font-size:20px;margin-bottom:8px;display:block}
+.node-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:4px;
+  font-size:10px;font-family:monospace;font-weight:600;margin-bottom:12px}
+
+/* ========== Phone Mockup ========== */
+.phone-frame{width:280px;height:520px;min-width:280px;background:#fff;border-radius:32px;border:6px solid #1e293b;
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);flex-shrink:0}
+.phone-nav{height:40px;background:#fff;border-bottom:1px solid #f1f5f9;display:flex;align-items:flex-end;
+  justify-content:space-between;padding:0 12px 6px;flex-shrink:0}
+.phone-nav .page-title{font-size:12px;font-weight:700;color:#1e293b;max-width:140px;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.phone-nav .capsule{display:flex;align-items:center;gap:6px;border:1px solid #e2e8f0;border-radius:12px;
+  padding:2px 8px;font-size:10px;color:#64748b}
+.phone-body{flex:1;overflow-y:auto;background:#f8fafc;padding:0}
+.phone-bottom{height:16px;display:flex;justify-content:center;align-items:center;flex-shrink:0;background:#fff}
+.phone-bottom div{width:60px;height:4px;background:#e2e8f0;border-radius:4px}
+
+/* Phone page */
+.phone-page{padding:16px;min-height:100%;display:flex;flex-direction:column;color:#1e293b}
+.phone-page .icon-box{width:32px;height:32px;background:#B20708;border-radius:8px;display:flex;
+  align-items:center;justify-content:center;color:#fff;font-size:16px;margin-bottom:12px;
+  box-shadow:0 4px 6px -1px rgba(178,7,8,.2)}
+.phone-page .code-badge{font-size:9px;font-weight:800;background:#f1f5f9;color:#94a3b8;padding:2px 6px;
+  border-radius:4px;margin-right:6px}
+.phone-page h2{font-size:16px;font-weight:700;color:#1e293b;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.phone-page .desc-line{font-size:10px;color:#64748b;line-height:1.6;margin-bottom:2px;display:flex;gap:6px}
+.phone-page .form-group{margin-top:16px}
+.phone-page .form-field{margin-bottom:10px}
+.phone-page .form-field label{display:block;font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.phone-page .form-field .input-mock{height:32px;background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px;padding:0 10px;font-size:10px;color:#cbd5e1;font-style:italic;display:flex;align-items:center}
+.phone-actions{margin-top:auto;padding-top:12px}
+.phone-actions .btn{width:100%;padding:10px;border-radius:8px;font-size:12px;font-weight:700;margin-bottom:6px;
+  display:flex;align-items:center;justify-content:space-between;transition:all .15s;color:#fff}
+.phone-actions .btn-primary{background:#B20708;color:#fff;box-shadow:0 4px 6px -1px rgba(178,7,8,.2)}
+.phone-actions .btn-primary:hover{background:#9a0607}
+.phone-actions .btn-secondary{background:#fff;border:1px solid #e2e8f0;color:#475569}
+.phone-actions .btn-secondary:hover{background:#f8fafc}
+.upload-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.upload-slot{aspect-ratio:1;background:#f8fafc;border:2px dashed #e2e8f0;border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;text-align:center;
+  transition:border-color .2s}
+.upload-slot:hover{border-color:#fca5a5}
+.upload-slot .plus{width:28px;height:28px;background:#fff;border-radius:50%;display:flex;
+  align-items:center;justify-content:center;font-size:16px;color:#94a3b8;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:4px}
+.upload-slot .name{font-size:8px;font-weight:700;color:#475569}
+.upload-slot .note{font-size:7px;color:#94a3b8;margin-top:2px}
+.qr-area{margin-top:16px;display:flex;flex-direction:column;align-items:center}
+.qr-box{width:120px;height:120px;border:2px solid #f1f5f9;border-radius:12px;display:flex;
+  align-items:center;justify-content:center;font-size:11px;color:#64748b;background:#fafafa}
+.qr-label{margin-top:8px;font-size:8px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+
+/* ========== WeChat ========== */
+.wc-phone{display:flex;flex-direction:column;height:100%;background:#f0f0f0}
+.wc-topbar{height:40px;background:#3B7DED;display:flex;align-items:center;padding:0 10px;gap:6px;flex-shrink:0}
+.wc-back{color:#fff;font-size:16px;opacity:.9}
+.wc-topbar-title{color:#fff;font-size:13px;font-weight:600;flex:1;text-align:center;letter-spacing:.3px}
+.wc-more{color:#fff;font-size:14px;opacity:.9}
+.wc-msgs{flex:1;overflow-y:auto;background:#f0f0f0;padding:10px 8px 10px;display:flex;flex-direction:column;gap:0}
+.wc-ts{text-align:center;font-size:9px;color:#999;margin:6px 0 4px}
+.wc-row{display:flex;align-items:flex-start;gap:6px;margin-bottom:7px}
+.wc-row.right{flex-direction:row-reverse}
+.wc-av{width:28px;height:28px;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;background:#aaa}
+.wc-av.advisor{background:#e64646;letter-spacing:-.5px}
+.wc-av.patient{background:#555}
+.wc-body{display:flex;flex-direction:column;gap:2px;max-width:170px}
+.wc-row.right .wc-body{align-items:flex-end}
+.wc-sender{font-size:9px;color:#999;margin-bottom:1px}
+.wc-bbl{padding:6px 8px;line-height:1.5;word-break:break-all;font-size:11px;position:relative;white-space:pre-wrap}
+.wc-bbl.left{background:#fff;color:#222;border-radius:0 6px 6px 6px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.wc-bbl.left::before{content:'';position:absolute;top:8px;left:-5px;width:0;height:0;
+  border-top:5px solid transparent;border-bottom:5px solid transparent;border-right:5px solid #fff}
+.wc-bbl.right{background:#7EB8FF;color:#222;border-radius:6px 0 6px 6px;box-shadow:0 1px 2px rgba(0,0,0,.10)}
+.wc-bbl.right::after{content:'';position:absolute;top:8px;right:-5px;width:0;height:0;
+  border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:5px solid #7EB8FF}
+.wc-inputbar{height:40px;background:#f6f6f6;border-top:1px solid #e0e0e0;display:flex;align-items:center;
+  padding:0 8px;gap:6px;flex-shrink:0}
+.wc-input-fake{flex:1;height:26px;background:#fff;border-radius:4px;border:1px solid #ddd}
+
+/* ========== Admin Panel Frame (Backend nodes) ========== */
+.admin-frame{width:280px;min-width:280px;background:#1a1a2e;border-radius:12px;border:1px solid #30363d;
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 40px -12px rgba(0,0,0,.4);flex-shrink:0}
+.admin-topbar{height:36px;background:#16213e;border-bottom:1px solid #30363d;display:flex;align-items:center;
+  justify-content:space-between;padding:0 12px;flex-shrink:0}
+.admin-logo{font-size:11px;font-weight:700;color:#8957e5;letter-spacing:.5px}
+.admin-user{font-size:9px;color:#6e7681;background:#21262d;padding:2px 8px;border-radius:4px}
+.admin-body{padding:16px;color:#e6edf3;flex:1;overflow-y:auto}
+.admin-body .icon-box{background:#8957e5 !important}
+.admin-body .code-badge{background:#21262d;color:#8957e5}
+.admin-body h2{color:#e6edf3;font-size:14px}
+.admin-body .desc-line{color:#8b949e;font-size:10px;line-height:1.6;margin-bottom:3px}
+.admin-body .phone-actions{margin-top:16px}
+.admin-body .phone-actions .btn{border-radius:6px;font-size:11px;padding:8px}
+.admin-body .phone-actions .btn-primary{background:#8957e5;box-shadow:none}
+.admin-body .phone-actions .btn-primary:hover{background:#7c3aed}
+.admin-body .phone-actions .btn-secondary{background:#21262d;border:1px solid #30363d;color:#8b949e}
+
+/* ========== Backend card ========== */
+.backend-card{padding:16px;text-align:center;color:#1e293b}
+.backend-card .bc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-size:20px;margin:0 auto 10px;color:#fff}
+.backend-card h3{font-size:13px;font-weight:700;margin-bottom:6px}
+.backend-card p{font-size:10px;color:#64748b;line-height:1.5}
+.backend-card .lane-badge{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border-radius:16px;
+  font-size:9px;font-weight:700;margin-top:10px}
+.backend-card .status-box{margin-top:14px;padding:12px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0}
+.backend-card .status-box .label{font-size:9px;color:#94a3b8;font-weight:600}
+.backend-card .status-box .value{font-size:12px;color:#1e293b;font-weight:700;margin-top:3px}
+
+/* ========== Nav buttons in UI panel ========== */
+.ui-nav{display:flex;gap:6px;margin-top:12px;width:280px;justify-content:center}
+.ui-nav button{flex:1;padding:6px;font-size:10px;font-weight:600;color:#8b949e;border:1px solid #30363d;
+  border-radius:6px;transition:all .15s;background:#161b22}
+.ui-nav button:hover{background:#21262d;color:#e6edf3;border-color:#8b949e}
+.ui-nav button:disabled{opacity:.3;cursor:default}
+
+/* Fullscreen UI: nav moves to side */
+.ui-main{display:flex;flex-direction:column;align-items:center}
+#ui-preview-area.fullscreen #ui-content{display:flex !important;flex-direction:row;align-items:flex-start;justify-content:center;gap:24px;flex-wrap:nowrap}
+#ui-preview-area.fullscreen .ui-nav{width:220px;margin-top:0;flex-direction:column;flex-shrink:0;position:sticky;top:16px}
+#ui-preview-area.fullscreen .ui-nav>div{flex-direction:column !important;width:100%}
+#ui-preview-area.fullscreen .ui-nav button{min-width:100% !important;flex:none !important}
+
+/* ========== Edit Modal ========== */
+#edit-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:999;display:none;align-items:center;justify-content:center}
+#edit-modal{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:20px;width:520px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#edit-modal h3{font-size:13px;color:#e6edf3;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+#edit-modal h3 span{font-size:10px;color:#6e7681;font-weight:400}
+#edit-textarea{flex:1;min-height:300px;background:#0d1117;color:#e6edf3;border:1px solid #30363d;border-radius:6px;padding:12px;font-family:'Cascadia Code','Fira Code','Consolas',monospace;font-size:11px;line-height:1.6;resize:vertical}
+#edit-textarea:focus{border-color:#2f81f7;outline:none}
+#edit-btns{display:flex;gap:8px;margin-top:12px;justify-content:flex-end}
+#edit-btns button{padding:6px 16px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer}
+#edit-btns .save{background:#238636;color:#fff;border:1px solid #238636}
+#edit-btns .save:hover{background:#2ea043}
+#edit-btns .cancel{background:none;color:#8b949e;border:1px solid #30363d}
+#edit-btns .cancel:hover{background:#21262d;color:#e6edf3}
+#edit-error{color:#ff7b72;font-size:10px;margin-top:6px;display:none}
+
+/* ========== Context Menu ========== */
+#ctx-menu{position:fixed;z-index:1000;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:4px;box-shadow:0 8px 24px rgba(0,0,0,.4);display:none}
+#ctx-menu button{display:block;width:100%;text-align:left;padding:6px 12px;font-size:11px;color:#e6edf3;border:none;background:none;border-radius:4px;cursor:pointer;white-space:nowrap}
+#ctx-menu button:hover{background:#21262d}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- Left: Editor -->
+  <div id="left-panel" class="collapsed">
+    <div class="panel-header">
+      <span class="title">Editor</span>
+      <div class="header-btns">
+        <button class="btn-primary" onclick="renderDiagram()">Render</button>
+      </div>
+    </div>
+    <div id="editor-area">
+      <textarea id="mermaid-input" spellcheck="false">flowchart TD
+    %% ===== Start Node (above all lanes) =====
+    EN01PL[EN01PL 患者扫码进入]
+
+    %% ===== Swim Lanes =====
+    %% subgraph EXT [外部]
+
+    %% subgraph PLAT [平台系统]
+    IN02PL[IN02PL 项目介绍页]
+    RG04PL[RG04PL 注册并登录]
+    AP03PL[AP03PL 提交保险与病历资料]
+    MT05PL[MT05PL 入组成功\n显示专属管家企微二维码]
+    RJ99PL[RJ99PL 审核不通过\n返回首页]
+    PV02PL[PV02PL 看板：评估进行中]
+    PV03PL[PV03PL 保障条款分析完成\n点击查看]
+    RP10PL[RP10PL 查看保障分析报告]
+    PV03PL[PV03PL 材料已确认\n理赔申请书编制中]
+
+    %% subgraph WC [企微]
+    NF06WC[NF06WC 管家告知\n报告预期时间]
+    WC07WC[WC07WC 患者已添加企微]
+
+    %% subgraph BACK [后台]
+    MT05BK{MT05BK 后台审查入组资料}
+    AU05BK[AU05BK 审查成功]
+    WC07CK{WC07CK 患者是否扫码？}
+    WC07BK[WC07BK 后台标记待联系]
+    EX08BK[EX08BK 专家评估]
+    RP11BK[RP11BK 出具保障条款分析报告]
+
+    CT01OF[CT01OF 主动联系患者\n加企业微信]
+    CS11WC[CS11WC 企微预约专属解读服务]
+    CS12WC[CS12WC 管家告知医疗行为合规要点]
+    CS13WC[CS13WC 管家告知各疗程条款对应]
+    DC14OF[DC14OF 患者线下决定疗程并付款]
+    CF15WC[CF15WC 患者企微告知已决定疗程]
+    BK16WC[BK16WC 管家告知回面板点申请理赔指引]
+
+    %% ===== Flow Connections (chronological) =====
+    EV01PL[EV01PL 入组评估中\n请耐心等候]
+    CS00PL[CS00PL 联系客服]
+    DB00PL[DB00PL 我的看板\n总览]
+    DB01PL[DB01PL 看板：入组评估中]
+    DB02PL[DB02PL 看板：保障分析中]
+    DB03PL[DB03PL 看板：分析已完成]
+    DB04PL[DB04PL 看板：理赔跟进中]
+
+    %% Phase 1: 入组
+    EN01PL --> IN02PL --> RG04PL --> AP03PL --> EV01PL --> MT05BK
+    EV01PL -->|联系客服| CS00PL
+    CS00PL --> IN02PL
+    IN02PL -->|查看进度| EV01PL
+    MT05PL --> DB00PL
+    DB00PL -->|评估中| PV02PL
+    DB00PL -->|分析完成| PV03PL
+    DB00PL -->|理赔跟进| FU22PL
+    EV01PL -->|返回看板| DB01PL
+    DB01PL --> PV02PL
+    PV02PL -->|返回看板| DB02PL
+    DB02PL --> PV02PL
+    PV03PL -->|返回看板| DB03PL
+    DB03PL --> PV03PL
+    FU22PL -->|返回看板| DB04PL
+    DB04PL --> FU22PL
+    MT05BK -->|审查通过| AU05BK --> MT05PL
+    MT05BK -->|审核中| EV01PL
+    MT05BK -->|审查不通过| RJ99PL
+    RJ99PL --> RG04PL
+
+    %% Agreements (from RG04PL)
+    RG04PL -->|隐私政策| AG01PL[AG01PL 隐私政策]
+    RG04PL -->|服务协议| AG02PL[AG02PL 平台服务协议]
+    RG04PL -->|注册协议| AG03PL[AG03PL 注册协议]
+    RG04PL -->|授权同意| AG04PL[AG04PL 监护人授权同意书]
+    AG01PL --> RG04PL
+    AG02PL --> RG04PL
+    AG03PL --> RG04PL
+    AG04PL --> RG04PL
+
+    %% Agreements (from AP03PL)
+    AP03PL -->|服务条款| AG05PL[AG05PL 用户服务条款]
+    AP03PL -->|信息授权| AG06PL[AG06PL 个人信息处理授权书]
+    AP03PL -->|委托协议| AG07PL[AG07PL 理赔咨询委托协议]
+    AG05PL --> AP03PL
+    AG06PL --> AP03PL
+    AG07PL --> AP03PL
+
+    MT05PL --> WC07CK
+    WC07CK -->|已扫码| WC07WC --> NF06WC
+    WC07CK -->|未扫码| WC07BK
+    WC07BK --> CT01OF
+    CT01OF --> NF06WC
+
+    %% Backend review chain (runs in parallel)
+    AU05BK --> PV02PL
+    EX08BK --> TP09BK --> RP11BK --> NF07WC[NF07WC 管家通知\n报告已完成]
+    NF07WC --> PV03PL
+    NF06WC --> PV02PL
+
+    %% Phase 1.5: Report completion
+    PV03PL --> RP10PL
+
+    %% Phase 1.6: Consultation & Therapy Decision (steps 11-16)
+    RP10PL -->|预约专属解读| CS11WC
+    CS11WC --> CS12WC
+    CS12WC --> CS13WC
+    CS13WC --> DC14OF
+    DC14OF --> CF15WC
+    CF15WC --> BK16WC --> SY16PL[SY16PL 我已支付疗程\n申请理赔指引]
+
+    SY16PL --> GD17WC
+
+    %% Phase 1.7: Upload & Review & Submit (steps 17-21)
+    UL17PL --> CK18BK{CK18BK 后台检查\n材料是否合格？}
+    CK18BK -->|没问题| NT18WC[NT18WC 管家通知\n材料审核通过] --> UL17BPL[UL17BPL 上传理赔单据\n审核通过·可提交]
+    UL17BPL -->|确认材料无误| DB05PL[DB05PL 看板：材料已确认]
+    DB05PL --> LK20PL[LK20PL 材料清单·已锁定]
+    LK20PL -->|返回看板| DB05PL
+    UL17BPL -->|补充材料| CK18BK
+    LK20PL --> SB20OF[SB20OF 患者线下\n去保司提交理赔]
+    SB20OF --> CF21WC[CF21WC 患者企微通知\n已提交理赔材料]
+    %% Phase 1.8: Follow-up & Review Result (steps 22-27)
+    CF21WC --> CM21PL[CM21PL 确认已提交\n理赔材料]
+    CM21PL --> DB06PL[DB06PL 看板：已提交理赔]
+    DB06PL --> CF22WC[CF22WC 患者告知\n已在系统确认]
+    CF22WC --> FU22PL[FU22PL 系统状态\n理赔跟进中]
+    FU22PL --> CK22PL{CK22PL 患者是否已收到\n保司审核结论？}
+    CK22PL -->|否| RM23WC
+    RM23WC --> FU22PL
+    CK22PL -->|是| RC24OF --> CF25WC[CF25WC 患者企微告知\n收到审核结论]
+    CF25WC --> UP27PL[UP27PL 上传审核结论]
+    UP27PL --> RV27PL[RV27PL 审核结论已上传\n「我认可并接受」/「我不认可，我要申诉」]
+
+    %% Phase 1.9a: Accept -> follow up payment -> close
+    RV27PL -->|我认可并接受| OK01BK[OK01BK 后台标记\n理赔认可]
+    OK01BK --> FP01WC[FP01WC 企微协助\n跟进赔付进度]
+    FP01WC --> PD01PL[PD01PL 系统状态\n等待保司赔付]
+    PD01PL --> OK02WC[OK02WC 患者确认\n已收到理赔款项]
+    OK02WC --> ED01PL[ED01PL 项目完成\n理赔成功结案]
+
+    RV27PL -->|我不认可，我要申诉| GD29WC[GD29WC 企微引导\n申诉材料准备] --> AP28PL
+
+    %% Phase 1.9b: Appeal flow (mirroring claims flow)
+    AP28PL --> CK29BK
+    CK29BK -->|通过| NT29WC[NT29WC 管家通知\n申诉材料审核通过]
+    NT29WC --> AP28BPL[AP28BPL 上传申诉单据\n审核通过·可提交]
+    AP28BPL -->|补充材料| CK29BK
+    CK29BK -->|有问题| GD29WC
+    AP28BPL -->|确认材料无误| DB07PL[DB07PL 看板：申诉材料已确认]
+    DB07PL --> LK31PL[LK31PL 申诉材料清单·已锁定]
+    LK31PL -->|返回看板| DB07PL
+    LK31PL --> SB31OF[SB31OF 患者线下\n去保司提交申诉]
+    SB31OF --> CF32WC[CF32WC 患者企微通知\n已提交申诉材料]
+    CF32WC --> CM32PL[CM32PL 申诉材料清单·已锁定]
+    CM32PL -->|确认已提交| DB08PL[DB08PL 看板：已提交申诉]
+    CM32PL -->|返回看板| DB07PL
+    DB08PL --> CF33WC[CF33WC 患者告知\n已在系统确认]
+    CF33WC --> FU33PL[FU33PL 系统状态\n申诉跟进中]
+    FU33PL --> CK33PL{CK33PL 患者是否已收到\n申诉审核结论？}
+    CK33PL -->|否| RM34WC
+    RM34WC --> FU33PL
+    CK33PL -->|是| RC35OF --> CF36WC[CF36WC 患者企微告知\n收到申诉结论]
+    CF36WC --> UP38PL[UP38PL 上传申诉结论]
+    UP38PL --> RV38PL[RV38PL 申诉结论已上传\n选择后续操作]
+    RV38PL -->|我认可并接受| OK01BK
+    RV38PL -->|继续申诉| AP28PL
+    RV38PL -->|升级外部支持| EX40WC[EX40WC 管家询问\n是否寻求外部资源]
+
+    %% Phase 2b: External support (steps 40-44)
+    EX40WC -->|是，寻求外部| CH41PL
+    CH41PL -->|协赔专家| RC42PL
+    CH41PL -->|律师事务所| LW42PL[LW42PL 推荐律师事务所\n名称+简介]
+    RC42PL -->|同意| DL43PL
+    RC42PL -->|都不满意| EX44PL
+    LW42PL -->|同意| DL43PL
+    LW42PL -->|都不满意| EX44PL
+    DL43PL --> HD43BK[HD43BK 后台一键转发\n资料给合作机构]
+    HD43BK --> ED02PL[ED02PL 已委托外部机构\n等待后续]
+    EX44PL --> ED03PL[ED03PL 资料已导出\n返回我的看板]
+
+    classDef sys fill:#0d2137,stroke:#2f81f7,color:#79c0ff,stroke-width:1.5px
+    classDef wechat fill:#0d2615,stroke:#2ea043,color:#56d364,stroke-width:1.5px
+    classDef backend fill:#1c1040,stroke:#8957e5,color:#bc8cff,stroke-width:1.5px
+    classDef external fill:#2d1b00,stroke:#d29922,color:#e3b341,stroke-width:1.5px
+    classDef success fill:#0d2615,stroke:#238636,color:#3fb950,stroke-width:2px
+    classDef offline fill:#2d2d0f,stroke:#a3a300,color:#e6e600,stroke-width:1.5px
+    classDef terminated fill:#2d0f0f,stroke:#da3633,color:#ff7b72,stroke-width:2px
+
+    class IN02PL,ED00PL,PV03PL,RP10PL,SY16PL,UL17PL,LK19PL,FU22PL,UP27PL,RV27PL,PD01PL,ED01PL,AP28PL,FU33PL,UP38PL,RV38PL,CH41PL,RC42PL,LW42PL,DL43PL,EX44PL,ED02PL,ED03PL,AP03PL,RG04PL,MT05PL,PV02PL,RJ99PL,PV03PL,AG01PL,AG02PL,AG03PL,AG04PL,AG05PL,AG06PL,AG07PL,EV01PL,CS00PL,DB00PL,DB01PL,DB02PL,DB03PL,DB04PL,DB05PL,DB06PL,UL17BPL,LK20PL,CM21PL,AP28BPL,DB07PL,DB08PL,LK31PL,CM32PL sys
+    class NF06WC,NF07WC,NT18WC,CF22WC,WC07WC,CS11WC,CS12WC,CS13WC,CF15WC,BK16WC,GD17WC,CF21WC,RM23WC,CF25WC,FP01WC,OK02WC,GD29WC,CF32WC,RM34WC,CF36WC,EX40WC,NT29WC,CF33WC wechat
+    class MT05BK,AU05BK,CK22PL,CK33PL,TP09BK,CK18BK,OK01BK,CK29BK,HD43BK,WC07CK,WC07BK,EX08BK,RP11BK backend
+    class ED01PL success
+    class CT01OF,DC14OF,SB20OF,RC24OF,SB31OF,RC35OF offline
+    class EN01PL external
+    GD17WC --> UL17PL
+    PV02PL --> EX08BK
+    CK18BK --> GD17WC
+    ED02PL --> ED00PL
+    ED03PL --> ED00PL
+</textarea>
+      <div id="editor-hint">Ctrl+Enter to render</div>
+    </div>
+  </div>
+
+  <!-- Divider 1 -->
+  <div class="divider" id="divider-left">
+    <button class="collapse-btn" id="collapse-left" onclick="toggleLeft()" title="展开编辑器">▶</button>
+  </div>
+
+  <!-- Center: Flowchart -->
+  <div id="center-panel">
+    <div class="panel-header">
+      <span class="title">Flow</span>
+      <div class="zoom-controls">
+        <button onclick="toggleCenter()" id="collapse-center" style="font-size:10px;width:auto;padding:0 6px" title="收起流程图">◀</button>
+        <button onclick="zoomOut()">-</button>
+        <span class="zoom-level" id="zoom-label">100%</span>
+        <button onclick="zoomIn()">+</button>
+        <button onclick="zoomReset()" style="font-size:10px;width:auto;padding:0 6px">Reset</button>
+      </div>
+    </div>
+    <div id="preview-area">
+      <div id="mermaid-output"></div>
+      <div id="error-msg"></div>
+    </div>
+  </div>
+
+  <!-- Divider 2 -->
+  <div class="divider" id="divider-right">
+    <button class="collapse-btn" id="collapse-right" onclick="toggleRight()" title="收起预览">▶</button>
+  </div>
+
+  <!-- Right: UI Preview -->
+  <div id="right-panel">
+    <div class="panel-header">
+      <button id="expand-center" onclick="toggleCenter()" style="display:none;font-size:10px;color:#8b949e;padding:4px 10px;border:1px solid #30363d;border-radius:5px;font-weight:600;cursor:pointer;background:none" title="展开流程图">▶ Flow</button>
+      <span class="title">UI Preview</span>
+      <span class="title" id="ui-lane-label" style="color:#6e7681"></span>
+      <div class="header-btns">
+        <button onclick="screenshotUI()" title="截图导出">Export</button>
+      </div>
+    </div>
+    <div id="ui-preview-area">
+      <div id="ui-empty">
+        <span class="arrow">←</span>
+        点击流程图节点<br>预览对应界面
+      </div>
+      <div id="ui-content" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Context Menu -->
+<div id="ctx-menu"></div>
+
+<!-- Color Picker Popup -->
+<div id="color-picker-popup" style="position:fixed;z-index:1001;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.4);display:none">
+  <input type="color" id="color-input" style="width:40px;height:30px;border:none;cursor:pointer">
+  <button onclick="applyColor()" style="margin-left:4px;padding:4px 8px;font-size:10px;background:#238636;color:#fff;border:none;border-radius:4px;cursor:pointer">OK</button>
+</div>
+
+<script>
+// ========== Lane Detection ==========
+const LANE_MAP = {PL:'platform',PA:'platform',WC:'wechat',WA:'wechat',BK:'backend',BA:'backend',CK:'backend',XT:'external',FS:'terminated',OF:'offline'};
+const LANE_META = {
+  platform:{icon:'📱',label:'平台系统',color:'#2f81f7',bg:'#B20708'},
+  wechat:{icon:'💬',label:'企业微信',color:'#2ea043',bg:'#3B7DED'},
+  backend:{icon:'⚙️',label:'后台系统',color:'#8957e5',bg:'#8957e5'},
+  external:{icon:'🏢',label:'外部机构',color:'#d29922',bg:'#d29922'},
+  terminated:{icon:'⛔',label:'服务终止',color:'#da3633',bg:'#da3633'},
+  offline:{icon:'📞',label:'线下操作',color:'#a3a300',bg:'#a3a300'}
+};
+function getNodeLane(id){ const s=id.replace(/^.*?([A-Z]{2})$/,'$1'); return LANE_MAP[s]||'platform'; }
+function getNodeText(id){
+  const src=document.getElementById('mermaid-input').value;
+  const re=new RegExp(id+'[\\[\\{]([^\\]\\}]+)[\\]\\}]');
+  const m=src.match(re);
+  if(!m) return {heading:id,lines:[]};
+  const raw=m[1].replace(/^[A-Z0-9]+ /,'').replace(/\\n/g,'\n');
+  const p=raw.split('\n');
+  return {heading:p[0],lines:p.slice(1)};
+}
+
+// Build ordered node list for prev/next nav
+// Graph from mermaid edges: children[A] = [B,C], parents[B] = [A]
+let graphChildren={}, graphParents={}, graphEdgeLabels={};
+function buildGraph(){
+  const src=document.getElementById('mermaid-input').value;
+  graphChildren={}; graphParents={}; graphEdgeLabels={};
+  const NODE=/[A-Z][A-Z0-9]+(?:PL|PA|WC|WA|BK|BA|CK|XT|FS|OF)/;
+  function addEdge(from,to,label){
+    if(!graphChildren[from]) graphChildren[from]=[];
+    if(!graphParents[to]) graphParents[to]=[];
+    if(graphChildren[from].indexOf(to)===-1) graphChildren[from].push(to);
+    if(graphParents[to].indexOf(from)===-1) graphParents[to].push(from);
+    if(label) graphEdgeLabels[from+'->'+to]=label;
+  }
+  src.split('\n').forEach(function(line){
+    var t=line.trim();
+    if(!t||/^(%|subgraph|end$|class |classDef |direction)/.test(t)) return;
+    // Strip node definitions: ID[...] or ID{...} -> just ID
+    var clean=line.replace(/(\[|\{)[^\]\}]*(\]|\})/g,'');
+    // Tokenize: split by --> or -->|label|
+    var parts=clean.split(/\s*-->\s*(?:\|([^|]*)\|)?\s*/);
+    // parts = [seg0, label0, seg1, label1, seg2, ...]
+    // Extract node ID from each segment
+    var nodes=[], labels=[];
+    for(var i=0;i<parts.length;i++){
+      if(i%2===0){
+        var m=parts[i].match(NODE);
+        nodes.push(m?m[0]:null);
+      } else {
+        labels.push(parts[i]||'');
+      }
+    }
+    // Create edges between consecutive nodes
+    for(var j=0;j<nodes.length-1;j++){
+      if(nodes[j]&&nodes[j+1]) addEdge(nodes[j],nodes[j+1],labels[j]||'');
+    }
+  });
+}
+
+let currentNodeId=null;
+
+// ========== Show UI ==========
+function showAgreement(name){
+  var AGREEMENT_NODES={'隐私政策':'AG01PL','平台服务协议':'AG02PL','注册协议':'AG03PL','监护人授权同意书':'AG04PL',
+    '用户服务条款':'AG05PL','个人信息处理授权书':'AG06PL','理赔咨询委托协议':'AG07PL'};
+  if(AGREEMENT_NODES[name]&&CUSTOM_NODES[AGREEMENT_NODES[name]]){ showNodeUI(AGREEMENT_NODES[name]); return; }
+  // Fallback: inline display
+  var container=document.getElementById('ui-content');
+  var html='<div class="phone-frame"><div style="display:flex;flex-direction:column;height:100%;background:#fff">' +
+    '<div style="height:40px;background:#fff;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;padding:0 12px;flex-shrink:0">' +
+    '<span style="font-size:16px;color:#999;cursor:pointer" onclick="showNodeUI(currentNodeId)">‹</span>' +
+    '<span style="flex:1;text-align:center;font-size:13px;font-weight:600;color:#1e293b">'+name+'</span>' +
+    '<span style="width:16px"></span></div>' +
+    '<div style="flex:1;overflow-y:auto;padding:16px;font-size:10px;color:#64748b;line-height:1.8">' +
+    '<p style="font-weight:700;color:#1e293b;font-size:12px;margin-bottom:12px">《'+name+'》</p>' +
+    '<p style="margin-bottom:8px">协议内容正在完善中，敬请期待。</p>' +
+    '</div></div></div>';
+  container.innerHTML=html;
+}
+
+function showNodeUI(nodeId){
+  currentNodeId=nodeId;
+  const lane=getNodeLane(nodeId);
+  const info=getNodeText(nodeId);
+  const meta=LANE_META[lane]||LANE_META.platform;
+  const container=document.getElementById('ui-content');
+  const empty=document.getElementById('ui-empty');
+  const laneLabel=document.getElementById('ui-lane-label');
+
+  laneLabel.textContent=meta.icon+' '+meta.label;
+  laneLabel.style.color=meta.color;
+
+  let html='<div class="ui-main"><div class="node-badge" style="background:'+meta.color+'18;color:'+meta.color+';border:1px solid '+meta.color+'44">'+meta.icon+' '+nodeId+'</div>';
+
+  // Custom node UI (data-driven) or generic
+  if(CUSTOM_NODES[nodeId]) html+=renderCustom(nodeId);
+  else if(lane==='wechat') html+=buildWechatUI(nodeId,info);
+  else if(lane==='platform') html+=buildPhoneUI(nodeId,info);
+  else html+=buildBackendUI(nodeId,info,lane);
+
+  html+='</div>'; // close ui-main
+
+  // Nav buttons from graph edges
+  function navLabel(id){
+    if(CUSTOM_NODES[id]&&CUSTOM_NODES[id].title) return CUSTOM_NODES[id].title;
+    var t=getNodeText(id); return t.heading||id;
+  }
+  const parents=graphParents[nodeId]||[];
+  const children=graphChildren[nodeId]||[];
+  html+='<div class="ui-nav" style="flex-direction:column;width:280px">';
+  if(parents.length){
+    html+='<div style="display:flex;gap:4px;width:100%;flex-wrap:wrap">';
+    parents.forEach(function(p){
+      const lbl=graphEdgeLabels[p+'->'+nodeId];
+      var lane=getNodeLane(p);var m=LANE_META[lane]||LANE_META.platform;
+      html+='<button style="flex:1;min-width:45%;padding:8px 6px;line-height:1.4" onclick="showNodeUI(\''+p+'\')">&#9664; '+m.icon+' '+(lbl||navLabel(p))+'<br><span style="font-size:8px;opacity:.6">'+p+'</span></button>';
+    });
+    html+='</div>';
+  }
+  if(children.length){
+    html+='<div style="display:flex;gap:4px;width:100%;flex-wrap:wrap">';
+    children.forEach(function(c){
+      const lbl=graphEdgeLabels[nodeId+'->'+c];
+      var lane=getNodeLane(c);var m=LANE_META[lane]||LANE_META.platform;
+      html+='<button style="flex:1;min-width:45%;padding:8px 6px;line-height:1.4" onclick="showNodeUI(\''+c+'\')">'+(lbl||navLabel(c))+' '+m.icon+' &#9654;<br><span style="font-size:8px;opacity:.6">'+c+'</span></button>';
+    });
+    html+='</div>';
+  }
+  html+='</div>';
+
+  container.innerHTML=html;
+  container.style.display='';
+  empty.style.display='none';
+
+  // Highlight node in flowchart
+  highlightNode(nodeId);
+
+  // Ensure right panel is open
+  if(rightCollapsed) toggleRight();
+}
+
+// navNode removed — now using direct graph navigation buttons
+
+function highlightNode(nodeId){
+  // Remove old highlights
+  document.querySelectorAll('#mermaid-output .node-highlighted').forEach(el=>{
+    el.classList.remove('node-highlighted');
+    const r=el.querySelector('rect,polygon');
+    if(r) r.style.filter='';
+  });
+  // Add new
+  const svg=document.querySelector('#mermaid-output svg');
+  if(!svg) return;
+  const candidates=svg.querySelectorAll('[id^="flowchart-'+nodeId+'-"]');
+  candidates.forEach(el=>{
+    el.classList.add('node-highlighted');
+    const r=el.querySelector('rect,polygon');
+    if(r) r.style.filter='brightness(1.5) drop-shadow(0 0 6px rgba(47,129,247,.5))';
+    // Scroll the node into view within the preview area
+    const previewArea=document.getElementById('preview-area');
+    const svgRect=svg.getBoundingClientRect();
+    const nodeRect=el.getBoundingClientRect();
+    const areaRect=previewArea.getBoundingClientRect();
+    const scrollX=nodeRect.left-areaRect.left+previewArea.scrollLeft-areaRect.width/2+nodeRect.width/2;
+    const scrollY=nodeRect.top-areaRect.top+previewArea.scrollTop-areaRect.height/2+nodeRect.height/2;
+    previewArea.scrollTo({left:Math.max(0,scrollX),top:Math.max(0,scrollY),behavior:'smooth'});
+  });
+}
+
+// ========== Custom Node Config (data-driven) ==========
+const CUSTOM_NODES = {
+  EN01PL: {
+    type: 'photo',
+    title: '患者扫码进入',
+    img: '物料二维码.png',
+    caption: '医院放置实体二维码立牌<br>患者扫码进入理赔咨询服务'
+  },
+  IN02PL: {
+    type: 'page', title: '岩育、河源项目介绍', icon: '📋',
+    desc: [
+      '源瑞达是一款面向患者的创新药物，在疗效与安全性方面经严格临床验证，为有需要的患者提供更优质的治疗选择。',
+      '为切实减轻患者用药经济负担，岩育健康联合河源生物推出「源瑞达患者关爱计划」，符合条件的患者可享受以下专属权益：',
+      '· 全过程保险理赔一站式协助，提升赔付成功率',
+      '· 专属管家一对一支持，全程陪伴无忧'
+    ],
+    buttons: [{text:'立即申请入组', primary:true, goto:'RG04PL'}, {text:'查看我的申请进度', goto:'EV01PL'}]
+  },
+  RG04PL: {
+    type: 'form', title: '注册平台账号', icon: '📝',
+    fields: [
+      {label:'手机号码', placeholder:'请输入手机号码'},
+      {label:'验证码', placeholder:'请输入6位验证码', note:'*点击发送'}
+    ],
+    agreement: '我已阅读并同意《隐私政策》《平台服务协议》《注册协议》《监护人授权同意书》',
+    buttons: [{text:'注册并登录', primary:true, goto:'AP03PL'}]
+  },
+  AP03PL: {
+    type: 'upload', title: '提交保险与病历资料', icon: '📎',
+    desc: [
+      '1. 请上传以下材料，专家将据此为您进行保障分析，评估 CAR-T 治疗能否通过保险理赔。',
+      '2. 材料仅用于保障分析，不会对外披露。'
+    ],
+    uploads: [
+      {name:'保险单 / 保险合同', note:'需清晰可读保单号、产品名称、保障条款'},
+      {name:'确诊报告 / 病理报告', note:'医院出具，需显示病种及分期'},
+      {name:'主治医师治疗建议书', note:'医生出具的 CAR-T 治疗建议'}
+    ],
+    agreement: '我已阅读并同意《用户服务条款》《个人信息处理授权书》《理赔咨询委托协议》',
+    buttons: [{text:'提交材料', primary:true, goto:'EV01PL'}, {text:'暂时跳过'}]
+  },
+  MT05PL: {
+    type: 'page', title: '入组成功', icon: '\u2713', iconColor: '#238636',
+    desc: [
+      '恭喜您，入组申请已通过！',
+      '您的专属管家已分配，长按下方二维码添加企业微信，后续沟通将通过企微进行。'
+    ],
+    qr: true,
+    qrLabel: '长按识别添加专属管家',
+    buttons: [{text:'进入我的看板', primary:true, goto:'DB02PL'}]
+  },
+  MT05BK: {
+    type: 'page', title: '后台审查入组资料', icon: '⚙️', iconColor: '#8957e5',
+    desc: [
+      '后台已收到患者提交的保险资料与病历材料。',
+      '管家正在核查：保单条款是否覆盖 CAR-T、病种是否符合入组条件。'
+    ],
+    buttons: [{text:'审查通过 → 入组成功', primary:true, goto:'AU05BK'}, {text:'审核中 → 用户等待页', goto:'EV01PL'}, {text:'审查不通过 → 终止服务', goto:'RJ99PL'}]
+  },
+  AU05BK: {
+    type: 'page', title: '审查成功', icon: '\u2713', iconColor: '#238636',
+    desc: [
+      '入组资料审查通过！',
+      '患者保单条款覆盖 CAR-T，病种符合入组条件。',
+      '',
+      '点击下方按钮将患者状态变更为「入组成功」，系统自动推送通知。'
+    ],
+    buttons: [{text:'变更患者状态 → 入组成功', primary:true, goto:'MT05PL'}]
+  },
+  WC07WC: {
+    type: 'page', title: '患者已添加企微', icon: '\u23F0', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'您好！我是您的专属管家。\n已经看到您的入组信息，后续理赔流程全程由我协助您。'},
+      {from:'patient', text:'你好，谢谢！'},
+      {from:'advisor', text:'接下来我们会为您做一份保障分析报告，预计需要2个工作日内完成。\n完成后我会第一时间通知您。'}
+    ]
+  },
+  NF06WC: {
+    type: 'page', title: '管家告知报告预期时间', icon: '\u2709', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'您好！我是您的专属管家。'},
+      {from:'advisor', text:'您的入组已通过，接下来我们会为您做一份保障分析报告，预计2个工作日内完成。'},
+      {from:'patient', text:'好的，谢谢！'},
+      {from:'advisor', text:'完成后我会第一时间通知您，请留意消息。\n有任何问题随时联系我。'}
+    ]
+  },
+  NF07WC: {
+    type: 'page', title: '管家通知报告已完成', icon: '\u2709', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'您好，您的保障分析报告已经完成了！'},
+      {from:'advisor', text:'报告包含：\n1. 保单保障范围分析\n2. 可理赔项目清单\n3. 预估理赔金额\n4. 需要注意的条款要点'},
+      {from:'patient', text:'太好了！我在哪里查看？'},
+      {from:'advisor', text:'请回到小程序，在看板中点击您的项目即可查看完整报告。'}
+    ]
+  },
+  PV03PL: {
+    type: 'page', title: '保障条款分析完成', icon: '\u2705', iconColor: '#238636',
+    desc: [
+      '您的保障分析报告已完成！',
+      '专家已完成对您保单条款的详细分析，请点击下方按钮查看完整报告。'
+    ],
+    buttons: [{text:'点击查看报告', primary:true, goto:'RP10PL'}, {text:'返回我的看板', goto:'DB03PL'}]
+  },
+
+  RP10PL: {
+    type: 'report', title: '保障条款分析报告', icon: '\uD83D\uDCCA',
+    sections: [
+      {heading:'适应症确认', lines:[
+        '您所患弥漫大B细胞淋巴瘤(DLBCL)属于保单第12页「恶性肿瘤」保障范围。',
+        '条款原文：「被保险人经二级及以上医院确诊为恶性肿瘤，保险人按基本保额给付保险金。」'
+      ]},
+      {heading:'各疗程保障分析', lines:[
+        '▸ CAR-T细胞治疗 — 条款第15页「免疫细胞治疗」✅ 符合',
+        '▸ 化疗方案 — 条款第12页「恶性肿瘤治疗」✅ 符合',
+        '▸ 靶向药物 — 条款第14页「靶向治疗」✅ 符合',
+        '▸ 住院费用 — 条款第8页「住院医疗」✅ 符合',
+        '▸ 放射治疗 — 条款第13页「放射治疗」⚠️ 需确认具体方案'
+      ]},
+      {heading:'赔付初步估算', lines:[
+        '基本保额：¥1,200,000',
+        '免赔额：¥10,000（已满足）',
+        '具体赔付金额视实际选择的疗程及费用而定'
+      ]},
+      {heading:'综合评定', lines:[
+        '适应症：初步符合保单保障范围',
+        '多个疗程方案均在条款覆盖范围内',
+        '建议与主治医生确认疗程后，进入正式理赔流程'
+      ]}
+    ],
+    buttons: [{text:'预约专属解读', primary:true, goto:'CS11WC'}, {text:'返回我的看板', goto:'DB03PL'}]
+  },
+  CT01OF: {
+    type: 'page', title: '主动联系患者', icon: '\uD83D\uDCDE', iconColor: '#a3a300',
+    desc: [
+      '患者未扫码添加企微。',
+      '报告已出具，通过电话或其他方式主动联系患者。',
+      '引导患者添加专属管家企业微信。'
+    ],
+    buttons: [{text:'已联系成功', primary:true, goto:'NF06WC'}, {text:'联系失败，稍后重试', goto:'WC07CK'}]
+  },
+  CS11WC: {
+    type: 'page', title: '预约专属解读', icon: '\uD83D\uDCC5', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'您好，看到您预约了专属解读服务。\n我是您的专属管家，现在方便为您解读吗？'},
+      {from:'patient', text:'方便的，现在就可以。'},
+      {from:'advisor', text:'好的，我们现在开始解读您的保障分析报告。'}
+    ]
+  },
+  CS12WC: {
+    type: 'page', title: '医疗行为合规要点', icon: '\u2696', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'根据您的保单条款，以下几点请务必注意：'},
+      {from:'advisor', text:'1. 诊断书措辞必须与保单约定一致\n避免使用"待查""观察中"等模糊用词\n\n2. 所有处方需加盖医院诊断证明专用章\n\n3. 治疗方案需在保单约定的医院等级范围内\n\n4. 保留所有原始票据和病历资料'},
+      {from:'patient', text:'明白了，我会注意这些细节。'}
+    ]
+  },
+  CS13WC: {
+    type: 'page', title: '各疗程条款对应', icon: '\uD83D\uDCCB', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'医生给了我几个治疗方案，想知道保险能不能报。'},
+      {from:'advisor', text:'根据您的保单，各治疗方案对应条款如下：\n\nCAR-T细胞治疗 → 条款第15页「免疫细胞治疗」\n化疗方案 → 条款第12页「恶性肿瘤治疗」\n靶向药物 → 条款第14页「靶向治疗」\n住院费用 → 条款第8页「住院医疗」'},
+      {from:'patient', text:'了解了，我再跟医生商量一下。'}
+    ]
+  },
+  DC14OF: {
+    type: 'page', title: '患者线下决定疗程', icon: '\uD83C\uDFE5', iconColor: '#a3a300',
+    desc: [
+      '患者与主治医生沟通后，线下决定治疗方案。',
+      '患者在医院完成疗程选择并付款。',
+      '（此步骤在线下完成，平台等待患者反馈）'
+    ],
+    buttons: [{text:'患者已反馈', primary:true, goto:'CF15WC'}]
+  },
+  CF15WC: {
+    type: 'page', title: '患者告知已决定疗程', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'管家您好，我已经决定好治疗方案了。'},
+      {from:'patient', text:'医生建议我进行 CAR-T 细胞治疗，已经在医院办理了相关手续。'},
+      {from:'advisor', text:'好的，恭喜您做出决定！\n接下来请回到小程序面板，点击「申请理赔指引」按钮。\n我会协助您准备理赔材料。'}
+    ]
+  },
+  BK16WC: {
+    type: 'page', title: '引导申请理赔指引', icon: '\uD83D\uDC49', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'恭喜您确定了治疗方案！\n接下来我们将协助您进行理赔申请。'},
+      {from:'advisor', text:'请您回到小程序面板，点击「申请理赔指引」按钮，按提示操作即可。\n如有任何问题随时联系我。'},
+      {from:'patient', text:'好的，马上去。'}
+    ]
+  },
+  SY16PL: {
+    type: 'page', title: '申请理赔指引', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
+    desc: [
+      '您已完成疗程选择并付款。',
+      '接下来可以申请理赔指引，我们将全程协助您准备理赔材料。'
+    ],
+    buttons: [{text:'我已支付疗程，申请理赔指引', primary:true, goto:'GD17WC'}, {text:'返回我的看板', goto:'DB03PL'}]
+  },
+  GD17WC: {
+    type: 'page', title: '引导上传理赔单据', icon: '\uD83D\uDCDD', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'好的，现在进入理赔材料准备阶段。'},
+      {from:'advisor', text:'请您在小程序中按以下顺序上传：\n1. 医疗费用发票（原件）\n2. 出院小结/诊断证明（盖章）\n3. CAR-T用药清单/处方\n4. 其他支持材料'},
+      {from:'advisor', text:'上传过程中如有疑问随时问我，我会逐一检查确认。'},
+      {from:'patient', text:'好的，我现在就去上传。'}
+    ]
+  },
+  UL17PL: {
+    type: 'upload', title: '上传理赔单据', icon: '\uD83D\uDCC4',
+    desc: [
+      '请按以下清单上传理赔所需单据。',
+      '专属管家会在企微指导您准备材料。'
+    ],
+    uploads: [
+      {name:'医疗费用发票', note:'原件扫描或拍照，需清晰可读'},
+      {name:'出院小结 / 诊断证明', note:'医院出具，需盖章'},
+      {name:'用药清单 / 处方', note:'包含治疗相关费用明细'},
+      {name:'其他支持材料', note:'如检查报告、住院记录等'}
+    ],
+    buttons: [{text:'提交审核', primary:true, goto:'CK18BK'}, {text:'确认以上材料无误', disabled:true}, {text:'返回我的看板', goto:'DB03PL'}]
+  },
+  CK18BK: {
+    type: 'page', title: '后台审核上传材料', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
+    desc: [
+      '正在审核患者上传的理赔单据。',
+      '检查项：发票完整性、盖章合规、费用明细匹配、诊断一致性。'
+    ],
+    buttons: [{text:'审核通过', primary:true, goto:'NT18WC'}, {text:'需要补件', goto:'GD17WC'}]
+  },
+  UL17BPL: {
+    type: 'upload', title: '上传理赔单据', icon: '\uD83D\uDCC4', iconColor: '#238636',
+    desc: [
+      '材料已通过预审核 ✅',
+      '如需补充材料请继续上传，确认无误后点击「确认提交」。提交后将无法修改。'
+    ],
+    uploads: [
+      {name:'医疗费用发票', note:'✅ 已上传 · 已通过'},
+      {name:'出院小结 / 诊断证明', note:'✅ 已上传 · 已通过'},
+      {name:'用药清单 / 处方', note:'✅ 已上传 · 已通过'},
+      {name:'其他支持材料', note:'✅ 已上传 · 已通过'},
+      {name:'补充材料（可选）', note:'点击上传额外材料'}
+    ],
+    buttons: [{text:'提交审核', goto:'CK18BK'}, {text:'确认以上材料无误', primary:true, goto:'DB05PL'}, {text:'返回我的看板', goto:'DB03PL'}]
+  },
+  NT18WC: {
+    type: 'page', title: '管家通知材料审核通过', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'好消息！您上传的理赔材料已经全部审核通过，没有问题。'},
+      {from:'patient', text:'太好了！接下来怎么做？'},
+      {from:'advisor', text:'请回到小程序，在理赔页面点击「确认提交」按钮。\n提交后上传界面会锁定，之后就可以去保司提交了。'},
+      {from:'patient', text:'好的，马上去。'}
+    ]
+  },
+  SB20OF: {
+    type: 'page', title: '患者线下提交理赔', icon: '\uD83C\uDFE2', iconColor: '#a3a300',
+    desc: [
+      '请前往保险公司官方渠道提交理赔申请：',
+      '1. 登录保司官网或 APP',
+      '2. 按指引上传经我们预审核的材料',
+      '3. 提交完成后请截图保存受理编号',
+      '提交后请通过企微告知管家。'
+    ],
+    buttons: [{text:'我已提交', primary:true, goto:'CF21WC'}]
+  },
+  CF21WC: {
+    type: 'page', title: '患者通知已提交理赔', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'管家您好，理赔材料我已经提交给保司了。'},
+      {from:'advisor', text:'好的，收到！'},
+      {from:'advisor', text:'请您回到小程序，点击「我已提交理赔材料」按钮，系统会更新您的案件状态。'}
+    ]
+  },
+  CF22WC: {
+    type: 'page', title: '患者告知已在系统确认', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'管家，我已经在系统上点了确认提交了。'},
+      {from:'advisor', text:'好的，收到！我这边已经看到您的状态更新了。'},
+      {from:'advisor', text:'接下来我会协助您跟进保司的审核进度，有任何消息我会第一时间通知您。'},
+      {from:'patient', text:'好的，辛苦了，谢谢！'}
+    ]
+  },
+  FU22PL: {
+    type: 'page', title: '理赔跟进中', icon: '\u23F3', iconColor: '#2f81f7',
+    desc: [
+      '您的理赔材料已提交至保险公司。',
+      '',
+      '如已收到保司审核结论，请点击上传。',
+      '如未收到，请耐心等候或联系管家咨询进度。'
+    ],
+    buttons: [{text:'我已收到审核结论，上传', primary:true, goto:'UP27PL'}, {text:'联系管家', goto:'RM23WC'}, {text:'返回我的看板', goto:'DB06PL'}]
+  },
+  RM23WC: {
+    type: 'page', title: '定期跟进提醒', icon: '\uD83D\uDD14', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'您好，跟您更新一下理赔进度。\n目前保司仍在审核中，预计还需要5-7个工作日。'},
+      {from:'patient', text:'好的，有结果第一时间告诉我。'},
+      {from:'advisor', text:'放心，一有消息我会立刻通知您。\n如果超过预期时间我会主动帮您催促。'}
+    ]
+  },
+  RC24OF: {
+    type: 'page', title: '保司审核结论', icon: '\uD83D\uDCE8', iconColor: '#a3a300',
+    desc: [
+      '保险公司审核已完成。',
+      '患者收到书面审核意见材料。',
+      '（此步骤在线下发生，等待患者反馈）'
+    ],
+    buttons: [{text:'患者已反馈', primary:true, goto:'CF25WC'}]
+  },
+  CF25WC: {
+    type: 'page', title: '患者告知收到结论', icon: '\uD83D\uDCE9', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'管家，我收到保司的审核结论了。'},
+      {from:'advisor', text:'好的！请问结果是通过还是有其他情况？'},
+      {from:'patient', text:'通过了，但是金额跟预期有些差距。'},
+      {from:'advisor', text:'了解。请您回到小程序面板，将审核结论拍照上传。\n我来帮您详细分析。'}
+    ]
+  },
+  UP27PL: {
+    type: 'upload', title: '上传审核结论', icon: '\uD83D\uDCC4',
+    desc: [
+      '请上传保司审核结论材料'
+    ],
+    uploads: [
+      {name:'审核结论 / 理赔决定书', note:'保司出具的正式审核意见'}
+    ],
+    buttons: [{text:'上传审核结论', primary:true, goto:'RV27PL'}, {text:'返回我的看板', goto:'DB06PL'}]
+  },
+  RV27PL: {
+    type: 'page', title: '审核结论已上传', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
+    desc: [
+      '审核结论已成功上传。',
+      '请仔细阅读保司的审核意见，选择后续操作：'
+    ],
+    buttons: [{text:'我认可并接受', primary:true, goto:'OK01BK'}, {text:'我不认可，我要申诉', goto:'GD29WC'}]
+  },
+  OK01BK: {
+    type: 'page', title: '理赔认可 - 后台标记', icon: '\u2705', iconColor: '#8957e5',
+    desc: [
+      '患者已认可保司审核结论。',
+      '后台标记理赔认可，进入赔付跟进阶段。'
+    ],
+    buttons: [{text:'开始跟进赔付', primary:true, goto:'FP01WC'}]
+  },
+  FP01WC: {
+    type: 'page', title: '协助跟进赔付', icon: '\uD83D\uDCB0', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'恭喜您，理赔已经获批！\n我来协助您跟进后续赔付流程。'},
+      {from:'advisor', text:'赔付款项预计15个工作日内到账。\n请确认以下信息：\n1. 收款账户是否正确\n2. 是否需要开具理赔证明'},
+      {from:'patient', text:'账户没问题，请帮我开一份理赔证明。'},
+      {from:'advisor', text:'好的，理赔证明我这边申请，办好后会通知您。'}
+    ]
+  },
+  PD01PL: {
+    type: 'page', title: '等待保司赔付', icon: '\u23F3', iconColor: '#2f81f7',
+    desc: [
+      '理赔审核已通过，等待保司赔付。',
+      '预计 5-15 个工作日内到账。'
+    ],
+    buttons: [{text:'联系管家', primary:true, goto:'FP01WC'}, {text:'返回我的看板', goto:'DB06PL'}]
+  },
+  OK02WC: {
+    type: 'page', title: '确认收到理赔款', icon: '\uD83D\uDCB5', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'管家，理赔款已经到账了！谢谢你全程协助。'},
+      {from:'advisor', text:'太好了！恭喜您，整个理赔流程顺利完成。'},
+      {from:'advisor', text:'后续如有任何保险相关问题，随时联系我。\n祝您早日康复！\uD83D\uDE4F'}
+    ]
+  },
+  ED01PL: {
+    type: 'page', title: '理赔成功结案', icon: '\uD83C\uDF89', iconColor: '#238636',
+    desc: [
+      '恭喜您，理赔已成功完成！',
+      '理赔款项已到账，本次服务圆满结束。',
+      '感谢您选择岩育健康理赔协助服务。',
+      '如有其他需要，随时联系我们。'
+    ],
+    buttons: [{text:'返回首页', primary:true, goto:'IN02PL'}]
+  },
+  GD29WC: {
+    type: 'page', title: '申诉材料指导', icon: '\uD83D\uDCDD', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'收到，您选择对审核结论提出申诉。\n我来指导您准备申诉材料。'},
+      {from:'advisor', text:'申诉需要以下材料：\n1. 保司审核结论/拒赔通知书（原件）\n2. 补充医疗证明\n3. 申诉理由说明'},
+      {from:'patient', text:'好的，我去准备。'}
+    ]
+  },
+  AP28PL: {
+    type: 'upload', title: '申诉指引 - 上传单据', icon: '\u270D',
+    desc: [
+      '您选择对审核结论提出申诉。',
+      '请按以下清单上传申诉所需材料。',
+      '专属管家会在企微指导您准备。'
+    ],
+    uploads: [
+      {name:'保司审核结论/拒赔通知书', note:'保司出具的正式文件'},
+      {name:'补充医疗证明', note:'支持申诉理由的医疗材料'},
+      {name:'申诉理由说明', note:'可手写或打印'}
+    ],
+    buttons: [{text:'提交审核', primary:true, goto:'CK29BK'}, {text:'确认以上材料无误', disabled:true}, {text:'返回我的看板', goto:'DB06PL'}]
+  },
+
+  CK29BK: {
+    type: 'page', title: '后台审核申诉材料', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
+    desc: [
+      '正在审核患者上传的申诉材料。',
+      '检查项：拒赔通知书完整性、补充材料充分性、申诉理由合理性。'
+    ],
+    buttons: [{text:'审核通过', primary:true, goto:'NT29WC'}, {text:'需要补件', goto:'GD29WC'}]
+  },
+  NT29WC: {
+    type: 'page', title: '管家通知申诉材料审核通过', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'好消息！您上传的申诉材料已经全部审核通过，没有问题。'},
+      {from:'patient', text:'太好了！接下来怎么做？'},
+      {from:'advisor', text:'请回到小程序，在申诉页面点击「确认提交」按钮。\n提交后上传界面会锁定，之后就可以去保司提交了。'},
+      {from:'patient', text:'好的，马上去。'}
+    ]
+  },
+  AP28BPL: {
+    type: 'upload', title: '上传申诉单据', icon: '\u270D', iconColor: '#238636',
+    desc: [
+      '材料已通过预审核 \u2705',
+      '如需补充材料请继续上传，确认无误后点击「确认以上材料无误」。提交后将无法修改。'
+    ],
+    uploads: [
+      {name:'保司审核结论/拒赔通知书', note:'\u2705 已上传 · 已通过'},
+      {name:'补充医疗证明', note:'\u2705 已上传 · 已通过'},
+      {name:'申诉理由说明', note:'\u2705 已上传 · 已通过'},
+      {name:'补充材料（可选）', note:'点击上传额外材料'}
+    ],
+    buttons: [{text:'提交审核', goto:'CK29BK'}, {text:'确认以上材料无误', primary:true, goto:'DB07PL'}, {text:'返回我的看板', goto:'DB08PL'}]
+  },
+  DB07PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'申诉材料已确认·待提交保司', statusColor:'#d29922', goto:'LK31PL', date:'材料已锁定'}
+    ]
+  },
+  LK31PL: {
+    type: 'page', title: '申诉材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
+    desc: [
+      '您的申诉材料已确认并锁定，无法修改。',
+      '请携带材料前往保险公司提交申诉申请。'
+    ],
+    materialList: [
+      {name:'保司审核结论/拒赔通知书', status:'\uD83D\uDD12 已锁定', note:'保司出具的正式文件'},
+      {name:'补充医疗证明', status:'\uD83D\uDD12 已锁定', note:'支持申诉理由的医疗材料'},
+      {name:'申诉理由说明', status:'\uD83D\uDD12 已锁定', note:'已提交'}
+    ],
+    buttons: [{text:'我已向保险公司提交申诉材料', primary:true, goto:'SB31OF'}, {text:'返回我的看板', goto:'DB07PL'}]
+  },
+  CM32PL: {
+    type: 'page', title: '申诉材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
+    desc: [
+      '您的申诉材料已确认并锁定，无法修改。',
+      '请携带材料前往保险公司提交申诉申请。'
+    ],
+    materialList: [
+      {name:'保司审核结论/拒赔通知书', status:'\uD83D\uDD12 已锁定', note:'保司出具的正式文件'},
+      {name:'补充医疗证明', status:'\uD83D\uDD12 已锁定', note:'支持申诉理由的医疗材料'},
+      {name:'申诉理由说明', status:'\uD83D\uDD12 已锁定', note:'已提交'}
+    ],
+    buttons: [{text:'我已向保险公司提交申诉材料', primary:true, goto:'SB31OF'}, {text:'确认：我已提交申诉', goto:'DB08PL'}, {text:'返回我的看板', goto:'DB07PL'}]
+  },
+  DB08PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'已提交申诉·跟进中', statusColor:'#d29922', goto:'FU33PL', date:'已提交保司'}
+    ]
+  },
+  CF33WC: {
+    type: 'page', title: '患者告知已在系统确认', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'管家，我已经在系统上点了确认提交了。'},
+      {from:'advisor', text:'好的，收到！我这边已经看到您的状态更新了。'},
+      {from:'advisor', text:'接下来我会协助您跟进保司的申诉审核进度，有任何消息我会第一时间通知您。'},
+      {from:'patient', text:'好的，辛苦了，谢谢！'}
+    ]
+  },
+  SB31OF: {
+    type: 'page', title: '患者线下提交申诉', icon: '\uD83C\uDFE2', iconColor: '#a3a300',
+    desc: [
+      '请前往保险公司官方渠道提交申诉申请。',
+      '提交后请截图保存受理编号。',
+      '提交后请通过企微告知管家。'
+    ],
+    buttons: [{text:'我已提交', primary:true, goto:'CF32WC'}]
+  },
+  CF32WC: {
+    type: 'page', title: '患者通知已提交申诉', icon: '\u2705', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'管家您好，申诉材料我已经提交给保司了。'},
+      {from:'advisor', text:'好的，收到！'},
+      {from:'advisor', text:'请您回到小程序，点击「确认已提交」按钮，系统会更新您的案件状态。'}
+    ]
+  },
+  FU33PL: {
+    type: 'page', title: '申诉跟进中', icon: '\u23F3', iconColor: '#2f81f7',
+    desc: [
+      '您的申诉已提交至保险公司。',
+      '我们会持续跟进申诉进度。'
+    ],
+    buttons: [{text:'我已收到申诉结论，上传', primary:true, goto:'UP38PL'}, {text:'联系管家', goto:'RM34WC'}, {text:'返回我的看板', goto:'DB08PL'}]
+  },
+  RM34WC: {
+    type: 'page', title: '定期跟进申诉', icon: '\uD83D\uDD14', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'您好，更新一下申诉审核进度。\n目前保司申诉部门正在复审中，预计还需要7-10个工作日。'},
+      {from:'patient', text:'这次应该能通过吧？'},
+      {from:'advisor', text:'根据我们补充的材料，申诉理由是充分的。\n一有结果我会立刻通知您。'}
+    ]
+  },
+  RC35OF: {
+    type: 'page', title: '保司申诉结论', icon: '\uD83D\uDCE8', iconColor: '#a3a300',
+    desc: [
+      '保险公司申诉审核已完成。',
+      '患者收到书面申诉审核意见。'
+    ],
+    buttons: [{text:'患者已反馈', primary:true, goto:'CF36WC'}]
+  },
+  CF36WC: {
+    type: 'page', title: '患者告知收到申诉结论', icon: '\uD83D\uDCE9', iconColor: '#3B7DED',
+    chat: [
+      {from:'patient', text:'管家，申诉结论出来了！'},
+      {from:'advisor', text:'好的！结果怎么样？'},
+      {from:'patient', text:'通过了，保司同意理赔了。'},
+      {from:'advisor', text:'太棒了！请您回到小程序面板，上传申诉结论文件。\n我来帮您启动后续赔付流程。'}
+    ]
+  },
+  UP38PL: {
+    type: 'upload', title: '上传申诉结论', icon: '\uD83D\uDCC4',
+    desc: ['请上传保司申诉审核结论'],
+    uploads: [
+      {name:'申诉审核结论', note:'保司出具的正式申诉审核意见'}
+    ],
+    buttons: [{text:'上传申诉结论', primary:true, goto:'RV38PL'}, {text:'返回我的看板', goto:'DB08PL'}]
+  },
+  RV38PL: {
+    type: 'page', title: '申诉结论已上传', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
+    desc: [
+      '申诉结论已上传。请选择后续操作：'
+    ],
+    buttons: [{text:'我认可并接受', primary:true, goto:'OK01BK'}, {text:'继续申诉', goto:'AP28PL'}, {text:'升级 → 寻求外部支持', goto:'EX40WC'}]
+  },
+  EX40WC: {
+    type: 'page', title: '是否寻求外部资源', icon: '\uD83E\uDD1D', iconColor: '#3B7DED',
+    chat: [
+      {from:'advisor', text:'目前的情况我了解了。\n您有两个选择：'},
+      {from:'advisor', text:'1. 继续申诉 — 我们重新准备申诉材料\n2. 寻求外部专业支持 — 可以对接协赔专家或律师'},
+      {from:'patient', text:'外部专业支持具体是什么？'},
+      {from:'advisor', text:'我们合作的协赔专家和律师事务所，有丰富的保险理赔经验。\n如果您感兴趣，回到小程序面板可以查看详情。'}
+    ]
+  },
+  CH41PL: {
+    type: 'page', title: '选择外部支持类型', icon: '\u2696', iconColor: '#2f81f7',
+    desc: [
+      '请选择您希望的外部支持方式：'
+    ],
+    buttons: [{text:'协赔专家（专业协商，不走诉讼）', primary:true, goto:'RC42PL'}, {text:'律师事务所（法庭诉讼）', goto:'LW42PL'}]
+  },
+  RC42PL: {
+    type: 'page', title: '推荐合作机构', icon: '\uD83C\uDFE2', iconColor: '#2f81f7',
+    desc: [
+      '为您推荐以下合作机构：',
+      '',
+      '机构名称：XXX 协赔/律师事务所',
+      '专业领域：保险理赔纠纷',
+      '成功案例：处理过 200+ 例 CAR-T 相关理赔',
+      '服务费用：按结果收费，前期咨询免费'
+    ],
+    buttons: [{text:'我同意此机构作为代理对象', primary:true, goto:'DL43PL'}, {text:'都不接受，另行寻找', goto:'EX44PL'}]
+  },
+  DL43PL: {
+    type: 'page', title: '委托确认', icon: '\uD83D\uDCDD', iconColor: '#238636',
+    desc: [
+      '您已选择委托 XXX 机构。',
+      '',
+      '机构详细介绍：',
+      '- 成立年份：2018',
+      '- 团队规模：50+ 专业人员',
+      '- 擅长领域：健康险理赔、重疾险纠纷',
+      '- 合作医院：全国三甲医院 100+',
+      '',
+      '我们会将您的案件资料安全移交给该机构。'
+    ],
+    buttons: [{text:'预约时间进行案件咨询', primary:true, goto:'HD43BK'}, {text:'返回我的看板', goto:'DB08PL'}]
+  },
+  HD43BK: {
+    type: 'page', title: '资料移交合作机构', icon: '\uD83D\uDCE4', iconColor: '#8957e5',
+    desc: [
+      '正在将患者资料一键转发给合作机构。',
+      '包含：保单信息、病历、理赔材料、审核结论、申诉记录。',
+      '交接完成后通知合作机构主动联系患者。'
+    ],
+    buttons: [{text:'已完成交接', primary:true, goto:'ED02PL'}]
+  },
+  ED02PL: {
+    type: 'page', title: '已委托外部机构', icon: '\uD83E\uDD1D', iconColor: '#238636',
+    desc: [
+      '您的案件已移交至 XXX 机构。',
+      '机构将在 1-2 个工作日内主动联系您。',
+      '岩育健康将持续关注您的案件进展。'
+    ],
+    buttons: [{text:'返回我的看板', primary:true, goto:'DB08PL'}]
+  },
+  EX44PL: {
+    type: 'page', title: '一键导出资料', icon: '\uD83D\uDCE5', iconColor: '#2f81f7',
+    desc: [
+      '您选择自行寻找外部支持。',
+      '点击下方按钮可一键导出所有案件资料：',
+      '包含：保单、病历、理赔材料、审核结论、申诉记录等。'
+    ],
+    buttons: [{text:'导出全部资料', primary:true, goto:'ED03PL'}, {text:'返回我的看板', goto:'DB08PL'}]
+  },
+  ED03PL: {
+    type: 'page', title: '资料已导出', icon: '\u2705', iconColor: '#2f81f7',
+    desc: [
+      '资料已导出至您的设备。',
+      '祝您一切顺利，如需帮助随时联系我们。'
+    ],
+    buttons: [{text:'返回我的看板', primary:true, goto:'DB08PL'}]
+  },
+  RP11BK: {
+    type: 'page', title: '出具保障条款分析报告', icon: '\uD83D\uDCCA', iconColor: '#8957e5',
+    desc: [
+      '保障条款分析报告已出具。',
+      '专家与TPA确认保单保障范围及赔付可能性。',
+      '报告将推送至患者端并通知管家。'
+    ],
+    buttons: [{text:'推送报告', primary:true, goto:'PV03PL'}]
+  },
+  EX08BK: {
+    type: 'page', title: '专家评估', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
+    desc: [
+      '专家正在评估患者的保单条款与病历资料。',
+      '评估内容：保障范围、适应症匹配、赔付可能性。'
+    ],
+    buttons: [{text:'评估完成，提交TPA审查', primary:true, goto:'TP09BK'}]
+  },
+  TP09BK: {
+    type: 'page', title: 'TPA审查', icon: '\uD83D\uDD0D', iconColor: '#8957e5',
+    desc: [
+      'TPA（第三方理赔管理机构）审查中。',
+      '核实保单条款覆盖范围与赔付可能性。'
+    ],
+    buttons: [{text:'审查通过', primary:true, goto:'RP11BK'}]
+  },
+  PV02PL: {
+    type: 'page', title: '评估进行中', icon: '\u23F3', iconColor: '#2f81f7',
+    desc: [
+      '您的保障条款正在分析中。',
+      '专家团队正在审查您的保单，请耐心等候。',
+      '',
+      '如尚未添加专属管家，请长按下方二维码添加。'
+    ],
+    qr: true,
+    qrClickable: true,
+    qrLabel: '长按识别添加专属管家',
+    buttons: [{text:'我已扫码', primary:true, goto:'WC07WC'}]
+  },
+  WC07BK: {
+    type: 'page', title: '后台标记待联系', icon: '\uD83D\uDCCB', iconColor: '#8957e5',
+    desc: [
+      '患者尚未扫码添加企微。',
+      '已标记为待联系状态，需主动联系患者引导添加。'
+    ],
+    buttons: [{text:'主动联系', primary:true, goto:'CT01OF'}]
+  },
+  WC07CK: {
+    type: 'page', title: '患者是否扫码？', icon: '\u2753', iconColor: '#8957e5',
+    desc: [
+      '检查患者是否已扫码添加专属管家企业微信。'
+    ],
+    buttons: [{text:'已扫码', primary:true, goto:'WC07WC'}, {text:'未扫码', goto:'WC07BK'}]
+  },
+  CK22PL: {
+    type: 'page', title: '后台确认：是否收到审核结论', icon: '\u2753', iconColor: '#8957e5',
+    desc: [
+      '检查患者是否已收到保司的审核结论。',
+      '如未收到，通过企微提醒患者跟进。'
+    ],
+    buttons: [{text:'是，已收到', primary:true, goto:'RC24OF'}, {text:'否，企微提醒患者', goto:'RM23WC'}]
+  },
+  CK33PL: {
+    type: 'page', title: '后台确认：是否收到申诉结论', icon: '\u2753', iconColor: '#8957e5',
+    desc: ['检查患者是否已收到保司的申诉审核结论。', '如未收到，通过企微提醒患者跟进。'],
+    buttons: [{text:'是，已收到', primary:true, goto:'RC35OF'}, {text:'否，企微提醒患者', goto:'RM34WC'}]
+  },
+  LW42PL: {
+    type: 'page', title: '推荐律师事务所', icon: '\u2696', iconColor: '#2f81f7',
+    desc: [
+      '为您推荐以下合作律师事务所：',
+      '',
+      '机构名称：XXX 律师事务所',
+      '专业领域：保险理赔诉讼',
+      '胜诉率：85%+',
+      '服务费用：按结果收费'
+    ],
+    buttons: [{text:'我同意此机构作为代理对象', primary:true, goto:'DL43PL'}, {text:'都不满意，另行寻找', goto:'EX44PL'}]
+  },
+  ED00PL: {
+    type: 'page', title: '项目已完成', icon: '\uD83D\uDCCB', iconColor: '#6e7681',
+    desc: [
+      '您的项目服务已完成。',
+      '感谢您使用岩育健康理赔协助服务。',
+      '',
+      '如有其他需要，欢迎随时联系我们。'
+    ],
+    buttons: [{text:'返回首页', primary:true, goto:'IN02PL'}, {text:'联系客服', goto:'CS00PL'}]
+  },
+  RJ99PL: {
+    type: 'page', title: '审核不通过', icon: '\u2717', iconColor: '#da3633',
+    desc: [
+      '很抱歉，您提交的资料未通过审核。',
+      '',
+      '可能原因：',
+      '· 提交的材料不完整或不清晰',
+      '· 材料信息与填写内容不一致',
+      '· 其他不符合入组条件的情况',
+      '',
+      '您可以重新提交材料，或联系客服了解详情。'
+    ],
+    buttons: [{text:'重新提交', primary:true, goto:'AP03PL'}, {text:'联系客服', goto:'CS00PL'}]
+  },
+  AG01PL: {
+    type: 'page', title: '隐私政策', icon: '\uD83D\uDD12', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 总则</b>',
+      '本隐私政策适用于岩育健康平台提供的所有服务。我们重视您的隐私保护，承诺依法保护您的个人信息安全。',
+      '',
+      '<b>第二条 信息收集</b>',
+      '我们可能收集以下信息：姓名、手机号码、身份证号、保单信息、病历资料等。',
+      '',
+      '<b>第三条 信息使用</b>',
+      '（内容完善中）',
+      '',
+      '<b>第四条 信息保护</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
+  },
+  AG02PL: {
+    type: 'page', title: '平台服务协议', icon: '\uD83D\uDCDD', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 服务内容</b>',
+      '岩育健康平台为符合条件的患者提供保险理赔咨询、材料预审、专家分析等一站式协助服务。',
+      '',
+      '<b>第二条 用户权利与义务</b>',
+      '用户应如实提供个人信息及保险、医疗相关材料。',
+      '',
+      '<b>第三条 平台责任</b>',
+      '（内容完善中）',
+      '',
+      '<b>第四条 免责条款</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
+  },
+  AG03PL: {
+    type: 'page', title: '注册协议', icon: '\uD83D\uDCCB', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 账号注册</b>',
+      '用户使用手机号码注册平台账号，一个手机号仅可注册一个账号。',
+      '',
+      '<b>第二条 账号安全</b>',
+      '用户应妥善保管账号及验证码，因用户原因导致的账号安全问题由用户承担。',
+      '',
+      '<b>第三条 账号注销</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
+  },
+  AG04PL: {
+    type: 'page', title: '监护人授权同意书', icon: '\uD83D\uDC64', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 适用范围</b>',
+      '当患者为未成年人或无民事行为能力人时，需由其法定监护人签署本授权同意书。',
+      '',
+      '<b>第二条 授权内容</b>',
+      '监护人同意代为提交保险及医疗相关材料，并授权平台进行保障分析服务。',
+      '',
+      '<b>第三条 监护人责任</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'RG04PL'}]
+  },
+  DB00PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'评估进行中', statusColor:'#2f81f7', goto:'PV02PL', date:'2024-01-15 申请'},
+      {name:'源瑞达患者关爱计划', status:'保障分析已完成', statusColor:'#238636', goto:'PV03PL', date:'2024-01-17 完成'},
+      {name:'源瑞达患者关爱计划', status:'理赔跟进中', statusColor:'#d29922', goto:'FU22PL', date:'2024-02-01 提交'}
+    ]
+  },
+  DB01PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'入组评估中', statusColor:'#d29922', goto:'EV01PL', date:'提交于今天'}
+    ]
+  },
+  DB02PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'保障分析中', statusColor:'#2f81f7', goto:'PV02PL', date:'入组于今天'}
+    ]
+  },
+  DB03PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'保障分析已完成', statusColor:'#238636', goto:'PV03PL', date:'报告已出具'}
+    ]
+  },
+  DB04PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'理赔跟进中', statusColor:'#d29922', goto:'FU22PL', date:'已提交理赔'}
+    ]
+  },
+  CM21PL: {
+    type: 'page', title: '材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
+    desc: [
+      '您的理赔材料已确认并锁定，无法修改。',
+      '请携带材料前往保险公司提交理赔申请。'
+    ],
+    materialList: [
+      {name:'医疗费用发票', status:'\uD83D\uDD12 已锁定', note:'共3张，金额合计 ¥XXX,XXX'},
+      {name:'出院小结 / 诊断证明', status:'\uD83D\uDD12 已锁定', note:'XX医院出具，已盖章'},
+      {name:'用��清单 / 处方', status:'\uD83D\uDD12 已锁定', note:'包含治疗相关费用明细'},
+      {name:'其他支持材料', status:'\uD83D\uDD12 已锁定', note:'检查报告2份'}
+    ],
+    buttons: [{text:'���已向保险公司提交理��材料', primary:true, goto:'SB20OF'}, {text:'确认：我已提交理赔', goto:'DB06PL'}, {text:'返回我的看板', goto:'DB05PL'}]
+  },
+  DB06PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'已提交理赔·跟进中', statusColor:'#d29922', goto:'FU22PL', date:'已提交保司'}
+    ]
+  },
+  DB05PL: {
+    type: 'dashboard',
+    title: '我的看板',
+    projects: [
+      {name:'源瑞达患者关爱计划', status:'材料已确认·待提交保司', statusColor:'#d29922', goto:'DB05DPL', date:'材料已锁定'}
+    ]
+  },
+  LK20PL: {
+    type: 'page', title: '材料清单（已锁定）', icon: '\uD83D\uDD12', iconColor: '#238636',
+    desc: [
+      '您的理赔材料已确认并锁定，无法修改。',
+      '请携带材料前往保险公司提交理赔申请。'
+    ],
+    materialList: [
+      {name:'医疗费用发票', status:'\uD83D\uDD12 已锁定', note:'共3张，金额合计 ¥XXX,XXX'},
+      {name:'出院小结 / 诊断证明', status:'\uD83D\uDD12 已锁定', note:'XX医院出具，已盖章'},
+      {name:'用药清单 / 处方', status:'\uD83D\uDD12 已锁定', note:'包含治疗相关费用明细'},
+      {name:'其他支持材料', status:'\uD83D\uDD12 已锁定', note:'检查报告2份'}
+    ],
+    buttons: [{text:'我已向保险公司提交理赔材料', primary:true, goto:'SB20OF'}, {text:'返回我的看板', goto:'DB05PL'}]
+  },
+  CS00PL: {
+    type: 'page', title: '联系客服', icon: '\uD83D\uDCDE', iconColor: '#2f81f7',
+    desc: [
+      '如有任何疑问，请通过以下方式联系我们：',
+      '',
+      '<b>客服热线</b>',
+      '400-XXX-XXXX',
+      '工作时间：周一至周五 9:00-18:00',
+      '',
+      '<b>在线客服</b>',
+      '扫描下方二维码添加在线客服微信'
+    ],
+    qr: true,
+    qrLabel: '扫码添加在线客服',
+    buttons: [{text:'回到首页', primary:true, goto:'IN02PL'}]
+  },
+  EV01PL: {
+    type: 'page', title: '入组评估中', icon: '\u23F3', iconColor: '#2f81f7',
+    desc: [
+      '您的入组申请已提交成功！',
+      '',
+      '我们的专家团队正在审核您的保险与病历资料，评估是否符合入组条件。',
+      '',
+      '预计审核时间：1-2 个工作日',
+      '',
+      '审核完成后将通过短信通知您，届时请回到小程序查看结果。'
+    ],
+    buttons: [{text:'返回看板', goto:'DB01PL'}, {text:'联系客服', goto:'CS00PL'}]
+  },
+  AG05PL: {
+    type: 'page', title: '用户服务条款', icon: '\uD83D\uDCDD', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 服务说明</b>',
+      '本平台提供保险理赔咨询协助服务，包括但不限于：材料预审、保障分析、理赔指导等。',
+      '',
+      '<b>第二条 服务范围</b>',
+      '本服务仅为咨询协助性质，不构成保险代理或法律服务。',
+      '',
+      '<b>第三条 费用说明</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'AP03PL'}]
+  },
+  AG06PL: {
+    type: 'page', title: '个人信息处理授权书', icon: '\uD83D\uDD12', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 授权范围</b>',
+      '您授权本平台收集、存储、使用您提供的个人信息及医疗保险相关材料，用于保障分析及理赔协助服务。',
+      '',
+      '<b>第二条 信息安全</b>',
+      '我们采用加密存储、访问控制等措施保护您的个人信息安全。',
+      '',
+      '<b>第三条 撤回授权</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'AP03PL'}]
+  },
+  AG07PL: {
+    type: 'page', title: '理赔咨询委托协议', icon: '\u2696', iconColor: '#2f81f7',
+    desc: [
+      '<b>第一条 委托内容</b>',
+      '您委托本平台就您的保险理赔事宜提供专业咨询及协助服务。',
+      '',
+      '<b>第二条 双方权利义务</b>',
+      '委托人应如实提供相关材料；受托方应尽职提供专业意见。',
+      '',
+      '<b>第三条 委托期限</b>',
+      '（内容完善中）'
+    ],
+    buttons: [{text:'我已阅读', primary:true, goto:'AP03PL'}]
+  }
+};
+
+// ========== Generic Custom Renderer ==========
+function renderCustom(nodeId) {
+  const c = CUSTOM_NODES[nodeId];
+  if (c.type === 'photo') {
+    return '<div style="width:280px;text-align:center">' +
+      '<div style="font-size:13px;font-weight:700;color:#e6edf3;margin-bottom:12px">' + c.title + '</div>' +
+      '<img src="' + c.img + '" style="width:280px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3)">' +
+      (c.caption ? '<div style="margin-top:12px;font-size:11px;color:#8b949e;line-height:1.6">' + c.caption + '</div>' : '') +
+      '</div>';
+  }
+  if (c.type === 'dashboard') {
+    var db = '<div class="phone-frame"><div style="display:flex;flex-direction:column;height:100%;background:#f8fafc">' +
+      '<div style="height:44px;background:#fff;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;justify-content:center;flex-shrink:0">' +
+      '<span style="font-size:14px;font-weight:700;color:#1e293b">我的看板</span></div>' +
+      '<div style="flex:1;overflow-y:auto;padding:12px">';
+    c.projects.forEach(function(p) {
+      db += '<div onclick="showNodeUI(\'' + p.goto + '\')" style="cursor:pointer;background:#fff;border-radius:12px;padding:14px;margin-bottom:10px;border:1px solid #f1f5f9;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:all .15s"' +
+        ' onmouseover="this.style.borderColor=\'#e2e8f0\';this.style.boxShadow=\'0 4px 6px rgba(0,0,0,.08)\'" onmouseout="this.style.borderColor=\'#f1f5f9\';this.style.boxShadow=\'0 1px 3px rgba(0,0,0,.05)\'">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
+        '<span style="font-size:11px;font-weight:700;color:#1e293b">' + p.name + '</span>' +
+        '<span style="font-size:14px;color:#94a3b8">\u203A</span></div>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center">' +
+        '<span style="font-size:9px;font-weight:600;color:' + p.statusColor + ';background:' + p.statusColor + '15;padding:2px 8px;border-radius:10px">' + p.status + '</span>' +
+        '<span style="font-size:8px;color:#94a3b8">' + p.date + '</span></div></div>';
+    });
+    db += '</div>' +
+      '<div style="padding:8px 12px 12px;flex-shrink:0"><div onclick="showNodeUI(\'IN02PL\')" class="btn btn-secondary" style="cursor:pointer;width:100%;padding:8px;border-radius:8px;font-size:11px;font-weight:600;text-align:center;background:#fff;border:1px solid #e2e8f0;color:#475569">返回首页</div></div>' +
+      '</div></div>';
+    return db;
+  }
+  // All other types render inside phone frame
+  var isChat = !!c.chat;
+  let body = '';
+  // Icon + badge + heading (skip for chat/WeChat nodes - they simulate real UI)
+  if (!isChat) {
+    body += '<div class="icon-box" style="background:' + (c.iconColor || '#B20708') + '">' + (c.icon || '📋') + '</div>';
+    body += '<span class="code-badge">' + nodeId + '</span>';
+    body += '<h2>' + c.title + '</h2>';
+  }
+  // Chat messages (WeChat style)
+  if (isChat) {
+    body += '<div class="wc-ts">今天 14:00</div>';
+    body += '<div style="margin-top:4px">';
+    c.chat.forEach(function(msg) {
+      var isP = msg.from === 'patient';
+      body += '<div class="wc-row ' + (isP ? 'right' : 'left') + '" style="margin-bottom:6px">' +
+        '<div class="wc-av ' + (isP ? 'patient' : 'advisor') + '">' + (isP ? '我' : '岩') + '</div>' +
+        '<div class="wc-body">' + (isP ? '' : '<div class="wc-sender">专属管家</div>') +
+        '<div class="wc-bbl ' + (isP ? 'right' : 'left') + '">' + msg.text.replace(/\\n/g,'<br>') + '</div></div></div>';
+    });
+    body += '</div>';
+  }
+  // Desc lines
+  if (c.desc) c.desc.forEach(function(d) { body += '<div class="desc-line">' + d + '</div>'; });
+  // Form fields
+  if (c.fields) {
+    body += '<div class="form-group">';
+    c.fields.forEach(function(f) {
+      var noteHtml = f.note ? '<span style="color:#f59e0b;font-weight:500;margin-left:4px;text-transform:none">' + f.note + '</span>' : '';
+      var selectStyle = f.select ? ';justify-content:space-between' : '';
+      var selectArrow = f.select ? '<span style="font-size:8px;color:#94a3b8">\u25BC</span>' : '';
+      body += '<div class="form-field"><label>' + f.label + noteHtml + '</label><div class="input-mock" style="' + selectStyle + '">' + f.placeholder + selectArrow + '</div></div>';
+    });
+    body += '</div>';
+  }
+  // Upload slots
+  if (c.uploads) {
+    body += '<div class="upload-grid" style="grid-template-columns:1fr;margin-top:14px">';
+    c.uploads.forEach(function(u) {
+      body += '<div class="upload-slot" style="aspect-ratio:auto;flex-direction:row;gap:10px;padding:10px 12px;border-radius:10px">' +
+        '<div class="plus">+</div><div style="text-align:left"><div class="name" style="font-size:10px">' + u.name + '</div>' +
+        '<div class="note" style="font-size:8px;color:#94a3b8;margin-top:2px">' + u.note + '</div></div></div>';
+    });
+    body += '</div>';
+  }
+  // Material review list
+  if (c.materialList) {
+    body += '<div style="margin-top:12px">';
+    c.materialList.forEach(function(m) {
+      body += '<div style="background:#fff;border:1px solid #f1f5f9;border-radius:10px;padding:10px 12px;margin-bottom:8px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor=\'#e2e8f0\'" onmouseout="this.style.borderColor=\'#f1f5f9\'">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center">' +
+        '<span style="font-size:10px;font-weight:700;color:#1e293b">' + m.name + '</span>' +
+        '<span style="font-size:9px;color:#238636;font-weight:600">' + m.status + '</span></div>' +
+        '<div style="font-size:8px;color:#94a3b8;margin-top:3px">' + m.note + '</div>' +
+        '<div style="font-size:8px;color:#2f81f7;margin-top:4px;cursor:pointer">点击查看详情 ›</div></div>';
+    });
+    body += '</div>';
+  }
+  // QR code
+  if (c.qr) {
+    var qrClick = c.qrClickable ? ' onclick="showNodeUI(\'WC07WC\')" style="cursor:pointer;border-color:#2ea043"' : '';
+    body += '<div class="qr-area"><div class="qr-box"' + qrClick + '><img src="qrcode_wechat.png" style="width:100%;height:100%;object-fit:contain;border-radius:10px"></div>' +
+      (c.qrLabel ? '<div class="qr-label">' + c.qrLabel + '</div>' : '') + '</div>';
+  }
+  // Report sections
+  if (c.sections) {
+    c.sections.forEach(function(s) {
+      body += '<div style="margin-top:12px">';
+      body += '<div style="font-size:11px;font-weight:700;color:#1e293b;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid #f1f5f9">【' + s.heading + '】</div>';
+      s.lines.forEach(function(l) {
+        body += '<div style="font-size:9px;color:#475569;line-height:1.6;margin-bottom:2px">' + l + '</div>';
+      });
+      body += '</div>';
+    });
+  }
+  // Agreement checkbox
+  if (c.agreement) {
+    var agreeHtml = c.agreement.replace(/《([^》]+)》/g, '<span style="color:#B20708;cursor:pointer;text-decoration:underline" onclick="event.stopPropagation();showAgreement(\'$1\')">《$1》</span>');
+    body += '<div style="margin-top:14px;padding:10px;background:#f8fafc;border:1px solid #f1f5f9;border-radius:8px">' +
+      '<div style="display:flex;align-items:flex-start;gap:6px">' +
+      '<div style="width:14px;height:14px;border:1.5px solid #B20708;border-radius:3px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#B20708">\u2713</div>' +
+      '<div style="font-size:9px;color:#64748b;line-height:1.5">' + agreeHtml + '</div></div></div>';
+  }
+  // Buttons
+  if (c.buttons) {
+    body += '<div class="phone-actions">';
+    c.buttons.forEach(function(b) {
+      if (b.disabled) {
+        body += '<div class="btn btn-secondary" style="cursor:not-allowed;opacity:.4;background:#f1f5f9;color:#94a3b8;border:1px solid #e2e8f0"><span>' + b.text + '</span><span style="font-size:14px;opacity:.3">\u203A</span></div>';
+        return;
+      }
+      var clickAttr = b.goto ? ' onclick="showNodeUI(\'' + b.goto + '\')"' : '';
+      body += '<div class="btn ' + (b.primary ? 'btn-primary' : 'btn-secondary') + '"' + clickAttr + ' style="cursor:pointer"><span>' + b.text + '</span><span style="font-size:14px;opacity:.5">\u203A</span></div>';
+    });
+    body += '</div>';
+  }
+  // Choose frame based on node lane
+  var lane = getNodeLane(nodeId);
+  if (lane === 'offline') {
+    // Offline action card - distinct from all digital interfaces
+    return '<div class="admin-frame" style="border-color:#a3a300">' +
+      '<div class="admin-topbar" style="background:#2d2d0f"><span class="admin-logo" style="color:#e6e600">📞 线下操作</span><span class="admin-user" style="color:#a3a300">非系统</span></div>' +
+      '<div class="admin-body">' + body + '</div></div>';
+  }
+  if (lane === 'backend') {
+    // Dark admin panel style
+    return '<div class="admin-frame">' +
+      '<div class="admin-topbar"><span class="admin-logo">&#9881; 岩育后台</span><span class="admin-user">管理员</span></div>' +
+      '<div class="admin-body">' + body + '</div></div>';
+  }
+  if (lane === 'wechat') {
+    // WeChat chat frame
+    return '<div class="phone-frame"><div class="wc-phone">' +
+      '<div class="wc-topbar"><span class="wc-back">‹</span><span class="wc-topbar-title">专属管家</span><span class="wc-more">···</span></div>' +
+      '<div class="wc-msgs" style="padding:12px"><div class="phone-page" style="min-height:auto">' + body + '</div></div>' +
+      '<div class="wc-inputbar"><span style="font-size:16px;color:#555">🎙</span><div class="wc-input-fake"></div><span style="font-size:16px;color:#555">😊</span><span style="font-size:18px;color:#555">⊕</span></div>' +
+      '</div></div>';
+  }
+  // Default: phone mockup (platform)
+  return '<div class="phone-frame"><div class="phone-nav"><span class="page-title">' + c.title +
+    '</span><span class="capsule">\u00B7\u00B7\u00B7&nbsp;|&nbsp;\u25CB</span></div>' +
+    '<div class="phone-body"><div class="phone-page">' + body + '</div></div>' +
+    '<div class="phone-bottom"><div></div></div></div>';
+}
+
+// ========== Phone UI ==========
+function buildPhoneUI(nodeId,info){
+  const all=info.heading+' '+info.lines.join(' ');
+  const hasUpload=/提交|上传|材料/.test(all);
+  const hasQR=/二维码|扫码/.test(all);
+  const hasBtn=/点击|确定|申请|下载|申诉/.test(all);
+  const isOK=/成功|已支付/.test(info.heading);
+  const isDead=/终止/.test(info.heading);
+  const iconColor=isOK?'#238636':isDead?'#da3633':'#B20708';
+  const icon=isOK?'✓':isDead?'✕':'📋';
+
+  let c='';
+  info.lines.forEach(l=>{ c+='<div class="desc-line">'+l+'</div>'; });
+  if(hasQR) c+='<div class="qr-area"><div class="qr-box">QR Code</div></div>';
+  if(hasUpload) c+='<div class="upload-grid"><div class="upload-slot"><div class="plus">+</div><div class="name">保单</div></div><div class="upload-slot"><div class="plus">+</div><div class="name">病历</div></div><div class="upload-slot"><div class="plus">+</div><div class="name">发票</div></div><div class="upload-slot"><div class="plus">+</div><div class="name">其他</div></div></div>';
+
+  let btn='';
+  if(isOK) btn='<div class="phone-actions"><div class="btn btn-primary" style="background:#238636">查看理赔详情</div></div>';
+  else if(isDead) btn='<div class="phone-actions"><div class="btn btn-secondary">返回首页</div></div>';
+  else if(hasBtn){ const t=/下载/.test(all)?'下载文件':/申诉/.test(all)?'我要申诉':/确定/.test(all)?'确认提交':'下一步'; btn='<div class="phone-actions"><div class="btn btn-primary">'+t+'</div></div>'; }
+
+  return '<div class="phone-frame"><div class="phone-nav"><span class="page-title">'+info.heading+'</span><span class="capsule">···&nbsp;|&nbsp;○</span></div><div class="phone-body"><div class="phone-page"><div class="icon-box" style="background:'+iconColor+'">'+icon+'</div><span class="code-badge">'+nodeId+'</span><h2>'+info.heading+'</h2>'+c+btn+'</div></div><div class="phone-bottom"><div></div></div></div>';
+}
+
+// ========== WeChat UI ==========
+function buildWechatUI(nodeId,info){
+  const all=info.heading+' '+info.lines.join(' ');
+  const msgs=[];
+  if(/通知|告知|提醒|推送/.test(all)){
+    msgs.push({from:'advisor',text:info.heading});
+    info.lines.forEach(l=>msgs.push({from:'advisor',text:l}));
+    msgs.push({from:'patient',text:'好的，收到'});
+  } else if(/回报|确认/.test(all)){
+    msgs.push({from:'patient',text:info.heading});
+    info.lines.forEach(l=>msgs.push({from:'patient',text:l}));
+    msgs.push({from:'advisor',text:'收到，我们会尽快处理'});
+  } else if(/询问/.test(all)){
+    msgs.push({from:'advisor',text:info.heading});
+    info.lines.forEach(l=>msgs.push({from:'advisor',text:l}));
+  } else {
+    msgs.push({from:'advisor',text:info.heading});
+    info.lines.forEach(l=>msgs.push({from:'advisor',text:l}));
+  }
+
+  let chat='<div class="wc-ts">今天 14:00</div>';
+  msgs.forEach(m=>{
+    const isP=m.from==='patient';
+    chat+='<div class="wc-row '+(isP?'right':'left')+'"><div class="wc-av '+(isP?'patient':'advisor')+'">'+(isP?'我':'岩')+'</div><div class="wc-body">'+(isP?'':'<div class="wc-sender">专属管家</div>')+'<div class="wc-bbl '+(isP?'right':'left')+'">'+m.text+'</div></div></div>';
+  });
+
+  return '<div class="phone-frame"><div class="wc-phone"><div class="wc-topbar"><span class="wc-back">‹</span><span class="wc-topbar-title">专属管家</span><span class="wc-more">···</span></div><div class="wc-msgs">'+chat+'</div><div class="wc-inputbar"><span style="font-size:16px;color:#555">🎙</span><div class="wc-input-fake"></div><span style="font-size:16px;color:#555">😊</span><span style="font-size:18px;color:#555">⊕</span></div></div></div>';
+}
+
+// ========== Backend UI ==========
+function buildBackendUI(nodeId,info,lane){
+  const lm=LANE_META[lane]||LANE_META.backend;
+  let lines='';
+  info.lines.forEach(l=>{ lines+='<div style="font-size:10px;color:#64748b;line-height:1.5;margin-bottom:2px;text-align:center">'+l+'</div>'; });
+
+  return '<div class="phone-frame"><div class="phone-nav"><span class="page-title" style="max-width:180px">'+lm.label+'</span><span class="capsule">'+nodeId+'</span></div><div class="phone-body"><div class="backend-card"><div class="bc-icon" style="background:'+lm.bg+'">'+lm.icon+'</div><h3>'+info.heading+'</h3>'+lines+'<div class="lane-badge" style="background:'+lm.color+'18;color:'+lm.color+';border:1px solid '+lm.color+'44">'+lm.icon+' '+lm.label+'</div><div class="status-box"><div class="label">处理状态</div><div class="value">进行中...</div></div></div></div><div class="phone-bottom"><div></div></div></div>';
+}
+
+// ========== Mermaid ==========
+mermaid.initialize({
+  startOnLoad:false, theme:'dark', securityLevel:'loose',
+  themeVariables:{
+    primaryColor:'#21262d',primaryBorderColor:'#30363d',primaryTextColor:'#e6edf3',
+    lineColor:'#4d5566',secondaryColor:'#161b22',tertiaryColor:'#0d1117',
+    background:'#0d1117',mainBkg:'#21262d',
+    clusterBkg:'rgba(255,255,255,0.03)',clusterBorder:'#21262d',titleColor:'#8b949e',
+    fontFamily:"'PingFang SC','Microsoft YaHei',sans-serif",fontSize:'14px'
+  },
+  flowchart:{curve:'basis',padding:24,useMaxWidth:false,htmlLabels:true}
+});
+
+let renderCount=0;
+async function renderDiagram(){
+  const input=document.getElementById('mermaid-input').value.trim();
+  const output=document.getElementById('mermaid-output');
+  const err=document.getElementById('error-msg');
+  if(!input) return;
+  try{
+    const id='mmd-'+(++renderCount);
+    const {svg}=await mermaid.render(id,input);
+    output.innerHTML=svg;
+    output.style.display='';
+    err.style.display='none';
+    applyZoom();
+    bindNodeClicks();
+    buildGraph();
+  }catch(e){
+    output.style.display='none';
+    err.style.display='block';
+    err.textContent=e.message||'Syntax error';
+  }
+}
+
+function bindNodeClicks(){
+  document.querySelectorAll('#mermaid-output .node').forEach(node=>{
+    node.addEventListener('click',()=>{
+      const m=(node.id||'').match(/flowchart-([A-Za-z0-9_]+)-/);
+      if(m) showNodeUI(m[1]);
+    });
+  });
+}
+
+document.getElementById('mermaid-input').addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.key==='Enter'){e.preventDefault();renderDiagram();}
+});
+renderDiagram();
+
+// ========== Collapse ==========
+let leftCollapsed=true, rightCollapsed=false, centerCollapsed=false;
+function toggleCenter(){
+  centerCollapsed=!centerCollapsed;
+  document.getElementById('center-panel').classList.toggle('collapsed',centerCollapsed);
+  document.getElementById('divider-left').style.display=centerCollapsed?'none':'';
+  document.getElementById('divider-right').style.display=centerCollapsed?'none':'';
+  document.getElementById('expand-center').style.display=centerCollapsed?'':'none';
+  document.getElementById('ui-preview-area').classList.toggle('fullscreen',centerCollapsed);
+  if(centerCollapsed){
+    document.getElementById('right-panel').style.width='100%';
+    document.getElementById('right-panel').style.flex='1';
+  } else {
+    document.getElementById('right-panel').style.width='350px';
+    document.getElementById('right-panel').style.flex='';
+  }
+}
+function toggleLeft(){
+  leftCollapsed=!leftCollapsed;
+  document.getElementById('left-panel').classList.toggle('collapsed',leftCollapsed);
+  document.getElementById('collapse-left').textContent=leftCollapsed?'▶':'◀';
+}
+function toggleRight(){
+  rightCollapsed=!rightCollapsed;
+  document.getElementById('right-panel').classList.toggle('collapsed',rightCollapsed);
+  document.getElementById('collapse-right').textContent=rightCollapsed?'◀':'▶';
+}
+
+// ========== Zoom ==========
+let currentZoom=40;
+function applyZoom(){
+  const svg=document.querySelector('#mermaid-output svg');
+  if(svg){svg.style.transform='scale('+(currentZoom/100)+')';svg.style.transformOrigin='top left';}
+  document.getElementById('zoom-label').textContent=currentZoom+'%';
+}
+function zoomIn(){currentZoom=Math.min(300,currentZoom+20);applyZoom();}
+function zoomOut(){currentZoom=Math.max(20,currentZoom-20);applyZoom();}
+function zoomReset(){currentZoom=100;applyZoom();}
+
+document.getElementById('preview-area').addEventListener('wheel',e=>{
+  if(e.ctrlKey){e.preventDefault();e.deltaY<0?zoomIn():zoomOut();}
+},{passive:false});
+
+// ========== Pan (mouse drag to scroll) ==========
+(function(){
+  const area=document.getElementById('preview-area');
+  let panning=false,startX,startY,scrollL,scrollT;
+  area.addEventListener('mousedown',function(e){
+    if(e.target.closest('.node')) return; // don't pan when clicking nodes
+    panning=true; area.classList.add('panning');
+    startX=e.clientX; startY=e.clientY;
+    scrollL=area.scrollLeft; scrollT=area.scrollTop;
+  });
+  document.addEventListener('mousemove',function(e){
+    if(!panning) return;
+    area.scrollLeft=scrollL-(e.clientX-startX);
+    area.scrollTop=scrollT-(e.clientY-startY);
+  });
+  document.addEventListener('mouseup',function(){
+    panning=false; area.classList.remove('panning');
+  });
+})();
+
+// ========== Divider Drag ==========
+function setupDivider(dividerId,panelId,side){
+  const div=document.getElementById(dividerId);
+  const panel=document.getElementById(panelId);
+  let dragging=false;
+  div.addEventListener('mousedown',e=>{
+    if(e.target.classList.contains('collapse-btn')) return;
+    dragging=true; document.body.style.cursor='col-resize';
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!dragging) return;
+    if(side==='left'){
+      const w=e.clientX;
+      panel.style.width=Math.max(200,Math.min(window.innerWidth*.5,w))+'px';
+      panel.classList.remove('collapsed'); leftCollapsed=false;
+      document.getElementById('collapse-left').textContent='◀';
+    } else {
+      const w=window.innerWidth-e.clientX;
+      panel.style.width=Math.max(280,Math.min(window.innerWidth*.5,w))+'px';
+      panel.classList.remove('collapsed'); rightCollapsed=false;
+      document.getElementById('collapse-right').textContent='▶';
+    }
+  });
+  document.addEventListener('mouseup',()=>{if(dragging){dragging=false;document.body.style.cursor='';}});
+}
+setupDivider('divider-left','left-panel','left');
+setupDivider('divider-right','right-panel','right');
+
+// Arrow keys to navigate nodes when UI panel is focused
+document.addEventListener('keydown',e=>{
+  // Arrow keys: down = first child, up = first parent
+  if(e.key==='ArrowDown'&&currentNodeId){e.preventDefault();const c=(graphChildren[currentNodeId]||[]); if(c.length) showNodeUI(c[0]);}
+  if(e.key==='ArrowUp'&&currentNodeId){e.preventDefault();const p=(graphParents[currentNodeId]||[]); if(p.length) showNodeUI(p[0]);}
+});
+
+// ========== Screenshot Export (PNG via html2canvas) ==========
+function screenshotUI(){
+  var content=document.getElementById('ui-content');
+  if(!content||content.style.display==='none'){alert('请先选择一个节点');return;}
+  // Hide nav buttons and badge temporarily
+  var navs=content.querySelectorAll('.ui-nav,.node-badge');
+  navs.forEach(function(n){n.style.display='none';});
+  html2canvas(content,{backgroundColor:'#0d1117',scale:2,useCORS:true}).then(function(canvas){
+    navs.forEach(function(n){n.style.display='';});
+    canvas.toBlob(function(blob){
+      var a=document.createElement('a');
+      a.href=URL.createObjectURL(blob);
+      a.download=(currentNodeId||'screenshot')+'.png';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    },'image/png');
+  }).catch(function(){
+    navs.forEach(function(n){n.style.display='';});
+    alert('导出失败');
+  });
+}
+
+// ========== Context-Aware Right-Click Edit ==========
+var ctxTarget=null, colorTarget=null;
+
+function buildCtxMenu(el){
+  var items=[];
+  // Detect element type
+  var btn=el.closest('.btn');
+  var desc=el.closest('.desc-line');
+  var bbl=el.closest('.wc-bbl');
+  var heading=el.closest('h2');
+  var label=el.closest('label');
+  var inputMock=el.closest('.input-mock');
+  var uploadName=el.closest('.upload-slot .name, [style*="font-weight:700"]');
+  var iconBox=el.closest('.icon-box');
+  var phoneTitle=el.closest('.phone-nav .page-title,.wc-topbar-title,.admin-logo');
+
+  if(btn){
+    items.push({label:'✏️ 编辑按钮文字', action:function(){makeEditable(btn.querySelector('span')||btn);}});
+    items.push({label:'🎨 按钮颜色', action:function(){showColorPicker(btn,'background');}});
+  } else if(bbl){
+    items.push({label:'✏️ 编辑对话内容', action:function(){makeEditable(bbl);}});
+  } else if(heading){
+    items.push({label:'✏️ 编辑标题', action:function(){makeEditable(heading);}});
+  } else if(desc){
+    items.push({label:'✏️ 编辑描述', action:function(){makeEditable(desc);}});
+  } else if(label){
+    items.push({label:'✏️ 编辑标签', action:function(){makeEditable(label);}});
+  } else if(inputMock){
+    items.push({label:'✏️ 编辑占位文字', action:function(){makeEditable(inputMock);}});
+  } else if(iconBox){
+    items.push({label:'🎨 图标颜色', action:function(){showColorPicker(iconBox,'background');}});
+  } else {
+    // Generic: find closest text-bearing element
+    var textEl=el.closest('div,span,p');
+    if(textEl&&textEl.textContent.trim()){
+      items.push({label:'✏️ 编辑文字', action:function(){makeEditable(textEl);}});
+    }
+  }
+  // Color option for any element
+  var styledEl=btn||iconBox||el.closest('.phone-frame,.admin-frame,.wc-topbar');
+  if(styledEl&&!btn&&!iconBox){
+    items.push({label:'🎨 背景颜色', action:function(){showColorPicker(styledEl,'background');}});
+  }
+  if(styledEl){
+    items.push({label:'🎨 文字颜色', action:function(){showColorPicker(el.closest('div,span')||el,'color');}});
+  }
+  // Always show screenshot
+  items.push({label:'📷 截图导出 PNG', action:screenshotUI});
+  return items;
+}
+
+function makeEditable(el){
+  if(!el) return;
+  el.contentEditable='true';
+  el.focus();
+  el.style.outline='2px solid #2f81f7';
+  el.style.borderRadius='3px';
+  el.style.minWidth='20px';
+  // Select all text
+  var range=document.createRange();
+  range.selectNodeContents(el);
+  var sel=window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  function done(){
+    el.contentEditable='false';
+    el.style.outline='';
+    el.removeEventListener('blur',done);
+    el.removeEventListener('keydown',onKey);
+  }
+  function onKey(e){
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();el.blur();}
+    if(e.key==='Escape'){el.blur();}
+  }
+  el.addEventListener('blur',done);
+  el.addEventListener('keydown',onKey);
+}
+
+function showColorPicker(el,prop){
+  colorTarget={el:el,prop:prop};
+  var picker=document.getElementById('color-picker-popup');
+  var input=document.getElementById('color-input');
+  var current=window.getComputedStyle(el)[prop==='background'?'backgroundColor':'color'];
+  // Convert rgb to hex
+  var m=current.match(/(\d+)/g);
+  if(m&&m.length>=3) input.value='#'+m.slice(0,3).map(function(v){return ('0'+parseInt(v).toString(16)).slice(-2);}).join('');
+  var rect=el.getBoundingClientRect();
+  picker.style.left=rect.right+8+'px';
+  picker.style.top=rect.top+'px';
+  picker.style.display='block';
+}
+function applyColor(){
+  if(!colorTarget) return;
+  var val=document.getElementById('color-input').value;
+  if(colorTarget.prop==='background'){
+    colorTarget.el.style.background=val;
+  } else {
+    colorTarget.el.style.color=val;
+  }
+  document.getElementById('color-picker-popup').style.display='none';
+  colorTarget=null;
+}
+
+document.getElementById('ui-preview-area').addEventListener('contextmenu',function(e){
+  if(!currentNodeId) return;
+  e.preventDefault();
+  var menu=document.getElementById('ctx-menu');
+  var items=buildCtxMenu(e.target);
+  menu.innerHTML='';
+  items.forEach(function(item){
+    var b=document.createElement('button');
+    b.textContent=item.label;
+    b.onclick=function(){menu.style.display='none';item.action();};
+    menu.appendChild(b);
+  });
+  menu.style.display='block';
+  menu.style.left=Math.min(e.clientX,window.innerWidth-180)+'px';
+  menu.style.top=Math.min(e.clientY,window.innerHeight-items.length*32-10)+'px';
+});
+document.addEventListener('click',function(e){
+  var menu=document.getElementById('ctx-menu');
+  if(!menu.contains(e.target)) menu.style.display='none';
+  var picker=document.getElementById('color-picker-popup');
+  if(!picker.contains(e.target)&&e.target!==document.getElementById('color-input')) picker.style.display='none';
+});
+</script>
+</body>
+</html>
